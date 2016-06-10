@@ -1,4 +1,5 @@
 # A2JViewer
-This is the repo for the A2J Viewer
 
-The repo contains a ZIP package with minified JavaScript source for the viewer, some resource files and a demo interview showing how to configure the viewer for your own interviews.
+This repo hosts the distributable version of the A2J Viewer. 
+
+Within it you'll find a `.zip` file containing with minified JavaScript source for the viewer, a basic guide/interview, and a `README.md` file explaining the contents of the `.zip` file in greater detail. 
