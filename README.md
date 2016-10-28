@@ -9,7 +9,6 @@ Within it you'll find a `.zip` file containing the minified JavaScript source fo
 To host the A2J Viewer, the current confirmed hosting enviroment is a server running:
 * Apache2.4
 * PHP 5.5 or 5.6
-* MYSQL 5.5
 
 While other server environments may work, they have not been tested.  Should you get another hosting environment working, please do a Pull Request at the hosted [A2J Viewer](https://github.com/CCALI/A2JViewer) repo to let us know any steps taken so that we may share with others.
 
