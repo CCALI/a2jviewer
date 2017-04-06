@@ -4,6 +4,8 @@ This repo hosts the distributable production version of the A2J Viewer.
 
 Within it you'll find a `.zip` file containing the minified JavaScript source for the viewer,a basic guide/interview, and a `README.md` file explaining the contents of the `.zip` file in greater detail.
 
+NOTE: By downloading this application, you are agreeing to the terms included in the user license [LICENSE.md](https://github.com/CCALI/A2JViewer/blob/master/LICENSE.md).
+
 ## Hosting
 
 To host the A2J Viewer, the current confirmed hosting enviroment is a server running:
