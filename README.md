@@ -10,7 +10,7 @@ NOTE: By downloading this application, you are agreeing to the terms included in
 
 To host the A2J Viewer, the current confirmed hosting enviroment is a server running:
 * Apache2.4
-* PHP 5.5 or 5.6
+* PHP 5.5, 5.6, 7.0, 7.1, 7.2
 
 While other server environments may work, they have not been tested.  Should you get another hosting environment working, please do a Pull Request at the hosted [A2J Viewer](https://github.com/CCALI/A2JViewer) repo to let us know any steps taken so that we may share with others.
 
