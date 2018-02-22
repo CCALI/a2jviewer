@@ -7,13 +7,12 @@ Within it you'll find a `.zip` file containing the minified JavaScript source fo
 NOTE: By downloading this application, you are agreeing to the terms included in the user license [LICENSE.md](https://github.com/CCALI/A2JViewer/blob/master/LICENSE.md).
 
 ## Hosting
+Current supported environments are:
 
-To host the A2J Viewer, the current confirmed hosting enviroment is a server running:
-* Apache2.4
-* PHP 5.5, 5.6, 7.0, 7.1, 7.2
+* Webserver platform of either IIS 8.5+, Apache 2.4+, or Nginx 1.12+
+* PHP is the reccomended platform for processing interview data locally but is not required to run the viewer. All current samlple processing code and the demo widget is written in PHP. Versions 5.6+ are supported but 7.2+ is reccommended as 5.6 and 7.0 will be unsupported at the end of 2018.
 
 While other server environments may work, they have not been tested.  Should you get another hosting environment working, please do a Pull Request at the hosted [A2J Viewer](https://github.com/CCALI/A2JViewer) repo to let us know any steps taken so that we may share with others.
-
 
 Unzip the viewer package into your webroot or preferred directory on your web server. The Apache user, for example `www-data` or `apache`, should own the folder where you place the viewer. Settings for configuring the viewer are found in the `viewer.html` file. The default settings work with the Demo Widget (see below), but should be updated to match your `guides` directory on your server. For example, you will most likely want to store A2J Guided Interview® files in a directory that is populated internally or with your own file upload interface.
 
