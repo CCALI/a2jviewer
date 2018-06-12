@@ -34,7 +34,7 @@ exitURL - website URL is where the user's browser is directed if they exit an in
 
 The default viewer.html points the save data endpoint, setDataURL to a demo page called Answers.php that outputs the xml produced by the viewer through a post body key called "AnswerKey". It does not save files to the disk- that code must be written since it is unpredictable how self-hosters would like to process their data. PHP is commonly used, but if you prefer another language, anything that can process http post requests will work.
 
-You can also use a query parameter to force the endpoints to any custom value. For instance,you can point setDataURL to point to your custom save-answers code using relative paths like wwww.example.org/a2j-viewer/viewer/viewer.html?templateURL=../Guides/someguide&setDataURL=mysaveanswers.php
+You can also use a query parameter to force the endpoints to any custom value. For instance,you can point setDataURL to point to your custom save-answers code using relative paths like www.example.org/a2j-viewer/viewer/viewer.html?templateURL=../Guides/someguide&setDataURL=mysaveanswers.php
 
 ## Demo Widget
 There is a basic interview uploader and launcher at the default path of `yourwebroot/path/a2j-viewer/viewer` This allows you to quickly upload and test individual A2J Guided Interviews®, as well as see sample query string parameters used to load and launch those interviews. Click the upload button to select a A2J Guided Interview® saved in .zip format.  This generates a unique name and link to launch the interview in a new tab. Interviews can also be deleted from this list, which removes them from the local `guides` folder.
