@@ -1,5 +1,3 @@
-### _Currently having an issue with 2019-05-21 Viewer in IE11_
-
 # A2JViewer
 
 This repo hosts the distributable production version of the A2J Viewer.
