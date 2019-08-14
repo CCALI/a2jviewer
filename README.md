@@ -14,7 +14,15 @@ Current supported environments are:
 
 While other server environments may work, they have not been tested.  Should you get another hosting environment working, please do a Pull Request at the hosted [A2J Viewer](https://github.com/CCALI/A2JViewer) repo to let us know any steps taken so that we may share with others.
 
+## Installing
 Unzip the viewer package into your webroot or preferred directory on your web server. The Apache user, for example `www-data` or `apache`, should own the folder where you place the viewer. Settings for configuring the viewer are found in the `viewer.html` file. The default settings work with the Demo Widget (see below), but should be updated to match your `guides` directory on your server. For example, you will most likely want to store A2J Guided Interview® files in a directory that is populated internally or with your own file upload interface.
+
+## Upgrading
+1.) backup your old viewer and Guided Interviews
+
+2.) unzip new viewer
+
+3.) copy your Guided Interviews into the new viewer folder
 
 ## Hosting Considerations
 Links to A2J Guided Interviews® are not encrypted by default, and can be viewed by anyone who has an active link to that interview. If you have privacy concerns, please make sure to take proper steps to restrict access as needed.
