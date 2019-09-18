@@ -25,7 +25,8 @@ Unzip the viewer package into your webroot or preferred directory on your web se
 3.) copy your Guided Interviews into the new viewer folder
 
 ## Hosting Considerations
-Links to A2J Guided Interviews® are not encrypted by default, and can be viewed by anyone who has an active link to that interview. Answers are output in a human readable text format and are recommended to be stored encrypted outside of the webtree. Please make sure to take proper steps to restrict access as needed.
+Links to A2J Guided Interviews® are not 
+ted by default, and can be viewed by anyone who has an active link to that interview. Answers are output in a human readable text format and are recommended to be stored with strong encryption outside of the webtree with a robust access control mechanism. Please make sure to take proper steps to protect data and restrict access as needed.
 
 ## Viewer Customization
 The file viewer.html contains several endpoints to allow data to be be exported and imported into the viewer. A description can be found here: https://www.a2jauthor.org/content/setting-a2j-author%C2%AE-40-your-own-server-processing-xml-output-alternative-use and is listed below:
