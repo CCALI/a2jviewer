@@ -1,4 +1,4 @@
-import cString from 'caja/viewer/mobile/util/string'
+import cString from 'a2jviewer/mobile/util/string'
 import { assert } from 'chai'
 import 'steal-mocha'
 

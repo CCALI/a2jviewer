@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import CanMap from 'can-map'
 import CanList from 'can-list'
-import Answer from 'caja/viewer/models/answer'
-import normalizePath from 'caja/viewer/util/normalize-path'
+import Answer from 'a2jviewer/models/answer'
+import normalizePath from 'a2jviewer/util/normalize-path'
 import setupPromise from 'can-reflect-promise'
 
 import 'can-map-define'

@@ -3,9 +3,9 @@ import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import _truncate from 'lodash/truncate'
 import template from './navigation.stache'
-import constants from 'caja/viewer/models/constants'
-import { analytics } from 'caja/viewer/util/analytics'
-import isMobile from 'caja/viewer/is-mobile'
+import constants from 'a2jdeps/models/constants'
+import { analytics } from 'a2jviewer/util/analytics'
+import isMobile from 'a2jviewer/is-mobile'
 
 import 'jquerypp/event/swipe/'
 

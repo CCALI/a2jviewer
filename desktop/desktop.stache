@@ -1,7 +1,7 @@
 <can-import from="caja/author/footer/"/>
-<can-import from="caja/viewer/desktop/steps/"/>
-<can-import from="caja/viewer/desktop/navigation/"/>
-<can-import from="caja/viewer/desktop/desktop.less!"/>
+<can-import from="a2jviewer/desktop/steps/"/>
+<can-import from="a2jviewer/desktop/navigation/"/>
+<can-import from="a2jviewer/desktop/desktop.less!"/>
 
 <div class="app-wrapper">
   <div class="app-container" role="main">

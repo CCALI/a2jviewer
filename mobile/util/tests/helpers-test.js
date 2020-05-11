@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { normalizePathHelper, insertExternalLinkIconHelper } from 'caja/viewer/mobile/util/helpers'
+import { normalizePathHelper, insertExternalLinkIconHelper } from 'a2jviewer/mobile/util/helpers'
 import 'steal-mocha'
 
 describe('helpers module', function () {

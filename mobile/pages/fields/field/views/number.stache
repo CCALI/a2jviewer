@@ -1,4 +1,4 @@
-<can-import from="caja/viewer/mobile/pages/fields/field/views/number.less!" />
+<can-import from="a2jviewer/mobile/pages/fields/field/views/number.less!" />
 <div>
   <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
     <label class="control-label" for="{{field.label}}">

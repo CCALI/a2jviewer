@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import Model from 'can-model'
-import Answers from 'caja/viewer/models/answers'
-import Parser from 'caja/viewer/mobile/util/parser'
+import Answers from 'a2jviewer/models/answers'
+import Parser from 'a2jviewer/mobile/util/parser'
 
 import 'can-map-define'
 import 'can-construct-super'

@@ -1,5 +1,5 @@
-<can-import from="caja/viewer/mobile/pages/fields/" />
-<can-import from="caja/viewer/mobile/pages/pages.less!" />
+<can-import from="a2jviewer/mobile/pages/fields/" />
+<can-import from="a2jviewer/mobile/pages/pages.less!" />
 <can-import from='caja/author/audio-player/' />
 
 {{#eq(rState.page, '__error')}}

@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import Interview from 'caja/viewer/models/interview'
+import Interview from 'a2jviewer/models/interview'
 import CanMap from 'can-map'
 
 describe('Interview model', function () {

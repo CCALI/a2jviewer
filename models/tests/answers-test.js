@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import Answers from 'caja/viewer/models/answers'
+import Answers from 'a2jviewer/models/answers'
 
 import 'steal-mocha'
 

@@ -1,4 +1,4 @@
-<can-import from="caja/viewer/mobile/pages/fields/field/views/checkbox.less!" />
+<can-import from="a2jviewer/mobile/pages/fields/field/views/checkbox.less!" />
 <div>
 	<div class="{{#if(field.hasError)}}has-error{{/if}}">
 		<div class="checkbox">

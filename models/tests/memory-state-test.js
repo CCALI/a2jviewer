@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import MemoryState from 'caja/viewer/models/memory-state'
+import MemoryState from 'a2jviewer/models/memory-state'
 
 import 'steal-mocha'
 

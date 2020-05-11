@@ -1,5 +1,5 @@
 <can-import from="caja/author/alert/"/>
-<can-import from="caja/viewer/desktop/navigation/navigation.less!"/>
+<can-import from="a2jviewer/desktop/navigation/navigation.less!"/>
 
 <nav class="navbar navbar-default" role="navigation">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">

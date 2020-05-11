@@ -1,9 +1,9 @@
 import { assert } from 'chai'
-import Answer from 'caja/viewer/models/answer'
-import Answers from 'caja/viewer/models/answers'
-import Logic from 'caja/viewer/mobile/util/logic'
-import AnswerVM from 'caja/viewer/models/answervm'
-import Interview from 'caja/viewer/models/interview'
+import Answer from 'a2jviewer/models/answer'
+import Answers from 'a2jviewer/models/answers'
+import Logic from 'a2jviewer/mobile/util/logic'
+import AnswerVM from 'a2jviewer/models/answervm'
+import Interview from 'a2jviewer/models/interview'
 
 import 'steal-mocha'
 

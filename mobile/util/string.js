@@ -1,4 +1,4 @@
-import constants from 'caja/viewer/models/constants'
+import constants from 'a2jdeps/models/constants'
 import numbro from 'numbro'
 
 export default {

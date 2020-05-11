@@ -1,6 +1,6 @@
 import { assert } from 'chai'
-import Tlogic from 'caja/viewer/mobile/util/tlogic'
-import cString from 'caja/viewer/mobile/util/string'
+import Tlogic from 'a2jviewer/mobile/util/tlogic'
+import cString from 'a2jviewer/mobile/util/string'
 
 let testLogic = new Tlogic(null, null, null, null, cString.decodeEntities)
 

@@ -2,7 +2,7 @@ import CanMap from 'can-map'
 import Component from 'can-component'
 import template from './fields.stache'
 
-import 'caja/viewer/mobile/pages/fields/field/'
+import 'a2jviewer/mobile/pages/fields/field/'
 import 'can-map-define'
 
 /**

@@ -4,9 +4,9 @@ import Component from 'can-component'
 import template from './pages.stache'
 import assembleFormTpl from './assemble-form.stache'
 import saveAnswersFormTpl from './save-answers-form.stache'
-import { analytics } from 'caja/viewer/util/analytics'
+import { analytics } from 'a2jviewer/util/analytics'
 import stache from 'can-stache'
-import 'caja/viewer/mobile/util/helpers'
+import 'a2jviewer/mobile/util/helpers'
 
 stache.registerPartial('assemble-form', assembleFormTpl)
 stache.registerPartial('save-answers-form', saveAnswersFormTpl)

@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import Lang from 'caja/viewer/mobile/util/lang'
+import Lang from 'a2jviewer/mobile/util/lang'
 
 import 'steal-mocha'
 
