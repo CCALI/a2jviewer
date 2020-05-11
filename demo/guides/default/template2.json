@@ -1,0 +1,102 @@
+{
+	"guideId": "8436",
+	"templateId": 2,
+	"title": "PDF Default Template",
+	"active": true,
+	"header": "",
+	"hideHeaderOnFirstPage": false,
+	"footer": "",
+	"hideFooterOnFirstPage": false,
+	"rootNode": {
+		"tag": "a2j-pdf",
+		"state": {
+			"operator": "is-true",
+			"leftOperand": "",
+			"rightOperand": "",
+			"rightOperandType": "variable"
+		},
+		"children": [],
+		"id": "cju2zc07m00033ab7lltvfjvd",
+		"hasPdf": true,
+		"documentOptions": {
+			"fontName": "Lato",
+			"fontSize": "12",
+			"variableOptions": {
+				"text pick te": {
+					"overflowStyle": "overflow-to-addendum",
+					"addendumLabel": "Favorite color",
+					"isGroup": false
+				},
+				"client first name te": {
+					"overflowStyle": "overflow-to-addendum",
+					"addendumLabel": "First name",
+					"isGroup": false
+				},
+				"client last name te": {
+					"overflowStyle": "overflow-to-addendum",
+					"addendumLabel": "Last name",
+					"isGroup": false
+				}
+			},
+			"addendumOptions": {}
+		},
+		"pages": [
+			{
+				"domSize": {
+					"width": 765,
+					"height": 990
+				},
+				"pdfSize": {
+					"width": 612,
+					"height": 792
+				}
+			}
+		],
+		"boxes": [
+			{
+				"id": "vb-0",
+				"groupId": "",
+				"isSelected": false,
+				"area": {
+					"top": 196,
+					"left": 283,
+					"width": 291,
+					"height": 25
+				},
+				"page": 0,
+				"variable": "Text pick TE",
+				"variableValue": null
+			},
+			{
+				"id": "vb-1",
+				"groupId": "",
+				"isSelected": false,
+				"area": {
+					"top": 256,
+					"left": 261,
+					"width": 412,
+					"height": 25
+				},
+				"page": 0,
+				"variable": "Client first name TE",
+				"variableValue": null
+			},
+			{
+				"id": "vb-2",
+				"groupId": "",
+				"isSelected": true,
+				"area": {
+					"top": 310,
+					"left": 256,
+					"width": 413.5,
+					"height": 28
+				},
+				"page": 0,
+				"variable": "Client last name TE",
+				"variableValue": null
+			}
+		]
+	},
+	"createdAt": 1554402869576,
+	"updatedAt": 1554403160087
+}

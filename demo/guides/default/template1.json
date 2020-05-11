@@ -1,0 +1,26 @@
+{
+	"title": "Text template",
+	"active": "true",
+	"header": "",
+	"hideHeaderOnFirstPage": "false",
+	"footer": "",
+	"hideFooterOnFirstPage": "false",
+	"rootNode": {
+		"tag": "a2j-template",
+		"children": [
+			{
+				"tag": "a2j-rich-text",
+				"id": "cju2yoci200013ab79u2ps570",
+				"state": {
+					"userContent": "<p>This is the result of the text template assembling correctly.&nbsp;</p>\n\n<p>You said your name was:&nbsp;<a2j-variable name=\"Client first name TE\"></a2j-variable></p>\n\n<p>You said your favorite color was:&nbsp;<a2j-variable name=\"Text pick TE\"></a2j-variable></p>\n",
+					"notes": ""
+				}
+			}
+		],
+		"id": "cju2yob0400003ab72bj90i7e"
+	},
+	"createdAt": "1554401763646",
+	"guideId": "8436",
+	"templateId": 1,
+	"updatedAt": 1554403202996
+}
