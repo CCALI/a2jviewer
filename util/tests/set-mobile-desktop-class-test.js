@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import { assert } from 'chai'
 import compute from 'can-compute'
-import setMobileDesktopClass from 'caja/viewer/util/set-mobile-desktop-class'
+import setMobileDesktopClass from 'a2jviewer/util/set-mobile-desktop-class'
 
 import 'steal-mocha'
 

@@ -61,7 +61,7 @@ const buildViewerHtml = function () {
       <script main="@empty"
               env="production"
               config="../package.json!npm"
-              src="../dist/bundles/caja/viewer/app.js?v=${version}"
+              src="../dist/bundles/a2jviewer/app.js?v=${version}"
               cache-key="v"
               cache-version="${version}"
               base-url="../">

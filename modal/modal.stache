@@ -1,4 +1,4 @@
-<can-import from='caja/viewer/modal/modal.less' />
+<can-import from='a2jviewer/modal/modal.less' />
 <can-import from='caja/author/audio-player/' />
 
   <div

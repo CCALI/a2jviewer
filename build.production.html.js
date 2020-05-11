@@ -66,7 +66,7 @@ function template (version) {
           errRepURL: 'A2J_ViewerErrRep.php?data=ExtraData4errRepURL'
         }));
       </script>
-      <script src="../node_modules/steal/steal.production.js?v=${version}" cache-key="v" cache-version="${version}" main="caja/viewer/app"></script>
+      <script src="../node_modules/steal/steal.production.js?v=${version}" cache-key="v" cache-version="${version}" main="a2jviewer/app"></script>
     </body>
   </html>`;
 }
