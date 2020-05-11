@@ -1,0 +1,40 @@
+<div>
+  <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
+    <label class="control-label" for="{{field.label}}">
+      {{{ eval(field.label, repeatVarValue) }}}
+    </label>
+
+    <label for="m" class="radio-inline">
+      <input
+        type="radio"
+        id="m"
+        name="gender"
+        {{#if(field.required)}}required{{/if}}
+        value="Male"
+        {{#is(savedGenderValue,  "Male")}}checked{{/is}}
+        on:change="validateField(null, scope.element)"/>
+      {{i18n("Male")}}
+    </label>
+
+    <label for="f" class="radio-inline">
+      <input
+        type="radio"
+        id="f"
+        name="gender"
+        {{#if(field.required)}}required{{/if}}
+        value="Female"
+        {{#is(savedGenderValue,  "Female")}}checked{{/is}}
+        on:change="validateField(null, scope.element)"/>
+      {{i18n("Female")}}
+    </label>
+
+    {{#if(field.required)}}
+    <div>
+        <label>
+          <small class="text-danger">({{lang.Required}})</small>
+        </label>
+      </div>
+    {{/if}}
+  </div>
+  {{> invalid-prompt-tpl }}
+</div>

@@ -1,0 +1,21 @@
+<can-import from="caja/viewer/mobile/pages/fields/field/views/radio.less!" />
+<can-import from='can-stache-converters' />
+
+<div>
+	<div class="a2j-radio-button-group radio">
+		<label class="a2j-radio-button-label" for="{{field.label}}">
+		<input
+			type="radio"
+			id="{{field.label}}"
+			name="{{field.name}}"
+			value:from="field.value"
+			{{#if(field.required)}}required{{/if}}
+			checked:from="equal(field._answerVm.values, field.value)"
+			class="a2j-radio-button"
+			on:change="validateField(null, scope.element)"/>
+
+		{{{ eval(field.label, repeatVarValue) }}}</label>
+	</div>
+
+	{{> invalid-prompt-tpl }}
+</div>

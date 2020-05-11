@@ -1,0 +1,16 @@
+<div>
+  <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
+    <label for="{{field.label}}">
+      {{{ eval(field.label, repeatVarValue) }}}
+      {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
+    </label>
+
+    <select id="{{field.label}}" name="{{field.name}}" value:bind="field._answerVm.values" on:change="validateField(null, scope.element)" {{#if(field.required)}}required{{/if}}>
+      {{#each(numberPickOptions)}}
+        <option value="{{.}}">{{.}}</option>
+      {{/each}}
+    </select>
+  </div>
+
+  {{> invalid-prompt-tpl }}
+</div>

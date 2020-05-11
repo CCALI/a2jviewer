@@ -1,0 +1,19 @@
+<can-import from="caja/viewer/mobile/pages/fields/field/views/checkbox.less!" />
+<div>
+	<div class="{{#if(field.hasError)}}has-error{{/if}}">
+		<div class="checkbox">
+			<label for="{{field.label}}">
+				<input
+					id="{{field.label}}"
+					type="checkbox"
+					name="{{field.name}}"
+					{{#if(field.required)}}required{{/if}}
+					checked:bind="field._answerVm.values"
+					on:change="validateField(null, scope.element)"/>
+				{{{ eval(field.label, repeatVarValue) }}}
+			</label>
+		</div>
+	</div>
+
+	{{> invalid-prompt-tpl }}
+</div>

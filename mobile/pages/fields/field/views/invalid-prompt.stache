@@ -1,0 +1,10 @@
+{{#if(showInvalidPrompt)}}
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon-attention" aria-hidden="true">
+        {{{ eval(scope.vm.invalidPrompt, repeatVarValue) }}}
+        {{#if(showMinMaxPrompt)}}
+            {{minMaxPrompt}}
+        {{/if}}
+    </span>
+  </div>
+{{/if}}

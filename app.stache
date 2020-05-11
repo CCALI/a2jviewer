@@ -1,0 +1,40 @@
+<can-import from="caja/viewer/mobile/" />
+<can-import from="caja/viewer/desktop/" />
+<can-import from="caja/viewer/modal/" />
+<can-import from="caja/viewer/styles.less!" />
+{{#if(isMobile)}}
+  <a2j-mobile-viewer
+    lang:from="lang"
+    logic:from="logic"
+    rState:from="rState"
+    pState:from="pState"
+    mState:from="mState"
+    interview:from="interview"
+    traceMessage:to="traceMessage"
+    modalContent:bind="modalContent"
+    class="bootstrap-styles" />
+{{else}}
+  {{ let remainingSteps = null, maxDisplayedSteps = null }}
+  <a2j-desktop-viewer
+    remainingSteps:to="remainingSteps"
+    maxDisplayedSteps:to="maxDisplayedSteps"
+    showDebugPanel:from="showDebugPanel"
+    lang:from="lang"
+    logic:from="logic"
+    rState:from="rState"
+    pState:from="pState"
+    mState:from="mState"
+    interview:from="interview"
+    modalContent:bind="modalContent"
+    class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
+{{/if}}
+
+<a2j-modal
+  mState:from="mState"
+  logic:from="logic"
+  interview:from="interview"
+  modalContent:bind="modalContent"
+  previewActive:from="rState.previewActive"
+  lastVisitedPageName:from="rState.lastVisitedPageName"
+  repeatVarValue:from="rState.repeatVarValue"
+  class="bootstrap-styles" />

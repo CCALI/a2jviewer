@@ -1,0 +1,25 @@
+<can-import from="caja/viewer/mobile/pages/fields/field/views/numberdollar.less!" />
+<div>
+  <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
+    <label class="control-label" for="{{field.label}}">
+      {{{ eval(field.label, repeatVarValue) }}}
+      {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
+    </label>
+
+    <div class="numberdollar">
+      <span>$</span>
+      <input
+        type="tel"
+        id="{{field.label}}"
+        name="{{field.name}}"
+        {{#if(field.required)}}required{{/if}}
+        class="form-control"
+        on:input="preValidateNumber(null, scope.element)"
+        on:change="validateField(null, scope.element)"
+        value:bind="field._answerVm.values"/>
+      {{#if(field.calculator)}}<img src="{{joinBase 'viewer/images/calculator.png'}}" class="calc-icon" on:click="showCalculator(field)" role="presentation"/>{{/if}}
+    </div>
+  </div>
+
+  {{> invalid-prompt-tpl }}
+</div>

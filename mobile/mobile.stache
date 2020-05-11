@@ -1,0 +1,55 @@
+<can-import from="caja/viewer/mobile/pages/"/>
+<can-import from="caja/viewer/mobile/header/"/>
+<can-import from="caja/viewer/mobile/filler/"/>
+<can-import from="caja/viewer/mobile/mobile.less"/>
+<can-import from="caja/viewer/desktop/navigation/"/>
+
+<div>
+  {{#not(tocOrCreditsShown())}}
+    <a2j-header pState:from="pState" mState:from="mState" interview:from="interview" />
+  {{/not}}
+
+  {{#if(mState.showCredits)}}
+    <div filler can-click="hideCredits()">
+      {{#if interview.logoImage}}
+        <img src="{{normalizePath(mState.fileDataURL, interview.logoImage)}}" class="img-responsive" alt="custom-logo-image"/>
+      {{else}}
+        <img src="{{joinBase 'viewer/images/logo_big.png'}}" class="img-responsive" alt="author-logo-image"/>
+      {{/if}}
+
+      <p>{{{eval interview.credits}}}</p>
+      <p>Tap anywhere to exit</p>
+    </div>
+  {{/if}}
+
+  {{#not(tocOrCreditsShown())}}
+    {{#eq(rState.view, 'complete')}}
+      <img src="{{joinBase 'viewer/images/logo_big.png'}}" class="img-responsive" alt="author-logo-image"/>
+      <div class="btn-group btn-group-justified">
+        <a href="{{mState.redirect}}" aria-label="{{lang.Continue}}" class="btn btn-primary">{{lang.Continue}}</a>
+      </div>
+    {{/eq}}
+
+    {{#eq(rState.view, 'pages')}}
+      <a2j-viewer-navigation
+        repeatVarValue:from="rState.repeatVarValue"
+        selectedPageName:from="rState.selectedPageName"
+        lang:from="lang"
+        logic:from="logic"
+        rState:from="rState"
+        interview:from="interview"
+        selectedPageName:bind="rState.page"
+        selectedPageIndex:bind="rState.selectedPageIndex" />
+
+      <a2j-pages
+        currentPage:from="rState.currentPage"
+        lang:from="lang"
+        logic:from="logic"
+        rState:from="rState"
+        pState:from="pState"
+        mState:from="mState"
+        interview:from="interview"
+        modalContent:bind="modalContent" />
+    {{/eq}}
+  {{/not}}
+</div>

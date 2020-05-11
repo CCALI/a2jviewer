@@ -1,0 +1,11 @@
+<div class="{{#if(overCharacterLimit)}}text-danger{{/if}}">
+    <small>Character Limit: {{availableLength}}</small>
+    {{#if(overCharacterLimit)}}
+    <div>
+        <span class="glyphicon-attention" aria-hidden="true">
+            <small>You have exceeded the allowed number of characters for this answer</small>
+        </span>
+    </div>
+
+    {{/if}}
+</div>

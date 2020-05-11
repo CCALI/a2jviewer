@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AnswerSet title="">
+    <Answer name="User Gender">
+        <RptValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue>
+                <SelValue>Male</SelValue>
+            </MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue UNANS="true"></MCValue>
+            <MCValue>
+                <SelValue>Female</SelValue>
+            </MCValue>
+        </RptValue>
+    </Answer>
+    <Answer name="Client first name TE">
+        <RptValue>
+            <TextValue>Mutz</TextValue>
+            <TextValue>Futz</TextValue>
+        </RptValue>
+    </Answer>
+    <Answer name="Client last name TE">
+        <RptValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue>Lang</TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue UNANS="true"></TextValue>
+            <TextValue>Dang</TextValue>
+        </RptValue>
+    </Answer>
+    <Answer name="InnerLoopCounter">
+        <NumValue>21</NumValue>
+    </Answer>
+    <Answer name="OuterLoopCounter">
+        <NumValue>2</NumValue>
+    </Answer>
+    <Answer name="Chocolate TF">
+        <RptValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue>false</TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue UNANS="true"></TFValue>
+            <TFValue>true</TFValue>
+        </RptValue>
+    </Answer>
+    <Answer name="DOB DA">
+        <RptValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue>01/01/1970</DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue UNANS="true"></DateValue>
+            <DateValue>02/02/1980</DateValue>
+        </RptValue>
+    </Answer>
+    <Answer name="Salary NU">
+        <RptValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue>12345</NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue UNANS="true"></NumValue>
+            <NumValue>67890</NumValue>
+        </RptValue>
+    </Answer>
+    <Answer name="repeatVar">
+        <TextValue>OuterLoopCounter</TextValue>
+    </Answer>
+</AnswerSet>

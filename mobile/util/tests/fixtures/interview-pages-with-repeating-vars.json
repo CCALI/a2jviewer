@@ -1,0 +1,512 @@
+{
+  "1-Introduction":{
+    "name":"1-Introduction",
+    "type":"A2J",
+    "step":0,
+    "repeatVar":"",
+    "text":"<P>Welcome to our sample A2J Guided Interview. This was created to show you how cool the new version of A2J Author is now. Feel free to stop Jessica at any time to ask questions  or to explore </P>",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Continue",
+        "next":"2-Name",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"",
+        "value":""
+      }
+    ],
+    "fields":[
+
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "2-Name":{
+    "name":"2-Name",
+    "type":"A2J",
+    "step":0,
+    "repeatVar":"",
+    "text":"<P><FONT>Enter your name.</FONT></P>",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Continue",
+        "next":"3-Gender",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"",
+        "value":""
+      }
+    ],
+    "fields":[
+      {
+        "type":"text",
+        "label":"First:",
+        "name":"Client first name TE",
+        "value":"",
+        "order":"ASC",
+        "required":true,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":"You must type a response in the highlighted space before you can continue."
+      },
+      {
+        "type":"text",
+        "label":"Middle:",
+        "name":"Client middle name TE",
+        "value":"",
+        "order":"ASC",
+        "required":false,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":"You must type a response in the highlighted space before you can continue."
+      },
+      {
+        "type":"text",
+        "label":"Last:",
+        "name":"Client last name TE",
+        "value":"",
+        "order":"ASC",
+        "required":true,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":"You must type a response in the highlighted space before you can continue."
+      }
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "3-Gender":{
+    "name":"3-Gender",
+    "type":"A2J",
+    "step":0,
+    "repeatVar":"",
+    "text":"Choose your gender.",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Continue",
+        "next":"1- Addresses and phone numbers",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"",
+        "value":""
+      }
+    ],
+    "fields":[
+      {
+        "type":"gender",
+        "label":"Gender:",
+        "name":"User Gender",
+        "value":"",
+        "order":"",
+        "required":true,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":""
+      }
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "1-Do you have any assets over $100?":{
+    "name":"1-Do you have any assets over $100?",
+    "type":"A2J",
+    "step":2,
+    "repeatVar":"",
+    "text":"Do you have any <A href=\"POPUP://Asset definition\">assets </A>over $100?<BR/>",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Yes",
+        "next":"2-What is the name and value of this asset?",
+        "url":"",
+        "repeatVar":"AssetCount",
+        "repeatVarSet":"=1",
+        "name":"Have assets TF",
+        "value":"true"
+      },
+      {
+        "label":"No",
+        "next":"1-The end",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"Have assets TF",
+        "value":"false"
+      }
+    ],
+    "fields":[
+
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "Asset definition":{
+    "name":"Asset definition",
+    "type":"Popup",
+    "step":0,
+    "repeatVar":"",
+    "text":"An asset is any property owned by a person or company. ",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+
+    ],
+    "fields":[
+
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "2-What is the name and value of this asset?":{
+    "name":"2-What is the name and value of this asset?",
+    "type":"A2J",
+    "step":2,
+    "repeatVar":"AssetCount",
+    "text":"Please tell me what the asset is and how much you think it is worth.",
+    "textAudioURL":"",
+    "learn":"How do I decide how much it is worth?",
+    "help":"You can put a value on an asset based on the price you paid for it, how much someone is willing to pay you for it, or you can hire an expert to give you their estimate. ",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Continue",
+        "next":"3-Any more to add?",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"",
+        "value":""
+      }
+    ],
+    "fields":[
+      {
+        "type":"text",
+        "label":"Name of Asset",
+        "name":"Asset name TE",
+        "value":"",
+        "order":"",
+        "required":true,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"Asset Name",
+        "invalidPrompt":""
+      },
+      {
+        "type":"numberdollar",
+        "label":"Asset Value (Dollars)",
+        "name":"Asset value NU",
+        "value":"0",
+        "order":"",
+        "required":true,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"10",
+        "invalidPrompt":"I need a number here."
+      }
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "3-Any more to add?":{
+    "name":"3-Any more to add?",
+    "type":"A2J",
+    "step":2,
+    "repeatVar":"AssetCount",
+    "text":"Do you have any more assets over $100 to add?",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Yes",
+        "next":"2-What is the name and value of this asset?",
+        "url":"",
+        "repeatVar":"AssetCount",
+        "repeatVarSet":"+=1",
+        "name":"",
+        "value":""
+      },
+      {
+        "label":"No",
+        "next":"1-The end",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"",
+        "value":""
+      }
+    ],
+    "fields":[
+
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "1-The end":{
+    "name":"1-The end",
+    "type":"A2J",
+    "step":3,
+    "repeatVar":"",
+    "text":"You've finished this A2J Guided Interview. Now you can test assemble your document using the answers created in this demonstration. ",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Continue",
+        "next":"SUCCESS",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"",
+        "value":""
+      }
+    ],
+    "fields":[
+
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "1- Addresses and phone numbers":{
+    "name":"1- Addresses and phone numbers",
+    "type":"A2J",
+    "step":1,
+    "repeatVar":"",
+    "text":"Please enter your address and phone number. ",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Continue",
+        "next":"2-Are you married?",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"",
+        "value":""
+      }
+    ],
+    "fields":[
+      {
+        "type":"text",
+        "label":"Street",
+        "name":"Address street TE",
+        "value":"",
+        "order":"",
+        "required":false,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"1600 Pennsylvania Avenue",
+        "invalidPrompt":""
+      },
+      {
+        "type":"text",
+        "label":"City",
+        "name":"Address city TE",
+        "value":"",
+        "order":"",
+        "required":false,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"Washington, DC",
+        "invalidPrompt":""
+      },
+      {
+        "type":"numberphone",
+        "label":"Phone number",
+        "name":"Phone number TE",
+        "value":"",
+        "order":"",
+        "required":false,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":""
+      }
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  },
+  "2-Are you married?":{
+    "name":"2-Are you married?",
+    "type":"A2J",
+    "step":1,
+    "repeatVar":"",
+    "text":"What is your marital status?",
+    "textAudioURL":"",
+    "learn":"",
+    "help":"",
+    "helpAudioURL":"",
+    "helpReader":"",
+    "helpImageURL":"",
+    "helpVideoURL":"",
+    "buttons":[
+      {
+        "label":"Continue",
+        "next":"1-Do you have any assets over $100?",
+        "url":"",
+        "repeatVar":"",
+        "repeatVarSet":"",
+        "name":"",
+        "value":""
+      }
+    ],
+    "fields":[
+      {
+        "type":"radio",
+        "label":"Single",
+        "name":"Marital status MC",
+        "value":"single",
+        "order":"",
+        "required":false,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":""
+      },
+      {
+        "type":"radio",
+        "label":"Married",
+        "name":"Marital status MC",
+        "value":"married",
+        "order":"",
+        "required":false,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":""
+      },
+      {
+        "type":"radio",
+        "label":"Divorced",
+        "name":"Marital status MC",
+        "value":"divorced",
+        "order":"",
+        "required":false,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":""
+      },
+      {
+        "type":"radio",
+        "label":"Widowed",
+        "name":"Marital status MC",
+        "value":"widowed",
+        "order":"",
+        "required":false,
+        "min":"",
+        "max":"",
+        "maxChars":"",
+        "listSrc":"",
+        "listData":"",
+        "sample":"",
+        "invalidPrompt":""
+      }
+    ],
+    "codeBefore":"",
+    "codeAfter":"",
+    "notes":""
+  }
+}

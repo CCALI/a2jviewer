@@ -1,0 +1,86 @@
+<can-import from="caja/viewer/mobile/pages/fields/" />
+<can-import from="caja/viewer/mobile/pages/pages.less!" />
+<can-import from='caja/author/audio-player/' />
+
+{{#eq(rState.page, '__error')}}
+  <div class="jumbotron">
+    <h1>Oops!</h1>
+    <p>You've reached this page in error.</p>
+    <p>
+      <a href="javascript://" on:click="scope/returnHome()" class="btn btn-primary" aria-label="Return home">Return home</a>
+    </p>
+  </div>
+{{/eq}}
+
+{{#if(currentPage)}}
+  {{ let step = currentPage.step }}
+    <div class="bubble-content">
+      <h3 class="visible-xs-block">
+        {{#is(step.number, '0')}}
+          <span class="glyphicon-right-open" aria-hidden="true">{{step.text}}</span>
+        {{else}}
+          {{step.number}}: {{step.text}}
+        {{/is}}
+      </h3>
+
+      <fieldset>
+        <legend class='question-text-legend'>
+          <p class="question-text">{{{ insertExternalLinkIcon(this.parseText(currentPage.text)) }}}</p>
+        </legend>
+
+        {{#if(currentPage.fields.length)}}
+          <a2j-fields
+            lang:from="lang"
+            logic:from="logic"
+            fields:from="currentPage.fields"
+            groupValidationMap:to="groupValidationMap"
+            rState:from="rState"
+            modalContent:bind="modalContent"
+            role="form"/>
+        {{/if}}
+      </fieldset>
+
+
+      {{#if(currentPage.textAudioURL)}}
+        <audio-player
+          sourceUrl:from="normalizePath(mState.fileDataURL, currentPage.textAudioURL)"
+        />
+      {{/if}}
+
+    </div><!-- bubble-content -->
+
+    <p class="text-center modal-button">
+      <a class="learn-more" aria-label="{{{ this.parseText(currentPage.learn) }}}">{{{ this.parseText(currentPage.learn) }}}</a>
+    </p>
+
+    {{#for(button of currentPage.buttons)}}
+      {{#switch(button.next)}}
+        {{#case(saveAnswersButton)}}
+          {{> save-answers-form button}}
+        {{/case}}
+
+        {{#case(exitButton)}}
+          {{> save-answers-form button}}
+        {{/case}}
+
+        {{#case(assembleButton)}}
+          {{> assemble-form button}}
+        {{/case}}
+
+        {{#case(assembleAndSaveButton)}}
+          <div style:raw="display: none;">{{> save-answers-form button}}</div>
+          {{> assemble-form button}}
+        {{/case}}
+
+        {{#default}}
+          <button type="button"
+                  on:click="navigate(button)"
+                  class="btn btn-default btn-navigate"
+                  aria-label="{{getButtonLabel(this.parseText(button.label))}}">
+            {{getButtonLabel(this.parseText(button.label))}}
+          </button>
+        {{/default}}
+      {{/switch}}
+    {{/for}}
+
+{{/if}}

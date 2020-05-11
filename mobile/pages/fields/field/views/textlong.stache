@@ -1,0 +1,33 @@
+
+
+<div>
+  <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
+    <label class="control-label" for="{{field.label}}">
+      {{{ eval(field.label, repeatVarValue) }}}
+      {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
+    </label>
+
+    <textarea
+      id="{{field.label}}"
+      style="resize: none;"
+      class="form-control"
+      name="{{field.name}}"
+      {{#if(field.required)}}required{{/if}}
+      on:change="validateField(null, scope.element)"
+      value:bind="field._answerVm.values"
+      on:input="calcAvailableLength(scope.event)"/>
+
+      <button
+        aria-label="Expand Text"
+        class="btn btn-default btn-xs expand-textlong pull-right"
+        on:click="expandTextlong(field)">
+          <span class="icon resize-btn-icon glyphicon-resize" aria-hidden="true"></span>
+      </button>
+
+      {{#if(field.maxChars)}}
+        {{> exceeded-maxchars-tpl }}
+      {{/if}}
+  </div>
+
+  {{> invalid-prompt-tpl }}
+</div>
