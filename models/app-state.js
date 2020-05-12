@@ -25,6 +25,11 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: () => new TraceMessage()
   },
 
+  showDebugPanel: {
+    serialize: false,
+    default: null
+  },
+
   infinite: {
     Type: Infinite,
     Default: Infinite,
@@ -92,7 +97,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   visitedPages: {
     serialize: false,
-    default () { return new DefineList([]) }
+    default: () => new DefineList()
   },
 
   previewActive: {
