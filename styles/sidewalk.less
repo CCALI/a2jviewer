@@ -1,0 +1,44 @@
+/**
+ * @stylesheet sidewalk.less Sidewalk
+ * @parent styles-viewer 3
+ *
+ * The sidewalk in the A2J Viewer application is simply a `<div>` that is positioned (centered) on the page as a percentage height and width, with a linear (diagonal) gradient from the bottom left corner to the top right corner. Although it looks like a triangle, it is actually a rectangle with a diagonal gradient that has hard color stops from top to bottom.
+ *
+ * <img class="img-responsive" src="demos/sidewalk/images/sidewalk.png" />
+ *
+ * Additionally, the sidewalk adds a pseudo element of `:after` to create right-side padding.
+ *
+ * Altogether, the sidewalk's important elements are the linear gradient created with:
+ *
+ * ```
+ * background: linear-gradient(to right bottom, transparent 50%, @@sidewalk-color 50%);
+ * ```
+ *
+ * And the `:after` pseudo element, which creates the padding:
+ *
+ * ```
+ * width: @@sidewalk-right-padding;
+ * ```
+ *
+ * @demo demos/sidewalk/demo.html
+ *
+ * These variables can be edited in `styles/viewer/variables.less`
+**/
+
+.sidewalk {
+	width: @steps-width;
+  background: linear-gradient(to right bottom, transparent 50%, @sidewalk-color 50%);
+  right: @steps-from-right;
+  position: absolute;
+  height: calc(~"100% - " @header-height);
+
+  &:after {
+    position: absolute;
+    content: '';
+    background: @sidewalk-color;
+    width: @sidewalk-right-padding;
+    height: 100%;
+    bottom: 0;
+    right: -(@sidewalk-right-padding);
+  }
+}
