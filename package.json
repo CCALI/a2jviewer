@@ -23,12 +23,9 @@
       "mocha"
     ],
     "ignore": [
-      "author/src/**",
-      "author/models/fixtures/**",
-      "author/build.production.html.js",
-      "viewer/models/fixtures/**",
-      "viewer/mobile/util/**",
-      "viewer/build.production.html.js"
+      "models/fixtures/**",
+      "mobile/util/**",
+      "build.production.html.js"
     ],
     "env": [
       "mocha"
@@ -45,147 +42,11 @@
       "documentjs",
       "grunt-contrib-less"
     ],
-    "configDependencies": [
-      "author/utils/set-global-for-lodash"
-    ],
     "map": {
       "cuid": "cuid/dist/cuid",
       "jquery-ui/widget": "jquery-ui/ui/widget",
       "localforage": "localforage/dist/localforage.nopromises",
       "chai": "chai/chai"
-    },
-    "meta": {
-      "caja/author/src/A2J_Tabs": {
-        "format": "global",
-        "eval": "script",
-        "deps": [
-          "jquery-ui/ui/widgets/sortable",
-          "caja/ckeditor/ckeditor"
-        ]
-      },
-      "caja/author/src/A2J_AuthorApp": {
-        "format": "global",
-        "eval": "script",
-        "deps": [
-          "jquery-ui/ui/widgets/button",
-          "jquery-ui/ui/widgets/autocomplete",
-          "jquery-ui/ui/widgets/draggable",
-          "jquery-ui/ui/widgets/resizable",
-          "jquery-ui/ui/widgets/dialog",
-          "jquery-ui/ui/widgets/tooltip"
-        ]
-      },
-      "caja/author/src/A2J_Clauses": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/A2J_Reports": {
-        "format": "global",
-        "eval": "script",
-        "deps": [
-          "caja/author/src/viewer/A2J_Logic"
-        ]
-      },
-      "caja/author/src/A2J_Mapper": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/A2J_Pages": {
-        "format": "global",
-        "eval": "script",
-        "deps": [
-          "caja/ckeditor/ckeditor"
-        ]
-      },
-      "caja/author/src/A2J_Guides": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/A2J_Debug": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_Types": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_Logic": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_ParserConvert": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_Parser": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_Viewer": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_Prefs": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_Languages": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_MobileFile": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_Shared": {
-        "format": "global",
-        "eval": "script",
-        "deps": [
-          "jquery-ui/ui/widgets/dialog"
-        ]
-      },
-      "caja/author/src/viewer/A2J_SharedSus": {
-        "format": "global",
-        "eval": "script"
-      },
-      "caja/author/src/viewer/A2J_AnswerFile": {
-        "format": "global",
-        "eval": "script",
-        "deps": [
-          "caja/author/src/viewer/A2J_Types"
-        ]
-      },
-      "caja/author/src/viewer/jquery.ui.combobox": {
-        "deps": [
-          "jquery-ui/ui/widget"
-        ]
-      },
-      "caja/author/src/viewer/jquery.ui.traggable": {
-        "deps": [
-          "jquery-ui/ui/widgets/mouse",
-          "jquery-ui/ui/widget"
-        ]
-      },
-      "blueimp-file-upload/js/jquery.fileupload": {
-        "deps": [
-          "jquery"
-        ]
-      },
-      "typeahead.js/dist/typeahead.jquery": {
-        "format": "global"
-      },
-      "typeahead.js/dist/bloodhound": {
-        "format": "cjs"
-      },
-      "bootstrap/js/modal": {
-        "format": "global",
-        "deps": [
-          "jquery@2.1.4#dist/jquery"
-        ],
-        "globals": {
-          "jQuery": "jquery@2.1.4#dist/jquery"
-        }
-      }
     },
     "paths": {
       "tokenfield-jquery": "node_modules/bootstrap-tokenfield/node_modules/jquery/dist/jquery.js"
@@ -194,6 +55,7 @@
   "dependencies": {
     "@open-xchange/bootstrap-tokenfield": "^0.13.1",
     "a2jdeps": "file:../a2jdeps",
+    "a2jstyles": "file:../a2jstyles",
     "bit-tabs": "^2.0.0",
     "blueimp-file-upload": "^9.10.1",
     "bootstrap": "^3.4.1",
@@ -236,7 +98,7 @@
     "can-view-import": "^4.2.0",
     "connect": "^3.7.0",
     "cuid": "^2.1.6",
-    "http-server": "^0.10.0",
+    "http-server": "^0.12.3",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
     "jquerypp": "^2.0.2",
