@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+	CALI Author 5 / A2J Author 5 (CAJA) 正义 * công lý * правосудие
+	All Contents Copyright The Center for Computer-Assisted Legal Instruction
+-->
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<title>A2J Steps</title>
+<link href="../viewer/viewer.jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="../viewer/jquery-ui.extra.css"  rel="stylesheet" type="text/css" title="style" />
+<link href="../viewer/A2J_Viewer.css" rel="stylesheet" type="text/css" />
+
+<script src="../viewer/jquery.1.8.2.min.js" type="text/javascript"></script>
+<script src="../viewer/jquery.ui.1.9.1.min.js" type="text/javascript"></script>
+<script src="../viewer/A2J_Types.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Shared.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_SharedSus.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Languages.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Logic.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Parser.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Viewer.js" type="text/javascript" ></script>
+<style type="text/css">
+<!--
+body {
+	background-color: #efe;
+	margin: 10px;
+}
+.A2JViewer {
+	position: relative;
+	width: 964px;
+	height: 700px;
+	overflow: hidden;
+	background-color:#aaf;
+}
+.zoomed-element {
+	-moz-transform: scale(.75);
+	-webkit-transform: scale(.75);
+}
+-->
+</style>
+
+
+<script type='text/javascript'>
+
+// 10/2012 Test A2J's road signs
+var IMG="../images/";
+
+function ready()
+{
+	$('.templates').hide();
+	A2JViewer.IMG = IMG;
+	Languages.set(Languages.defaultLanguage);
+
+	//### Construct simple Guide
+	gGuide=new TGuide();
+	gGuide.varSet("User Avatar","tan");
+	gGuide.varSet("User Gender","Male");
+	gGuide.steps=[
+		{number:0,text:'Welcome'},
+		{number:1,text:'About you'},
+		{number:2,text:'Your children'},
+		{number:3,text:'Your assets'},
+		{number:4,text:'Some more stuff'},
+		{number:5,text:'Address'},
+		{number:6,text:'Congratulations on completing the interview'}];
+	$('#tests').append('<h2>Step selector</h2>');
+	for (var s=0;s<gGuide.steps.length;s++){
+		 $('#tests').append('<button>'+s+'</button>');
+	 }
+	$('#tests').append('<h2>Zoom factor</h2>');
+	$('#tests button').button().click(function(){
+		$('#DemoSteps').empty();
+		teststep(parseInt($(this).text()))
+	});
+
+
+	for (var s=0;s<gGuide.steps.length;s++)
+	{
+		teststep(s);
+	}
+	//A2JViewer.layout($('#demostep'),0,steps);
+
+	$('#scales button').button().click(function(){
+		var scale=$(this).text();
+		$('#DemoSteps .A2JViewer').css({zoom:scale,"-moz-transform":"scale("+scale+")","-webkit-transform":"scale("+scale+")"});
+	 });
+}
+function teststep(curstep)
+{	// create layout for step with sample question/learnmore filler.
+	/** @type TPage */
+	var demo =$('<div class="A2JViewer"/>');
+	$('#DemoSteps').append('<h2>Test Step '+curstep+'</h2>').append(demo);
+	var page=new TPage();
+	var steps=gGuide.steps;
+	page.step=curstep;
+	var text='<p>Question text #'+page.step+' appears here:</p>';
+	for (var i=0;i<page.step*4;i++){
+		text+='<p>Line #' + i + '</p>';
+	}
+	page.name="Page "+curstep;
+	page.text=text;
+	if (page.step === steps.length-1)
+	{
+		page.buttons=[{label:'Done!'}];
+		page.help="";
+	}
+	else
+	{
+		page.buttons=[ {label:'Next'},{label:'Skip to '+(page.step+1)}];
+		page.help = 'Learn more text: '+text;
+	}
+
+
+	$(demo).empty();
+	A2JViewer.layoutPage(demo,page);
+	//var question=(text + '<div class="buttonlist"><button>Yes</button><button>No</button></div>');
+	//var learnmore=('Learn more text: '+text + '<div class="buttonlist"><button>Close</button></div>');
+	//A2JViewer.layout($('#demostep'),curstep,steps,question,learnmore);
+}
+
+$(document).ready(ready);
+</script>
+
+
+<BODY>
+<div class="a2jv">
+
+<h1>A2J Steps</h1>
+<p>Steps show the user progress to the courthouse. There are 7 layouts in A2J Author. </p>
+<p>For now just do 2 steps.. First  shows 1 step (the final step). Last is showing  2 steps. If there are more than 2 steps, just show the current and next.</p>
+<div id='tests'></div>
+<div id='scales'>
+	<button>1.00</button>
+	<button>0.50</button>
+</div>
+<h2>Scripted Steps</h2>
+<div id="DemoSteps" >scripted step will appear here:</div>
+<div class="templates ">
+<h1>Templates</h1>
+<h2>1 Step </h2>
+<div class="step" >
+<img style="position:absolute; left:0; bottom: 0; top: 0;" src="../images/step1.png" width="960" height="660" /><img style="position:absolute; left:  333px; top: 466px;" src="../images/step_circle.png" width="370" height="92" /><img src="../images/A2J5_CourtHouse.png" width="550" height="350" style="position:absolute; left: 338px; top: -11px;"  /><img style="position:absolute; left: 465px; top: 215px;" src="../images/A2JAvatar-Guide-Front-M0.png" width="100" height="300" />
+
+	<div class="question bubble" style="position:absolute; left:57px; top: 140px; width: 285px; height: 320px;"></div>
+	<div class="stepsign zoomed-element" style="position:absolute; left:529px; top: 277px;">
+	<div class="stepsigncolor" ></div>
+	<div class="stepnumber" >12</div>
+	<div class="steptext  ">Congratulations. You have completed this interview!</div>
+	</div>
+
+	<img style="position:absolute; left: 363px; top: 274px; width: 36px; height: 22px;" src="../images/guide_bubble_tip.png" width="59" height="42" /></div>
+<h2>2 Steps </h2>
+<div class="step" > <img style="position:absolute; left:0; bottom: 0; top: 0;" src="../images/step7.png"  /><img src="../images/A2J5_CourtHouse.png" width="549" height="327" style="position:absolute; left: 579px; top: 66px; width: 143px; height: 61px;"  /><img style="position:absolute; left:  448px; top: 236px; width: 197px; height: 24px;" src="../images/step_circle.png" width="370" height="92" /><img style="position:absolute; left:  288px; top: 430px; width: 432px; height: 131px;" src="../images/step_circle_1.png" width="370" height="92" /><img style="position:absolute; left: 451px; top: 217px;" src="../images/A2JAvatar-Guide-Front-F0.png" width="100" height="300" />
+
+
+	<div class="stepsign zoomed-element" style="position:absolute; left:569px; top: 212px;">
+	<div class="stepsigncolor" ></div>
+	<div class="stepnumber" >12</div>
+	<div class="steptext  ">Congratulations. You have completed this interview!</div>
+	</div>
+
+
+	<div class="stepsign zoomed-element" style="position:absolute; left:619px; top: 438px;">
+	<div class="stepsigncolor" ></div>
+	<div class="stepnumber" >1</div>
+	<div class="steptext  ">Welcome!</div>
+	</div>
+
+
+	<div class="question bubble" style="position:absolute; left:20px; top: 160px;">
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+	<div class="learnmore bubble" style="position:absolute; left:640px; top: 129px; height: 100px;">
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+		<p>&nbsp;</p>
+	</div>
+<img style="position:absolute; left: 319px; top: 228px; width: 36px; height: 22px;" src="../images/guide_bubble_tip.png" width="59" height="42" /><img style="position:absolute; left: 527px; top: 198px;" src="../images/A2JAvatar-Client-M0.png" width="100" height="305" /><img style="position:absolute; left: 351px; top: 204px;" src="../images/A2JAvatar-Guide-M1.png" width="100" height="300" /><img style="position:absolute; left: 351px; top: 204px;" src="../images/A2JAvatar-Guide-F1.png"  /></div>
+</div>
+</div>
+</BODY>
+</HTML>

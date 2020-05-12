@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hd:componentLibrary xmlns:hd="http://www.hotdocs.com/schemas/component_library/2009" version="10">
+	<hd:preferences>
+		<hd:preference name="COMMON_COMPONENT_FILE"></hd:preference>
+		<hd:preference name="WATCH_VARIABLES">Shadow child age NU,Shadow child name TE</hd:preference>
+	</hd:preferences>
+	<hd:components>
+		<hd:text name="AGR Petitioner Mother-Father-TE" askAutomatically="false" saveAnswer="false" warnIfUnanswered="false"/>
+		<hd:text name="AGR Respondent Mother-Father-TE" askAutomatically="false" saveAnswer="false" warnIfUnanswered="false"/>
+		<hd:text name="Abuse TE" askAutomatically="false">
+			<hd:prompt>List the date of every incident, the allegation, whether «Petitioner full name CO» was required to attend court, and the disposition.</hd:prompt>
+			<hd:multiLine height="2"/>
+		</hd:text>
+		<hd:textPattern name="99:99 am"/>
+	</hd:components>
+</hd:componentLibrary>

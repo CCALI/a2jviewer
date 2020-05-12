@@ -1,0 +1,381 @@
+/*
+	2014-10-27
+	Result of gGuide.vars after loading the sample answer file "All-Inclusive Sample Interview answers.anx"
+
+	console.log(JSON.stringify( gGuide.vars))
+*/
+
+{
+	"user gender": {
+		"name": "User Gender",
+		"type": "Text",
+		"comment": "User's gender will be used to display appopriate avatar.",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"user avatar": {
+		"name": "User Avatar",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"client first name te": {
+		"name": "Client first name TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Jane"],
+		"warning": ""
+	},
+	"client middle name te": {
+		"name": "Client middle name TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Ann"],
+		"warning": ""
+	},
+	"client last name te": {
+		"name": "Client last name TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Doe"],
+		"warning": ""
+	},
+	"a2j version": {
+		"name": "A2J Version",
+		"type": "Text",
+		"comment": "A2J Author Version",
+		"repeating": false,
+		"values": [null, "5.0.1.39"],
+		"warning": ""
+	},
+	"a2j interview id": {
+		"name": "A2J Interview ID",
+		"type": "Text",
+		"comment": "Guide ID",
+		"repeating": false,
+		"values": [null, "-960256081"],
+		"warning": ""
+	},
+	"a2j bookmark": {
+		"name": "A2J Bookmark",
+		"type": "Text",
+		"comment": "Current Page",
+		"repeating": false,
+		"values": [null, "1-Additional Information"],
+		"warning": ""
+	},
+	"a2j history": {
+		"name": "A2J History",
+		"type": "Text",
+		"comment": "Progress History List (XML)",
+		"repeating": false,
+		"values": [null, "&lt;LABELS/&gt;"],
+		"warning": ""
+	},
+	"a2j navigation tf": {
+		"name": "A2J Navigation TF",
+		"type": "TF",
+		"comment": "Allow navigation?",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j interview incomplete tf": {
+		"name": "A2J Interview Incomplete TF",
+		"type": "TF",
+		"comment": "Reached Successful Exit?",
+		"repeating": false,
+		"values": [null, "false"],
+		"warning": ""
+	},
+	"a2j step 0": {
+		"name": "A2J Step 0",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 1": {
+		"name": "A2J Step 1",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 2": {
+		"name": "A2J Step 2",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 3": {
+		"name": "A2J Step 3",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 4": {
+		"name": "A2J Step 4",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 5": {
+		"name": "A2J Step 5",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 6": {
+		"name": "A2J Step 6",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 7": {
+		"name": "A2J Step 7",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 8": {
+		"name": "A2J Step 8",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 9": {
+		"name": "A2J Step 9",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 10": {
+		"name": "A2J Step 10",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"a2j step 11": {
+		"name": "A2J Step 11",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"client birthdate da": {
+		"name": "Client birthdate DA",
+		"type": "Date",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "3/10/2014"],
+		"warning": ""
+	},
+	"client telephone te": {
+		"name": "Client telephone TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "12345678999"],
+		"warning": ""
+	},
+	"client ssn te": {
+		"name": "Client SSN TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "123456789"],
+		"warning": ""
+	},
+	"client income nu": {
+		"name": "Client income NU",
+		"type": "Number",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "100000"],
+		"warning": ""
+	},
+	"variable name te": {
+		"name": "Variable name TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Long answer long answer  long answerlong answerlong answerlong answerlong answerlong answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answer long answerlong answer long answer long answer long answer long answer long answer long answer long answer long answer  "],
+		"warning": ""
+	},
+	"client marital status mc": {
+		"name": "Client marital status MC",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"option one tf": {
+		"name": "Option one TF",
+		"type": "TF",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "true"],
+		"warning": ""
+	},
+	"option two tf": {
+		"name": "Option two TF",
+		"type": "TF",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "false"],
+		"warning": ""
+	},
+	"client address line 1 te": {
+		"name": "Client address line 1 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "1234 Main"],
+		"warning": ""
+	},
+	"client city te": {
+		"name": "Client city TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Chicago"],
+		"warning": ""
+	},
+	"client county te": {
+		"name": "Client county TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Cook"],
+		"warning": ""
+	},
+	"client state te": {
+		"name": "Client state TE",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"client postal code te": {
+		"name": "Client postal code TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "60661"],
+		"warning": ""
+	},
+	"asset 1 te": {
+		"name": "Asset 1 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "House"],
+		"warning": ""
+	},
+	"asset 2 te": {
+		"name": "Asset 2 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Boat"],
+		"warning": ""
+	},
+	"asset 3 te": {
+		"name": "Asset 3 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Car "],
+		"warning": ""
+	},
+	"asset 4 te": {
+		"name": "Asset 4 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Jet Ski"],
+		"warning": ""
+	},
+	"asset 5 te": {
+		"name": "Asset 5 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Time share"],
+		"warning": ""
+	},
+	"asset 6 te": {
+		"name": "Asset 6 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Mutual Funds"],
+		"warning": ""
+	},
+	"asset 7 te": {
+		"name": "Asset 7 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Stocks "],
+		"warning": ""
+	},
+	"asset 8 te": {
+		"name": "Asset 8 TE",
+		"type": "Text",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "Second car"],
+		"warning": ""
+	},
+	"number of children nu": {
+		"name": "Number of Children NU",
+		"type": "Number",
+		"comment": "",
+		"repeating": false,
+		"values": [null, "2"],
+		"warning": ""
+	},
+	"color mc": {
+		"name": "Color MC",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	},
+	"loopcount": {
+		"name": "LoopCount",
+		"comment": "",
+		"repeating": false,
+		"values": [null],
+		"warning": ""
+	}
+}

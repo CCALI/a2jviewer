@@ -1,0 +1,43 @@
+<?xml version="1.0" standalone="yes" encoding="utf-8"?>
+<!DOCTYPE AnswerSet [
+<!ELEMENT AnswerSet (Answer*)>
+<!ELEMENT Answer (TextValue | NumValue | DateValue | TFValue | MCValue | ClauseLibValue | DBValue | RptValue)>
+
+<!-- While the DTD allows DBValue in nested repeats, the current implementation does not. -->
+<!ELEMENT RptValue (TextValue* | NumValue* | DateValue* | TFValue* | MCValue* | ClauseLibValue* | DBValue* | RptValue*)>
+
+<!ELEMENT TextValue      (#PCDATA)         >
+<!ELEMENT NumValue       (#PCDATA)         >
+<!ELEMENT DateValue      (#PCDATA)         >
+<!ELEMENT TFValue        (#PCDATA)         >
+<!ELEMENT MCValue        (SelValue*)       >
+<!ELEMENT ClauseLibValue (ClauseSelValue*) >
+<!ELEMENT DBValue        (DBColumn*)       >
+
+<!ELEMENT DBColumn (TextValue | NumValue | DateValue | TFValue | MCValue)>
+<!ELEMENT SelValue       (#PCDATA)         >
+<!ELEMENT ClauseSelValue  EMPTY            >
+
+<!ATTLIST AnswerSet
+	title CDATA #IMPLIED
+	save (true | false | nochange) #IMPLIED
+	useMangledNames (true | false) #IMPLIED>
+
+<!-- The name attribute of an Answer element is the name of the component it maps to. -->
+<!ATTLIST Answer
+	name CDATA #REQUIRED
+	save (true | false | nochange) #IMPLIED>
+
+<!ATTLIST TextValue      unans (true | false) #IMPLIED>
+<!ATTLIST NumValue       unans (true | false) #IMPLIED>
+<!ATTLIST DateValue      unans (true | false) #IMPLIED>
+<!ATTLIST TFValue        unans (true | false) #IMPLIED>
+<!ATTLIST MCValue        unans (true | false) #IMPLIED>
+<!ATTLIST ClauseLibValue unans (true | false) #IMPLIED>
+<!ATTLIST ClauseSelValue
+	title       CDATA   #REQUIRED
+	fileName    CDATA   #REQUIRED
+	description CDATA   #IMPLIED>
+<!ATTLIST DBColumn name CDATA #REQUIRED>]>
+<ANSWERSET>
+</ANSWERSET>

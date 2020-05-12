@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<AnswerSet title="">
+	<Answer name="User Gender">
+		<SelValue>
+			<MCValue>Male</MCValue>
+		</SelValue>
+	</Answer>
+	<Answer name="Client first name TE">
+		<TextValue>Homer</TextValue>
+	</Answer>
+	<Answer name="Client last name TE">
+		<TextValue>Simpson</TextValue>
+	</Answer>
+	<Answer name="A2J Version">
+		<TextValue>5.0.1.45</TextValue>
+	</Answer>
+	<Answer name="A2J Interview ID">
+		<TextValue>1582459444</TextValue>
+	</Answer>
+	<Answer name="A2J Bookmark">
+		<TextValue>3-2 Final</TextValue>
+	</Answer>
+	<Answer name="A2J Interview Incomplete TF">
+		<TFValue>true</TFValue>
+	</Answer>
+	<Answer name="A2J History">
+		<TextValue>&lt;LABELS/&gt;</TextValue>
+	</Answer>
+	<Answer name="Income">
+		<NumValue>24999</NumValue>
+	</Answer>
+	<Answer name="Kids">
+		<NumValue>3</NumValue>
+	</Answer>
+	<Answer name="ChildCounter">
+		<NumValue>4</NumValue>
+	</Answer>
+	<Answer name="Child Name">
+		<RptValue>
+			<TextValue>Bart</TextValue>
+			<TextValue>Lisa</TextValue>
+			<TextValue>Maggie</TextValue>
+		</RptValue>
+	</Answer>
+	<Answer name="Child Birthday">
+		<RptValue>
+			<DateValue>1/12/1998</DateValue>
+			<DateValue>1/12/2001</DateValue>
+			<DateValue>1/12/2013</DateValue>
+		</RptValue>
+	</Answer>
+	<Answer name="Client Full Name TE">
+		<TextValue>Homer Simpson</TextValue>
+	</Answer>
+</AnswerSet>

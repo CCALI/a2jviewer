@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+	CALI Author 5 / A2J Author 5 (CAJA) * Justice * 正义 * công lý * правосудие
+	All Contents Copyright The Center for Computer-Assisted Legal Instruction
+-->
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<!-- DW6 -->
+<HEAD>
+
+<title>CAJA Web Service Tester</title>
+
+<script src="../viewer/jquery.1.8.2.min.js">  </script>
+<link  href="../viewer/viewer.jquery-ui.css" rel="stylesheet" type="text/css" />
+<script src="../viewer/A2J_Types.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Shared.js" type="text/javascript" ></script>
+<link  href="../author/A2J_Author.css"  rel="stylesheet" type="text/css"/>
+
+<script>
+var gUserID;
+var gGuideID;
+
+function trace(msg)
+{
+	$('#trace').prepend('<div class=trace>'+  Array.prototype.slice.call(arguments).join(", ")+'</div>');
+}
+function status(msg)
+{
+	trace(msg);
+	$('#status').html(msg);
+	//alert(msg);
+}
+function html(txt){
+	$('#results').html(txt);
+}
+$(document).ready(function()
+{
+	trace("Ready");
+	status('Ready');
+
+	function signin(data)
+	{
+		gUserID=data.userid;
+		gGuideID=0;
+		if (gUserID===0)
+		{
+			status('Unknown user');
+			html('Please register...');
+		}
+		else
+		{
+			status('User signed in: ' + data.nickname+" user#"+data.userid);
+			html("Welcome "+data.nickname+" user#"+data.userid);
+			ws({cmd:'guides/owned'},listGuides);
+		}
+	}
+	function guideLoaded(data)
+	{
+		gGuideID=data.gid;
+		status('Loaded the guide #'+gGuideID );
+
+		var cajaDataXML=$(data.guide);
+		var description = makestr(cajaDataXML.find('DESCRIPTION').text());
+		var pages=[];
+		cajaDataXML.find("QUESTION").each(function() {
+			QUESTION = $(this);
+			pages.push(QUESTION.attr("ID")+" "+ QUESTION.attr("NAME"));
+		});
+
+		html("<textarea rows=20 id=guidexml>"+ escapeHtml(data.guide) + "</textarea>"
+		+ data.guide.length+" characters<hr>"
+		+ description +pages.join('<li>'));
+	}
+	function answersetLoaded(data)
+	{
+		gGuideID=data.gid;
+		status('Loaded the answerset #'+gGuideID );
+		html("<textarea rows=20 id=guidexml>"+ escapeHtml(data.answerset) + "</textarea>" );
+	}
+	function guideZipped(data)
+	{
+		gGuideID=data.gid;
+		if (data.zip!=''){
+			status('ZIpped the guide #'+gGuideID );
+			html('ZIP File is '+data.zip);
+			window.open( data.zip);
+		}
+	}
+	function listGuides(data)
+	{
+		gGuideID=0;
+		var items = [];
+	  	$.each(data.guides, function(key,g)
+		{
+			var size='n/a';
+			var modified='n/a';
+			if (g.details!='')
+			{
+				size=Math.ceil(g.details.size/1024)+'K';
+				modified= g.details.modified;
+			}
+			items.push(
+				'<tr class=guide gid="' + g.id + '">'
+				+'<td>' + size + '</td> '
+				+'<td>XML</td> <td>ANX</td> <td>ZIP</td> <td>' + g.title  + '</td>' + '<td>' + (g.owned?'mine':'other') + '</td>'
+				+'<td>' + modified + '</td> '
+				+'<td>Delete</td>'
+				+'<td>' + g.id + '</td>'
+				+ '</tr>');
+		});
+		status('Listing '+items.length+' guides.');
+		html("Guides for user#" + data.userid+ "<table>"+items.join('')+"</table>");
+		$('tr.guide td:nth-child(2)').click(function(){
+			var gid =  $(this).parent().attr('gid');
+			setProgress('Loading guide '+$(this).parent().text(),true);
+			ws({cmd:'guide',gid:gid } ,guideLoaded);
+		});
+		$('tr.guide td:nth-child(3)').click(function(){
+			var gid =  $(this).parent().attr('gid');
+			setProgress('Loading AnswerSet '+$(this).parent().text(),true);
+			ws({cmd:'answerset',gid:gid},answersetLoaded);
+		});
+		$('tr.guide td:nth-child(4)').click(function(){
+			var gid =  $(this).parent().attr('gid');
+			setProgress('Loading ZIP '+$(this).parent().text(),true);
+			ws({cmd:'guidezip',gid:gid},guideZipped);
+		});
+		$('tr.guide td:nth-child(8)').click(function(){
+			var gid =  $(this).parent().attr('gid');
+			setProgress('Deleting '+$(this).parent().text(),true);
+			ws({cmd:'guidearchive',gid:gid},wsListGuides);
+		});
+	}
+	function setProgress(stat , showSpinner)
+	{
+		if (typeof stat==='undefined'){
+			stat ='';
+		}
+		if (stat !==''){
+			status(stat);
+		}
+	}
+
+	function statusupdate(data)
+	{
+		if (typeof data.error!=="undefined")
+			status(data.error);
+		else
+			status(data.info);
+	}
+	function guidesaveas(data)
+	{
+		if (typeof data.error!=="undefined")
+			status(data.error);
+		else{
+			gGuideID=data.gid;//new guide id
+			status("Guide saved to "+gGuideID);
+		}
+	}
+	function guideclone(data)
+	{
+		if (typeof data.error!=="undefined")
+			status(data.error);
+		else{
+			gGuideID=data.gid;//new guide id
+			status("Guide cloned to "+gGuideID);
+		}
+	}
+	$('#signin1').click(function(){ws({cmd:'login',username:$('#username').val(),userpass:$('#userpass').val()},signin)});
+	$('#signin2').click(function(){ws({cmd:'login',username:$('#username2').val(),userpass:$('#userpass2').val()},signin)});
+	$('#signout').click(function(){ws({
+		cmd:'logout'},function(data){
+		gUserID=0;
+		gGuideID=0;
+		status('Signed out');
+		html("Goodbye user#"+gUserID)})});
+	function wsListGuides()
+	{
+		ws({cmd:'guides/owned'},listGuides);
+	};
+	$('#guides_owned').click( wsListGuides);
+	$('#guides_owned_archive').click(function(){ws({cmd:'guides/owned/archive'},listGuides)});
+
+	$('#guides_all').click(function(){ws({cmd:'guides'},listGuides)});
+	$('#guidesave').click(function()	{if (gGuideID==0) return; ws({cmd:'guidesave',gid:gGuideID, guide:$('#guidexml').val()},statusupdate)});
+	$('#guidearchive').click(function()	{if (gGuideID==0) return; ws({cmd:'guidearchive',gid:gGuideID},statusupdate)});
+	$('#answersetsave').click(function()	{if (gGuideID==0) return; ws({cmd:'answersetsave',gid:gGuideID, answerset:$('#guidexml').val()},statusupdate)});
+	$('#guidesaveas').click(function(){if (gGuideID==0) return; ws({cmd:'guidesaveas',gid:gGuideID, guide:$('#guidexml').val()},guidesaveas)});
+	$('#guideclone').click(function(){if (gGuideID==0) return; ws({cmd:'guideclone',gid:gGuideID},guideclone)});
+});
+
+function ws(data,results)
+{
+	//$.getJSON( '../CAJA_WS.php',data,results).error(function(err,xhr) { alert("error:"+xhr.responseText ); })
+	html(JSON.stringify(data));
+	trace(JSON.stringify(data));
+	$.ajax({
+		url:'../author/CAJA_WS.php',
+		dataType:'json',
+		type: 'POST',
+		data: data,
+		success: function(data){
+			trace(String.substr(JSON.stringify(data),0,1299));
+			results(data);
+		},
+		error: function(err,xhr) {
+			alert("error:"+xhr.responseText );
+		}
+	})
+}
+
+
+function loadFile(bookFile)
+{
+	trace("Loading Unit Test "+bookFile);
+	$.ajax({
+			url: bookFile,
+			dataType: "text"  , // IE will only load XML file from local disk as text, not xml.
+			timeout: 45000,
+			error: function(data,textStatus,thrownError){
+			  alert('Error occurred loading from '+this.url+"\n"+textStatus);
+			 },
+			success: function(data){
+				parseUnit(data);
+			}
+		});
+}
+
+</script>
+
+
+<style type="text/css">
+<!--
+body {
+	background-color:#112;
+	color:#fff;
+	font-size: 8pt;
+	font-family: Arial, Helvetica, sans-serif;
+	overflow: scroll;
+}
+td {
+	vertical-align: top;
+	text-align: left;
+	padding: 2px;
+}
+form {
+	border: 2px;
+	}
+.header {
+	height: 45px;
+}
+li.guide {
+	cursor: pointer;
+}
+li.guide:hover {
+	background-color:#C0DCC0;
+}
+div.trace { padding: 5px;}
+div.trace:nth-child(even) {background-color:#282;}
+div.trace:nth-child(odd)  {background-color:#288;}
+
+tr.guide td:hover {
+	background-color:#ccc;
+}
+-->
+</style>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></HEAD>
+
+
+<BODY  >
+<div class="header">CAJA Web Service Tester</div> <form>
+<table width="100%" height="100%" border="1" cellpadding="5" cellspacing="0">
+	<tr>
+		<th width="250" height="30" nowrap="nowrap"><font size="+1">Commands</font></th>
+		<th width="100%" height="30" nowrap="nowrap"><font size="+1">Current Results</font></th>
+		<th width="300" height="30" nowrap="nowrap"><font size="+1">Trace</font></th>
+	</tr>
+	<tr>
+		<td width="250"><table width="250" border="0" align="center" cellpadding="0" cellspacing="6" bordercolor="#0000FF" bgcolor="#A0A0A4">
+			<tr>
+				<th valign="top">Command</th>
+				<th align="center" valign="top" nowrap="nowrap">Data </th>
+			</tr>
+			<tr>
+				<td>Good Login</td>
+				<td nowrap="nowrap">
+					<p>User:
+						<input name="username" type="text" id="username" value="dev"    />
+						</p>
+					<p>Pass:
+						<input name="password" type="password" id="userpass"    />
+						</p>
+					<p>
+						<input type="button" id="signin1" value="Sign in" />
+									</p></td>
+			</tr>
+			<tr>
+				<td>Bad Login</td>
+				<td nowrap="nowrap"> <p>User:
+					<input id="username2" type="text" value="DEMO '); drop table Guides;" />
+					</p>
+					<p>Pass:
+						<input id="userpass2" type="password" value="bad password" />
+							</p>
+					<p>
+						<input type="button" id="signin2" value="Sign in" />
+						</p></td>
+			</tr>
+			<tr>
+				<td>Logout </td>
+				<td nowrap="nowrap"><input type="button" id="signout" value="Sign out" /></td>
+			</tr>
+			<tr>
+				<td>  Author Guides </td>
+				<td nowrap="nowrap">
+						<p>
+							<input type="button" id="guides_owned" value="My Guides" />
+							</p>
+						<p>
+							<input type="button" id="guides_all" value="All Guides" />
+						</p>
+						<p>
+							<input type="button" id="guides_owned_archive" value="My Guides (archive)" />
+						</p></td>
+			</tr>
+			<tr>
+				<td>Editing Guide</td>
+				<td nowrap="nowrap"><p>
+					<input type="button" id="guidesave" value="Save Guide" />
+					</p>
+					<p>
+						<input type="button" id="guidesaveas" value="Save As Guide" />
+					</p>
+					<p>
+						<input type="button" id="guidearchive" value="Archive Guide" />
+						</p></td>
+			</tr>
+			<tr>
+				<td>Saving Answers</td>
+				<td nowrap="nowrap"><input type="button" id="answersetsave" value="Save Answer" />
+					 </td>
+			</tr>
+		</table></td>
+		<td width="100%"><div id="status">Status</div><div id="results">Results</div></td>
+		<td width="300"><div id="trace"></div></td>
+	</tr>
+</table>
+</form>
+</BODY>
+</HTML>
+

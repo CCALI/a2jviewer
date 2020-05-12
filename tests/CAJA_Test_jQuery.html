@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+	CALI Author 5 / A2J Author 5 (CAJA) 正义 * công lý * правосудие
+	All Contents Copyright The Center for Computer-Assisted Legal Instruction
+-->
+<HTML xmlns="http://www.w3.org/1999/xhtml">
+<title>jQuery UI Tests</title>
+<link href="../viewer/viewer.jquery-ui.css" rel="stylesheet" type="text/css" />
+<link href="../viewer/jquery-ui.extra.css"  rel="stylesheet" type="text/css" title="style" />
+<link href="../viewer/A2J_Viewer.css" rel="stylesheet" type="text/css" />
+<script src="../viewer/jquery.1.8.2.min.js" type="text/javascript"></script>
+<script src="../viewer/jquery.ui.1.9.1.min.js" type="text/javascript"></script>
+<script src="../viewer/A2J_Types.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Shared.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_SharedSus.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Languages.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Logic.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Parser.js" type="text/javascript" ></script>
+<script src="../viewer/A2J_Viewer.js" type="text/javascript" ></script>
+<style type="text/css">
+<!--
+body {
+	background-color: #efe;
+	margin: 10px;
+}
+.A2JViewer {
+	position: relative;
+	width: 964px;
+	height: 700px;
+	overflow: hidden;
+	background-color:#aaf;
+}
+.zoomed-element {
+	-moz-transform: scale(.75);
+	-webkit-transform: scale(.75);
+}
+-->
+</style>
+
+
+<script type='text/javascript'>
+// 10/2012 Test A2J's road signs
+var IMG="../images/";
+
+function ready()
+{
+
+	$( "#menu" ).menu({position:{my:'left top',at:'left bottom'}});
+}
+$(document).ready(ready);
+</script>
+
+
+<style type="text/css">
+<!--
+.ui-menu { overflow: hidden;  }
+.ui-menu .ui-menu { overflow: visible !important; }
+.ui-menu > li { float: left; display: block; width: auto !important; }
+.ui-menu > li { margin: 5px 5px !important; padding: 0 0 !important; }
+
+.ui-menu > li > a { float: left; display: block; clear: both; overflow: hidden;}
+.ui-menu > li > span { float: left; display: block; clear: both; overflow: hidden;}
+.ui-menu > li > div {  display: block; clear: both; overflow: hidden;}
+.ui-menu .ui-menu-icon { margin-top: 0.3em !important;}
+
+.ui-menu .ui-menu .ui-menu li { float: left; display: block;}
+.ui-menu .ui-menu > li {float: none;  margin: 5px 5px !important; padding: 0 0 !important; }
+
+#menu.ui-menu { overflow: visible  !important; height:2.5em;}
+
+-->
+</style>
+<BODY>
+<div class="a2jv">
+
+<ul id="menu">
+<li><a href="#"><span class="ui-icon ui-icon-circle-triangle-w"></span>Back</a></li>
+<li><a href="#"><span class="ui-icon ui-icon-circle-triangle-e"></span>Next</a></li>
+<li><a href="#">My Progress: Question 3-0</a>
+<ul>
+<li><a href="#"><span class="ui-icon ui-icon-document"></span>Question 3-1<div>Should you use this form?</div></a></li>
+<li><a href="#"><span class="ui-icon ui-icon-document"></span>Question 3-2 Children<div>How many children do you have?</div></a></li>
+<li><a href="#"><span class="ui-icon ui-icon-document"></span>Question 3-3 Income <div>How much do you earn annually?</div></a></li>
+<li><a href="#"><span class="ui-icon ui-icon-document"></span>Question 3-4 Address <div>Where do you live?</div></a></li>
+<li><a href="#"><span class="ui-icon ui-icon-document"></span>Question 3-5 <div>Your assets</div></a></li>
+</ul>
+</li>
+
+<li ><a href="#"><span class="ui-icon ui-icon-comment"></span>Feedback</a></li>
+<li ><a href="#"><span class="ui-icon ui-icon-extlink"></span>Exit</a></li>
+<li><a href="#"><span class="ui-icon ui-icon-disk"></span>Save for Later</a></li>
+</ul>
+
+
+<h1>jQuery UI Tests</h1>
+
+
+</div>
+</BODY>
+</HTML>
