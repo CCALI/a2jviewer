@@ -1,4 +1,4 @@
-<can-import from="caja/author/alert/"/>
+<can-import from="a2jdeps/alert/"/>
 <can-import from="a2jviewer/desktop/navigation/navigation.less!"/>
 
 <nav class="navbar navbar-default" role="navigation">
@@ -131,7 +131,7 @@
     {{#if(courthouseImage)}}
       <img class="courthouse" src="{{courthouseImage}}" role="presentation" alt="custom-courthouse-image"/>
     {{else}}
-      <img class="courthouse" src="{{joinBase('viewer/images/A2J5_CourtHouse.svg')}}"
+      <img class="courthouse" src="{{joinBase('images/A2J5_CourtHouse.svg')}}"
         role="presentation" alt="author-courthouse-image" />
     {{/if}}
   </div>

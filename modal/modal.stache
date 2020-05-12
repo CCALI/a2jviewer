@@ -1,5 +1,5 @@
 <can-import from='a2jviewer/modal/modal.less' />
-<can-import from='caja/author/audio-player/' />
+<can-import from='a2jdeps/audio-player/' />
 
   <div
     id="pageModal"

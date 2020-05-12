@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-xs-3 text-center">
     <a on:el:click="toggleCredits()" href="javascript://" aria-label="toggle-author-credits">
-      <img src="{{joinBase 'viewer/images/a2j-circle-300.png'}}" class="logo-viewer-mobile" alt="Access to Justice Logo"/>
+      <img src="{{joinBase 'images/a2j-circle-300.png'}}" class="logo-viewer-mobile" alt="Access to Justice Logo"/>
     </a>
   </div>
 

@@ -519,7 +519,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
     }
 
     // setup datepicker widget
-    const datepickerButtonSvg = joinBaseUrl('viewer/images/datepicker-button.svg')
+    const datepickerButtonSvg = joinBaseUrl('images/datepicker-button.svg')
 
     if (vm.attr('field.type') === 'datemdy') {
       const defaultDate = vm.attr('field._answerVm.values')
