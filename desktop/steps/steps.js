@@ -65,7 +65,7 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
      */
     currentPage: {
       get () {
-        return this.attr('rState.currentPage')
+        return this.attr('rState').currentPage
       }
     },
 
