@@ -15,7 +15,6 @@
         logic:from="logic"
         repeatVarValue:from="rState.repeatVarValue"
         selectedPageName:from="rState.selectedPageName"
-        visitedPages:from="rState.visitedPages"
         selectedPageIndex:bind="rState.selectedPageIndex"
         rState:from="rState"
         resumeInterview:to="resumeInterview"
