@@ -13,9 +13,9 @@ import 'can-3-4-compat/dom-mutation-events'
 
 import 'jquerypp/dom/cookie/'
 import 'a2jviewer/mobile/util/helpers'
-import 'calculator/jquery.plugin'
-import 'calculator/jquery.calculator'
-import 'calculator/jquery.calculator.css'
+import 'a2jdeps/calculator/jquery.plugin'
+import 'a2jdeps/calculator/jquery.calculator'
+import 'a2jdeps/calculator/jquery.calculator.css'
 
 // State attrs not needing persistance, such as showing/hiding the table of contents.
 // Load configuration from desktop into mobile
