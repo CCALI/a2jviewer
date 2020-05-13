@@ -13,6 +13,11 @@ import canReflect from 'can-reflect'
 
 import 'can-map-define'
 
+// !steal-remove-start
+import debug from 'can-debug'
+debug()
+// !steal-remove-end
+
 stache.registerPartial('learn-more-tpl', learnMoreTemplate)
 
 /**
