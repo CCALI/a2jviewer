@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import Parser from 'a2jviewer/mobile/util/parser'
+import Parser from 'a2jdeps/utils/parser'
 import partialJSON from 'a2jviewer/models/fixtures/partial.json'
 import partialXML from 'a2jviewer/models/fixtures/partial.anx!text'
 import interviewJSON from 'a2jviewer/models/fixtures/interview.json'

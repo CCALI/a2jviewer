@@ -1,6 +1,6 @@
 import { assert } from 'chai'
 import moment from 'moment'
-import cDate from 'a2jviewer/mobile/util/date'
+import cDate from 'a2jdeps/utils/date'
 
 describe('util: date', function () {
   let testDate
