@@ -1,6 +1,6 @@
 {
   "name": "a2jviewer",
-  "version": "0.0.1",
+  "version": "7.0.0",
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
   "scripts": {
