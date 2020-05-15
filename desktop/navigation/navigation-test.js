@@ -7,7 +7,7 @@ import Logic from 'a2jviewer/mobile/util/logic'
 import constants from 'a2jdeps/models/constants'
 import { ViewerNavigationVM } from 'a2jviewer/desktop/navigation/'
 import canReflect from 'can-reflect'
-import 'a2jviewer/models/fixtures/'
+import 'a2jdeps/models/fixtures/'
 
 import 'steal-mocha'
 

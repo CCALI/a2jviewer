@@ -8,7 +8,7 @@ import Interview from 'a2jviewer/models/interview'
 import TraceMessage from 'a2jdeps/models/trace-message'
 import $ from 'jquery'
 import { ViewerStepsVM } from 'a2jviewer/desktop/steps/'
-import interviewJSON from 'a2jviewer/models/fixtures/real_interview_1.json'
+import interviewJSON from 'a2jdeps/models/fixtures/real_interview_1.json'
 import sinon from 'sinon'
 import F from 'funcunit'
 
