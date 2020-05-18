@@ -43,7 +43,7 @@ function template (version) {
           templateURL: '',
 
           // folder containing images, templates and other assets related to the interview
-          fileDataURL: 'http://localhost/54583/Assets/A2J_Modules/New York/Vacate_Judgment_Consumer_Debt_2417/',
+          fileDataURL: '',
 
           // endpoint to load an answer file at start, used for RESUME
           getDataURL: '',
