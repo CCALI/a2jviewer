@@ -33,11 +33,11 @@
     <script>
       localStorage.setItem('a2jConfig', JSON.stringify({
         // path (or url) to the interview XML file
-        templateURL: 'demo/guides/default/Guide.xml',
+        templateURL: '',
 
         // folder containing images, templates and other assets related to the interview
         // path can be relative or fully qualified but requires a trailing slash
-        fileDataURL:'demo/guides/',
+        fileDataURL:'',
 
         // endpoint to load an answer file at start, used for RESUME
         // getDataURL: 'tests/data/Sample Short Interview Answers.anx?data=ExtraData4getDataURL',
@@ -63,6 +63,6 @@
       }));
     </script>
 
-    <script src="node_modules/steal/steal-sans-promises.js" data-main="a2jviewer/app" main="a2jviewer/app"></script>
+    <script src="node_modules/steal/steal-sans-promises.js" main="a2jviewer/app"></script>
   </body>
 </html>
