@@ -34,7 +34,7 @@
     parse_str($_SERVER['QUERY_STRING'], $urlParams);
     $idToRemove = $urlParams['delete'];
 
-    removeDirectoryAndContents($guidesPath . '/' . $idToRemove);
+    removeDirectoryAndContents($idToRemove);
     header("Location: index.php");
   }
 
