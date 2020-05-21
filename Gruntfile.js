@@ -1,7 +1,9 @@
+import path from 'path-browserify'
+
 module.exports = function (grunt) { // documentjs tasks removed until security updates can be applied see: https://github.com/CCALI/CAJA/issues/2485
   grunt.initConfig({
     clean: {
-      build: ['dist/'],
+      build: ['dist/']
       // cachedTemplate: ['node_modules/documentjs/site/static', 'node_modules/documentjs/site/templates']
     },
 
@@ -56,7 +58,7 @@ module.exports = function (grunt) { // documentjs tasks removed until security u
         options: {
           steal: {
             main: ['a2jviewer/app'],
-            config: __dirname + '/package.json!npm'
+            config: path.join(__dirname, '/package.json!npm')
           },
           buildOptions: {
             minify: true,

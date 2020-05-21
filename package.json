@@ -4,7 +4,7 @@
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
   "scripts": {
-    "lint": "standard 'a2jviewer/*.js' 'a2jviewer/**/*.js' --fix --env mocha",
+    "lint": "standard --fix --env mocha",
     "test": "npm run lint && testee --reporter Spec --browsers firefox test/index.html",
     "build": "grunt build --gruntfile=Gruntfile.js",
     "build-docs": "grunt documentjs",
