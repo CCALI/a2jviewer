@@ -1,6 +1,6 @@
-import path from 'path-browserify'
-
 module.exports = function (grunt) { // documentjs tasks removed until security updates can be applied see: https://github.com/CCALI/CAJA/issues/2485
+  const path = require('path-browserify')
+
   grunt.initConfig({
     clean: {
       build: ['dist/']
