@@ -35,8 +35,7 @@
             fields:from="currentPage.fields"
             groupValidationMap:to="groupValidationMap"
             rState:from="rState"
-            modalContent:bind="modalContent"
-            role="form"/>
+            modalContent:bind="modalContent" />
         {{/if}}
       </fieldset>
 
