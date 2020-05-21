@@ -38,13 +38,20 @@ stache.registerPartial('exceeded-maxchars-tpl', exceededMaxcharsTpl)
 export const FieldVM = CanMap.extend('FieldVM', {
   define: {
     // passed in via fields.stache binding
-    repeatVarValue: {},
     field: {},
     fieldIndex: {},
     groupValidationMap: {},
     lastIndexMap: {},
     // Type: DefineMap
     rState: {},
+
+    // used in field views/*
+    repeatVarValue: {
+      get () {
+        return this.attr('rState').repeatVarValue
+      }
+    },
+
     /**
      * @property {can.compute} field.ViewModel.prototype.isMobile isMobile
      *
