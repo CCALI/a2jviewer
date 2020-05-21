@@ -105,9 +105,9 @@ export const FieldVM = CanMap.extend('FieldVM', {
     showInvalidPrompt: {
       get () {
         const varName = this.attr('field.name')
-        const lastIndex = this.attr('lastIndexMap').attr(varName)
-        const isLastIndex = this.attr('fieldIndex') === lastIndex
-        const hasGroupError = this.attr('groupValidationMap').attr(varName)
+        const lastIndex = this.attr('lastIndexMap') && this.attr('lastIndexMap').attr(varName)
+        const isLastIndex = !!lastIndex || this.attr('fieldIndex') === lastIndex
+        const hasGroupError = this.attr('groupValidationMap') && this.attr('groupValidationMap').attr(varName)
 
         return hasGroupError && isLastIndex && this.attr('invalidPrompt')
       }

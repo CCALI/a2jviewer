@@ -17,53 +17,40 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
     lang: {},
     logic: {},
     fields: {},
-    repeatVarValue: {},
     rState: {},
     modalContent: {},
 
     lastIndexMap: {
-      resolver ({ listenTo, resolve }) {
-        resolve(this.buildLastIndexMap())
+      get () {
+        const fields = this.attr('fields')
+        const lastIndexMap = new CanMap()
 
-        listenTo('fields', this.buildLastIndexMap)
+        if (fields.length) {
+          fields.forEach((field, index) => {
+            const varName = field.attr('name')
+            lastIndexMap.attr(varName, index)
+          })
+        }
+
+        return lastIndexMap
       }
     },
 
     groupValidationMap: {
-      resolver ({ listenTo, resolve }) {
-        resolve(this.buildGroupValidationMap())
+      get () {
+        const fields = this.attr('fields')
+        const groupValidationMap = new CanMap()
 
-        listenTo('fields', this.buildGroupValidationMap)
+        if (fields.length) {
+          fields.forEach((field) => {
+            const varName = field.attr('name')
+            groupValidationMap.attr(varName, false)
+          })
+        }
+
+        return groupValidationMap
       }
     }
-  },
-
-  buildLastIndexMap () {
-    const fields = this.attr('fields')
-    const lastIndexMap = new CanMap()
-
-    if (fields.length) {
-      fields.forEach((field, index) => {
-        const varName = field.attr('name')
-        lastIndexMap.attr(varName, index)
-      })
-    }
-
-    return lastIndexMap
-  },
-
-  buildGroupValidationMap () {
-    const fields = this.attr('fields')
-    const groupValidationMap = new CanMap()
-
-    if (fields.length) {
-      fields.forEach((field) => {
-        const varName = field.attr('name')
-        groupValidationMap.attr(varName, false)
-      })
-    }
-
-    return groupValidationMap
   }
 })
 
