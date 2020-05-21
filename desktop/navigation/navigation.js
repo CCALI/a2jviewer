@@ -20,9 +20,6 @@ export let ViewerNavigationVM = DefineMap.extend({
   rState: {},
   courthouseImage: {},
   interview: {},
-  repeatVarValue: {},
-  selectedPageName: {},
-  selectedPageIndex: {},
   lang: {},
 
   /**
@@ -83,7 +80,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   canNavigateBack: {
     get () {
       let totalPages = this.visitedPages.length
-      const canNavigateBack = totalPages > 1 && parseInt(this.selectedPageIndex) < totalPages - 1 && !this.rState.saveAndExitActive
+      const canNavigateBack = totalPages > 1 && this.rState.selectedPageIndex < totalPages - 1 && !this.rState.saveAndExitActive
       return canNavigateBack
     }
   },
@@ -97,7 +94,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   canNavigateForward: {
     get () {
       let totalPages = this.visitedPages.length
-      const canNavigateForward = totalPages > 1 && parseInt(this.selectedPageIndex) > 0 && !this.rState.saveAndExitActive
+      const canNavigateForward = totalPages > 1 && this.rState.selectedPageIndex > 0 && !this.rState.saveAndExitActive
       return canNavigateForward
     }
   },
@@ -110,9 +107,8 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   feedbackData: {
     get () {
-      let pageName = this.selectedPageName
-      let pages = this.interview.attr('pages')
-      let page = pages.find(pageName)
+      const pages = this.interview.attr('pages')
+      const page = pages.find(this.rState.selectedPageName)
 
       if (!page) return {}
 
@@ -140,7 +136,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   saveAndExit () {
     const answers = this.interview.attr('answers')
     const exitPage = this.interview.attr('exitPage')
-    const pageName = this.selectedPageName
+    const pageName = this.rState.selectedPageName
 
     this.rState.lastPageBeforeExit = pageName
 
@@ -189,7 +185,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   navigateBack () {
     if (this.canNavigateBack) {
-      this.selectedPageIndex = parseInt(this.selectedPageIndex) + 1
+      this.rState.selectedPageIndex = this.rState.selectedPageIndex + 1
     }
   },
 
@@ -201,7 +197,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   navigateForward () {
     if (this.canNavigateForward) {
-      this.selectedPageIndex = parseInt(this.selectedPageIndex) - 1
+      this.rState.selectedPageIndex = this.rState.selectedPageIndex - 1
     }
   },
 
@@ -219,7 +215,9 @@ export let ViewerNavigationVM = DefineMap.extend({
   },
 
   // DefineList of options to populate the myProgress selector
-  myProgressOptions: {},
+  myProgressOptions: {
+    default: () => []
+  },
 
   // Create and re-create options list to update based on changed user input
   // but still preserve the state of the current myProgress options.
@@ -389,15 +387,23 @@ export let ViewerNavigationVM = DefineMap.extend({
   connectedCallback () {
     const vm = this
 
+    // update the selectedPageIndex
+    const myProgressSelect = document.getElementById('myProgressSelect')
+    const updateAppStateSelectedPageIndex = (ev) => {
+      vm.rState.selectedPageIndex = myProgressSelect.selectedIndex
+    }
+    myProgressSelect.addEventListener('change', updateAppStateSelectedPageIndex)
+
     // initialize a myProgress select list for the first visited page
     vm.myProgressOptions = this.buildOptions(this.visitedPages)
-
     const updateMyProgressOptions = () => {
       vm.myProgressOptions.update(this.buildOptions(this.visitedPages))
     }
+
     // rebuild options on selectedPageIndexSet dispatched on app-state level rState
     // covers normal Continue button and navigation via this component, back/next or dropdown select
     vm.rState.listenTo('selectedPageIndexSet', updateMyProgressOptions)
+
     // Used to hide/show keyboard nav shortcut to GI Question content
     $('.focus-main-content a').on('focus', (ev) => {
       ev.currentTarget.textContent = 'Skip to Main Content'
@@ -406,6 +412,7 @@ export let ViewerNavigationVM = DefineMap.extend({
       ev.currentTarget.textContent = ''
     })
 
+    // add mobile swipe nav
     const swipeRightHandler = function () {
       if (vm.canNavigateBack) {
         vm.navigateBack()
@@ -416,12 +423,13 @@ export let ViewerNavigationVM = DefineMap.extend({
         vm.navigateForward()
       }
     }
-
     $('#viewer-app').on('swiperight', swipeRightHandler)
     $('#viewer-app').on('swipeleft', swipeLeftHandler)
 
+    // cleanup
     return () => {
       vm.rState.stopListening('selectedPageIndexSet', updateMyProgressOptions)
+      myProgressSelect.removeEventListener('change', updateAppStateSelectedPageIndex)
       $('.focus-main-content a').off()
       $('#viewer-app').off('swiperight', swipeRightHandler)
       $('#viewer-app').off('swipeleft', swipeLeftHandler)

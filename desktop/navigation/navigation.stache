@@ -38,7 +38,12 @@
       <span id="myProgress">{{./lang.MyProgress}}:</span>
       <div class="form-group ">
         <div class="input-group">
-          <select aria-labelledby="myProgress" role="listbox"  id="myProgressSelect" class="form-control" el:value:bind="this.selectedPageIndex">
+          <select
+            aria-labelledby="myProgress"
+            role="listbox"
+            id="myProgressSelect"
+            class="form-control"
+            value:from="this.rState.selectedPageIndex">
             {{#for(option of myProgressOptions)}}
               <option value:from="scope.index" disabled:from="this.disableOption(scope.index)">
                 {{{option}}}
