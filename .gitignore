@@ -2,6 +2,7 @@
 # A2J Files to skip
 ##################################
 /pdf/temp/
+/demo/guides/
 config_env.ini
 
 #################
