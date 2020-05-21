@@ -7,7 +7,7 @@
   $hyphenatedZipFileName = strtolower(str_replace(" ","-", $replaceSpecialChars));
   // set uniq Id and path for guides
   $guideId = uniqid() . '-' . $hyphenatedZipFileName;
-  $guidesPath = '../guides/';
+  $guidesPath = 'guides/';
   // grab temp zip file
   $tempZipFilePath = isset($_FILES['file']['tmp_name']) ? $_FILES['file']['tmp_name'] : '';
 
@@ -58,8 +58,8 @@
 
 <h3>Current Guide List</h3>
 <ul>
-  <?php foreach (glob('../guides/*', GLOB_ONLYDIR) as $directoryName) : ?>
-    <?php $viewerUrl = 'viewer.html?templateURL='. $directoryName .'/Guide.xml&fileDataURL='. $directoryName .'/'; ?>
+  <?php foreach (glob('guides/*', GLOB_ONLYDIR) as $directoryName) : ?>
+    <?php $viewerUrl = '../index.html?templateURL=demo/'. $directoryName .'/Guide.xml&fileDataURL=demo/'. $directoryName .'/'; ?>
     <li>
       <a href="?delete=<?php echo $directoryName; ?>">[Delete]</a>
       <a target="_blank" href="<?php echo $viewerUrl; ?>">
