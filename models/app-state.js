@@ -108,10 +108,10 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   saveAndExitActive: {
+    serialize: false,
     get () {
       return !!this.lastPageBeforeExit
-    },
-    serialize: false
+    }
   },
 
   lastPageBeforeExit: {

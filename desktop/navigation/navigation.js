@@ -67,7 +67,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   canResumeInterview: {
     get () {
-      return this.rState.saveAndExitActive && !!this.rState.lastPageBeforeExit
+      return this.rState.saveAndExitActive
     }
   },
 
