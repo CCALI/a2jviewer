@@ -26,7 +26,6 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
   },
 
   buildGroupValidationMap () {
-    console.log('building gvMap')
     const fields = this.attr('fields')
     const groupValidationMap = new CanMap()
 
@@ -59,7 +58,7 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
     this.attr('groupValidationMap', this.buildGroupValidationMap())
     this.attr('lastIndexMap', this.buildLastIndexMap())
 
-    // navigated pages
+    // navigated pages which resets fields list
     this.listenTo('fields', () => {
       this.attr('groupValidationMap', this.buildGroupValidationMap())
       this.attr('lastIndexMap', this.buildLastIndexMap())
