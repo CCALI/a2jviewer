@@ -136,7 +136,6 @@
     {{#if(courthouseImage)}}
       <img class="courthouse" src="{{courthouseImage}}" role="presentation" alt="custom-courthouse-image"/>
     {{else}}
-    datBase {{joinBase('')}}
       <img class="courthouse" src="{{joinBase('/a2jviewer/images/A2J5_CourtHouse.svg')}}"
         role="presentation" alt="author-courthouse-image" />
     {{/if}}
