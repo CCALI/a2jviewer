@@ -526,7 +526,8 @@ export const FieldVM = CanMap.extend('FieldVM', {
     }
 
     // setup datepicker widget
-    const datepickerButtonSvg = joinBaseUrl('images/datepicker-button.svg')
+    // TODO: src url assumes a2jviewer app is sibling of a2jauthor app for preview
+    const datepickerButtonSvg = joinBaseUrl('../a2jviewer/images/datepicker-button.svg')
 
     if (vm.attr('field.type') === 'datemdy') {
       const defaultDate = vm.attr('field._answerVm.values')
