@@ -20,37 +20,49 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
     rState: {},
     modalContent: {},
 
-    lastIndexMap: {
-      get () {
-        const fields = this.attr('fields')
-        const lastIndexMap = new CanMap()
+    lastIndexMap: {},
 
-        if (fields.length) {
-          fields.forEach((field, index) => {
-            const varName = field.attr('name')
-            lastIndexMap.attr(varName, index)
-          })
-        }
+    groupValidationMap: {}
+  },
 
-        return lastIndexMap
-      }
-    },
+  buildGroupValidationMap () {
+    const fields = this.attr('fields')
+    const groupValidationMap = new CanMap()
 
-    groupValidationMap: {
-      get () {
-        const fields = this.attr('fields')
-        const groupValidationMap = new CanMap()
-
-        if (fields.length) {
-          fields.forEach((field) => {
-            const varName = field.attr('name')
-            groupValidationMap.attr(varName, false)
-          })
-        }
-
-        return groupValidationMap
-      }
+    if (fields.length) {
+      fields.forEach((field) => {
+        const varName = field.attr('name')
+        groupValidationMap.attr(varName, false)
+      })
     }
+
+    return groupValidationMap
+  },
+
+  buildLastIndexMap () {
+    const fields = this.attr('fields')
+    const lastIndexMap = new CanMap()
+
+    if (fields.length) {
+      fields.forEach((field, index) => {
+        const varName = field.attr('name')
+        lastIndexMap.attr(varName, index)
+      })
+    }
+
+    return lastIndexMap
+  },
+
+  connectedCallback () {
+    // first page
+    this.attr('groupValidationMap', this.buildGroupValidationMap())
+    this.attr('lastIndexMap', this.buildLastIndexMap())
+
+    // navigated pages which resets fields list
+    this.listenTo('fields', () => {
+      this.attr('groupValidationMap', this.buildGroupValidationMap())
+      this.attr('lastIndexMap', this.buildLastIndexMap())
+    })
   }
 })
 

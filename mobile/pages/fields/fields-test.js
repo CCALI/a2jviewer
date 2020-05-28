@@ -23,6 +23,7 @@ describe('<a2j-fields>', () => {
     })
 
     it('lastIndexMap', () => {
+      vm.connectedCallback()
       let expectedResults = {
         foo: 1,
         foobaroo: 2,
@@ -43,6 +44,7 @@ describe('<a2j-fields>', () => {
     })
 
     it('groupValidationMap', () => {
+      vm.connectedCallback()
       let expectedResults = {
         foo: false,
         foobaroo: false,

@@ -3,6 +3,7 @@ import 'a2jviewer/models/tests/'
 
 import 'a2jviewer/mobile/util/tests/'
 import 'a2jviewer/mobile/pages/pages-test'
+import 'a2jviewer/mobile/pages/fields/fields-test'
 import 'a2jviewer/mobile/pages/fields/field/field-test'
 
 import 'a2jviewer/util/tests/readable-list-test'
