@@ -1,5 +1,5 @@
 {
-  "name": "a2jviewer",
+  "name": "@caliorg/a2jviewer",
   "version": "7.0.0",
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
@@ -11,7 +11,7 @@
     "serve-docs": "grunt documentjs-lite && http-server docs"
   },
   "author": "",
-  "license": "ISC",
+  "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
     "url": "https://github.com/CCALI/a2jviewer"
