@@ -1,4 +1,4 @@
-<can-import from="a2jstyles/styles/author.jquery-ui.css" />
+<can-import from="@caliorg/a2jstylesstyles/author.jquery-ui.css" />
 <can-import from="a2jviewer/mobile/pages/fields/field/views/datemdy.less!" />
 <div>
   <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">

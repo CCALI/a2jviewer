@@ -1,7 +1,7 @@
 <can-import from="a2jviewer/mobile/" />
 <can-import from="a2jviewer/desktop/" />
 <can-import from="a2jviewer/modal/" />
-<can-import from="a2jstyles/viewer/styles.less" />
+<can-import from="@caliorg/a2jstylesviewer/styles.less" />
 
 {{#if(isMobile)}}
   <a2j-mobile-viewer
