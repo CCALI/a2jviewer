@@ -1,4 +1,4 @@
-import 'a2jdeps/models/fixtures/'
+import '@caliorg/a2jdeps/models/fixtures/'
 import 'a2jviewer/models/tests/'
 
 import 'a2jviewer/mobile/util/tests/'

@@ -4,10 +4,10 @@ import stache from 'can-stache'
 import AppState from 'a2jviewer/models/app-state'
 import Interview from 'a2jviewer/models/interview'
 import Logic from 'a2jviewer/mobile/util/logic'
-import constants from 'a2jdeps/models/constants'
+import constants from '@caliorg/a2jdeps/models/constants'
 import { ViewerNavigationVM } from 'a2jviewer/desktop/navigation/'
 import canReflect from 'can-reflect'
-import 'a2jdeps/models/fixtures/'
+import '@caliorg/a2jdeps/models/fixtures/'
 
 import 'steal-mocha'
 

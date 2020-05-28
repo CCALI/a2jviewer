@@ -5,7 +5,7 @@ import { FieldVM } from './field'
 import AnswerVM from 'a2jviewer/models/answervm'
 import FieldModel from 'a2jviewer/models/field'
 import CanMap from 'can-map'
-import TraceMessage from 'a2jdeps/models/trace-message'
+import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
 import sinon from 'sinon'
 
 import 'steal-mocha'

@@ -1,4 +1,4 @@
-<can-import from="a2jdeps/alert/"/>
+<can-import from="@caliorg/a2jdeps/alert/"/>
 <can-import from="a2jviewer/desktop/navigation/navigation.less!"/>
 
 <nav class="navbar navbar-default" role="navigation">

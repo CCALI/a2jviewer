@@ -1,5 +1,5 @@
 <can-import from="a2jviewer/mobile/pages/" />
-<can-import from="a2jdeps/avatar/" />
+<can-import from="@caliorg/a2jdeps/avatar/" />
 <can-import from="a2jviewer/desktop/steps/steps.less!" />
 
 {{#if(hasStep)}}

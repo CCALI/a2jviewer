@@ -1,4 +1,4 @@
-<can-import from="a2jdeps/footer/"/>
+<can-import from="@caliorg/a2jdeps/footer/"/>
 <can-import from="a2jviewer/desktop/steps/"/>
 <can-import from="a2jviewer/desktop/navigation/"/>
 <can-import from="a2jviewer/desktop/desktop.less!"/>

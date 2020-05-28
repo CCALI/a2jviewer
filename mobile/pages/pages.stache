@@ -1,6 +1,6 @@
 <can-import from="a2jviewer/mobile/pages/fields/" />
 <can-import from="a2jviewer/mobile/pages/pages.less!" />
-<can-import from='a2jdeps/audio-player/' />
+<can-import from='@caliorg/a2jdeps/audio-player/' />
 
 {{#eq(rState.page, '__error')}}
   <div class="jumbotron">

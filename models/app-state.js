@@ -5,7 +5,7 @@ import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import canReflect from 'can-reflect'
 import queues from 'can-queues'
-import TraceMessage from 'a2jdeps/models/trace-message'
+import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
 
 export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   // skinTone, hairColor, gender, isOld, hasWheelChair

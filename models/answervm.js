@@ -2,7 +2,7 @@ import CanMap from 'can-map'
 import _some from 'lodash/some'
 import _filter from 'lodash/filter'
 import Validations from 'a2jviewer/mobile/util/validations'
-import cString from 'a2jdeps/utils/string'
+import cString from '@caliorg/a2jdeps/utils/string'
 import 'can-map-define'
 
 export default CanMap.extend('AnswerVM', {

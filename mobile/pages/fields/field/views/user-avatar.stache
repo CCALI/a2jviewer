@@ -1,6 +1,6 @@
-<can-import from='a2jdeps/user-avatar-picker/' />
-<can-import from='a2jdeps/hair-picker/' />
-<can-import from='a2jdeps/skin-picker/' />
+<can-import from='@caliorg/a2jdeps/user-avatar-picker/' />
+<can-import from='@caliorg/a2jdeps/hair-picker/' />
+<can-import from='@caliorg/a2jdeps/skin-picker/' />
 <can-import from='a2jviewer/mobile/pages/fields/field/views/user-avatar.less' />
 
 {{#not(isMobile)}}
