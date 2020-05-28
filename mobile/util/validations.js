@@ -241,7 +241,9 @@ export default CanMap.extend({
     } else if (this.val.length < 6 || this.val.length > 10) {
       return true
     } else {
-      return !moment(this.val).isValid()
+      // date is normalized to mm/dd/yyyy during pre-validation
+      // in mobile/pages/fields/field/field.js' validateField()
+      return !moment(this.val, 'MM/DD/YYYY').isValid()
     }
   }
 })
