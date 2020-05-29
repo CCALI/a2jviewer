@@ -48,7 +48,7 @@ module.exports = function (grunt) { // documentjs tasks removed until security u
           optimization: 2
         },
         files: {
-          'styles/viewer-avatars.css': 'styles/viewer/avatars.less'
+          '@caliorg/a2jstyles/viewer-avatars.css': '@caliorg/a2jstyles/viewer/avatars.less'
         }
       }
     },
@@ -57,7 +57,7 @@ module.exports = function (grunt) { // documentjs tasks removed until security u
       viewer: {
         options: {
           steal: {
-            main: ['~/app'],
+            main: ['@caliorg/a2jviewer/app'],
             config: path.join(__dirname, '/package.json!npm')
           },
           buildOptions: {
