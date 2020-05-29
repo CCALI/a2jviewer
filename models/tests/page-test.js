@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import Page from 'a2jviewer/models/page'
+import Page from '~/models/page'
 
 import 'steal-mocha'
 

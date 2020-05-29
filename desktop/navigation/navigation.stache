@@ -1,5 +1,5 @@
 <can-import from="@caliorg/a2jdeps/alert/"/>
-<can-import from="a2jviewer/desktop/navigation/navigation.less!"/>
+<can-import from="~/desktop/navigation/navigation.less!"/>
 
 <nav class="navbar navbar-default" role="navigation">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
@@ -136,7 +136,7 @@
     {{#if(courthouseImage)}}
       <img class="courthouse" src="{{courthouseImage}}" role="presentation" alt="custom-courthouse-image"/>
     {{else}}
-      <img class="courthouse" src="{{joinBase('/a2jviewer/images/A2J5_CourtHouse.svg')}}"
+      <img class="courthouse" src="{{joinBase('images/A2J5_CourtHouse.svg')}}"
         role="presentation" alt="author-courthouse-image" />
     {{/if}}
   </div>

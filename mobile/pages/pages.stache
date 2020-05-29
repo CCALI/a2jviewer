@@ -1,5 +1,5 @@
-<can-import from="a2jviewer/mobile/pages/fields/" />
-<can-import from="a2jviewer/mobile/pages/pages.less!" />
+<can-import from="~/mobile/pages/fields/" />
+<can-import from="~/mobile/pages/pages.less!" />
 <can-import from='@caliorg/a2jdeps/audio-player/' />
 
 {{#eq(rState.page, '__error')}}

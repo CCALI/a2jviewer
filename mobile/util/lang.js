@@ -1,5 +1,5 @@
 import DefineMap from 'can-define/map/map'
-import TLang from 'a2jviewer/mobile/util/tlang'
+import TLang from '~/mobile/util/tlang'
 import cString from '@caliorg/a2jdeps/utils/string'
 
 export default DefineMap.extend({

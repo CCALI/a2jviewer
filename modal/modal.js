@@ -2,7 +2,7 @@ import $ from 'jquery'
 import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './modal.stache'
-import { analytics } from 'a2jviewer/util/analytics'
+import { analytics } from '~/util/analytics'
 
 import 'bootstrap/js/modal'
 import 'can-map-define'

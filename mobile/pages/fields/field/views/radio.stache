@@ -1,4 +1,4 @@
-<can-import from="a2jviewer/mobile/pages/fields/field/views/radio.less!" />
+<can-import from="~/mobile/pages/fields/field/views/radio.less!" />
 <can-import from='can-stache-converters' />
 
 <div>

@@ -12,7 +12,7 @@ import exceededMaxcharsTpl from './views/exceeded-maxchars.stache'
 import constants from '@caliorg/a2jdeps/models/constants'
 import stache from 'can-stache'
 import domData from 'can-dom-data'
-import isMobile from 'a2jviewer/is-mobile'
+import isMobile from '~/is-mobile'
 import joinURIs from 'can-util/js/join-uris/join-uris'
 
 import 'jquery-ui/ui/widgets/datepicker'
@@ -527,7 +527,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
 
     // setup datepicker widget
     // TODO: src url assumes a2jviewer app is sibling of a2jauthor app for preview
-    const datepickerButtonSvg = joinBaseUrl('../a2jviewer/images/datepicker-button.svg')
+    const datepickerButtonSvg = joinBaseUrl('images/datepicker-button.svg')
 
     if (vm.attr('field.type') === 'datemdy') {
       const defaultDate = vm.attr('field._answerVm.values')

@@ -57,7 +57,7 @@ module.exports = function (grunt) { // documentjs tasks removed until security u
       viewer: {
         options: {
           steal: {
-            main: ['a2jviewer/app'],
+            main: ['~/app'],
             config: path.join(__dirname, '/package.json!npm')
           },
           buildOptions: {

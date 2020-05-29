@@ -7,9 +7,9 @@ import F from 'funcunit'
 import { assert } from 'chai'
 import sinon from 'sinon'
 import 'steal-mocha'
-import '@caliorg/a2jstylesviewer/styles.less'
+import '@caliorg/a2jstyles/viewer/styles.less'
 import 'can-map-define'
-import 'a2jviewer/mobile/util/helpers'
+import '~/mobile/util/helpers'
 
 describe('<a2j-modal> ', function () {
   describe('Component', function () {

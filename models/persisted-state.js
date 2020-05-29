@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import Model from 'can-model'
-import Answers from 'a2jviewer/models/answers'
+import Answers from '~/models/answers'
 import Parser from '@caliorg/a2jdeps/utils/parser'
 
 import 'can-map-define'

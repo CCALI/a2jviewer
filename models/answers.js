@@ -5,7 +5,7 @@ import _find from 'lodash/find'
 import CONST from '@caliorg/a2jdeps/models/constants'
 import cString from '@caliorg/a2jdeps/utils/string'
 import cDate from '@caliorg/a2jdeps/utils/date'
-import readableList from 'a2jviewer/util/readable-list'
+import readableList from '~/util/readable-list'
 
 import 'can-map-define'
 

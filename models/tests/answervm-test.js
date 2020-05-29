@@ -1,8 +1,8 @@
 import { assert } from 'chai'
-import Field from 'a2jviewer/models/field'
-import Answer from 'a2jviewer/models/answer'
-import Answers from 'a2jviewer/models/answers'
-import AnswerVM from 'a2jviewer/models/answervm'
+import Field from '~/models/field'
+import Answer from '~/models/answer'
+import Answers from '~/models/answers'
+import AnswerVM from '~/models/answervm'
 
 import 'steal-mocha'
 

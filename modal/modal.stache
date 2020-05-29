@@ -1,4 +1,4 @@
-<can-import from='a2jviewer/modal/modal.less' />
+<can-import from='~/modal/modal.less' />
 <can-import from='@caliorg/a2jdeps/audio-player/' />
 
   <div

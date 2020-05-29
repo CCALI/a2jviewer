@@ -1,6 +1,6 @@
 import route from 'can-route'
 import _findIndex from 'lodash/findIndex'
-import Infinite from 'a2jviewer/mobile/util/infinite'
+import Infinite from '~/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import canReflect from 'can-reflect'

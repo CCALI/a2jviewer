@@ -1,17 +1,17 @@
 import $ from 'jquery'
 import isMobile from './is-mobile'
 import template from './app.stache'
-import Lang from 'a2jviewer/mobile/util/lang'
-import Logic from 'a2jviewer/mobile/util/logic'
+import Lang from '~/mobile/util/lang'
+import Logic from '~/mobile/util/logic'
 import constants from '@caliorg/a2jdeps/models/constants'
-import PersistedState from 'a2jviewer/models/persisted-state'
-import setMobileDesktopClass from 'a2jviewer/util/set-mobile-desktop-class'
-import { analytics } from 'a2jviewer/util/analytics'
+import PersistedState from '~/models/persisted-state'
+import setMobileDesktopClass from '~/util/set-mobile-desktop-class'
+import { analytics } from '~/util/analytics'
 import _assign from 'lodash/assign'
 import compute from 'can-compute'
 import route from 'can-route'
 
-import 'a2jviewer/util/object-assign-polyfill'
+import '~/util/object-assign-polyfill'
 
 export default function ({ interview, pState, mState, rState }) {
   route.start()

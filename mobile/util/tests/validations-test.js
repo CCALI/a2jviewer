@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import Validations from 'a2jviewer/mobile/util/validations'
+import Validations from '~/mobile/util/validations'
 import moment from 'moment'
 
 describe('Validations', function () {

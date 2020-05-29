@@ -1,8 +1,8 @@
-<can-import from="a2jviewer/mobile/pages/"/>
-<can-import from="a2jviewer/mobile/header/"/>
-<can-import from="a2jviewer/mobile/filler/"/>
-<can-import from="a2jviewer/mobile/mobile.less"/>
-<can-import from="a2jviewer/desktop/navigation/"/>
+<can-import from="~/mobile/pages/"/>
+<can-import from="~/mobile/header/"/>
+<can-import from="~/mobile/filler/"/>
+<can-import from="~/mobile/mobile.less"/>
+<can-import from="~/desktop/navigation/"/>
 
 <div>
   {{#not(tocOrCreditsShown())}}

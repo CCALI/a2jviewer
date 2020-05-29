@@ -1,7 +1,7 @@
 import CanMap from 'can-map'
 import CanList from 'can-list'
 import _find from 'lodash/find'
-import Field from 'a2jviewer/models/field'
+import Field from '~/models/field'
 
 import 'can-map-define'
 

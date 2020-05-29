@@ -7,7 +7,7 @@ import template from './steps.stache'
 import _findIndex from 'lodash/findIndex'
 import _truncate from 'lodash/truncate'
 import learnMoreTemplate from './learn-more.stache'
-import { analytics } from 'a2jviewer/util/analytics'
+import { analytics } from '~/util/analytics'
 import stache from 'can-stache'
 import canReflect from 'can-reflect'
 

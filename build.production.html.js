@@ -66,7 +66,7 @@ function template (version) {
           errRepURL: ''
         }));
       </script>
-      <script src="node_modules/steal/steal.production.js?v=${version}" cache-key="v" cache-version="${version}" main="a2jviewer/app"></script>
+      <script src="node_modules/steal/steal.production.js?v=${version}" cache-key="v" cache-version="${version}" main="~/app"></script>
     </body>
   </html>`;
 }
