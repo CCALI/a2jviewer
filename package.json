@@ -54,7 +54,7 @@
     }
   },
   "dependencies": {
-    "@caliorg/a2jdeps": "^7.0.3",
+    "@caliorg/a2jdeps": "^7.0.4",
     "@caliorg/a2jstyles": "^7.0.3",
     "@open-xchange/bootstrap-tokenfield": "^0.13.1",
     "bit-tabs": "^2.0.0",
