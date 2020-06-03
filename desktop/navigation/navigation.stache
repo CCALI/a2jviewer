@@ -12,7 +12,7 @@
       <li
         tabindex="0"
         aria-labelledby="go-back-nav-button"
-        class="nav-item {{^if(./canNavigateBack)}}disabled{{/if}}"
+        class="nav-item {{^if(./canNavigateBack)}}navigation-disabled{{/if}}"
         on:click="./navigateBack()"
         on:keydown="keydownFireClickHandler(scope.event, ./navigateBack)"
       >
@@ -24,7 +24,7 @@
       <li
         tabindex="0"
         aria-labelledby="go-next-nav-button"
-        class="nav-item  {{^if(./canNavigateForward)}}disabled{{/if}}"
+        class="nav-item  {{^if(./canNavigateForward)}}navigation-disabled{{/if}}"
         on:click="./navigateForward()"
         on:keydown="keydownFireClickHandler(scope.event, ./navigateForward)"
       >
