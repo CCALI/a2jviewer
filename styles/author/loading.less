@@ -1,0 +1,33 @@
+/**
+ * @styles loading.less Loading
+ * @parent styles-base 55
+ *
+ * A simple loading spinner icon and container
+ *
+ * ```
+ * <div class="loading">
+ *    <span class="glyphicon-spin6 animate-spin"></span>
+ * </div>
+ * ```
+ *
+ * @demo demos/loading/demo.html
+**/
+
+.loading {
+  .a2j-logo{
+    height: 200px;
+    width: auto;
+    margin: 0 auto;
+  }
+  .text-center;
+  background: lighten(@gray-lighter,8%);
+  .border;
+  padding: @grid-gutter-width;
+  margin: @grid-gutter-width;
+  max-width: 960px;
+  .box-shadow(4px, 4px, 8px, 0.05);
+
+  .glyphicon-spin6 {
+    font-size: 75%;
+  }
+}

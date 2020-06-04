@@ -1,0 +1,167 @@
+/**
+ * @styles a2j-dialogs.less Dialogs
+ * @parent a2j-layout.less 4
+ *
+ * @description
+ * A2J Author currently uses JQuery UI for many of the modals, called 'dialogs' by JQueryUI. This file only contains overrides for JQueryUI necessary to style the dialogs the same as the Bootstrap modals. This file should be temporary and can be removed once all modals are using Bootstrap rather than JQueryUI.
+ *
+ **/
+
+.ui-dialog {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  outline: 0;
+  box-shadow: none;
+  .border;
+  .box-shadow;
+  z-index: @zindex-modal;
+  border-color: @gray-light;
+
+  // important required due to ui-dialog doing inline styles
+  // for width, top, and left.
+  &.page-edit-dialog {
+    position: fixed;
+    max-height: 90vh!important;
+    width: 60vw!important;
+    top: 5%!important;
+    display: block;
+    overflow-y: auto!important;
+    overflow-x: hidden;
+  }
+
+  // these are sub elements of the style above
+  &.page-edit-fields, .page-edit-buttons {
+    width: 55vw;
+  }
+
+  .ui-button  {
+    background: @btn-default-bg;
+    color: @btn-default-color;
+    border: 1px solid @btn-default-border;
+    .border-radius(@btn-border-radius-base);
+    padding: @padding-base-vertical @padding-base-horizontal;
+    font-weight: @btn-font-weight;
+    font-size: @font-size-base;
+
+    .ui-button-text {
+      padding: 0;
+    }
+  }
+
+  .ui-dialog-titlebar {
+    padding: @grid-gutter-width/2;
+    position: relative;
+    background: @brand-secondary;
+
+    .ui-dialog-title {
+      float: left;
+      margin: 0;
+      white-space: nowrap;
+      width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: @font-size-h4;
+      font-weight: @headings-font-weight;
+      color: #fff;
+    }
+    .ui-dialog-titlebar-close {
+      position: absolute;
+      right: @grid-gutter-width/2;
+      top: @grid-gutter-width/2;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      padding: @grid-gutter-width/2;
+      border: none;
+      background: none;
+
+      span {
+        display: none;
+      }
+      &:before {
+        .icon-font;
+        content: '\e803';
+        position: absolute;
+        top: 4px;
+        right: 0;
+        font-size: 18px;
+        color: #fff;
+        opacity: 0.2;
+      }
+      &:hover,
+      &:focus {
+        &:before {
+          color: @close-color;
+          text-decoration: none;
+          cursor: pointer;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
+
+
+.page-edit-fields, .page-edit-buttons {
+	width: 55vw;
+}
+#dialog-confirm {
+  .ui-icon.ui-icon-alert {
+    display: none;
+  }
+}
+ul#cajasettings {
+  margin: 0;
+  padding: 0 @grid-gutter-width/2;
+
+  label {
+    margin-left: @grid-gutter-width/2;
+  }
+}
+
+.ui-dialog .ui-dialog-content {
+	position: relative;
+	border: 0;
+	padding: @grid-gutter-width/4;
+	background: none;
+  overflow: auto;
+
+  .files-list {
+    line-height: 1.5;
+    margin: 10px 0;
+  }
+}
+.ui-dialog .ui-dialog-buttonpane {
+	text-align: left;
+	border-width: 1px 0 0 0;
+	background-image: none;
+  margin-top: 0;
+	padding: .3em 1em .5em .4em;
+	background: @gray-lighter;
+	border-top: 1px solid @gray-light;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+	float: right;
+}
+.ui-dialog .ui-dialog-buttonpane button {
+  margin-top: .5em;
+  margin-left: .5em;
+  margin-bottom: .5em;
+	cursor: pointer;
+}
+.ui-dialog .ui-resizable-se {
+	width: 12px;
+	height: 12px;
+	right: -5px;
+	bottom: -5px;
+	background-position: 16px 16px;
+}
+.ui-draggable .ui-dialog-titlebar {
+	cursor: move;
+}
+
+.sorthandle {
+	cursor: move;
+}

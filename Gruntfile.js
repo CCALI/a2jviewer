@@ -48,7 +48,7 @@ module.exports = function (grunt) { // documentjs tasks removed until security u
           optimization: 2
         },
         files: {
-          '@caliorg/a2jstyles/viewer-avatars.css': '@caliorg/a2jstyles/viewer/avatars.less'
+          '~/styles/viewer-avatars.css': '~/styles/viewer/avatars.less'
         }
       }
     },

@@ -1,0 +1,67 @@
+/**
+* @stylesheet labels.less Labels
+* @parent styles-base 11
+*
+* @description
+*
+* @demo demos/labels/demo.html
+*
+* ### Available Variations
+* Add any of the below mentioned modifier classes to change the appearance of a label.
+*
+* @demo demos/labels/variations/demo.html
+**/
+
+/**
+* @styles var-labels Labels
+* @parent variables.less
+*
+* `labels.less` Background colors and text color for labels.
+*
+**/
+
+//* Default label background color
+@label-default-bg:            @alert-default-bg;
+//* Primary label background color
+@label-primary-bg:            lighten(@brand-secondary,40%);
+//* Success label background color
+@label-success-bg:            @alert-success-bg;
+//* Info label background color
+@label-info-bg:               @alert-info-bg;
+//* Warning label background color
+@label-warning-bg:            @alert-warning-bg;
+//* Danger label background color
+@label-danger-bg:             @alert-danger-bg;
+
+//* Default label text color
+@label-color:                 @text-color;
+//* Default text color of a linked label
+@label-link-hover-color:      @text-color;
+
+
+.label {
+  .border;
+  .border-radius (2px);
+  font-weight: normal;
+
+  &.label-primary {
+    color: @brand-secondary;
+    border-color: @brand-secondary;
+  }
+  &.label-success {
+    color: @brand-success;
+    border-color: @brand-success;
+  }
+  &.label-info {
+    color: @brand-info;
+    border-color: @brand-info;
+  }
+  &.label-warning {
+    color: @brand-warning;
+    border-color: @brand-warning;
+  }
+  &.label-danger {
+    color: @brand-danger;
+    border-color: @brand-danger;
+  }
+}

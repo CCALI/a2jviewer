@@ -1,0 +1,271 @@
+/**
+  * @stylesheet navbar.less Navbars
+  * @parent styles-base 10
+  *
+  * @description
+  * Navbars are responsive meta components that serve as navigation headers for
+  * your application or site. They begin collapsed (and are toggleable) in
+  * mobile views and become horizontal as the available viewport width increases.
+  *
+  **/
+
+  /**
+  * @styles default-navbar
+  * @parent navbar.less 1
+  * ## Default Navbar
+  * **Justified navbar nav links are currently not supported.**
+  *
+  * #### Overflowing content
+  * Since Bootstrap doesn't know how much space the content in your navbar needs,
+  * you might run into issues with content wrapping into a second row.
+  * To resolve this, you can:
+  * * Reduce the amount or width of navbar items.
+  * * Hide certain navbar items at certain screen sizes using responsive utility classes.
+  * * Change the point at which your navbar switches between collapsed and horizontal mode. Customize the `@grid-float-breakpoint` variable or add your own media query.
+  *
+  * #### Requires JavaScript plugin
+  * If JavaScript is disabled and the viewport is narrow enough that the navbar
+  * collapses, it will be impossible to expand the navbar and view the content
+  * within the `.navbar-collapse`.
+  *
+  * The responsive navbar requires the collapse plugin to be included in your
+  * version of Bootstrap.
+  *
+  * #### Changing the collapsed mobile navbar breakpoint
+  * The navbar collapses into its vertical mobile view when the viewport is
+  * narrower than `@grid-float-breakpoint`, and expands into its horizontal
+  * non-mobile view when the viewport is at least `@grid-float-breakpoint` in width.
+  * Adjust this variable in the Less source to control when the navbar collapses/expands.
+  * The default value is 768px (the smallest "small" or "tablet" screen).
+  *
+  * #### Make navbars accessible
+  * Be sure to use a `<nav>` element or, if using a more generic element such
+  * as a `<div>`, add a `role="navigation"` to every navbar to explicitly identify
+  * it as a landmark region for users of assistive technologies.
+  *
+  * @demo demos/navbar/default/demo.html
+  *
+  **/
+
+  /**
+  * @styles brand-image
+  * @parent navbar.less 2
+  * ## Brand Image
+  * Replace the navbar brand with your own image by swapping the text for an
+  * `<img>`. Since the `.navbar-brand` has its own padding and height, you may
+  * need to override some CSS depending on your image.
+  * @demo demos/navbar/brand-image/demo.html
+  **/
+
+  /**
+  * @styles forms
+  * @parent navbar.less 3
+  * ## Forms
+  * Place form content within `.navbar-form` for proper vertical alignment and
+  * collapsed behavior in narrow viewports. Use the alignment options to decide
+  * where it resides within the navbar content.
+  *
+  * As a heads up, .navbar-form shares much of its code with `.form-inline` via
+  * mixin. Some form controls, like input groups, may require fixed widths to
+  * be show up properly within a navbar.
+  *
+  * #### Mobile device caveats
+  * There are some caveats regarding using form controls within fixed elements
+  * on mobile devices. See our browser support docs for details.
+  * #### Always add labels
+  * Screen readers will have trouble with your forms if you don't include a label
+  * for every input. For these inline forms, you can hide the labels using the
+  * `.sr-only class`. There are further alternative methods of providing a label
+  * for assistive technologies, such as the `aria-label`, `aria-labelledby` or
+  * `title` attribute. If none of these is present, screen readers may resort to
+  * using the `placeholder` attribute, if present, but note that use of
+  * placeholder as a replacement for other labelling methods is not advised.
+  * @demo demos/navbar/forms/demo.html
+  **/
+
+  /**
+  * @styles buttons
+  * @parent navbar.less 4
+  * ## Buttons
+  * Add the `.navbar-btn` class to `<button>` elements not residing in a `<form>`
+  * to vertically center them in the navbar.
+  *
+  * #### Context-specific usage
+  * Like the standard button classes, `.navbar-btn` can be used on
+  * `<a>` and `<input>` elements. However, neither `.navbar-btn` nor the
+  * standard button classes should be used on `<a>` elements within `.navbar-nav`.
+  * @demo demos/navbar/buttons/demo.html
+  **/
+
+  /**
+  * @styles text
+  * @parent navbar.less 5
+  * ## Text
+  * Wrap strings of text in an element with `.navbar-text`, usually on a
+  * `<p>` tag for proper leading and color.
+  * @demo demos/navbar/text/demo.html
+  **/
+
+  /**
+  * @styles non-nav-links
+  * @parent navbar.less 6
+  * ## Non-Nav Links
+  * For folks using standard links that are not within the regular navbar
+  * navigation component, use the `.navbar-link` class to add the proper colors for
+  * the default and inverse navbar options.
+  * @demo demos/navbar/non-nav-links/demo.html
+  **/
+
+  /**
+  * @styles component-alignment
+  * @parent navbar.less 7
+  * ## Component Alignment
+  * Align nav links, forms, buttons, or text, using the `.navbar-left` or
+  * `.navbar-right` utility classes. Both classes will add a CSS float in the
+  * specified direction. For example, to align nav links, put them in a separate
+  * `<ul>` with the respective utility class applied.
+  *
+  * These classes are mixin-ed versions of `.pull-left` and `.pull-right`, but
+  * they're scoped to media queries for easier handling of navbar components
+  * across device sizes.
+  * #### Right aligning multiple components
+  * Navbars currently have a limitation with multiple `.navbar-right classes`.
+  * To properly space content, we use negative margin on the last `.navbar-right`
+  * element. When there are multiple elements using that class, these margins
+  * don't work as intended.
+  *
+  * We'll revisit this when we can rewrite that component in v4.
+  **/
+
+  /**
+  * @styles fixed-top
+  * @parent navbar.less 8
+  * ## Fixed to Top
+  * Add `.navbar-fixed-top` and include a `.container` or `.container-fluid` to
+  * center and pad navbar content.
+  *
+  * #### Body padding required
+  * The fixed navbar will overlay your other content, unless you add padding to
+  * the top of the `<body>`. Try out your own values or use our snippet below.
+  * Tip: By default, the navbar is 50px high.
+  ``` body { padding-top: 70px; } ```
+  * Make sure to include this after the core Bootstrap CSS.
+  * @demo demos/navbar/fixed-top/demo.html
+  **/
+
+  /**
+  * @styles fixed-bottom
+  * @parent navbar.less 9
+  * ## Fixed to Bottom
+  * Add `.navbar-fixed-bottom` and include a `.container` or `.container-fluid`
+  * to center and pad navbar content.
+  *
+  * #### Body padding required
+  * The fixed navbar will overlay your other content, unless you add padding to
+  * the top of the `<body>`. Try out your own values or use our snippet below.
+  * Tip: By default, the navbar is 50px high.
+  ``` body { padding-bottom: 70px; } ```
+  * Make sure to include this after the core Bootstrap CSS.
+  * @demo demos/navbar/fixed-bottom/demo.html
+  **/
+
+  /**
+  * @styles static-top
+  * @parent navbar.less 10
+  * ## Static Top
+  * Create a full-width navbar that scrolls away with the page by adding
+  * `.navbar-static-top` and include a `.container` or `.container-fluid` to center
+  * and pad navbar content.
+  *
+  * Unlike the `.navbar-fixed-*` classes, you do not need to change any padding
+  * on the body.
+  * @demo demos/navbar/static-top/demo.html
+  **/
+
+  /**
+  * @styles inverted
+  * @parent navbar.less 11
+  * ## Inverted Navbar
+  * Modify the look of the navbar by adding `.navbar-inverse`.
+  * @demo demos/navbar/inverted/demo.html
+  **/
+
+/**
+* @styles var-navbar Navbars
+* @parent variables.less
+*
+* `navbar.less` default settings for both horizontal and vertical navbars, including padding, width, height, and color.
+*
+**/
+
+// Basics of a navbar
+@navbar-margin-bottom:             @line-height-computed;
+@navbar-border-radius:             0;
+@navbar-padding-horizontal:        floor((@grid-gutter-width / 2));
+@navbar-collapse-max-height:       340px;
+
+@navbar-default-color:             #777;
+@navbar-default-bg:                #f8f8f8;
+@navbar-default-border:            darken(@navbar-default-bg, 6.5%);
+@navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
+@vert-navbar-width:                 125px;
+@vert-navbar-padding-horizontal:    floor((@grid-gutter-width / 4));
+@vert-navbar-padding-vertical:      @vert-navbar-padding-horizontal;
+@vert-navbar-collapse-max-width:    35px;
+@vert-navbar-collapsed:             50px;
+
+@navbar-active-caret-height:       (@vert-navbar-padding-horizontal*2);
+@navbar-active-caret-offset:        3px;
+@navbar-active-caret-color:        @brand-secondary;
+
+// Navbar links
+@navbar-default-link-color:                #494848;
+@navbar-default-link-hover-color:          @link-color;
+@navbar-default-link-hover-bg:             transparent;
+@navbar-default-link-active-color:         @link-active-color;
+@navbar-default-link-active-bg:            darken(@navbar-default-bg, 6.5%);
+@navbar-default-link-disabled-color:       #ccc;
+@navbar-default-link-disabled-bg:          transparent;
+
+// Navbar brand label
+@navbar-default-brand-color:               @navbar-default-link-color;
+@navbar-default-brand-hover-color:         darken(@navbar-default-brand-color, 10%);
+@navbar-default-brand-hover-bg:            transparent;
+
+// Navbar toggle
+@navbar-default-toggle-hover-bg:           #ddd;
+@navbar-default-toggle-icon-bar-bg:        #888;
+@navbar-default-toggle-border-color:       #ddd;
+
+
+//=== Inverted navbar
+// Reset inverted navbar basics
+@navbar-inverse-color:                      lighten(@gray-light, 15%);
+@navbar-inverse-bg:                         #666;
+@navbar-inverse-border:                     darken(@navbar-inverse-bg, 10%);
+@navbar-active-caret:                       #fff;
+
+// Inverted navbar links
+@navbar-inverse-link-color:                 #fff;
+@navbar-inverse-link-hover-color:           @navbar-inverse-link-color;
+@navbar-inverse-link-hover-bg:              @gray-light;
+@navbar-inverse-link-active-color:          #fff;
+@navbar-inverse-link-active-bg:             @brand-secondary;
+@navbar-inverse-link-disabled-color:        #444;
+@navbar-inverse-link-disabled-bg:           transparent;
+
+// Inverted navbar brand label
+@navbar-inverse-brand-color:                @navbar-inverse-link-color;
+@navbar-inverse-brand-hover-color:          #fff;
+@navbar-inverse-brand-hover-bg:             transparent;
+
+// Inverted navbar toggle
+@navbar-inverse-toggle-hover-bg:            #333;
+@navbar-inverse-toggle-icon-bar-bg:         #fff;
+@navbar-inverse-toggle-border-color:        #333;
+
+.navbar-brand img {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}

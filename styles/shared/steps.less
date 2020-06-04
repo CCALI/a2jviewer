@@ -1,0 +1,40 @@
+/**
+  * @stylesheet steps.less Steps
+  * @parent styles-custom 3
+  *
+  * This describes the styles needed to color the steps in different areas of the app
+**/
+
+
+// Put all the step color variables from the variables color pallette file into an array
+@step-color-array: step0, step1, step2, step3, step4, step5, step6, step7, step8, step9, step10, step11, step12, step13, step14, step15;
+
+
+/**
+  * @styles step-color-backgrounds Step Color Backgrounds
+  * @parent steps.less 3
+  *
+  * Contextual classes are also available using the A2J step colors. Just apply the class of the step similar to Bootstrap's convention for contextual backgrounds: `bg-step1`, `bg-step2`, etc...
+  *
+  * @demo demos/step-colors/demo.html
+**/
+
+.generate-bg-classes(@step-color-array);
+.generate-step-wrapper-classes(@step-color-array);
+
+// Put all the color variables into an array for the demo
+@color-palette: gray-base, gray-darker, gray-dark, gray, gray-light, gray-lighter, brand-primary, brand-success, brand-info, brand-warning, brand-danger, link-active-color, body-bg, text-color, link-color, link-hover-color;
+
+// Generate a set of classes to style the demo
+// .style-demo {
+//   .generate-bg-classes(@color-palette);
+// }
+
+.destination-picker {
+  span:first-of-type {
+    margin-left: 10px;
+  }
+  .btn {
+    margin: 10px 0 10px 10px;
+  }
+}

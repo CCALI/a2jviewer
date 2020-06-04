@@ -1,0 +1,207 @@
+/**
+* @stylesheet color-palette.less Color Palette
+* @parent styles-theme 2
+*
+* @description
+* The colors included in this theme have been evaluated to be consistent with accessibility
+* requirements, so it is discouraged to apply opacity or other manipulations to create
+* new shades or tints. See [typography.less] for further explanation of their use for text
+* and background colors.
+*
+**/
+
+/**
+* @styles var-colors Colors
+* @parent variables.less
+*
+* `color-palette.less` all the most common colors for the theme
+*
+**/
+
+
+/**
+* @styles bootstrap-brand-colors A2J Brand Colors
+* @parent color-palette.less 2
+*
+* These colors are used across both applications by default.
+*
+* @iframe demos/color-palette/brand-colors/demo.html
+**/
+
+@gray-base:              #000;
+@gray-darker:            lighten(@gray-base, 13.5%); // #222
+@gray-dark:              lighten(@gray-base, 20%);   // #333
+@gray:                   lighten(@gray-base, 33.5%); // #555
+@gray-light:             lighten(@gray-base, 46.7%); // #777
+@gray-lighter:           #e0e0e0; // #eee
+
+@brand-primary:         #db4f42; // #db4f42 A2J red color
+@brand-secondary:       darken(#428bca, 6.5%); // #337ab7
+@brand-success:         #5cb85c;
+@brand-info:            #5bc0de;
+@brand-warning:         #f0ad4e;
+@brand-danger:          #ec1919; // Originally #fc0303 - changed because it was too close to the A2J red color
+
+@link-selected-color: #FDFAEC;
+@link-active-color: #138FFE;
+
+.bg-gray-base{
+    background: @gray-base;
+}
+.bg-gray-darker{
+    background: @gray-darker;
+}
+.bg-gray-dark{
+    background: @gray-dark;
+}
+.bg-gray{
+    background: @gray;
+}
+.bg-gray-light{
+    background: @gray-light;
+}
+.bg-gray-lighter{
+    background: @gray-lighter;
+}
+.bg-brand-primary{
+    background: @brand-primary;
+}
+.bg-brand-secondary{
+    background: @brand-secondary;
+}
+.bg-brand-success{
+    background: @brand-success;
+}
+.bg-brand-info{
+    background: @brand-info;
+}
+.bg-brand-warning{
+    background: @brand-warning;
+}
+.bg-brand-danger{
+    background: @brand-danger;
+}
+.bg-link-selected-color{
+    background: @link-selected-color;
+}
+.bg-link-active-color{
+    background: @link-active-color;
+}
+
+/**
+* @styles scaffolding-colors Scaffolding Colors
+* @parent color-palette.less 3
+*
+* These colors are used for the most global elements, like the body tag, the paragraph tag,
+* and the default link elements. See the [typography](typography.less.html) section for guidance on how to use these
+* colors on text and link elements.
+*
+* @iframe demos/color-palette/scaffolding-colors/demo.html
+**/
+
+
+//* Background color for `<body>`.
+@body-bg:               #fff;
+//* Global text color on `<body>`.
+@text-color:            @gray-dark;
+
+//* Global textual link color.
+@link-color:            @brand-secondary;
+//* Link hover color set via `darken()` function.
+@link-hover-color:      darken(@link-color, 15%);
+//* Link hover decoration.
+@link-hover-decoration: underline;
+
+.bg-body-bg{
+    background: @body-bg;
+}
+.bg-text-color{
+    background: @text-color;
+}
+.bg-link-color{
+    background: @link-color;
+}
+.bg-link-hover-color{
+    background: @link-hover-color;
+}
+/**
+  * @styles step-colors Step Colors
+  * @parent color-palette.less 3
+  *
+  * We define a variable for each color of the step using an `id="step[num]"` in the HTML and then calling this style in the CSS using `@step0: #EFEFC6;`. Sixteen colors (starting with zero) are defined for sixteen uniquely colored steps. All 16 are put into an array in Less called `@steps` which is used to style steps throughout the app.
+  *
+  * You can add any of these colors as a background to an element by applying a class of `step-X` where `X` is the step number.
+  *
+  * ```
+  * <div class="step-5"> ... </div>
+  * ```
+  *
+  * @demo demos/color-palette/step-colors/demo.html
+**/
+
+//## A2J Specific colors
+@step0: #EFEFC6;
+@step1: #EFEF8C;
+@step2: #EFC6EF;
+@step3: #EFC6C6;
+@step4: #EF8CEF;
+@step5: #EF8C8C;
+@step6: #C6EFEF;
+@step7: #C6EFC6;
+@step8: #C6C6EF;
+@step9: #C6C68C;
+@step10: #C68CC6;
+@step11: #C68C8C;
+@step12: #8CEFEF;
+@step13: #8CEF8C;
+@step14: #8CC6C6;
+@step15: #8CC68C;
+
+.bg-step0{
+    background: @step0;
+}
+.bg-step1{
+    background: @step1;
+}
+.bg-step2{
+    background: @step2;
+}
+.bg-step3{
+    background: @step3;
+}
+.bg-step4{
+    background: @step4;
+}
+.bg-step5{
+    background: @step5;
+}
+.bg-step6{
+    background: @step6;
+}
+.bg-step7{
+    background: @step7;
+}
+.bg-step8{
+    background: @step8;
+}
+.bg-step9{
+    background: @step9;
+}
+.bg-step10{
+    background: @step10;
+}
+.bg-step11{
+    background: @step11;
+}
+.bg-step12{
+    background: @step12;
+}
+.bg-step13{
+    background: @step13;
+}
+.bg-step14{
+    background: @step14;
+}
+.bg-step15{
+    background: @step15;
+}

@@ -1,0 +1,145 @@
+/**
+  * @stylesheet tables.less Tables
+  * @parent styles-base 6
+  *
+  * Use of the `<table>` element
+  *
+  * ## Basic example
+  * For basic styling - light padding and only horizontal dividers - add the base class `.table` to any `<table>`. It may seem super redundant, but given the widespread use of tables for other plugins like calendars and date pickers, we've opted to isolate our custom table styles.
+  * ```
+  * <table class="table">...</table>
+  * ```
+  *
+  * @demo demos//tables/demo.html
+  *
+  * ## Striped rows
+  * Use `.table-striped` to add zebra-striping to any table row within the `<tbody>`.
+  *
+  * ### Cross-browser compatibility
+  * Striped tables are styled via the `:nth-child` CSS selector, which is not available in Internet Explorer 8.
+  *
+  * @demo demos//tables-striped/demo.html
+  *
+  * ## Bordered table
+  * Add `.table-bordered` for borders on all sides of the table and cells.
+  *
+  * @demo demos//tables-bordered/demo.html
+  *
+  * ## Hover rows
+  * Add `.table-hover` to enable a hover state on table rows within a `<tbody>`.
+  *
+  * @demo demos//tables-hover/demo.html
+  *
+  * ## Condensed table
+  * Add `.table-condensed` to make tables more compact by cutting cell padding in half.
+  *
+  * @demo demos//tables-condensed/demo.html
+  *
+  * ## Contextual classes
+  * Use contextual classes to color table rows or individual cells.
+
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <colgroup>
+        <col class="col-xs-1">
+        <col class="col-xs-7">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">
+            <code>.active</code>
+          </th>
+          <td>Applies the hover color to a particular row or cell</td>
+        </tr>
+        <tr>
+          <th scope="row">
+            <code>.success</code>
+          </th>
+          <td>Indicates a successful or positive action</td>
+        </tr>
+        <tr>
+          <th scope="row">
+            <code>.info</code>
+          </th>
+          <td>Indicates a neutral informative change or action</td>
+        </tr>
+        <tr>
+          <th scope="row">
+            <code>.warning</code>
+          </th>
+          <td>Indicates a warning that might need attention</td>
+        </tr>
+        <tr>
+          <th scope="row">
+            <code>.danger</code>
+          </th>
+          <td>Indicates a dangerous or potentially negative action</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  *
+  * @demo demos//tables-contextual/demo.html
+  *
+  * ### Conveying meaning to assistive technologies
+  * Using color to add meaning to a table row or individual cell only provides a visual indication, which will not be conveyed to users of assistive technologies - such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (the visible text in the relevant table row/cell), or is included through alternative means, such as additional text hidden with the `.sr-only` class.
+  *
+  * ## Responsive tables
+  * Create responsive tables by wrapping any `.table` in `.table-responsive` to make them scroll horizontally on small devices (under 768px). When viewing on anything larger than 768px wide, you will not see any difference in these tables.
+  *
+  * ### Vertical clipping/truncation
+  * Responsive tables make use of `overflow-y: hidden`, which clips off any content that goes beyond the bottom or top edges of the table. In particular, this can clip off dropdown menus and other third-party widgets.
+  *
+  * ### Firefox and fieldsets
+  * Firefox has some awkward fieldset styling involving `width` that interferes with the responsive table. This cannot be overriden without a Firefox-specific hack that we don't provide in Bootstrap:
+  * ```
+  * @-moz-document url-prefix() {
+  *  fieldset { display: table-cell; }
+  * }
+  * ```
+  * For more information, read [this Stack Overflow answer](https://stackoverflow.com/questions/17408815/fieldset-resizes-wrong-appears-to-have-unremovable-min-width-min-content/17863685#17863685).
+  *
+  * @demo demos//tables-responsive/demo.html
+**/
+
+
+/**
+* @styles var-tables Tables
+* @parent variables.less
+*
+* `tables.less` Customizes the `.table` component with basic values, each used across all table variations.
+*
+**/
+
+
+//* Padding for `<th>`s and `<td>`s.
+@table-cell-padding:            8px;
+//* Padding for cells in `.table-condensed`.
+@table-condensed-cell-padding:  5px;
+
+//* Default background color used for all tables.
+@table-bg:                      transparent;
+//* Background color used for `.table-striped`.
+@table-bg-accent:               #f9f9f9;
+//* Background color used for `.table-hover`.
+@table-bg-hover:                #f5f5f5;
+@table-bg-active:               @table-bg-hover;
+
+//* Border color for table and cell borders.
+@table-border-color:            #ddd;
+
+
+.table {
+  &.table-hover {
+    tr:hover {
+      cursor: pointer;
+    }
+  }
+}

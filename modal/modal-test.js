@@ -7,7 +7,7 @@ import F from 'funcunit'
 import { assert } from 'chai'
 import sinon from 'sinon'
 import 'steal-mocha'
-import '@caliorg/a2jstyles/viewer/styles.less'
+import '~/styles.less'
 import 'can-map-define'
 import '~/mobile/util/helpers'
 

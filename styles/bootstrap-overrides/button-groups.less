@@ -1,0 +1,110 @@
+/**
+  * @stylesheet button-groups.less Button Groups
+  * @parent styles-base 2
+  *
+  * @description
+  * Group a series of buttons together on a single line with the button group.
+  * Add on optional JavaScript radio and checkbox style behavior with our buttons plugin.
+  *
+  * #### Tooltips & popovers in button groups require special setting
+  * When using tooltips or popovers on elements within a `.btn-group`, you'll
+  * have to specify the option container: 'body' to avoid unwanted side effects
+  * (such as the element growing wider and/or losing its rounded corners when
+  * the tooltip or popover is triggered).
+  *
+  * #### Ensure correct role and provide a label
+  * In order for assistive technologies – such as screen readers – to convey
+  * that a series of buttons is grouped, an appropriate role attribute needs to
+  * be provided. For button groups, this would be `role="group"`, while toolbars
+  * should have a `role="toolbar".
+  *
+  * One exception are groups which only contain a single control (for instance
+  * the justified button groups with `<button>` elements) or a dropdown.
+  *
+  * In addition, groups and toolbars should be given an explicit label, as most
+  * assistive technologies will otherwise not announce them, despite the presence
+  * of the correct role attribute. In the examples provided here, we use aria-label,
+  * but alternatives such as aria-labelled by can also be used.
+  **/
+  /**
+  @styles button-groups-basic-example
+  @parent button-groups.less 0
+  * ## Basic Example
+  * Wrap a series of buttons with `.btn` in `.btn-group`.
+  * @demo demos/button-groups/basic-example/demo.html
+  **/
+  /**
+  @styles button-groups-toolbar
+  @parent button-groups.less 1
+  * ## Button Toolbar
+  * Combine sets of `<div class="btn-group">` into a `<div class="btn-toolbar">`
+  * for more complex components.
+  * @demo demos/button-groups/button-toolbar/demo.html
+  **/
+  /**
+  @styles button-groups-sizing
+    @parent button-groups.less 2
+  * ## Sizing
+  * Instead of applying button sizing classes to every button in a group,
+  * just add `.btn-group-*` to each `.btn-group`, including when nesting multiple groups.
+  * @demo demos/button-groups/sizing/demo.html
+  **/
+  /**
+  @styles button-groups-vertical
+    @parent button-groups.less 4
+  * ## Vertical Variation
+  * Make a set of buttons appear vertically stacked rather than horizontally.
+  *
+  * @demo demos/button-groups/vertical/demo.html
+  **/
+  /**
+  @styles button-groups-justified
+    @parent button-groups.less 5
+  * ## Justified button groups
+  * Make a group of buttons stretch at equal sizes to span the entire width of
+  * its parent. Also works with button dropdowns within the button group.
+  *
+  * ##### Handling borders
+  * Due to the specific HTML and CSS used to justify buttons
+  * (namely `display: table-cell`), the borders between them are doubled. In
+  * regular button groups, `margin-left: -1px` is used to stack the borders instead
+  * of removing them. However, margin doesn't work with `display: table-cell`.
+  * As a result, depending on your customizations to Bootstrap, you may wish to
+  * remove or re-color the borders.
+  * ##### IE8 and borders
+  * Internet Explorer 8 doesn't render borders on buttons in a justified button group,
+  * whether it's on `<a>` or `<button>` elements. To get around that, wrap each
+  * button in another `.btn-group`.
+  *
+  * ##### With `<a>` Elements
+  * Just wrap a series of `.btns` in `.btn-group.btn-group-justified`.
+  *
+  * @demo demos/button-groups/justified/demo.html
+  *
+  * ##### Links acting as buttons
+  * If the `<a>` elements are used to act as buttons – triggering in-page
+  * functionality, rather than navigating to another document or section within
+  * the current page – they should also be given an appropriate `role="button"`.
+  **/
+  /**
+  @styles button-groups-justified-elements
+  @parent button-groups.less 6
+  * #### With `<button>` Elements
+  * To use justified button groups with `<button>` elements, you must wrap each
+  * button in a button group. Most browsers don't properly apply our CSS for
+  * justification to `<button>` elements, but since we support button dropdowns,
+  * we can work around that.
+  * @demo demos/button-groups/justified-buttons-elements/demo.html
+  **/
+  /**
+  @styles button-groups-nesting
+    @parent button-groups.less 7
+  * ## Dropdown Menus within Buttons
+  * Place a `.btn-group` within another `.btn-group` when you want dropdown menus
+  * mixed with a series of buttons.
+  *
+  * The interaction is handled by `dropdown.js` which is not included in the style guide. 
+  * The javascript adds a class `.open` to the parent `.btn-group` class allowing the 
+  * `.dropdown-menu` class to display.
+  * @demo demos/button-groups/nesting/demo.html
+  **/

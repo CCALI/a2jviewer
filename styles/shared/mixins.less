@@ -1,0 +1,296 @@
+/**
+ *  @stylesheet a2j-mixins.less Mixins
+ *  @parent styles-utilities 0
+ *
+ *  Helpful mixins for use as a class in HTML or as a mixin in Less CSS. Mixins are used within the Less CSS, like functions. While these mixins can also be used as class names directly on the element, it's preferred to add them in the CSS as mixins so they don't make the HTML too bulky.
+ * > See [Less CSS Mixins](http://lesscss.org/features/#mixins-feature) for more information on using mixins in Less.
+ *
+ * ```
+ * // Creates a class for text that's small, bold, centered, uppercase, and with a text shadow.
+ *
+ * .my-new-component {
+ *    font-size: @@font-size-small;
+ *    .strong;
+ *    .text-center;
+ *    .uppercase;
+ *    .text-shadow-light;
+ * }
+ * ```
+ */
+
+@import '../bootstrap-overrides/variables.less';
+
+/**
+* @styles strong Strong
+*
+* Make anything bold by adding `.strong;`
+**/
+.strong, strong, b {
+  font-weight: 700;
+}
+
+/**
+* @styles truncate Truncate
+*
+* Add an ellipsis `...` to the end of text with `.truncate;`
+**/
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/**
+* @styles text-center Text Center
+*
+* Center text elements with `.text-center;`
+**/
+
+.text-center {
+  text-align: center;
+}
+
+/**
+* @styles border Border
+*
+* Add a consistent 1px gray border with `.border;`
+**/
+
+.border {
+  border: 1px solid @gray-lighter;
+}
+
+/**
+* @styles nowrap No Wrap
+*
+* Set `white-space` to `nowrap` with `.nowrap;`
+**/
+
+.nowrap {
+  white-space: nowrap;
+}
+
+/**
+* @styles uppercase Uppercase
+*
+* Change the text to all caps with `.uppercase;`
+**/
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/**
+* @styles boxshadow Box Shadow
+*
+* Apply a consistent drop shadow to any box element using `.box-shadow();` or remove a previously applied shadow with `.no-box-shadow;`
+*
+* Pass arguments such as horizontal position, vertical position, size, and opacity.
+*
+* ```
+* .box-shadow(4px, 4px, 8px, 0.05);
+* ```
+**/
+
+.box-shadow(@horiz: 4px, @vert: 4px, @size: 8px, @opacity: 0.05) {
+  -moz-box-shadow: @horiz @vert @size rgba(0, 0, 0, @opacity);
+  -webkit-box-shadow: @horiz @vert @size rgba(0, 0, 0, @opacity);
+  box-shadow: @horiz @vert @size rgba(0, 0, 0, @opacity);
+}
+.no-box-shadow {
+  -moz-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0) !important;
+  -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, 0) !important;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0) !important;
+}
+
+/**
+* @styles box-sixing Box Sizing
+*
+* Apply `box-sizing: border-box;` as well as vendor prefixed versions with `.box-sizing;` or `.border-box;`
+**/
+.box-sizing, .border-box, .boxsizingBorder, .CAJAEditor, div.editq {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  // Below are for IE compatibility, if needed.
+  //*behavior: url(/safetyportal-html/scripts/boxsizing.htc);
+  //I usually prefer the boxsizing script, but it seemed to cause strangeness with the accordions. Maybe it will work once the app is together.
+  //*zoom: ~"expression( this.runtimeStyle.zoom='1',this.className=this.className + ' add-box-sizing')";
+}
+
+/**
+* @styles smoothing Font Smoothing
+*
+* Apply webkit font smoothing to smooth text subpixel using `.text-smoothing;` or `.font-smoothing;` - this is especially useful for white text on a dark background, including icon fonts.
+**/
+.text-smoothing, .font-smoothing {
+  -webkit-font-smoothing: antialiased;
+}
+
+/**
+* @styles border-radius Border Radius
+*
+* Apply a consistent border radius with vendor prefixes with `.border-radius;` Alternately, pass the radius as an argument, `.border-radius(5px);`
+*
+* Apply a radius to only the left or right sides of a container with `.border-radius-left;` or `.border-radius-right;`
+**/
+.border-radius (@radius: @baseBorderRadius) {
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+}
+.border-radius-left (@radius: @baseBorderRadius) {
+  -webkit-border-top-left-radius: @radius;
+  -webkit-border-bottom-left-radius: @radius;
+  -moz-border-radius-topleft: @radius;
+  -moz-border-radius-bottomleft: @radius;
+  border-top-left-radius: @radius;
+  border-bottom-left-radius: @radius;
+}
+.border-radius-right (@radius: @baseBorderRadius) {
+  -webkit-border-top-right-radius: @radius;
+  -webkit-border-bottom-right-radius: @radius;
+  -moz-border-radius-topright: @radius;
+  -moz-border-radius-bottomright: @radius;
+  border-top-right-radius: @radius;
+  border-bottom-right-radius: @radius;
+}
+
+/**
+* @styles text-shadow Text Shadow
+*
+* Add a consistent shadow to text with `.text-shadow;` or use `.text-shadow-light;` for a slightly lighter version. Remove previous applied shadows with `.no-text-shadow;`
+**/
+.text-shadow-light(@opacity: .5) {
+  text-shadow: 0 1px 0 rgba(255, 255, 255, @opacity);
+}
+.text-shadow(@opacity: .2) {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, @opacity);
+}
+.no-text-shadow {
+  text-shadow: none;
+}
+
+/**
+* @styles hide Hide
+*
+* Hide any element with `.hide;` or `.hidden;` - note this will use `!important` to force the rule.
+**/
+.hide, .hidden {
+  display: none !important;
+}
+.hidestart {
+	visibility: hidden;
+}
+/**
+* @styles clear Clear Floats
+*
+* Clear floats with `.clear;`
+**/
+br, .clear {
+  float: none;
+  clear: both;
+}
+
+/**
+* @styles icon-font Icon Font
+*
+* Add `.icon-font;` to any element that needs to display an icon and then put the icon value in `content` - this is most useful when adding an icon as a pseudo element or adding it to an existing element, like a title. Typical syntax for the icon fonts is `<span class="glyphicon-pencil"></span>` but this mixin allows you to easily add icons directly in the CSS without using markup.
+*
+* ```
+* .panel-heading {
+*     a:before {
+*       .icon-font
+*        content: '\e831';
+*     }
+* }
+* ```
+**/
+.icon-font {
+  font-family: "justice";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  margin-left: .2em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ 
+.transition(@property: all, @function: linear, @timing: 0.25s, @delay: 0s) {
+  -webkit-transition: @property @timing @function @delay;
+  -moz-transition: @property @timing @function @delay;
+  -ms-transition: @property @timing @function @delay;
+  -o-transition: @property @timing @function @delay;
+  transition: @property @timing @function @delay;
+ }
+
+/**
+* @styles retina Retina
+*
+* Use `@retina` in a media query to quickly and consistently target only retina screens. Useful for swapping out higher res images only on these devices.
+*
+* ```
+* @@media (@retina) {
+*   // stuff for retina displays goes here
+* }
+* ```
+**/
+ @retina: ~"only screen and (-webkit-min-device-pixel-ratio: 2),  only screen and (min--moz-device-pixel-ratio: 2),  only screen and (-o-min-device-pixel-ratio: 2/1),  only screen and (min-device-pixel-ratio: 2),only screen and (-webkit-device-pixel-ratio:1.5)";
+
+
+.generate-bg-classes(@steps) {
+    .-(@i: length(@steps)) when (@i > 0) {
+        @name: extract(@steps, @i);
+        .bg-@{name} {background: @@name}
+        .-((@i - 1));
+    } .-;
+}
+.generate-step-wrapper-classes(@steps) {
+    .-(@i: length(@steps)) when (@i > 0) {
+        @name: extract(@steps, @i);
+        .step-@{name} {
+          border-left: 4px solid @@name !important;
+          }
+        .-((@i - 1));
+    } .-;
+}
+
+
+// These are leftover from A2J 5. Use Bootstrap's `pull-left` and `pull-right` instead
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+.unselectable {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+
+/**
+* @styles vertical-align Vertical Align
+*
+* Vertically align any element inside it's parent with `.vertical-align` pass position as an argument. Default is relative.
+**/
+.vertical-align(@position: relative) {
+  position: @position;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

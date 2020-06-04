@@ -1,0 +1,53 @@
+// Used to structure the main parts of a page, such as the header, the body, and the footer.
+.container {
+  width: auto;
+  margin: 0 auto;
+  // max-width: 1200px; Ryan commented out for a nicer layout
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+
+//helpers
+.clear {
+  clear: both;
+}
+.center {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+.pull-right, .pullright, .float-right, .floatright {
+  float: right;
+}
+.pull-left, .pullleft, .float-left, .float-right {
+  float: left;
+}
+footer {
+  margin-top: 20px;
+  padding: 20px;
+  border-top: @border;
+}
+
+//homepage custom
+.home-page {
+  text-align: center;
+  padding-top: 30px;
+}
+.home-links {
+  display: inline-block;
+  width: 30%;
+  text-align: center;
+  border-radius: 8px;
+  margin-top: 30px;
+
+  img {
+    width: 30%;
+    height: 30%;
+  }
+
+  &:hover {
+    background: #eee;
+    text-decoration: none;
+  }
+}
