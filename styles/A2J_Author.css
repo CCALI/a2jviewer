@@ -1,0 +1,129 @@
+@charset "utf-8";
+
+html, body {
+	font-family:  "Open Sans",​sans-serif;
+	font-size: 14px;
+	margin:0;
+	padding:0;
+}
+.editspan { /* wrap around fields for fluid width */
+	display: block;
+	overflow: hidden;
+}
+.editable.taller {
+	margin-top: 0em;
+	min-height: 2em;
+}
+.editable.tallest {
+	min-height: 5em;
+}
+.editable { /* authoring text fields */
+	min-width: 10em;
+	margin-top: 1px;
+	margin-bottom: 1px;
+	padding: 5px;
+	border: 1px solid #ccc;
+	min-height: 1em;
+	width:100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.ui-autocomplete .ui-menu-item {
+  max-height: 2em;
+  overflow: hidden;
+}
+.ui-autocomplete .ui-menu-item a{
+  padding: 2px 1em;
+  line-height: 2;
+}
+.ui-autocomplete .ui-menu-item.ui-state-focus {
+  border: none;
+}
+.ui-autocomplete {
+max-height: 10em;
+overflow-y: auto;
+/* prevent horizontal scrollbar */
+overflow-x: hidden;
+}
+.warning {
+	padding: 0;
+	margin: 0;
+	background-color:#fdd;
+	border: thin;
+	font-size: .9em;
+	font-style: italic;
+}
+.loader {
+	display: inline-block;
+	background-image: url(../viewer/images/ajax-loader.gif);
+	background-repeat: no-repeat;
+	width:16px;
+	height:16px;
+	padding: 0px;
+	margin: 0px;
+}
+.hotspot {
+	height: 100px;
+}
+#dialog_window_minimized_container {
+	z-index: 9999;
+}
+.fileuploader {
+	display: inline-block;
+	position: relative;
+	width: 250px;
+	height: 2em;
+	margin: 0px;
+	padding: 0px;
+}
+#uploadCMPFileInput {
+	opacity:  0;
+}
+
+/* bootstrap styles for jquery-ui autocomplete */
+.ui-autocomplete {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  float: left;
+  display: none;
+  min-width: 160px;
+  width: 160px;
+  padding: 4px 0;
+  margin: 2px 0 0 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+}
+.ui-autocomplete .ui-menu-item > a.ui-corner-all {
+display: block;
+padding: 3px 15px;
+clear: both;
+font-weight: normal;
+line-height: 18px;
+color: #555555;
+white-space: nowrap;
+}
+.ui-autocomplete a.ui-corner-all.ui-state-hover, .ui-autocomplete a.ui-corner-all.ui-state-active {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #0088cc;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  background-image: none;
+}

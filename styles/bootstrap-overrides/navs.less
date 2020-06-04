@@ -1,0 +1,128 @@
+  /**
+  * @stylesheet navs.less Navs
+  * @parent styles-base 9
+  *
+  * @description
+  * Navs available in Bootstrap have shared markup, starting with the base `.nav`
+  * class, as well as shared states. Swap modifier classes to switch between
+  * each style.
+  *
+  * #### Using navs for tab panels requires JavaScript tabs plugin
+  * For tabs with tabbable areas, you must use the tabs JavaScript plugin.
+  * The markup will also require additional role and ARIA attributes – see the
+  * plugin's example markup for further details.
+  *
+  * #### Make navs used as navigation accessible
+  * If you are using navs to provide a navigation bar, be sure to add a
+  * `role="navigation"` to the most logical parent container of the `<ul>`, or
+  * wrap a `<nav>` element around the whole navigation. Do not add the role to
+  * the `<ul>` itself, as this would prevent it from being announced as an actual
+  * list by assistive technologies.
+  **/
+
+  /**
+  * @styles tabs
+  * @parent navs.less 1
+  * ## Tabs
+  * Note the `.nav-tabs` class requires the `.nav` base class.
+  * @demo demos/navs/tabs/demo.html
+  **/
+
+  /**
+  * @styles pills
+  * @parent navs.less 2
+  * ## Pills
+  * Take that same HTML, but use `.nav-pills` instead:
+  * @demo demos/navs/pills/demo.html
+  **/
+
+  /**
+  * @styles pills-stacked
+  * @parent navs.less 3
+  * Pills are also vertically stackable. Just add `.nav-stacked`.
+  * @demo demos/navs/pills-stackable/demo.html
+  **/
+
+  /**
+  * @styles justified
+  * @parent navs.less 4
+  * ## Justified
+  * Easily make tabs or pills equal widths of their parent at screens wider than
+  * 768px with `.nav-justified`. On smaller screens, the nav links are stacked.
+  *
+  * **Justified navbar nav links are currently not supported.**
+  *
+  * > #### Safari and responsive justified navs
+  * > As of v8.0, Safari exhibits a bug in which resizing your browser
+  * > horizontally causes rendering errors in the justified nav that are cleared
+  * > upon refreshing. This bug is also shown in the justified nav example.
+  *
+  * @demo demos/navs/justified/demo.html
+  **/
+
+  /**
+  * @styles disabled-links
+  * @parent navs.less 5
+  * ## Disabled Links
+  * For any nav component (tabs or pills), add `.disabled` for gray links and
+  * no hover effects.
+  *
+  * #### Link functionality not impacted
+  * This class will only change the `<a>`'s appearance, not its functionality.
+  * Use custom JavaScript to disable links here.
+  * @demo demos/navs/disabled/demo.html
+  **/
+
+
+/**
+* @styles var-navs Navs
+* @parent variables.less
+*
+* `navs.less` defines the look of shared nav styles, tabs, pills, and toolbars.
+*
+**/
+
+//=== Shared nav styles
+@nav-link-padding:                          floor(@grid-gutter-width/3);
+@nav-link-hover-bg:                         #f1f1f1;
+
+@nav-disabled-link-color:                   #999;
+@nav-disabled-link-hover-color:             @nav-disabled-link-color;
+
+//== Tabs
+@nav-tabs-border-color:                     #ddd;
+@nav-tabs-link-hover-border-color:          @gray-lighter;
+
+@nav-tabs-active-link-hover-bg:             @body-bg;
+@nav-tabs-active-link-hover-color:          @gray-dark;
+@nav-tabs-active-link-hover-border-color:   #ddd;
+
+@nav-tabs-justified-link-border-color:            #ddd;
+@nav-tabs-justified-active-link-border-color:     @body-bg;
+
+//== Pills
+@nav-pills-border-radius:                   0px;
+@nav-pills-active-link-hover-bg:            #fff;
+@nav-pills-active-link-hover-color:         @link-active-color;
+
+
+//== Toolbars
+@nav-toolbar-height:                        39px;
+@nav-toolbar-default-bg:                  #fff;
+
+
+.nav {
+
+  li.divider {
+    height: (@navbar-height*.6);
+    border-left: 1px solid @gray-lighter;
+    margin-top: (@navbar-height*.4)/2;
+    width: 0px;
+  }
+  &.nav-tabs {
+    li > a {
+      .border-radius(0);
+    }
+
+  }
+}

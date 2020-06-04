@@ -1,0 +1,62 @@
+/**
+  * @stylesheet popovers.less Popovers
+  * @parent styles-base 19
+  *
+  * Add small overlays of content to any element for housing secondary information.
+
+
+### Popovers in button groups and input groups require special setting
+When using popovers on elements within a `.btn-group` or an `.input-group`, you'll have to specify the option `container: 'body'` (documented below) to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the popover is triggered).
+
+### Multiple-line links
+Sometimes you want to add a popover to a hyperlink that wraps multiple lines. The default behavior of the popover plugin is to center it horizontally and vertically. Add `white-space: nowrap;` to your anchors to avoid this.
+
+
+## Examples
+
+### Static Popover
+Four options are available: top, right, bottom, and left aligned.
+
+@demo demos/js-popovers-static/demo.html
+
+  *
+**/
+
+//* Popover body background color
+@popover-bg:                          #fff;
+//* Popover maximum width
+@popover-max-width:                   276px;
+//* Popover border color
+@popover-border-color:                @brand-secondary;
+//* Popover fallback border color
+@popover-fallback-border-color:       #ccc;
+
+//* Popover title background color
+@popover-title-bg:                    @popover-border-color;
+@popover-title-color:                 #fff;
+
+//* Popover arrow width
+@popover-arrow-width:                 10px;
+//* Popover arrow color
+@popover-arrow-color:                 @brand-secondary;
+
+//* Popover outer arrow width
+@popover-arrow-outer-width:           (@popover-arrow-width + 1);
+//* Popover outer arrow color
+@popover-arrow-outer-color:           fadein(@popover-border-color, 5%);
+//* Popover outer arrow fallback color
+@popover-arrow-outer-fallback-color:  darken(@popover-fallback-border-color, 20%);
+
+.popover {
+  .border-radius(0);
+  border-width: 2px;
+  padding: 0;
+
+  &.right, &.left {
+    float: none;
+  }
+  .popover-title {
+    .border-radius(0);
+    color: @popover-title-color;
+  }
+}

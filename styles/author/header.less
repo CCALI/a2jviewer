@@ -1,0 +1,88 @@
+/**
+  * @styles a2j-header.less Header
+  * @parent a2j-layout.less 3
+  *
+  * A2J Author uses the HTML5 element `header` for the top title bar throughout the application. This usually consists of the interview title and utility links for Settings and Help. The JavaScript component which utilizes these styles is `<app-header>`
+  *
+  * Usage: `<app-header page="interviews"></app-header>`
+  *
+  * Generates:
+  *
+  * ```
+  *<header>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="title-column col-xs-8">
+        <h1 id="guidetitle" class="guidetitle">My Interview (6/24/2015)</h1>
+      </div>
+      <div class="utility-links col-xs-4 text-right">
+        <button id="settings" class="btn btn-link"><span class="glyphicon-cog"></span> Settings</button>
+        <a target="_blank" class="btn btn-link" href="http://author.a2jauthor.org/csh5/Interviews"><span class="glyphicon-lifebuoy"></span> Help</a>
+        <br>
+        <span class="authorenv"></span>
+      </div>
+    </div>
+  </div>
+</header>
+  * ```
+  *
+**/
+
+@header-height: 80px;
+
+header {
+  position: fixed;
+  width: 100%;
+  height: @header-height;
+  .border;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding-left: @vert-navbar-width;
+  top: 0;
+  left: 0;
+  background: @navbar-default-bg;
+  z-index: @zindex-navbar;
+  line-height: @header-height;
+
+  .btn.btn-link {
+     padding: 0;
+  }
+  .guidetitle {
+    margin: 0;
+    line-height: @header-height;
+    font-size: @font-size-h3;
+    height: @header-height;
+    .truncate;
+  }
+
+  @media only screen and (max-width: 692px)  {
+    .row {
+      .utility-links {
+        height: @header-height;
+        width: 190px;
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+      .title-column {
+        overflow: hidden;
+        width: 50%;
+      }
+    }
+  }
+  @media (max-width: @screen-sm) {
+    padding-left: @vert-navbar-collapsed;
+  }
+}
+
+.authortool {
+	margin: 0;
+	margin-left: @vert-navbar-width;
+	margin-top: 80px;
+
+  @media (max-width: @screen-sm) {
+  	margin-left: @vert-navbar-collapsed;
+  }
+}

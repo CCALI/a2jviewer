@@ -1,0 +1,584 @@
+{
+  "name": "justice",
+  "css_prefix_text": "glyphicon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "5581b233198099d3a3f990d011c66ddd",
+      "css": "clipboard",
+      "code": 59450,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M906.3 125H625C625 56 569 0 500 0S375 56 375 125H93.8C76.5 125 62.5 139 62.5 156.3V968.8C62.5 986 76.5 1000 93.8 1000H906.3C923.5 1000 937.5 986 937.5 968.8V156.3C937.5 139 923.5 125 906.3 125ZM500 62.5C534.5 62.5 562.5 90.5 562.5 125S534.5 187.5 500 187.5C465.5 187.5 437.5 159.5 437.5 125S465.5 62.5 500 62.5ZM875 937.5H125V187.5H250V281.3C250 298.5 264 312.5 281.3 312.5H718.8C736 312.5 750 298.5 750 281.3V187.5H875V937.5ZM437.5 838.4L237.1 606.7 294.2 549.6 437.5 661.6 705.8 424.6 763 481.7Z",
+        "width": 1000
+      },
+      "search": [
+        "clipboard"
+      ]
+    },
+    {
+      "uid": "c27233ea98dfbef5d276b376ee3b5f4a",
+      "css": "new-message",
+      "code": 59452,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M908.7 91.3C853.6 36.2 804.6 52.4 804.6 52.4L372.6 484 300 700 515.8 627.3 947.5 195.4C947.5 195.4 963.8 146.4 908.7 91.3ZM530.3 580.3L506.7 603.8 433 628.8C427.8 616.8 421.3 604.9 408.1 591.8S383.1 572 371.1 566.9L396.1 493.2 419.7 469.7C419.7 469.7 458.5 465.3 496.5 503.4 534.6 541.4 530.3 580.3 530.3 580.3ZM800 850H150V200H400L500 100H150C95 100 50 145 50 200V850C50 905 95 950 150 950H800C855 950 900 905 900 850V500L800 600V850Z",
+        "width": 1000
+      },
+      "search": [
+        "new-message"
+      ]
+    },
+    {
+      "uid": "d9e4e38180762df487f600d648404392",
+      "css": "variables",
+      "code": 59426,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M695 985H305C140 985 5 850 5 685V305C5 140 140 5 305 5H695C860 5 995 140 995 305V690C995 850 860 985 695 985ZM305 105C195 105 105 195 105 305V690C105 800 195 890 305 890H695C805 890 895 800 895 690V305C895 195 805 105 695 105H305ZM420 480C430 465 440 450 445 430S455 390 455 365 455 320 450 300C445 285 435 265 425 250S400 225 380 215C365 205 345 200 315 200 295 200 270 205 255 215 235 220 220 235 210 250 200 265 190 280 185 300 180 320 175 345 175 365 175 390 175 410 180 430 185 450 190 465 205 480 215 495 230 505 245 515 260 525 285 525 310 525 335 525 355 520 375 515 395 505 410 495 420 480ZM370 395C370 405 365 415 365 425 360 440 350 445 345 455 335 460 325 465 315 465 300 465 290 460 285 455 275 445 270 440 270 430 265 420 260 410 260 395 260 385 260 375 260 365 260 355 260 345 260 335S265 310 270 300C275 290 280 280 285 275 290 270 305 265 315 265 325 265 335 270 345 275 350 285 355 290 360 305 365 315 365 330 365 340 365 350 365 360 365 370 370 375 370 385 370 395ZM820 565C815 545 810 530 795 515S770 490 755 480C740 470 715 465 690 465 665 465 645 470 625 475S595 495 580 510C570 525 560 540 555 560 550 580 550 600 550 625S550 670 555 690 565 725 580 740 605 765 620 775C635 785 660 785 685 785 710 785 730 780 750 775 770 765 780 755 795 740 805 725 815 710 820 690 825 670 830 650 830 625 825 605 825 585 820 565ZM740 655C740 665 735 675 735 685S725 705 720 710C710 715 700 720 690 720 675 720 665 715 660 710S650 695 645 685 640 665 640 650C640 640 640 630 640 620 640 610 640 600 640 590 640 580 645 570 645 560 650 550 655 540 660 535 670 530 680 525 690 525 700 525 710 530 720 535 725 540 730 550 735 560 740 570 740 580 740 590 740 600 740 610 740 620 740 635 740 645 740 655ZM290 810H360L705 190H635L290 810Z",
+        "width": 1000
+      },
+      "search": [
+        "variables"
+      ]
+    },
+    {
+      "uid": "a5fd02c69f1f4844e472ff36c3ff85e4",
+      "css": "court",
+      "code": 59455,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M107 436C107 436 861.3 436 862.4 436 880.7 428.1 879.8 411 862.8 399.6 845.7 388.2 484.1 127.2 484.1 127.2S125.3 388.2 107 399.6C88.8 411 87.7 428.1 107 436ZM484.1 256.1C514.2 256.1 538.7 280.5 538.7 310.7S514.2 365.3 484.1 365.3 429.5 340.8 429.5 310.7 453.9 256.1 484.1 256.1ZM125.8 841.6H843.6V811.1H125.8V841.6ZM281.3 779.3V501H311.8V466.6H155.8V497.9H186.3V779.2H281.3ZM532.2 779.3V499.1H562.8V468.5H406.8V497.9H437.3V779.2H532.2ZM94.7 904.1H874.8V875.5H94.7V904.1ZM781.2 779.3V499.1H811.8V468.5H655.7V497.9H686.3V779.2H781.2Z",
+        "width": 1000
+      },
+      "search": [
+        "library"
+      ]
+    },
+    {
+      "uid": "5999a400e061d03dec33d234b74e50da",
+      "css": "auction",
+      "code": 59457,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M363.2 237.6L552.7 347C567.6 355.6 586.7 350.5 595.3 335.5 604 320.6 598.8 301.5 583.9 292.9L394.5 183.5C379.5 174.9 360.4 180 351.8 194.9S348.3 228.9 363.2 237.6ZM537.1 374L347.6 264.7 238.3 454.1 427.7 563.5 537.1 374ZM191.3 535.3L380.8 644.7C395.7 653.3 414.8 648.2 423.4 633.2S426.9 599.2 412 590.6L222.6 481.2C207.6 472.6 188.5 477.7 179.9 492.6 171.3 507.5 176.4 526.7 191.3 535.3ZM844.1 623.5L498 441.7 466.8 495.8 797.3 704.7C819.7 717.6 848.3 709.9 861.3 687.5S866.5 636.4 844.1 623.5ZM501 781.3C501 764 487 750 469.8 750H188.5C171.3 750 157.3 764 157.3 781.3 157.3 798.5 157.3 812.5 157.3 812.5L125 811.8 126 843.8H532.3L533.8 813.8 503 812.5C503 812.5 501 798.5 501 781.3Z",
+        "width": 1000
+      },
+      "search": [
+        "auction"
+      ]
+    },
+    {
+      "uid": "e18e5a4ee4e92212265d855450b5edb2",
+      "css": "justice",
+      "code": 59456,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M752 205.7L634.1 467.4H599.8L725.5 188.8H531.4V837.9C571.4 839.4 775.5 905.6 775.5 905.6V937.5H226.8V903.5C226.8 903.5 435.5 837.9 466.9 837.9V188.8H278.9L404.7 467.4H370.4L252.5 205.7 134.6 467.4H100.3L226.8 187.3V154.9H437.8C437.8 112.7 466.2 78.1 499.3 78.1 534.2 78.1 560.7 114.6 560.7 154.9H775.6V182.7L904.2 467.4H869.9L752 205.7ZM406.9 499.3C406.9 583.5 348.5 664.4 252.5 664.4 158.7 664.4 98.2 583.5 98.2 499.3 98.2 499.5 406.9 499.5 406.9 499.3ZM601.9 499.3C601.9 499.5 910.7 499.5 910.7 499.3 910.7 583.5 852.3 664.4 756.3 664.4 662.5 664.4 601.9 583.5 601.9 499.3Z",
+        "width": 1000
+      },
+      "search": [
+        "justice"
+      ]
+    },
+    {
+      "uid": "bc517ff91611219cabb5f4cc2669b2be",
+      "css": "folder-open",
+      "code": 59458,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M812.5 937.5L1000 437.5H187.5L0 937.5ZM125 375L0 937.5V125H281.3L406.3 250H812.5V375Z",
+        "width": 1000
+      },
+      "search": [
+        "folder-open"
+      ]
+    },
+    {
+      "uid": "348f921d9287fdf8d3ce4fb43d7d0924",
+      "css": "folder-upload",
+      "code": 59459,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M562.5 250L437.5 125H0V937.5H1000V250H562.5ZM500 468.8L718.8 687.5H562.5V937.5H437.5V687.5H281.3L500 468.8Z",
+        "width": 1000
+      },
+      "search": [
+        "folder-upload"
+      ]
+    },
+    {
+      "uid": "4f972fee0a970c046234433fca522da5",
+      "css": "folder",
+      "code": 59460,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M437.5 125L562.5 250H1000V937.5H0V125Z",
+        "width": 1000
+      },
+      "search": [
+        "folder"
+      ]
+    },
+    {
+      "uid": "dd547ae3eab4682b8d46eeda958371c3",
+      "css": "folder-download",
+      "code": 59404,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M562.5 250L437.5 125H0V937.5H1000V250H562.5ZM500 843.8L281.3 625H437.5V375H562.5V625H718.8L500 843.8Z",
+        "width": 1000
+      },
+      "search": [
+        "folder-download"
+      ]
+    },
+    {
+      "uid": "cb74d6d766f3061ce7ea8516f51b669a",
+      "css": "page-break",
+      "code": 59430,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M0 500H125V562.5H0ZM187.5 500H375V562.5H187.5ZM437.5 500H562.5V562.5H437.5ZM625 500H812.5V562.5H625ZM875 500H1000V562.5H875ZM859.4 0L875 437.5H125L140.6 0H171.9L187.5 375H812.5L828.1 0ZM140.6 1000L125 625H875L859.4 1000H828.1L812.5 687.5H187.5L171.9 1000Z",
+        "width": 1000
+      },
+      "search": [
+        "page-break"
+      ]
+    },
+    {
+      "uid": "8946772c518d44df9b8fd87f1fafe905",
+      "css": "expand",
+      "code": 59441,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M450 550H200V450H450V200H550V450H800V550H550V800H450V550ZM970 30V975H30V30H970ZM895 105H105V900H900V105Z",
+        "width": 1000
+      },
+      "search": [
+        "expand"
+      ]
+    },
+    {
+      "uid": "482dcc180316ba570c7b6058e7e80744",
+      "css": "collapse",
+      "code": 59461,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M200 550V450H800V550H200ZM970 30H30V975H975V30ZM105 105H900V900H105V105Z",
+        "width": 1000
+      },
+      "search": [
+        "collapse"
+      ]
+    },
+    {
+      "uid": "53e76d42dc9b7871345346888a3a383c",
+      "css": "step-zero",
+      "code": 59464,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M936.5 774.1L936.5 774.1 936.5 774.1 936.5 774.1ZM114.9 114.3L114.9 114.3 114.9 114.3 114.9 702.8 116 703.9 344.7 932.6 344.7 506 774.7 935.9 774.7 935.9 936.4 774.2 936.4 774.2 506.4 344.3H933.1L704.4 115.4 703.3 114.3H114.9ZM774.7 935.9L774.7 935.9 774.7 935.9 774.7 935.9Z",
+        "width": 1000
+      },
+      "search": [
+        "step-zero"
+      ]
+    },
+    {
+      "uid": "9bc2902722abb366a213a052ade360bc",
+      "css": "spin6",
+      "code": 59444,
+      "src": "fontelico"
+    },
+    {
+      "uid": "c1f1975c885aa9f3dad7810c53b82074",
+      "css": "lock",
+      "code": 59398,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "05376be04a27d5a46e855a233d6e8508",
+      "css": "lock-open-alt",
+      "code": 59454,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "1b5a5d7b7e3c71437f5a26befdd045ed",
+      "css": "doc",
+      "code": 59401,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "c8585e1e5b0467f28b70bce765d5840c",
+      "css": "docs",
+      "code": 59400,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "5408be43f7c42bccee419c6be53fdef5",
+      "css": "doc-text",
+      "code": 59402,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "9daa1fdf0838118518a7e22715e83abc",
+      "css": "file-pdf",
+      "code": 59432,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "e80ae555c1413a4ec18b33fb348b4049",
+      "css": "file-archive",
+      "code": 59431,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "81db033e704eb7c586a365559d7c0f36",
+      "css": "file-audio",
+      "code": 59425,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "26613a2e6bc41593c54bead46f8c8ee3",
+      "css": "file-code",
+      "code": 59433,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "a2a74f5e7b7d9ba054897d8c795a326a",
+      "css": "list-bullet",
+      "code": 59403,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "f6766a8b042c2453a4e153af03294383",
+      "css": "list-numbered",
+      "code": 59449,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "6fe95ffc3c807e62647d4f814a96e0d7",
+      "css": "sitemap",
+      "code": 59448,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "7222571caa5c15f83dcfd447c58d68d9",
+      "css": "search",
+      "code": 59399,
+      "src": "entypo"
+    },
+    {
+      "uid": "e335adbc2d898c7d85d40c507796e7b4",
+      "css": "mail",
+      "code": 59392,
+      "src": "entypo"
+    },
+    {
+      "uid": "14017aae737730faeda4a6fd8fb3a5f0",
+      "css": "check",
+      "code": 59423,
+      "src": "entypo"
+    },
+    {
+      "uid": "c709da589c923ba3c2ad48d9fc563e93",
+      "css": "cancel",
+      "code": 59395,
+      "src": "entypo"
+    },
+    {
+      "uid": "c759418c008e9562944080fee617fc76",
+      "css": "cancel-circled",
+      "code": 59396,
+      "src": "entypo"
+    },
+    {
+      "uid": "70370693ada58ef0a60fa0984fe8d52a",
+      "css": "plus",
+      "code": 59394,
+      "src": "entypo"
+    },
+    {
+      "uid": "a66cdc7278e6b33b8bd44a141f5e1a8d",
+      "css": "plus-circled",
+      "code": 59414,
+      "src": "entypo"
+    },
+    {
+      "uid": "1256e3054823e304d7e452a589cf8bb8",
+      "css": "minus",
+      "code": 59415,
+      "src": "entypo"
+    },
+    {
+      "uid": "3eb93689881ad0804f87052a53edc2b6",
+      "css": "minus-circled",
+      "code": 59416,
+      "src": "entypo"
+    },
+    {
+      "uid": "de9a631a7d18106aea1c89ba51b1990a",
+      "css": "help-circled",
+      "code": 59417,
+      "src": "entypo"
+    },
+    {
+      "uid": "7e4164950ffa4990961958b2d6318658",
+      "css": "info-circled",
+      "code": 59418,
+      "src": "entypo"
+    },
+    {
+      "uid": "815503841e980c848f55e0271deacead",
+      "css": "link",
+      "code": 59419,
+      "src": "entypo"
+    },
+    {
+      "uid": "44b9e75612c5fad5505edd70d071651f",
+      "css": "attach",
+      "code": 59420,
+      "src": "entypo"
+    },
+    {
+      "uid": "1d2a6c3d9236b88b0f185c7c4530fa52",
+      "css": "flag",
+      "code": 59422,
+      "src": "entypo"
+    },
+    {
+      "uid": "390d6d13398cbf8c8c3c5493f7d34088",
+      "css": "export",
+      "code": 59429,
+      "src": "entypo"
+    },
+    {
+      "uid": "c77fd2fd065b5fe16d6f2b41e190b266",
+      "css": "pencil",
+      "code": 59397,
+      "src": "entypo"
+    },
+    {
+      "uid": "97902f87200ce74d181044df02a0458d",
+      "css": "attention",
+      "code": 59421,
+      "src": "entypo"
+    },
+    {
+      "uid": "2626e3a1bbcd90e45849af3b58a1d594",
+      "css": "trash",
+      "code": 59393,
+      "src": "entypo"
+    },
+    {
+      "uid": "bc64550dd022ce21604f97309b346cea",
+      "css": "cog",
+      "code": 59447,
+      "src": "entypo"
+    },
+    {
+      "uid": "3a3f65b92c9b2fcbb3a8dcd0d42ee806",
+      "css": "resize-full",
+      "code": 59436,
+      "src": "entypo"
+    },
+    {
+      "uid": "108c8ac13badc00ce66da014436e6eb1",
+      "css": "resize-small",
+      "code": 59437,
+      "src": "entypo"
+    },
+    {
+      "uid": "9248ce8062fb4707a6919bfe9ac1af8e",
+      "css": "popup",
+      "code": 59438,
+      "src": "entypo"
+    },
+    {
+      "uid": "77bcf90f0c68635bab5abfb4ed736696",
+      "css": "publish",
+      "code": 59443,
+      "src": "entypo"
+    },
+    {
+      "uid": "0a3192de65a73ca1501b073ad601f87d",
+      "css": "arrow-combo",
+      "code": 59409,
+      "src": "entypo"
+    },
+    {
+      "uid": "40ef3542646bed70cb63f1290c9d98c9",
+      "css": "down-circled",
+      "code": 59428,
+      "src": "entypo"
+    },
+    {
+      "uid": "8704cd847a47b64265b8bb110c8b4d62",
+      "css": "down-open",
+      "code": 59405,
+      "src": "entypo"
+    },
+    {
+      "uid": "c311c48d79488965b0fab7f9cd12b6b5",
+      "css": "left-open",
+      "code": 59406,
+      "src": "entypo"
+    },
+    {
+      "uid": "749e7d90a9182938180f1d2d8c33584e",
+      "css": "right-open",
+      "code": 59407,
+      "src": "entypo"
+    },
+    {
+      "uid": "9c7ff134960bb5a82404e4aeaab366d9",
+      "css": "up-open",
+      "code": 59408,
+      "src": "entypo"
+    },
+    {
+      "uid": "7e89c12b577c31bc91bfb61bb597f01f",
+      "css": "down-dir",
+      "code": 59410,
+      "src": "entypo"
+    },
+    {
+      "uid": "9aeaf29161eb005a308bbd624d6e066a",
+      "css": "left-dir",
+      "code": 59411,
+      "src": "entypo"
+    },
+    {
+      "uid": "ff9a85aa20950dcc0615a2707a2b3f8e",
+      "css": "right-dir",
+      "code": 59412,
+      "src": "entypo"
+    },
+    {
+      "uid": "401b644723fb2f20b0df30cce7745c18",
+      "css": "up-dir",
+      "code": 59413,
+      "src": "entypo"
+    },
+    {
+      "uid": "8d8f4722d16e95290858eaf294d9d830",
+      "css": "left-thin",
+      "code": 59439,
+      "src": "entypo"
+    },
+    {
+      "uid": "ef3eda51383ce050517892df3fc05ffc",
+      "css": "right-thin",
+      "code": 59440,
+      "src": "entypo"
+    },
+    {
+      "uid": "bb46b15cb78cc4cc05d3d715d522ac4d",
+      "css": "cw",
+      "code": 59463,
+      "src": "entypo"
+    },
+    {
+      "uid": "767fede84586366cd7d6c835be745454",
+      "css": "mobile",
+      "code": 59462,
+      "src": "entypo"
+    },
+    {
+      "uid": "2f9f67ee4354feef8c1f51e03bac6ef3",
+      "css": "lifebuoy",
+      "code": 59442,
+      "src": "entypo"
+    },
+    {
+      "uid": "191bcf63575a78def53c907c3d3bf7f0",
+      "css": "floppy",
+      "code": 59465,
+      "src": "entypo"
+    },
+    {
+      "uid": "4815ddddea76d90e367a9694a93b7e24",
+      "css": "resize",
+      "code": 59445,
+      "src": "iconic"
+    },
+    {
+      "uid": "09b87624e9d9a79109429ea81ed0d02d",
+      "css": "split",
+      "code": 59453,
+      "src": "iconic"
+    },
+    {
+      "uid": "frauy9fser6zk9n5ih3rdpz7zzfjbrvu",
+      "css": "eye",
+      "code": 59446,
+      "src": "modernpics"
+    },
+    {
+      "uid": "kfk635sf697exf2r3jqx06zz54e1rgx4",
+      "css": "download",
+      "code": 59427,
+      "src": "modernpics"
+    },
+    {
+      "uid": "yc4vm9xepijcjyfdp6mgkvju8engb212",
+      "css": "zoom-in",
+      "code": 59435,
+      "src": "modernpics"
+    },
+    {
+      "uid": "itjusjx5w85jr0udgi40mz7x2kmj1360",
+      "css": "zoom-out",
+      "code": 59434,
+      "src": "modernpics"
+    },
+    {
+      "uid": "9e0404ba55575a540164db9a5ad511df",
+      "css": "doc-new",
+      "code": 59451,
+      "src": "elusive"
+    },
+    {
+      "uid": "dea46bc85920f9a05bf7c7251fb10f10",
+      "css": "move",
+      "code": 59424,
+      "src": "elusive"
+    },
+    {
+      "uid": "b035c28eba2b35c6ffe92aee8b0df507",
+      "css": "attention-circled",
+      "code": 59467,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "e82cedfa1d5f15b00c5a81c9bd731ea2",
+      "css": "info-circled-1",
+      "code": 59466,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "a204f0fa972408eaae5a363c444991b2",
+      "css": "login",
+      "code": 59468,
+      "src": "entypo"
+    }
+  ]
+}

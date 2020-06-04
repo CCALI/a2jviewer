@@ -1,0 +1,121 @@
+/**
+@stylesheet modals.less Modals
+@parent styles-base 2
+
+Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart defaults.
+
+> ### Multiple open modals not supported
+> Be sure not to open a modal while another is still visible. Showing more than one modal at a time requires custom code.
+
+> ### Modal markup placement
+> Always try to place a modal's HTML code in a top-level position in your document to avoid other components affecting the > modal's appearance and/or functionality.
+
+> ### Mobile device caveats
+> There are some caveats regarding using modals on mobile devices. [See our browser support docs](http://getbootstrap.com/getting-started/#support-fixed-position-keyboards) for details.
+
+
+## Examples
+
+### Static example
+A rendered modal with header, body, and set of actions in the footer.
+
+@demo demos/modals/demo.html
+
+
+> ### Make modals accessible
+> Be sure to add `role="dialog"` and `aria-labelledby="..."`, referencing the modal title, to `.modal`, and `role="document">` to the `.modal-dialog` itself.
+>
+> Additionally, you may give a description of your modal dialog with `aria-describedby` on `.modal`.
+
+## Optional sizes
+Modals have two optional sizes, available via modifier classes to be placed on a `modal-dialog`.
+
+### Small `.modal-sm`
+@demo demos/modals/optional-sizes/small.html
+
+### Large `.modal-lg`
+@demo demos/modals/optional-sizes/large.html
+
+
+## Using the grid system
+To take advantage of the Bootstrap grid system within a modal, just nest `.container-fluid` within the `.modal-body` and then use the normal grid system classes within this container.
+
+@demo demos/modals/using-grid-system/demo.html
+
+**/
+
+/**
+* @styles var-modals Modals
+* @parent variables.less
+*
+* `modals.less` Padding, color, header and footer settings for modals.
+*
+**/
+
+//== Modals
+//
+//##
+
+//* Padding applied to the modal body
+@modal-inner-padding:         15px;
+
+//* Padding applied to the modal title
+@modal-title-padding:         10px;
+//* Modal title line-height
+@modal-title-line-height:     @line-height-base;
+
+//* Background color of modal content area
+@modal-content-bg:                             #fff;
+//* Modal content border color
+@modal-content-border-color:                   @gray-light;
+//* Modal content border color **for IE8**
+@modal-content-fallback-border-color:          @gray-light;
+
+//* Modal backdrop background color
+@modal-backdrop-bg:           #000;
+//* Modal backdrop opacity
+@modal-backdrop-opacity:      .5;
+//* Modal backdrop opacity OE
+@modal-backdrop-opacity-ie:      @modal-backdrop-opacity*100;
+//* Modal header border color
+@modal-header-border-color:   @brand-secondary;
+//* Modal footer border color
+@modal-footer-border-color:   @gray-light;
+
+@modal-lg:                    900px;
+@modal-md:                    600px;
+@modal-sm:                    300px;
+
+.modal {
+  .modal-content {
+    .border-radius(0);
+    .box-shadow;
+
+    .modal-body {
+      img {
+        width: 100%;
+        margin-top: 1em;
+      }
+    }
+  }
+  .modal-header {
+    background: @brand-secondary;
+    color: #fff;
+
+    .close {
+      color: #fff;
+      .no-text-shadow;
+      margin-top: 1px;
+        .x-times{
+          font-size: 25px;
+        }
+    }
+  }
+  .modal-footer {
+    background: @gray-lighter;
+  }
+}
+
+.modal-backdrop {
+  z-index: @zindex-modal-background;
+}

@@ -1,0 +1,166 @@
+/**
+ * @styles vertical-navbar.less Vertical Navbars
+ * @parent navbar.less 55
+ *
+ * Global app navigation, fixed to the left or right side of the browser window. This is the primary navigation used for A2J Author.
+ *
+ * @demo demos/navs/vertical-navbar/demo.html
+ *
+ * ## Fixed to left
+ *
+ * Add `.navbar-fixed-left` to fix to the left side of the browser. This is the default style for A2J Author.
+ *
+ * ```
+ * <div class="vertical-navbar navbar-fixed-left">
+ *     ...
+ * </div>
+ * ```
+ *
+ * ## Fixed to right
+ * Add `.navbar-fixed-right` to fix to the right side of the browser.
+ *
+ * ```
+ * <div class="vertical-navbar navbar-fixed-right">
+ *     ...
+ * </div>
+ * ```
+ *
+**/
+
+.vertical-navbar {
+  display: block;
+  width: @vert-navbar-width;
+  border: 1px solid @navbar-default-border;
+  .border-radius(@navbar-border-radius);
+  background-color: @navbar-default-bg;
+  background: @navbar-default-bg;
+  color: @navbar-default-color;
+  margin-right: @grid-gutter-width/2;
+  z-index: @zindex-navbar+1 !important;
+
+  .navbar-nav > li {
+    > a {
+      padding: @vert-navbar-padding-horizontal @vert-navbar-padding-vertical @vert-navbar-padding-horizontal @vert-navbar-padding-vertical;
+    }
+    &.active a {
+      background-color: @navbar-default-link-active-bg;
+
+      &:before {
+        content: "";
+        display: block;
+        top: @navbar-active-caret-offset;
+        right: -1px;
+        position: absolute;
+        width: 0;
+      	height: 0;
+      	border-top: @navbar-active-caret-height solid transparent;
+      	border-bottom: @navbar-active-caret-height solid transparent;
+      	border-right:@navbar-active-caret-height solid @navbar-active-caret-color;
+      }
+    }
+  }
+
+  &.navbar-inverse {
+    background-color: @navbar-inverse-bg;
+    background: @navbar-inverse-bg;
+    color: @navbar-inverse-color;
+    border-color: @navbar-inverse-border;
+    .text-smoothing;
+
+    .navbar-nav > li {
+      > a {
+        color: @navbar-inverse-link-color;
+
+        &:hover {
+          color: @navbar-inverse-link-hover-color;
+          background-color: @navbar-inverse-link-hover-bg;
+        }
+      }
+      &.active {
+        .strong;
+        .text-shadow;
+
+        > a, > a:hover {
+          color: @navbar-inverse-link-active-color;
+          background: @navbar-inverse-link-active-bg;
+
+          &:before {
+            border-right-color: @navbar-active-caret;
+          }
+        }
+      }
+      &.disabled {
+        > a {
+          color: @navbar-inverse-link-disabled-color;
+          background-color: @navbar-inverse-link-disabled-bg;
+        }
+      }
+    }
+  }
+
+  &.navbar-fixed-left, &.navbar-fixed-right {
+    height: 100%;
+    position: fixed;
+    z-index: @zindex-navbar;
+    .border-radius(0);
+    top: 0;
+    margin: 0;
+  }
+  &.navbar-fixed-right {
+    left: auto;
+    right: 0;
+    border: none;
+    border-left: 1px solid @navbar-default-border;
+
+    .navbar-nav > li {
+    > a {
+      padding: @vert-navbar-padding-horizontal @vert-navbar-padding-vertical @vert-navbar-padding-horizontal @vert-navbar-padding-vertical;
+    }
+    &.active a {
+
+      &:before {
+        top: @navbar-active-caret-offset;
+        right: auto;
+        left: -1px;
+      	border-right: none;
+      	border-left:@navbar-active-caret-height solid @navbar-active-caret-color;
+      }
+    }
+  }
+
+  }
+  &.navbar-fixed-left {
+    left: 0;
+    right: auto;
+    border: none;
+    border-right: 1px solid @navbar-inverse-border;
+  }
+
+  .navbar-nav {
+    width: 100%;
+    float: none;
+
+    > li {
+      float: none;
+    }
+  }
+
+  @media (max-width: @screen-sm) {
+    width: @vert-navbar-collapsed;
+
+    .navbar-nav {
+      margin: 0;
+    }
+   .navbar-nav > li {
+      > a {
+        .title {
+          display: none;
+        }
+        .icon {
+          font-size: 18px;
+        }
+      }
+    }
+  } // media query
+
+} // vertical-navbar

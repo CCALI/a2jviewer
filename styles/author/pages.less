@@ -1,0 +1,145 @@
+/**
+  * @stylesheet pages.less Pages
+  * @parent styles-custom 3
+  *
+  * This describes the styles that add step colors to the Pages in the Author app.
+**/
+
+@color-border-width: 5px;
+@color-border: @step4;
+
+.pages-container, .popups-container, .special-container {
+  .panel {
+    position: relative;
+    border-left:0;
+
+    &:before, &:after {
+      border: @color-border-width solid @color-border;
+      border-right-width: 0;
+      content: '';
+      position: absolute;
+      left: 0;
+      height: 100%;
+      top: -1px;
+    }
+    &:after {
+      top: auto;
+      bottom: -1px;
+    }
+
+    &:hover {
+      .box-shadow;
+      border-bottom-color: darken(@gray-lighter,10%);
+      border-right-color: darken(@gray-lighter,10%);
+    }
+    .panel-body {
+      padding: @grid-gutter-width/4;
+      padding-left: @grid-gutter-width/4+@color-border-width/2;
+    }
+    .panel-heading {
+      margin-left: 0;
+    }
+
+    &.accordion {
+      &.collapsed {
+        &.panel {
+          &:before, &:after {
+            border-color: desaturate(@color-border,30%);
+          }
+          &:hover {
+            &:before, &:after {
+              border-color: @color-border;
+            }
+          }
+        }
+        .panel-heading {
+          &:hover {
+            color: @text-color;
+            border-color: darken(@gray-lighter,10%);
+          }
+        }
+      }
+    }
+  }
+
+  .list-group {
+    .list-group-item {
+      padding-right: 5px;
+
+      .title {
+        margin-right: @grid-gutter-width/4;
+      }
+      .description {
+        color: lighten(@gray-light,10%);
+      }
+      .label {
+        font-size: @font-size-small;
+        padding: 0px 5px;
+        position: relative;
+        top: -1px;
+        margin-right: 4px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+      &.active {
+        .title {
+          color: @text-color;
+        }
+        .description {
+          color: @gray-light;
+        }
+      }
+    }
+  }
+}
+
+/**
+  * @styles step-color-mixin Step Color Mixin
+  * @parent pages.less 2
+  *
+  * The `.step-colors()` mixin takes the color passed from the step colors array `@steps` and generates the CSS necessary for the left border color, hover, and active states for the Pages panel.
+  *
+  * For example:
+  *
+  * ```
+  *  #step15 {
+  *   .step-colors(@step15);
+  *  }
+  * ```
+  *
+**/
+
+.step-colors(@color) {
+  &.panel {
+    &:before, &:after {
+      border-color: @color;
+    }
+    &.accordion {
+      &.collapsed {
+        &.panel {
+          &:before, &:after {
+            border-color: desaturate(@color,30%);
+          }
+          &:hover {
+            &:before, &:after {
+              border-color: @color;
+            }
+          }
+        }
+      }
+    }
+  }
+} // .step-colors
+
+// This loops through the array using the above .step-colors mixin
+.generate-step-colors(@step-color-array) {
+    .-(@i: length(@step-color-array)) when (@i > 0) {
+        @name: extract(@step-color-array, @i);
+        &#@{name} {.step-colors(@@name);}
+        .-((@i - 1));
+    } .-;
+}
+.generate-step-colors(@step-color-array);
+

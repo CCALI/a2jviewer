@@ -1,0 +1,323 @@
+/**
+* @stylesheet typography.less Typography
+* @parent styles-theme 1
+*
+* @description
+*
+* ## Headings
+* All HTML headings, `<h1>` through `<h6>`, are available. `.h1` through `.h6` classes are also available,
+* for when you want to match the font styling of a heading but still want your text to be displayed inline.
+*
+* H tags defining a typographical heirarchy. Each page of the application should use the appropriate header level based on semantics, rather than font size. For example, an `<h2>` should not be used if there is not a parent `<h1>` - if the font sizes are not appropriate for the context, these can be adjusted on an individual-level in component specific style sheets. However, the defined header level sizes should usually be honored.
+*
+* @demo demos/typography/headings/demo.html
+*
+* Create lighter, secondary text in any heading with a generic `<small>` tag or the `.small` class.
+*
+* @demo demos/typography/headings/example/demo.html
+**/
+
+/**
+* @styles var-typography Typography
+* @parent variables.less
+*
+* `typography.less` All the font sizes, headings, and weights for the theme
+*
+**/
+@import '../viewer/variables.less';
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,700);
+
+@font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
+@font-family-serif:       Georgia, "Times New Roman", Times, serif;
+//* Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
+@font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
+@font-family-base:        @font-family-sans-serif;
+
+//* Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+@line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
+
+
+//* By default, this inherits from the `<body>`.
+@headings-font-family:    inherit;
+@headings-font-weight:    300;
+@headings-line-height:    1.1;
+@headings-color:          inherit;
+
+
+
+@font-size-base:          14px;
+@font-size-large:         ceil((@font-size-base * 1.25)); // ~18px
+@font-size-small:         ceil((@font-size-base * 0.85)); // ~12px
+
+@font-size-h1:            floor((@font-size-base * 2.6)); // ~36px
+@font-size-h2:            floor((@font-size-base * 2.15)); // ~30px
+@font-size-h3:            ceil((@font-size-base * 1.7)); // ~24px
+@font-size-h4:            ceil((@font-size-base * 1.25)); // ~18px
+@font-size-h5:            @font-size-base;
+@font-size-h6:            ceil((@font-size-base * 0.85)); // ~12px
+
+@body-font-weight:             300;
+
+
+//* Load fonts from this directory.
+@icon-font-path:          "../fonts/";
+//* File name for all font files.
+@icon-font-name:          "glyphicons-halflings-regular";
+//* Element ID within SVG icon file.
+@icon-font-svg-id:        "glyphicons_halflingsregular";
+
+
+
+//== Type
+//
+//##
+
+//** Horizontal offset for forms and lists.
+@component-offset-horizontal: 180px;
+//** Text muted color
+@text-muted:                  @gray-light;
+//** Abbreviations and acronyms border color
+@abbr-border-color:           @gray-light;
+//** Headings small color
+@headings-small-color:        @gray-light;
+//** Blockquote small color
+@blockquote-small-color:      @gray-light;
+//** Blockquote font size
+@blockquote-font-size:        (@font-size-base * 1.25);
+//** Blockquote border color
+@blockquote-border-color:     @gray-lighter;
+//** Page header border color
+@page-header-border-color:    @gray-lighter;
+//** Width of horizontal description list titles
+@dl-horizontal-offset:        @component-offset-horizontal;
+//** Point at which .dl-horizontal becomes horizontal
+@dl-horizontal-breakpoint:    @grid-float-breakpoint;
+//** Horizontal line color.
+@hr-border:                   @gray-lighter;
+
+
+/**
+* @styles body-copy Body Copy
+* @parent typography.less 0
+*
+* @description
+*
+* Bootstrap's global default `font-size` is 14px, with a `line-height` of 1.428. This is applied to the
+* `<body>` and all paragraphs. In addition, `<p>` (paragraphs) receive a bottom margin of half their
+* computed line-height (10px by default).
+*
+* @demo demos/typography/body-copy/demo.html
+*
+* ### Lead body copy
+* Make a paragraph stand out by adding `.lead.`
+*
+* @demo demos/typography/body-copy/lead-body-copy/demo.html
+*
+* ### Built with Less
+* The typographic scale is based on two Less variables in *variables.less:* `@font-size-base` and `@line-height-base`.
+* The first is the base font-size used throughout and the second is the base line-height. We use those variables
+* and some simple math to create the margins, paddings, and line-heights of all our type and more. Customize them
+* and Bootstrap adapts.
+*
+**/
+
+/**
+* @styles inline-text-elements Inline text elements
+* @parent typography.less 1
+*
+* @description
+*
+* ### Marked text
+* For highlighting a run of text due to its relevance in another context, use the `<mark>` tag.
+*
+* @demo demos/typography/inline-text-elements/marked-text/demo.html
+*
+*
+* ### Deleted text
+* For indicating blocks of text that have been deleted use the `<del>` tag.
+*
+* @demo demos/typography/inline-text-elements/deleted-text/demo.html
+*
+*
+* ### Strikethrough text
+* For indicating blocks of text that are no longer relevant use the `<s>` tag.
+*
+* @demo demos/typography/inline-text-elements/strikethrough-text/demo.html
+*
+** ### Inserted text
+* For indicating additions to the document use the `<ins>` tag.
+*
+* @demo demos/typography/inline-text-elements/insterted-text/demo.html
+*
+*
+* ### Underlined text
+* To underline text use the `<u>` tag.
+*
+* @demo demos/typography/inline-text-elements/underlined-text/demo.html
+*
+*
+* ### Small text
+* For de-emphasizing inline or blocks of text, use the `<small>` tag to set text at 85% the size of
+* the parent. Heading elements receive their own `font-size` for nested `<small>` elements.
+*
+* You may alternatively use an inline element with `.small` in place of any `<small>`.
+*
+* @demo demos/typography/inline-text-elements/small-text/demo.html
+*
+** ### Bold
+* For emphasizing a snippet of text with a heavier font-weight.
+*
+* @demo demos/typography/inline-text-elements/bold/demo.html
+*
+*
+* ### Italics
+* For emphasizing a snippet of text with italics.
+*
+* @demo demos/typography/inline-text-elements/italics/demo.html
+*
+* <blockquote>
+* <h3> Alternate elements </h3>
+* Feel free to use <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code> in HTML5. <code>&lt;b&gt;</code>  is meant to highlight words or phrases
+* without conveying additional importance while <code>&lt;i&gt;</code> is mostly for voice, technical terms, etc.
+* </blockquote>
+*
+**/
+
+/**
+* @styles alignment-classes Alignment classes
+* @parent typography.less 2
+*
+* @description
+*
+* Easily realign text to components with text alignment classes.
+*
+* @demo demos/typography/aligment-classes/demo.html
+*
+**/
+
+/**
+* @styles tranformation-classes Transformation classes
+* @parent typography.less 3
+*
+* @description
+*
+* Transform text in components with text capitalization classes.
+*
+* @demo demos/typography/transformation-classes/demo.html
+*
+**/
+
+/**
+* @styles abbreviations Abbreviations
+* @parent typography.less 4
+*
+* @description
+*
+* Stylized implementation of HTML's `<abbr>` element for abbreviations and acronyms to show the expanded version on hover.
+* Abbreviations with a title attribute have a light dotted bottom border and a help cursor on hover, providing additional
+* context on hover and to users of assistive technologies.
+*
+* ### Basic abbreviation
+*
+* @demo demos/typography/abbreviations/basic-abbreviation/demo.html
+*
+*
+* ### Initialism
+*
+* Add `.initialism` to an abbreviation for a slightly smaller font-size.
+*
+* @demo demos/typography/abbreviations/initialism/demo.html
+**/
+
+/**
+* @styles addresses Addresses
+* @parent typography.less 5
+*
+* @description
+*
+* Present contact information for the nearest ancestor or the entire body of work. Preserve formatting by ending all lines
+* with `<br>`.
+*
+* @demo demos/typography/addresses/demo.html
+*
+**/
+
+/**
+* @styles blockquotes Blockquotes
+* @parent typography.less 6
+*
+* @description
+*
+* For quoting blocks of content from another source within your document.
+*
+* ### Default blockquote
+* Wrap `<blockquote>` around any HTML as the quote. For straight quotes, we recommend a `<p>`.
+*
+* @demo demos/typography/blockquotes/default-blockquote/demo.html
+*
+*
+* ### Blockquote options
+* Style and content changes for simple variations on a standard `<blockquote>`.
+*
+* #### Naming a source
+* Add a `<footer>` for identifying the source. Wrap the name of the source work in `<cite>`.
+*
+* @demo demos/typography/blockquotes/blockquote-options/naming-source/demo.html
+*
+* #### Alternate displays
+* Add `.blockquote-reverse` for a blockquote with right-aligned content.
+*
+* @demo demos/typography/blockquotes/blockquote-options/alternative-displays/demo.html
+*
+**/
+
+/**
+* @styles lists Lists
+* @parent typography.less 7
+*
+* @description
+*
+* ### Unordered
+* A list of items in which the order does not explicitly matter.
+*
+* @demo demos/typography/lists/unordered/demo.html
+*
+*
+* ### Ordered
+* A list of items in which the order does explicitly matter.
+*
+* @demo demos/typography/lists/ordered/demo.html
+*
+*
+* ### Unstyled
+* Remove the default `list-style` and left margin on list items (immediate children only). This only
+* applies to immediate children list items, meaning you will need to add the class for any nested lists as well.
+*
+* @demo demos/typography/lists/unstyled/demo.html
+*
+*
+* ### Inline
+* Place all list items on a single line with `display: inline-block;` and some light padding.
+*
+* @demo demos/typography/lists/inline/demo.html
+*
+*
+* ### Description
+* A list of terms with their associated descriptions.
+*
+* @demo demos/typography/lists/description/demo.html
+*
+* #### Horizontal description
+* Make terms and descriptions in `<dl>` line up side-by-side. Starts off stacked like default `<dl>`s, but when the
+* navbar expands, so do these.
+*
+* @demo demos/typography/lists/description/horizontal-description/demo.html
+*
+* <blockquote>
+* <h3>Auto-truncating</h3>
+* Horizontal description lists will truncate terms that are too long to fit in the left column with <code>&lt;text-overflow&gt;</code>.
+* In narrower viewports, they will change to the default stacked layout.
+* </blockquote>
+*
+**/

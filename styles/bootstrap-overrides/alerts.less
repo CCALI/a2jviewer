@@ -1,0 +1,79 @@
+/**
+  * @stylesheet alerts.less Alerts
+  * @parent styles-base 15
+  *
+  * Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.
+  *
+  * ## Examples
+  * Wrap any text and an optional dismiss button in `.alert` and one of the four contextual classes (e.g., `.alert-success`) for basic alert messages.
+  *
+  * ````
+  * <div class="alert alert-success" role="alert">...</div>
+  * ````
+  *
+  * @demo demos/alerts/demo.html
+  *
+  * ## Dismissible alerts
+  * Build on any alert by adding an optional `.alert-dismissible` and close button.
+  *
+  * @demo demos/dismissable-alerts/demo.html
+  *
+  * ### Ensure proper behavior across all devices
+  * Be sure to use the `<button>` element with the `data-dismiss="alert"` data attribute.
+  *
+  * ## Links in alerts
+  * Use the `.alert-link` utility class to quickly provide matching colored links within any alert.
+  *
+  * @demo demos/links-in-alerts/demo.html
+  **/
+
+/**
+* @styles var-alerts Alerts
+* @parent variables.less
+*
+* `alerts.less` all colors for alert messages
+*
+**/
+@alert-padding:               10px;
+@alert-border-radius:         0;
+@alert-link-font-weight:      bold;
+
+@alert-default-bg:            lighten(@gray-lighter, 8%);
+@alert-default-text:          @gray-lighter;
+@alert-default-border:        @gray-light;
+
+@alert-success-bg:            lighten(@state-success-bg,4%);
+@alert-success-text:          @gray-light;
+@alert-success-border:        @gray-lighter;
+
+@alert-info-bg:               lighten(@state-info-bg,2%);
+@alert-info-text:             @gray-light;
+@alert-info-border:           @gray-lighter;
+
+@alert-warning-bg:            lighten(@state-warning-bg,2%);
+@alert-warning-text:          @gray-light;
+@alert-warning-border:        @gray-lighter;
+
+@alert-danger-bg:             lighten(@state-danger-bg,2%);
+@alert-danger-text:           @gray-light;
+@alert-danger-border:         @gray-lighter;
+
+.alert {
+  .alert-variant(@alert-default-bg; @alert-default-text; @alert-default-border);
+}
+
+.alert-success {
+  .alert-variant(@alert-success-bg; @alert-success-border; @alert-success-text);
+}
+
+.alert-info {
+  .alert-variant(@alert-info-bg; @alert-info-border; @alert-info-text);
+}
+
+.alert-warning {
+  .alert-variant(@alert-warning-bg; @alert-warning-border; @alert-warning-text);
+}
+
+.alert-danger {
+  .alert-variant(@alert-danger-bg; @alert-danger-border; @alert-danger-text);
+}

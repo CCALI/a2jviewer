@@ -1,0 +1,152 @@
+
+header {
+  background-color: @color-header;
+  color: @clear;
+  position: relative;
+
+  .container {
+    position: relative;
+    height: @header-height;
+    text-align: left;
+    width: 100%; //overriding standard container width
+  }
+
+  h1 {
+    font-size: @font-size*1.7;
+    font-weight: @font-weight;
+  }
+}
+.brand {
+  display: block;
+  line-height: @header-height;
+  text-indent: -9999px;
+  height: @header-height;
+  width: @logo-width;
+  text-align: left;
+  background: url(@logo) no-repeat left center;
+  background-size: @logo-width;
+}
+
+
+header .main-nav {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0;
+  display: inline-block;
+  position: relative;
+  margin: 0 0 21px 10px;
+
+  > li {
+    display: inline-block;
+    line-height: @header-height;
+    position: relative;
+    font-size: @font-size/1.2;
+    > a {
+      text-transform: uppercase;
+      text-decoration: none;
+      color: @clear;
+      .text-shadow;
+      padding: 5px 10px; //
+      border: 1px solid transparent;
+    }
+    &:hover > a {
+      background-color: rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      border-radius: 2px;
+    }
+    &.active > a {
+      background-color: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(0, 0, 0, 0.6);
+      border-radius: 2px;
+    }
+  }
+
+  .separator {
+    border-left: 1px solid #CCC;
+    display: inline;
+    margin-right: 15px;
+  }
+}
+
+
+
+header {
+  .dropdown-menu {
+    background-color: @clear;
+    border: @border;
+    border-top: none;
+    display: none;
+    visibility: collapse;
+    position: absolute;
+    left: 0;
+    list-style-type: none;
+    top: @header-height;
+    padding-left: 0;
+    width: 240px;
+    li a {
+      display: block;
+      text-decoration: none;
+      border-bottom: 1px solid @fog;
+      color: @thunderStorm;
+      font-size: @font-size;
+      line-height: @line-height*2;
+      padding-left: @gutter/2;
+    }
+  }
+  .dropdown-menu li a:hover,
+  .dropdown-menu li.active a {
+    background-color: @fog;
+    color: @night;
+  }
+}
+
+
+
+header {
+  .bitovi-menu {
+    display: inline-block;
+    margin-right: @gutter;
+    .dropdown-menu {
+      right: @gutter;
+      left: auto;
+    }
+  }
+  .bitovi.icon-bits {
+    background-image: url('../img/bitovi-bits.svg');
+    background-repeat: no-repeat;
+    background-position: 0 18px;
+    color: @clear;
+    display: block;
+    font-size: @font-size;
+    line-height: @header-height;
+    text-indent: -9999px;
+    width: 67px;
+    height: @header-height;
+    opacity: .5;
+  }
+  .bitovi-menu:hover .bitovi.icon-bits {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+    opacity: 1;
+  }
+  .logo-menu {
+    position: relative;
+    display: inline-block;
+    margin-left: @gutter;
+    vertical-align: middle;
+    h1 {
+      margin-bottom: 0;
+    }
+  }
+  .menu-container {
+    position: relative;
+  }
+
+  .bitovi-menu:hover .dropdown-menu,
+  .logo-menu:hover .dropdown-menu,
+  .menu-container:hover .dropdown-menu {
+    display: block;
+    visibility: visible;
+  }
+}

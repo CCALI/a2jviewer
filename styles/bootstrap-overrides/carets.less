@@ -1,0 +1,31 @@
+/**
+  * @styles carets.less Carets
+  * @parent helper-classes.less 2
+  *
+  * @description
+  * Use carets to indicate dropdown functionality and direction. Note that the default caret will reverse automatically in dropup menus.
+  *
+  * ```
+  * <span class="caret"></span>
+  * ```
+  *
+**/
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top:   @caret-width-base dashed;
+  border-top:   @caret-width-base solid ~"\9"; // IE8
+  border-right: @caret-width-base solid transparent;
+  border-left:  @caret-width-base solid transparent;
+
+  &.caret-up {
+    border-top: 0;
+    border-bottom: @caret-width-base dashed;
+    border-bottom: @caret-width-base solid ~"\9"; // IE8
+    content: "";
+  }
+}

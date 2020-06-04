@@ -1,0 +1,50 @@
+// Temporary styles to override JQuery UI stuff we don't like and will eventually get rid of
+// Once the app is completely refactored, you can probably remove all of this.
+// Much of it is overwriting jqueryui with bootstrap
+
+.bootstrap-styles {
+  .ui-button-text {
+    padding: 0;
+    display: inline-block;
+  }
+  #showlogic, #showtext {
+    .btn.btn-default {
+      margin-right: @grid-gutter-width/2;
+    }
+  }
+  button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+  }
+  .texttoolbar {
+    button {
+      background: @brand-secondary;
+      background-color: @brand-secondary;
+      color: #fff;
+      padding-left: 5px;
+      padding-right: 5px;
+      min-width: 34px;
+    }
+  }
+  table.list {
+  	width:100%;
+
+  	tr {
+    	border-top: 1px solid @gray-lighter;
+    	margin-top: @grid-gutter-width/2;
+    }
+  }
+  .panel {
+    &.panel-default,
+    &.panel-primary,
+    &.panel-success,
+    &.panel-info,
+    &.panel-danger,
+    &.panel-warning {
+      padding: 0;
+    }
+  }
+}

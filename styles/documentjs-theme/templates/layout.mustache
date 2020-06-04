@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>{{makeParentTitle}} {{#if title}}- {{title}} {{else}} {{#if name}}- {{name}}{{/if}}{{/if}}</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	{{^devBuild}}
+	<link rel="stylesheet" type="text/css" href="./static/bundles/static.css">
+	{{/devBuild}}
+	<!--[if lt IE 9]>
+   <script type="text/javascript" src="static/html5shiv.js"></script>
+    <!--<![endif]-->
+</head>
+
+<body class="docs">
+	<header>
+		<nav class="container">
+
+			<div class="logo-menu">
+				<a class="navbar-brand" href="index.html">
+                  <img class="a2j-logo" src="static/img/a2j-circle.svg" style="height:50px;width:auto;"/>
+                </a>
+			</div>
+
+			<ul class="main-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="overview.html">Style Guide</a></li>
+        <li class="separator"></li>
+        <li>API: </li>
+        <li><a href="api.html">Author</a></li>
+        <li><a href="viewer-api.html">Viewer</a></li>
+      </ul>
+
+			<div class="bitovi-menu pull-right">
+				<a href="http://bitovi.com" class="bitovi icon-bits">Bitovi</a>
+				<ul class="dropdown-menu">
+					<li><a href="http://bitovi.com">Bitovi.com</a></li>
+					<li><a href="http://bitovi.com/blog/">Blog</a></li>
+					<li><a href="http://bitovi.com/training/">Training</a></li>
+					<li><a href="http://bitovi.com/open-source/">Open Source</a></li>
+					<li><a href="http://bitovi.com/contact/">Contact Us</a></li>
+				</ul>
+			</div>
+
+		</nav>
+	</header>
+
+	{{{content}}}
+
+	<footer>
+	  <p class="center">Built by <a href="http://bitovi.com/">Bitovi</a> using <a href="http://documentjs.com/">DocumentJS</a>.
+	</footer>
+
+	<script type="text/javascript">
+		var docObject = {{{docObjectString}}};
+	</script>
+
+	{{#if devBuild}}
+		<script type='text/javascript'
+				data-main="static"
+				data-config="./static/config.js"
+				src="./static/steal/steal.js"></script>
+	{{else}}
+		<script>
+		  steal = {
+		    instantiated: {
+		      "bundles/static.css!$css" : null
+		    }
+		  }
+		</script>
+		<script type="text/javascript" data-main="static" data-config="./static/config.js" src="./static/steal.production.js" bundles-path="bundles"></script>
+	{{/if}}
+</body>
+
+</html>

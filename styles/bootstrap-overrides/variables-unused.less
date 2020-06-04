@@ -1,0 +1,205 @@
+/**
+* @styles var-z-variables-unused.less Unused Variables
+* @parent variables.less
+*
+* A2J Author does not use these Bootstrap components and `variables-unused.less` is not imported into the CSS. It's here as a placeholder for the required variables, in the event these components are supported in the future.
+*
+* The CSS for each of these components can be added to the application by adding it's Bootstrap reference in `styles.less`
+*
+* * Dropdowns
+* * Pagination
+* * Pager
+* * Jumbotron
+* * Tooltips
+* * Progress bars
+* * Wells
+* * Breadcrumbs
+* * Carousel
+* * Badges
+*
+**/
+
+
+//== Dropdowns
+//
+//## Dropdown menu container and contents.
+
+//* Background for the dropdown menu.
+@dropdown-bg:                    #fff;
+//* Dropdown menu `border-color`.
+@dropdown-border:                rgba(0,0,0,.15);
+//* Dropdown menu `border-color` **for IE8**.
+@dropdown-fallback-border:       #ccc;
+//* Divider color for between dropdown items.
+@dropdown-divider-bg:            #e5e5e5;
+
+//* Dropdown link text color.
+@dropdown-link-color:            @gray-dark;
+//* Hover color for dropdown links.
+@dropdown-link-hover-color:      darken(@gray-dark, 5%);
+//* Hover background for dropdown links.
+@dropdown-link-hover-bg:         #f5f5f5;
+
+//* Active dropdown menu item text color.
+@dropdown-link-active-color:     @component-active-color;
+//* Active dropdown menu item background color.
+@dropdown-link-active-bg:        @component-active-bg;
+
+//* Disabled dropdown menu item background color.
+@dropdown-link-disabled-color:   @gray-light;
+
+//* Text color for headers within dropdown menus.
+@dropdown-header-color:          @gray-light;
+
+//* Deprecated `@dropdown-caret-color` as of v3.1.0
+@dropdown-caret-color:           #000;
+
+
+//== Pagination
+//
+//##
+
+@pagination-color:                     @link-color;
+@pagination-bg:                        #fff;
+@pagination-border:                    #ddd;
+
+@pagination-hover-color:               @link-hover-color;
+@pagination-hover-bg:                  @gray-lighter;
+@pagination-hover-border:              #ddd;
+
+@pagination-active-color:              #fff;
+@pagination-active-bg:                 @brand-secondary;
+@pagination-active-border:             @brand-secondary;
+
+@pagination-disabled-color:            @gray-light;
+@pagination-disabled-bg:               #fff;
+@pagination-disabled-border:           #ddd;
+
+
+//== Pager
+//
+//##
+
+@pager-bg:                             @pagination-bg;
+@pager-border:                         @pagination-border;
+@pager-border-radius:                  15px;
+
+@pager-hover-bg:                       @pagination-hover-bg;
+
+@pager-active-bg:                      @pagination-active-bg;
+@pager-active-color:                   @pagination-active-color;
+
+@pager-disabled-color:                 @pagination-disabled-color;
+
+
+//== Jumbotron
+//
+//##
+
+@jumbotron-padding:              30px;
+@jumbotron-color:                inherit;
+@jumbotron-bg:                   @gray-lighter;
+@jumbotron-heading-color:        inherit;
+@jumbotron-font-size:            ceil((@font-size-base * 1.5));
+@jumbotron-heading-font-size:    ceil((@font-size-base * 4.5));
+
+//== Tooltips
+//
+//##
+
+//* Tooltip max width
+@tooltip-max-width:           200px;
+//* Tooltip text color
+@tooltip-color:               #fff;
+//* Tooltip background color
+@tooltip-bg:                  #000;
+@tooltip-opacity:             .9;
+
+//* Tooltip arrow width
+@tooltip-arrow-width:         5px;
+//* Tooltip arrow color
+@tooltip-arrow-color:         @tooltip-bg;
+
+
+//== Progress bars
+//
+//##
+
+//* Background color of the whole progress component
+@progress-bg:                 #f5f5f5;
+//* Progress bar text color
+@progress-bar-color:          #fff;
+//* Variable for setting rounded corners on progress bar.
+@progress-border-radius:      @border-radius-base;
+
+//* Default progress bar color
+@progress-bar-bg:             @brand-primary;
+//* Success progress bar color
+@progress-bar-success-bg:     @brand-success;
+//* Warning progress bar color
+@progress-bar-warning-bg:     @brand-warning;
+//* Danger progress bar color
+@progress-bar-danger-bg:      @brand-danger;
+//* Info progress bar color
+@progress-bar-info-bg:        @brand-info;
+
+
+
+//== Wells
+//
+//##
+
+@well-bg:                     #f5f5f5;
+@well-border:                 darken(@well-bg, 7%);
+
+
+//== Breadcrumbs
+//
+//##
+
+@breadcrumb-padding-vertical:   8px;
+@breadcrumb-padding-horizontal: 15px;
+//* Breadcrumb background color
+@breadcrumb-bg:                 #f5f5f5;
+//* Breadcrumb text color
+@breadcrumb-color:              #ccc;
+//* Text color of current page in the breadcrumb
+@breadcrumb-active-color:       @gray-light;
+//* Textual separator for between breadcrumb elements
+@breadcrumb-separator:          "/";
+
+
+//== Carousel
+//
+//##
+
+@carousel-text-shadow:                        0 1px 2px rgba(0,0,0,.6);
+
+@carousel-control-color:                      #fff;
+@carousel-control-width:                      15%;
+@carousel-control-opacity:                    .5;
+@carousel-control-font-size:                  20px;
+
+@carousel-indicator-active-bg:                #fff;
+@carousel-indicator-border-color:             #fff;
+
+@carousel-caption-color:                      #fff;
+
+
+//== Badges
+//
+//##
+
+@badge-color:                 #fff;
+//* Linked badge text color on hover
+@badge-link-hover-color:      #fff;
+@badge-bg:                    @gray-light;
+
+//* Badge text color in active nav link
+@badge-active-color:          @link-color;
+//* Badge background color in active nav link
+@badge-active-bg:             #fff;
+
+@badge-font-weight:           bold;
+@badge-line-height:           1;
+@badge-border-radius:         10px;
