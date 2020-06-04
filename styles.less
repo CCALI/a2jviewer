@@ -1,17 +1,17 @@
 // Defines the location of the Bootstrap package files
-@bootstrap-base: "../node_modules/bootstrap/less";
+@bootstrap-base: "node_modules/bootstrap/less";
 
 // Defines the location of our CSS overrides for default Bootstrap components
-@bootstrap-overrides: "../styles/bootstrap-overrides";
+@bootstrap-overrides: "styles/bootstrap-overrides";
 
 // Defines the location of custom A2J components that are needed for the framework
-@a2j-author: "../styles/author";
+@a2j-author: "styles/author";
 
 // Defines the location of the viewer specific CSS files
-@a2j-viewer: "../styles/viewer";
+@a2j-viewer: "styles/viewer";
 
 // Defines the location of shared CSS files
-@a2j-shared: "../styles/shared";
+@a2j-shared: "styles/shared";
 
 // Import our custom variables for Bootstrap
 @import "@{bootstrap-overrides}/variables.less";
@@ -74,8 +74,8 @@
 @import "@{a2j-viewer}/modal.less";
 
 //Import our custom icon font
-@import (inline) "../styles/icon-font/css/justice-embedded.css";
-@import (inline) "../styles/icon-font/css/animation.css";
+@import (inline) "styles/icon-font/css/justice-embedded.css";
+@import (inline) "styles/icon-font/css/animation.css";
 
 // blockquote override cleans up ckeditor commandExec calls in A2J_Pages
 // also in Author Styles.less
