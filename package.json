@@ -26,7 +26,8 @@
     "ignore": [
       "models/fixtures/**",
       "mobile/util/**",
-      "build.production.html.js"
+      "build.production.html.js",
+      "styles/documentjs-theme/**"
     ],
     "env": [
       "mocha"
