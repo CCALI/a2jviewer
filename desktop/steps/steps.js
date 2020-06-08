@@ -2,6 +2,7 @@ import $ from 'jquery'
 import CanMap from 'can-map'
 import _isNaN from 'lodash/isNaN'
 import _inRange from 'lodash/inRange'
+import _some from 'lodash/some'
 import Component from 'can-component'
 import template from './steps.stache'
 import _findIndex from 'lodash/findIndex'
@@ -71,6 +72,13 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
     currentPage: {
       get () {
         return this.attr('rState').currentPage
+      }
+    },
+
+    hasAvatarPicker: {
+      get () {
+        const fields = this.attr('currentPage.fields')
+        return _some(fields, field => field.attr('type') === 'useravatar')
       }
     },
 
