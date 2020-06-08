@@ -379,4 +379,101 @@ describe('<a2j-viewer-steps>', function () {
       assert.equal(vm.formatStepStyles(98), 'margin-right: -10px;width: calc(0% + 128px);')
     })
   })
+
+  describe('Component', function () {
+    let interview
+    let appStateTeardown
+    let vm // eslint-disable-line
+
+    beforeEach(function () {
+      const rawData = _assign({}, interviewJSON)
+      const parsedData = Interview.parseModel(rawData)
+
+      interview = new Interview(parsedData)
+
+      const traceMessage = new TraceMessage()
+      const mState = new CanMap()
+      const rState = new AppState({ traceMessage })
+      appStateTeardown = rState.connectedCallback()
+      rState.page = interview.attr('firstPage')
+      rState.interview = interview
+
+      const logicStub = new CanMap({
+        exec: $.noop,
+        infinite: {
+          errors: $.noop,
+          reset: $.noop,
+          _counter: 0,
+          inc: $.noop
+        },
+        varExists: sinon.spy(),
+        varCreate: sinon.spy(),
+        varGet: sinon.stub(),
+        varSet: sinon.spy(),
+        eval: sinon.spy()
+      })
+
+      let langStub = new CanMap({
+        MonthNamesShort: 'Jan, Feb',
+        MonthNamesLong: 'January, February',
+        LearnMore: 'Learn More'
+      })
+
+      const frag = stache(
+        `<a2j-viewer-steps
+        rState:bind="rState"
+        mState:bind="mState"
+        interview:bind="interview"
+        logic:bind="logicStub"
+        lang:bind="langStub"/>`
+      )
+
+      $('#test-area').html(frag({ rState, interview, mState, logicStub, langStub }))
+      vm = $('a2j-viewer-steps')[0].viewModel
+    })
+
+    afterEach(function () {
+      $('#test-area').empty()
+      appStateTeardown()
+    })
+
+    it('renders arrow when step number is zero', function (done) {
+      const firstStepNumber = interview.attr('steps.0.number')
+      assert.equal(parseInt(firstStepNumber, 10), 0)
+
+      F('.glyphicon-step-zero').size(1, 'should be one arrow')
+      F(done)
+    })
+
+    it('renders only guide avatar if "avatarGender" is unknown', function (done) {
+      const answers = interview.attr('answers')
+
+      // user has not set their gender
+      answers.attr('user gender', {
+        name: 'user gender',
+        values: [null]
+      })
+      assert.isUndefined(interview.attr('avatarGender'))
+
+      F('a2j-viewer-avatar').size(1)
+      F(done)
+    })
+
+    it('renders both client and guide avatars if "avatarGender" is known',
+      function (done) {
+        const answers = interview.attr('answers')
+
+        // user set her gender.
+        answers.attr('user gender', {
+          name: 'user gender',
+          values: [null, 'f']
+        })
+
+        assert.equal(interview.attr('avatarGender'), 'female')
+
+        F('a2j-viewer-avatar').size(2)
+        F(done)
+      }
+    )
+  })
 })
