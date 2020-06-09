@@ -312,11 +312,12 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
      * @parent steps.ViewModel
      *
      * whether the guide bubble is taller than the avatar
+     * bubbles with useravatar field types are always styled `vertical` (see steps.stache)
      *
      */
     guideBubbleTallerThanAvatar: {
       get () {
-        return this.attr('guideBubbleHeight') > this.attr('avatarHeight')
+        return this.attr('hasAvatarPicker') || this.attr('guideBubbleHeight') > this.attr('avatarHeight')
       }
     },
 
@@ -565,7 +566,7 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
       }
     }
     // if saved answer exists, restoreUserAvatar when shown
-    this.listenTo('showUserAvatar', restoreUserAvatar)
+    vm.listenTo('showUserAvatar', restoreUserAvatar)
 
     // cleanup
     return () => { this.stopListening('showUserAvatar', restoreUserAvatar) }
