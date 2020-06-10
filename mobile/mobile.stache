@@ -1,7 +1,7 @@
 <can-import from="~/mobile/pages/"/>
 <can-import from="~/mobile/header/"/>
 <can-import from="~/mobile/filler/"/>
-<can-import from="~/mobile/mobile.less"/>
+<can-import from="./mobile.less"/>
 <can-import from="~/desktop/navigation/"/>
 
 <div>

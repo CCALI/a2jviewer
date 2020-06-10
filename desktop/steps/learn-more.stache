@@ -1,10 +1,10 @@
 <p id="learnMore">{{{ eval(scope/learn, scope/rState.repeatVarValue) }}}</p>
 
-<a
+<button
   tabindex="0"
   on:click="../fireLearnMoreModal()"
   on:keydown="keydownFireClickHandler(scope.event, ../fireLearnMoreModal)"
   class="learn-more btn btn-default btn-navigate"
   aria-labelledby="learnMore">
   {{scope/lang.LearnMore}}
-</a>
+</button>

@@ -2,6 +2,7 @@ import $ from 'jquery'
 import CanMap from 'can-map'
 import _isNaN from 'lodash/isNaN'
 import _inRange from 'lodash/inRange'
+import _some from 'lodash/some'
 import Component from 'can-component'
 import template from './steps.stache'
 import _findIndex from 'lodash/findIndex'
@@ -71,6 +72,13 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
     currentPage: {
       get () {
         return this.attr('rState').currentPage
+      }
+    },
+
+    hasAvatarPicker: {
+      get () {
+        const fields = this.attr('currentPage.fields')
+        return _some(fields, field => field.attr('type') === 'useravatar')
       }
     },
 
@@ -304,11 +312,12 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
      * @parent steps.ViewModel
      *
      * whether the guide bubble is taller than the avatar
+     * bubbles with useravatar field types are always styled `vertical` (see steps.stache)
      *
      */
     guideBubbleTallerThanAvatar: {
       get () {
-        return this.attr('guideBubbleHeight') > this.attr('avatarHeight')
+        return this.attr('hasAvatarPicker') || this.attr('guideBubbleHeight') > this.attr('avatarHeight')
       }
     },
 
@@ -557,7 +566,7 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
       }
     }
     // if saved answer exists, restoreUserAvatar when shown
-    this.listenTo('showUserAvatar', restoreUserAvatar)
+    vm.listenTo('showUserAvatar', restoreUserAvatar)
 
     // cleanup
     return () => { this.stopListening('showUserAvatar', restoreUserAvatar) }

@@ -9,18 +9,22 @@
     </div>
 
     <div class="guide-wrapper {{#not(showUserAvatar)}}guide-center{{/not}}">
-      <div id="guideBubble"  tabindex="0" class="bubble {{#if(guideBubbleTallerThanAvatar)}}vertical{{else}}top{{/if}}" aria-label="main content">
-        <a2j-pages
-          currentPage:from="currentPage"
-          resumeInterview:from="resumeInterview"
-          lang:from="lang"
-          logic:from="logic"
-          rState:from="rState"
-          pState:from="pState"
-          mState:from="mState"
-          interview:from="interview"
-          traceMessage:to="traceMessage"
-          modalContent:bind="modalContent" />
+      <div
+        id="guideBubble"
+        tabindex="0"
+        class="bubble {{#if(guideBubbleTallerThanAvatar)}}vertical{{else}}top{{/if}} {{#if(hasAvatarPicker)}}has-avatar-picker{{/if}}"
+        aria-label="main content">
+          <a2j-pages
+            currentPage:from="currentPage"
+            resumeInterview:from="resumeInterview"
+            lang:from="lang"
+            logic:from="logic"
+            rState:from="rState"
+            pState:from="pState"
+            mState:from="mState"
+            interview:from="interview"
+            traceMessage:to="traceMessage"
+            modalContent:bind="modalContent" />
       </div><!-- guideBubble -->
 
       {{#not(showUserAvatar)}}
