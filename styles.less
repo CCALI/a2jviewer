@@ -1,6 +1,4 @@
 // Defines the location of the Bootstrap package files
-@bootstrap-base: "node_modules/bootstrap/less";
-
 // Defines the location of our CSS overrides for default Bootstrap components
 @bootstrap-overrides: "styles/bootstrap-overrides";
 
@@ -17,43 +15,43 @@
 @import "@{bootstrap-overrides}/variables.less";
 
 // Core mixins
-@import "@{bootstrap-base}/mixins.less";
+@import "locate://bootstrap/less/mixins.less";
 
 // Reset and dependencies
-@import "@{bootstrap-base}/normalize.less";
-@import "@{bootstrap-base}/print.less";
+@import "locate://bootstrap/less/normalize.less";
+@import "locate://bootstrap/less/print.less";
 
 // Core CSS
-@import "@{bootstrap-base}/scaffolding.less";
-@import "@{bootstrap-base}/type.less";
+@import "locate://bootstrap/less/scaffolding.less";
+@import "locate://bootstrap/less/type.less";
 @import "@{bootstrap-overrides}/typography.less";
-@import "@{bootstrap-base}/grid.less";
-@import "@{bootstrap-base}/forms.less";
+@import "locate://bootstrap/less/grid.less";
+@import "locate://bootstrap/less/forms.less";
 @import "@{bootstrap-overrides}/forms.less";
 @import "@{bootstrap-overrides}/form-fieldsets.less";
-@import "@{bootstrap-base}/buttons.less";
+@import "locate://bootstrap/less/buttons.less";
 
 // Components
-@import "@{bootstrap-base}/button-groups.less";
-@import "@{bootstrap-base}/input-groups.less";
-@import "@{bootstrap-base}/navs.less";
+@import "locate://bootstrap/less/button-groups.less";
+@import "locate://bootstrap/less/input-groups.less";
+@import "locate://bootstrap/less/navs.less";
 @import "@{bootstrap-overrides}/navs.less";
-@import "@{bootstrap-base}/navbar.less";
-@import "@{bootstrap-base}/labels.less";
+@import "locate://bootstrap/less/navbar.less";
+@import "locate://bootstrap/less/labels.less";
 @import "@{bootstrap-overrides}/labels.less";
-@import "@{bootstrap-base}/alerts.less";
+@import "locate://bootstrap/less/alerts.less";
 @import "@{bootstrap-overrides}/alerts.less";
-@import "@{bootstrap-base}/close.less";
+@import "locate://bootstrap/less/close.less";
 
 // Components w/ JavaScript
 .bootstrap-styles {
- @import "@{bootstrap-base}/modals.less";
+ @import "locate://bootstrap/less/modals.less";
  @import "@{bootstrap-overrides}/modals.less";
 }
 
 // Utility classes
-@import "@{bootstrap-base}/utilities.less";
-@import "@{bootstrap-base}/responsive-utilities.less";
+@import "locate://bootstrap/less/utilities.less";
+@import "locate://bootstrap/less/responsive-utilities.less";
 
 
 //Import CSS shared between the Viewer and Author
