@@ -1,4 +1,4 @@
-<can-import from="~/styles/author.jquery-ui.css" />
+<can-import from="~/styles/jquery-ui.css" />
 <can-import from="~/mobile/pages/fields/field/views/datemdy.less!" />
 <div>
   <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
