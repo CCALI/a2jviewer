@@ -1,7 +1,6 @@
 <can-import from="~/mobile/" />
 <can-import from="~/desktop/" />
 <can-import from="~/modal/" />
-<can-import from="~/styles.less" />
 
 {{#if(isMobile)}}
   <a2j-mobile-viewer
