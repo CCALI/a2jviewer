@@ -21,7 +21,7 @@
 
           <h4 class="modal-title" id="pageModalLbl">
             {{#if(modalContent.title)}}
-              {{ parseText(cleanHTML(modalContent.title), repeatVarValue) }}
+              {{ parseText(cleanHTML(modalContent.title)) }}
             {{else}}
               <span class="glyphicon-lifebuoy" aria-hidden="true"></span>
             {{/if}}
@@ -36,7 +36,7 @@
               value:bind="modalContent.textlongValue">
             </textarea>
           {{else}}
-            {{{insertExternalLinkIcon(parseText(modalContent.text, repeatVarValue))}}}
+            {{{insertExternalLinkIcon(parseText(modalContent.text))}}}
 
             {{#if(modalContent.audioURL)}}
               <div class="modal-audio-wrapper">

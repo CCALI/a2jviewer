@@ -10,7 +10,7 @@
 					{{#if(field.required)}}required{{/if}}
 					checked:bind="field._answerVm.values"
 					on:change="validateField(null, scope.element)"/>
-				{{{ parseText(field.label, repeatVarValue) }}}
+				{{{ parseText(field.label) }}}
 			</label>
 		</div>
 	</div>

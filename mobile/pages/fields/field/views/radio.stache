@@ -14,7 +14,7 @@
 			class="a2j-radio-button"
 			on:change="validateField(null, scope.element)"/>
 
-		{{{ parseText(field.label, repeatVarValue) }}}</label>
+		{{{ parseText(field.label) }}}</label>
 	</div>
 
 	{{> invalid-prompt-tpl }}

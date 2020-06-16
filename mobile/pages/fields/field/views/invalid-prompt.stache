@@ -1,7 +1,7 @@
 {{#if(showInvalidPrompt)}}
   <div class="alert alert-danger" role="alert">
     <span class="glyphicon-attention" aria-hidden="true">
-        {{{ parseText(scope.vm.invalidPrompt, repeatVarValue) }}}
+        {{{ parseText(scope.vm.invalidPrompt) }}}
         {{#if(showMinMaxPrompt)}}
             {{minMaxPrompt}}
         {{/if}}
