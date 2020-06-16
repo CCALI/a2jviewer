@@ -27,7 +27,8 @@
       "models/fixtures/**",
       "mobile/util/**",
       "build.production.html.js",
-      "styles/documentjs-theme/**"
+      "styles/documentjs-theme/**",
+      "models/tests/fixtures/**"
     ],
     "env": [
       "mocha"
