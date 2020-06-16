@@ -1,4 +1,4 @@
-<p id="learnMore">{{{ eval(scope/learn, scope/rState.repeatVarValue) }}}</p>
+<p id="learnMore">{{{ parseText(scope/learn) }}}</p>
 
 <button
   tabindex="0"

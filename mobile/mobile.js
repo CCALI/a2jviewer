@@ -38,11 +38,6 @@ export default Component.extend({
       const showCredits = this.attr('mState.showCredits')
 
       return (showCredits || showToc)
-    },
-
-    eval: function (str) {
-      str = typeof str === 'function' ? str() : str
-      return this.attr('logic').eval(str)
     }
   }
 })

@@ -1,4 +1,5 @@
 import route from 'can-route'
+import stache from 'can-stache'
 import _findIndex from 'lodash/findIndex'
 import Infinite from '~/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
@@ -209,6 +210,15 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   connectedCallback () {
+    const vm = this
+
+    const parseTextHelper = (html) => {
+      // re-eval if answer values have updated via beforeCode'
+      const answersChanged = vm.interview && vm.interview.attr('answers').serialize() // eslint-disable-line
+      return (html && vm.logic) && vm.logic.eval(html)
+    }
+    stache.registerHelper('parseText', parseTextHelper)
+
     const questionCountPerStep = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
     const visitedPageHandler = (ev) => {

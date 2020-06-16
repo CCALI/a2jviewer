@@ -11,7 +11,7 @@
   <button type="submit"
           on:el:click="scope.vm.navigate(button, scope.element, scope.event)"
           class="btn btn-default btn-navigate"
-          aria-label="{{getButtonLabel(scope.vm.parseText(button.label))}}">
-    {{getButtonLabel(scope.vm.parseText(button.label))}}
+          aria-label="{{getButtonLabel(scope.helpers.parseText(button.label))}}">
+    {{getButtonLabel(scope.helpers.parseText(button.label))}}
   </button>
 </form>

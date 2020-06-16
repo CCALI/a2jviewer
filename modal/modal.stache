@@ -21,7 +21,7 @@
 
           <h4 class="modal-title" id="pageModalLbl">
             {{#if(modalContent.title)}}
-              {{ eval(cleanHTML(modalContent.title), repeatVarValue) }}
+              {{ parseText(cleanHTML(modalContent.title)) }}
             {{else}}
               <span class="glyphicon-lifebuoy" aria-hidden="true"></span>
             {{/if}}
@@ -36,13 +36,13 @@
               value:bind="modalContent.textlongValue">
             </textarea>
           {{else}}
-            {{{insertExternalLinkIcon(eval(modalContent.text, repeatVarValue))}}}
+            {{{insertExternalLinkIcon(parseText(modalContent.text))}}}
 
             {{#if(modalContent.audioURL)}}
               <div class="modal-audio-wrapper">
                 {{#if (modalContent.mediaLabel)}}
                   <div class="audio-label">
-                    {{{eval(modalContent.mediaLabel)}}}
+                    {{{parseText(modalContent.mediaLabel)}}}
                   </div>
                   {{/if}}
                 <audio-player
@@ -91,7 +91,7 @@
                     {{#if (this.showTranscript)}}
                       <button class="btn btn-secondary btn-sm btn-block" on:click="this.toggleShowTranscript()"><span class="glyphicon-resize-small">Hide Video Transcript</span></button>
                       <p class="video-transcript-text">
-                        {{{ eval(modalContent.helpReader) }}}
+                        {{{ parseText(modalContent.helpReader) }}}
                       </p>
                     {{else}}
                       <button class="btn btn-secondary btn-sm btn-block" on:click="this.toggleShowTranscript()"><span class="glyphicon-resize-full">Show Video Transcript</span></button>
