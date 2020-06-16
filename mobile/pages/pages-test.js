@@ -504,16 +504,6 @@ describe('<a2j-pages>', () => {
       assert.equal(setFieldAnswersSpy.callCount, 2, 'should call setFieldAnswers twice with repeat loop')
     })
 
-    it('parseText refires if answers update', () => {
-      const logic = vm.attr('logic')
-      let count = 0
-      logic.eval = () => { return count++ }
-
-      // change answers
-      vm.attr('interview.answers.foo', 'bar')
-      assert.equal(count, 3, 'parseText exists in pages.stache 3 times and should be called 3 times')
-    })
-
     afterEach(() => {
       rStateTeardown()
       $('#test-area').empty()

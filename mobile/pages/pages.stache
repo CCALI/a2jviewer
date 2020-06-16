@@ -25,7 +25,7 @@
 
       <fieldset>
         <legend class='question-text-legend'>
-          <p class="question-text">{{{ insertExternalLinkIcon(this.parseText(currentPage.text)) }}}</p>
+          <p class="question-text">{{{ insertExternalLinkIcon(parseText(currentPage.text)) }}}</p>
         </legend>
 
         {{#if(currentPage.fields.length)}}
@@ -49,7 +49,7 @@
     </div><!-- bubble-content -->
 
     <p class="text-center modal-button">
-      <a class="learn-more" aria-label="{{{ this.parseText(currentPage.learn) }}}">{{{ this.parseText(currentPage.learn) }}}</a>
+      <a class="learn-more" aria-label="{{{ parseText(currentPage.learn) }}}">{{{ parseText(currentPage.learn) }}}</a>
     </p>
 
     {{#for(button of currentPage.buttons)}}
@@ -75,8 +75,8 @@
           <button type="button"
                   on:click="navigate(button)"
                   class="btn btn-default btn-navigate"
-                  aria-label="{{getButtonLabel(this.parseText(button.label))}}">
-            {{getButtonLabel(this.parseText(button.label))}}
+                  aria-label="{{getButtonLabel(parseText(button.label))}}">
+            {{getButtonLabel(parseText(button.label))}}
           </button>
         {{/default}}
       {{/switch}}
