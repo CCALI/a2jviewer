@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/CCALI/A2JViewer.svg?branch=develop)](https://travis-ci.com/CCALI/A2JViewer)
+
 # A2JViewer
 
 This repo hosts the distributable production version of the A2J Viewer.
