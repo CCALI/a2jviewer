@@ -1,10 +1,12 @@
 import { assert } from 'chai'
 import AppState from '~/models/app-state'
 import Interview from '~/models/interview'
-import Infinite from '~/mobile/util/infinite'
+import Logic from '~/mobile/util/logic'
 import DefineMap from 'can-define/map/map'
 import CanMap from 'can-map'
+import stache from 'can-stache'
 import sinon from 'sinon'
+import '~/models/tests/fixtures/'
 
 import 'steal-mocha'
 
@@ -27,14 +29,7 @@ describe('AppState', function () {
       traceMessage = new DefineMap({ addMessage: sinon.stub() })
       interview.attr('answers', answers)
 
-      logic = new CanMap({
-        infinite: new Infinite(),
-        eval: sinon.spy(),
-        exec: sinon.spy(),
-        varGet: sinon.stub(),
-        varSet: sinon.stub(),
-        gotoPage: ''
-      })
+      logic = new Logic({ interview })
 
       appState = new AppState({ interview, logic, traceMessage })
       // simulate stache bind on visitedPages
@@ -50,6 +45,14 @@ describe('AppState', function () {
 
   afterEach(function () {
     appStateTeardown()
+  })
+
+  it('parseText helper', function () {
+    const parseText = stache.getHelper('parseText')
+    const answers = appState.interview.attr('answers')
+    answers.varSet('client first name te', 'JessBob', 1)
+    const result = parseText('My name is %%[Client first name TE]%%')
+    assert.equal(result, 'My name is JessBob', 'should resolve macros in text')
   })
 
   it('sets default avatar when no saved userAvatar value', function () {
@@ -87,8 +90,9 @@ describe('AppState', function () {
   })
 
   it('handles repeatVarValues', function () {
+    const answers = appState.interview.attr('answers')
+    answers.varSet('childcount', 1)
     interview.attr('pages.1.repeatVar', 'childCount')
-    logic.varGet.returns(1)
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'appState.visitedPages should be correct length')
@@ -98,7 +102,9 @@ describe('AppState', function () {
 
   it('handles following pages without repeatVarValues', function () {
     interview.attr('pages.1.repeatVar', 'childCount')
-    logic.varGet.returns(1)
+    const answers = appState.interview.attr('answers')
+    answers.varSet('childcount', 1)
+    interview.attr('pages.1.repeatVar', 'childCount')
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'appState.visitedPages should be correct length')
@@ -106,7 +112,7 @@ describe('AppState', function () {
     assert.equal(appState.visitedPages[0].repeatVarValue, '1', 'page has repeatVarValue')
 
     appState.page = pageNames[2]
-    logic.varGet.returns(null)
+    // answers.varSet('childcount', null)
     assert.equal(appState.visitedPages.length, 2, 'appState.visitedPages should be correct length')
     assert.equal(appState.visitedPages[0].repeatVar, '', 'page should not have repeatVar')
     assert.equal(appState.visitedPages[0].repeatVarValue, null, 'page has no repeatVarValue')
@@ -114,14 +120,15 @@ describe('AppState', function () {
 
   it('handles repeatVarValue changes with same page name', function () {
     interview.attr('pages.1.repeatVar', 'childCount')
-    logic.varGet.returns(1)
+    const answers = appState.interview.attr('answers')
+    answers.varSet('childcount', 1)
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'first page appState.visitedPages')
     assert.equal(appState.visitedPages[0].repeatVar, 'childCount', 'first page has repeatVar')
     assert.equal(appState.visitedPages[0].repeatVarValue, '1', 'first page has repeatVarValue')
 
-    logic.varGet.returns(2)
+    answers.varSet('childcount', 2)
     appState.page = pageNames[1]
     assert.equal(appState.visitedPages.length, 2, 'second page appState.visitedPages')
     assert.equal(appState.visitedPages[0].repeatVar, 'childCount', 'second page has repeatVar')
