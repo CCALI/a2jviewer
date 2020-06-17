@@ -372,14 +372,5 @@ describe('<a2j-viewer-steps>', function () {
         F(done)
       }
     )
-
-    it.skip('resolves macro values in custom sign text', function (done) {
-      const answers = interview.attr('answers')
-      answers.varSet('number', 42)
-      answers.varSet('a2j step 1', 'The answer to everything is %%[number]%%')
-
-      // F('.bg-step-zero').text(1, 'should be one arrow')
-      F(done)
-    })
   })
 })
