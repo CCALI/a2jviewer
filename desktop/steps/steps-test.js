@@ -5,6 +5,7 @@ import _assign from 'lodash/assign'
 import stache from 'can-stache'
 import AppState from '~/models/app-state'
 import Interview from '~/models/interview'
+import Logic from '~/mobile/util/logic'
 import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
 import $ from 'jquery'
 import { ViewerStepsVM } from '~/desktop/steps/'
@@ -92,13 +93,13 @@ describe('<a2j-viewer-steps>', function () {
       const step = vm.attr('interview.steps.0')
       const stepVar = vm.attr('interview.answers.a2j step 0')
 
-      assert.equal(vm.getDisplayTextForStep(step), 'Audio Test', 'show default step sign text')
+      assert.equal(vm.getTextForStep(step), 'Audio Test', 'show default step sign text')
       // update matching step var
       stepVar.attr('values.1', 'New Sign Text')
-      assert.equal(vm.getDisplayTextForStep(step), 'New Sign Text', 'Authors can set new sign displayText')
+      assert.equal(vm.getTextForStep(step), 'New Sign Text', 'Authors can set new sign displayText')
       // clear custom value
       stepVar.attr('values.1', '')
-      assert.equal(vm.getDisplayTextForStep(step), 'Audio Test', 'should restore text when step var set to empty string')
+      assert.equal(vm.getTextForStep(step), 'Audio Test', 'should restore text when step var set to empty string')
     })
 
     it('getStepIndex', () => {
@@ -107,14 +108,14 @@ describe('<a2j-viewer-steps>', function () {
       assert.equal(vm.getStepIndex(step), 2, 'it did not return the correct index for the step')
     })
 
-    it('getDisplayTextForStep', () => {
+    it('truncateText', () => {
       const step = vm.attr('interview.steps.0')
-      assert.equal(vm.getDisplayTextForStep(step), 'Audio Test', 'should not change short text')
+      assert.equal(vm.truncateText(step.text), 'Audio Test', 'should not change short text')
 
       step.attr('text', 'slightly longer text with a space as the 51st char that gets truncated')
 
       assert.equal(
-        vm.getDisplayTextForStep(step),
+        vm.truncateText(step.text),
         'slightly longer text with a space as the 51st char...',
         'should truncate to 50 chars and add an ellipsis'
       )
@@ -122,7 +123,7 @@ describe('<a2j-viewer-steps>', function () {
       step.attr('text', 'long text with a space as the 50th character in the middle of a word')
 
       assert.equal(
-        vm.getDisplayTextForStep(step),
+        vm.truncateText(step.text),
         'long text with a space as the 50th character in...',
         'should truncate to last full word before 50th char and add an ellipsis'
       )
@@ -307,20 +308,7 @@ describe('<a2j-viewer-steps>', function () {
       rState.page = interview.attr('firstPage')
       rState.interview = interview
 
-      const logicStub = new CanMap({
-        exec: $.noop,
-        infinite: {
-          errors: $.noop,
-          reset: $.noop,
-          _counter: 0,
-          inc: $.noop
-        },
-        varExists: sinon.spy(),
-        varCreate: sinon.spy(),
-        varGet: sinon.stub(),
-        varSet: sinon.spy(),
-        eval: sinon.spy()
-      })
+      const logic = new Logic({ interview })
 
       let langStub = new CanMap({
         MonthNamesShort: 'Jan, Feb',
@@ -330,14 +318,14 @@ describe('<a2j-viewer-steps>', function () {
 
       const frag = stache(
         `<a2j-viewer-steps
-        rState:bind="rState"
-        mState:bind="mState"
-        interview:bind="interview"
-        logic:bind="logicStub"
-        lang:bind="langStub"/>`
+        rState:from="rState"
+        mState:from="mState"
+        interview:from="interview"
+        logic:from="logic"
+        lang:from="langStub"/>`
       )
 
-      $('#test-area').html(frag({ rState, interview, mState, logicStub, langStub }))
+      $('#test-area').html(frag({ rState, interview, mState, logic, langStub }))
       vm = $('a2j-viewer-steps')[0].viewModel
     })
 

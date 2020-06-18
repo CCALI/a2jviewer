@@ -412,15 +412,14 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
   },
 
   /**
-   * @property {String} steps.ViewModel.prototype.getDisplayTextForStep getDisplayTextForStep
+   * @property {String} steps.ViewModel.prototype.truncateText truncateText
    * @parent steps.ViewModel
    *
    * final text to be displayed on step sign in viewer, truncated as needed
    */
-  getDisplayTextForStep (step) {
-    const maxChars = 50
-    const overflowText = '...'
-    const text = this.getTextForStep(step)
+  truncateText (text, maxChars, overflowText) {
+    maxChars = maxChars || 50
+    overflowText = overflowText || '...'
 
     return _truncate(text, {
       length: maxChars + overflowText.length,

@@ -88,7 +88,11 @@
           </span>
         </div> <!-- sign circle -->
         <div aria-labelledby="step-{{currentStep.number}}-display-text" class="sign-content">
-          <span id="step-{{currentStep.number}}-display-text" title="{{scope.vm.getTextForStep(currentStep)}}">{{scope.vm.getDisplayTextForStep(currentStep)}}</span>
+          <span
+            id="step-{{currentStep.number}}-display-text"
+            title="{{scope.helpers.parseText(scope.vm.getTextForStep(currentStep))}}">
+              {{scope.vm.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(currentStep)))}}
+          </span>
         </div> <!-- sign content -->
       </div> <!-- sign outer -->
     </div> <!-- sign wrapper -->
@@ -109,8 +113,12 @@
             <div class="sign-circle">
               <span class="circle-content">{{step.number}}</span>
             </div> <!-- sign circle -->
-            <div aria-labelledby="step-{{currentStep.number}}-display-text" class="sign-content">
-              <span id="step-{{currentStep.number}}-display-text" title="{{scope.vm.getTextForStep(step)}}">{{scope.vm.getDisplayTextForStep(step)}}</span>
+            <div aria-labelledby="step-{{step.number}}-display-text" class="sign-content">
+              <span
+                id="step-{{step.number}}-display-text"
+                title="{{scope.helpers.parseText(scope.vm.getTextForStep(step))}}">
+                  {{scope.vm.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(step)))}}
+              </span>
             </div> <!-- sign content -->
           </div> <!-- sign outer -->
         </div> <!-- sign wrapper -->
