@@ -55,16 +55,16 @@
     }
 
     /**
-		 * @constructor
-		 * @struct
-		 * @this {TLogic}
-		 */
+     * @constructor
+     * @struct
+     * @this {TLogic}
+     */
     function TLogic () {
       this.showCAJAScript =
-				0 // none
-				// +1 // end of js line
-				// +2// before js
-				// +3//tracer
+        0 // none
+        // +1 // end of js line
+        // +2// before js
+        // +3//tracer
 
       this.tracerID = '#tracer'
       this.userFunctions = {} // list of user functions, property name is function name.
@@ -103,18 +103,18 @@
       // Returns JavaScript source code lines in .js and errors in .errors which caller may evaluate
       // TODO: needs a regex guru to optimize
       /*
-				_VG(x) = get value of variable x
-				_VG(x,n) = get nth element of array variable x
-				_VS(x,y,z) = set value of variable x#y to z
-				_ED(d) = parse an mm/dd/yyyy string to date
-				_CF(f,a) = call function f with argument a
+        _VG(x) = get value of variable x
+        _VG(x,n) = get nth element of array variable x
+        _VS(x,y,z) = set value of variable x#y to z
+        _ED(d) = parse an mm/dd/yyyy string to date
+        _CF(f,a) = call function f with argument a
 
-				CAJA supported syntax
-				SET v TO e or SET v = e becomes SV(v,e)
-				GOTO v becomes GOTO(v)
-				IF exp
-				END IF
-			*/
+        CAJA supported syntax
+        SET v TO e or SET v = e becomes SV(v,e)
+        GOTO v becomes GOTO(v)
+        IF exp
+        END IF
+      */
       var errors = []
       var jsLines = []
 
@@ -132,7 +132,7 @@
         // Ideally we don't tokenize by lines.
         // TODO support multi-line expressions too.
         if (exp.indexOf('"') >= 0) {
-          if (exp.split('"').length % 2 == 0) { // Warning: need to accept embedded quote?
+          if (exp.split('"').length % 2 === 0) { // Warning: need to accept embedded quote?
             var noquote = true
             var l2
             for (l2 = l + 1; l2 < csLines.length && noquote; l2++) {
@@ -179,7 +179,7 @@
             if (pageNameExp.substr(0, 1) === '"' && pageNameExp.substr(-1, 1) === '"') { // We can statically check of a quoted page name.
               var pageName = pageNameExp.substr(1, pageNameExp.length - 2)
               if (!this.pageExists(pageName)) {
-                errors.push(new ParseError(l, '', lang.scriptErrorMissingPage.printf(pageName)))
+                errors.push(new ParseError(l, '', window.lang.scriptErrorMissingPage.printf(pageName)))
               }
               js = ('_GO(' + jquote(line) + ',' + pageNameExp + ');return;')
             }
@@ -195,7 +195,7 @@
               line = '' // don't print else?
             }
             js = ('if (_IF(' + ifd + ',' + jquote(args[1]) + ',' + this.translateCAJAtoJSExpression(args[1], l, errors) + ')){')
-            //				js=("if ("+this.translateCAJAtoJSExpression(args[1], l, errors)+"){");
+            // js=("if ("+this.translateCAJAtoJSExpression(args[1], l, errors)+"){");
           } else
           if ((args = line.match(REG.LOGIC_ELSEIF)) !== null) { // "else if expression" becomes "}else if (expression){"
             // does NOT affect depth. ifd++;
@@ -232,7 +232,7 @@
             // js=("_W("+jquote(exp)+","+this.translateCAJAtoJSExpression(exp, l, errors)+")");
 
             js = '_CAJA(' + jquote(line) + ');'
-            errors.push(new ParseError(l, '', lang.scriptErrorUnhandled.printf(line)))
+            errors.push(new ParseError(l, '', window.lang.scriptErrorUnhandled.printf(line)))
           }
 
           switch (this.showCAJAScript) {
@@ -251,7 +251,7 @@
         }
       }
       if (ifd > 0) {
-        errors.push(new ParseError(l, '', lang.scriptErrorEndMissing.printf()))
+        errors.push(new ParseError(l, '', window.lang.scriptErrorEndMissing.printf()))
       }
       return {
         js: jsLines,
@@ -287,7 +287,7 @@
       if (errors.length === 0) {
         try {
           // This uses JavaScript EVAL.
-          var f = (new Function('with (gLogic) { return (' + js + ')}'))
+          var f = (new Function('with (gLogic) { return (' + js + ')}')) // eslint-disable-line
           var result = f() // Execute the javascript code.
           txt = escapeHtml(result)
           // Ensure line breaks from user long answer or author's multi-line text set appear.
@@ -369,47 +369,47 @@
         var jj = js[j]
 
         // Strip out $ from $25,000 and inappropriate %%.
-        jj = jj.replace(/\$|\%\%/gi, '')
+        jj = jj.replace(/\$|\%\%/gi, '') // eslint-disable-line
 
-        //	A2J variables support spaces and other symbols using [] delimiter notation.
-        //		Examples: Name, G/C person age MC, Doesn't have alternate guardian TE, Child Name, Child Name 2, Child Name#2, Child Name#Child Index
+        //  A2J variables support spaces and other symbols using [] delimiter notation.
+        //  Examples: Name, G/C person age MC, Doesn't have alternate guardian TE, Child Name, Child Name 2, Child Name#2, Child Name#Child Index
         // Variable formats:
-        //		Variable name with possible spaces
-        //			[child name] converts to GetVar("child name")
+        //  Variable name with possible spaces
+        //  [child name] converts to GetVar("child name")
         // jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)\]/gi,"$$1(\"$1\")");
-        jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)\]/gi, trackVar)
+        jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)\]/gi, trackVar) // eslint-disable-line
 
-        //		Variable name with possible spaces#number (array)
-        //			[child name#2] converts to GetVar("child name",2)
+        //  Variable name with possible spaces#number (array)
+        //  [child name#2] converts to GetVar("child name",2)
         // jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)#([\d]+)\]/gi,"$$1(\"$1\",$2)");
-        jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)#([\d]+)\]/gi, trackVarIndex)
+        jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)#([\d]+)\]/gi, trackVarIndex) // eslint-disable-line
 
         // Variable name with possible spaces#other variable name that evaluates to a number (array)
-        //			[child name#child counter] converts to GetVar("child name",GetVar("child counter"))
+        //  [child name#child counter] converts to GetVar("child name",GetVar("child counter"))
         // jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)#([\w|\s|\-|\'|\/]+)\]/gi,"$$1(\"$1\",$$1(\"$2\"))");
-        jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)#([\w|\s|\-|\'|\/]+)\]/gi, trackVarIndexVar)
+        jj = jj.replace(/\[([\w|\s|\-|\'|\/]+)#([\w|\s|\-|\'|\/]+)\]/gi, trackVarIndexVar) // eslint-disable-line
 
-        //	A2J dates bracketed with # like VB
-        //	#12/25/2012# converts to convertDate("12/25/2012")
+        //  A2J dates bracketed with # like VB
+        //  #12/25/2012# converts to convertDate("12/25/2012")
         //  This is a deprecated syntax and will be removed (see _ED function)
-        var date = /#([\d|\/]+)#/gi
+        var date = /#([\d|\/]+)#/gi // eslint-disable-line
         jj = jj.replace(date, '$$2("$1")')
 
         js[j] = jj
       }
       js = js.join('"').split('"')
-      var comma_fnc = function (s) {
+      var removeCommaFunc = function (s) {
         return s.replace(',', '')
       }
       for (j = 0; j < js.length; j += 2) { // handle standalone symbols not in quotes
         jj = js[j]
 
         // A2J allows commas in numbers for clarity
-        //		25,000.25 converts to 25000.25
-        var vn = /(\d[\d|\,]+)/gi
-        jj = jj.replace(vn, comma_fnc) // function(s){return s.replace(",","");});
+        //  25,000.25 converts to 25000.25
+        var vn = /(\d[\d|\,]+)/gi // eslint-disable-line
+        jj = jj.replace(vn, removeCommaFunc) // function(s){return s.replace(",","");});
 
-        //	A2J uses IS, AND, OR and NOT while JS uses ==, &&, || and !
+        //  A2J uses IS, AND, OR and NOT while JS uses ==, &&, || and !
         jj = jj.replace(/\band\b/gi, '&&')
         jj = jj.replace(/\bor\b/gi, '||')
         jj = jj.replace(/\bnot\b/gi, '!')
@@ -419,14 +419,14 @@
         jj = jj.replace(/&gt;/g, '>')
 
         // A2J uses = and <> for comparison while JS uses == and !=
-        jj = jj.replace(/\=/gi, '==')
-        jj = jj.replace(/\>\=\=/gi, '>=')
+        jj = jj.replace(/\=/gi, '==') // eslint-disable-line
+        jj = jj.replace(/\>\=\=/gi, '>=') // eslint-disable-line
         jj = jj.replace(REG.LOGIC_LE, '<=')
         jj = jj.replace(REG.LOGIC_NE, '!=')
         jj = jj.replace(/\bis\b/gi, '==')
 
         // Function calls
-        //		age([child birthdate]) converts to CallFunction("age",GetVar("child birthdate"))
+        //  age([child birthdate]) converts to CallFunction("age",GetVar("child birthdate"))
         jj = jj.replace(/([A-Za-z_][\w]*)(\s*)(\()/gi, '$$3("$1",')
 
         js[j] = jj
@@ -435,7 +435,7 @@
       for (j = 0; j < js.length; j += 2) { // handle standalone variables that aren't functions
         jj = js[j]
         // Unbracketed variables get final VV treatment
-        //		first_name converts to VV("first_name")
+        //  first_name converts to VV("first_name")
         // jj = jj.replace(/([A-Za-z_][\w]*)/gi,'$$1("$1")');
         jj = jj.replace(/([A-Za-z_][\w]*)/gi, trackVar)
 
@@ -450,7 +450,7 @@
       js = js.join('"')
       // Build function to find syntax errors
       try {
-        var f = (new Function(js))
+        var f = (new Function(js)) // eslint-disable-line
         f = null
       } catch (localTCE) { // Attempt to convert JS errors into A2J errors.
         if (localTCE.message === 'missing ; before statement') {
@@ -589,9 +589,9 @@
       if (script.errors.length === 0) {
         var js = 'with (gLogic) {' + script.js.join('\n') + '}'
         try {
-          var f = (new Function(js)) // This is an EVAL (but constrained in WITH)
-          var result = f() // Execute the javascript code.
-          result = null
+          // This is an EVAL (but constrained in WITH)
+          var f = (new Function(js)) // eslint-disable-line
+          f() // Execute the javascript code.
         } catch (e) {
           // Trace runtime errors
           var message = {}
@@ -622,7 +622,7 @@
     }
 
     TLogic.prototype.stripLogicHTML = function (html) {
-      var parts = makestr(html).split('%%')
+      var parts = window.makestr(html).split('%%')
 
       if (parts.length > 0) {
         html = ''
@@ -669,19 +669,19 @@
     })
 
     // These 4 functions use `numeral` library to cast strings to numbers if needed.
-    gLogic.addUserFunction('Trunc', 1, function (num) {	// Return integer without decimals
+    gLogic.addUserFunction('Trunc', 1, function (num) { // Return integer without decimals
       return Math.trunc(numeral(num).value())
     })
 
-    gLogic.addUserFunction('Trunc2', 1, function (num) {	// Return integer with 2 decimal places
+    gLogic.addUserFunction('Trunc2', 1, function (num) { // Return integer with 2 decimal places
       return Math.trunc(numeral(num).value() * 100) / 100
     })
 
-    gLogic.addUserFunction('Round', 1, function (num) {	// Return integer, rounded.
+    gLogic.addUserFunction('Round', 1, function (num) { // Return integer, rounded.
       return Math.round(numeral(num).value())
     })
 
-    gLogic.addUserFunction('Round2', 1, function (num) {	// Return integer, rounded to two decimal places.
+    gLogic.addUserFunction('Round2', 1, function (num) { // Return integer, rounded to two decimal places.
       return Math.round(numeral(num).value() * 100) / 100
     })
 
@@ -716,7 +716,7 @@
 
     gLogic.addUserFunction('Ordinal', 1, function (ordinal) { // Map number to ordinal: 1 becomes first, 8 becomes eighth.
       ordinal = parseInt(ordinal, 10)
-      var txt = lang['Ordinals_' + ordinal]
+      var txt = window.lang['Ordinals_' + ordinal]
       if (!txt) { // If not found in ordinal list, build from scratch in English form.
         var ending
         switch (ordinal % 10) {

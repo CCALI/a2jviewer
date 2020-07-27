@@ -143,7 +143,7 @@ describe('Tlogic', function () {
       output = testLogic.removeTrailingComments(url)
       assert.equal(output, 'SET [url] TO "http://www.google.com"', 'handles url with no leading space comment')
 
-      const escapedUrl = 'SET [url] TO "http:\/\/azlawhelp.org/A2JRedirect/A2J-ModestMeans-FullProcess.cfm" // comment 1'
+      const escapedUrl = 'SET [url] TO "http:\/\/azlawhelp.org/A2JRedirect/A2J-ModestMeans-FullProcess.cfm" // comment 1' // eslint-disable-line
       output = testLogic.removeTrailingComments(escapedUrl)
       assert.equal(output, 'SET [url] TO "http://azlawhelp.org/A2JRedirect/A2J-ModestMeans-FullProcess.cfm"', 'handles escaped urls with leading space comment')
 

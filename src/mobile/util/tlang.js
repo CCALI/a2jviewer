@@ -34,7 +34,8 @@ export default function (lang, makestr) {
 
   ******************************************************************************/
 
-  function readableList (list) { // 2014-09-03 Return comma separated, optional 'and' for array.
+  // 2014-09-03 Return comma separated, optional 'and' for array.
+  function readableList (list) { // eslint-disable-line
     var items = []
     for (var i in list) { // Remove null or blanks.
       var item = list[i]

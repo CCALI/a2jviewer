@@ -12,7 +12,7 @@ fixture('GET /parse-model-interview.json', function (req, res) {
 })
 
 fixture('GET /options', function (req, res) {
-  res(200, 'success', '<OPTION VALUE=\"Illinois\">Illinois</OPTION><OPTION VALUE=\"Indiana\">Indiana</OPTION><OPTION VALUE=\"Minnesota\">Minnesota</OPTION><OPTION VALUE=\"Texas\">Texas</OPTION><OPTION VALUE=\"Wyoming\">Wyoming</OPTION>')
+  res(200, 'success', '<OPTION VALUE=\"Illinois\">Illinois</OPTION><OPTION VALUE=\"Indiana\">Indiana</OPTION><OPTION VALUE=\"Minnesota\">Minnesota</OPTION><OPTION VALUE=\"Texas\">Texas</OPTION><OPTION VALUE=\"Wyoming\">Wyoming</OPTION>') // eslint-disable-line
 })
 
 fixture('POST /autosave.aspx', function (req, res) {
