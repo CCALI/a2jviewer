@@ -1,0 +1,47 @@
+@import "../../../styles/bootstrap-overrides/variables.less";
+
+a2j-pages {
+  display: block;
+
+  .question-text-legend {
+    width: 100%;
+  }
+
+  .btn-navigate {
+    margin-bottom: 5px!important;
+  }
+
+  .modal-button {
+    display: none;
+
+    @media (max-width: @screen-sm) {
+      display: block;
+    }
+  }
+
+  .post-answers-form {
+    display: inline;
+  }
+
+  audio-player {
+    margin-bottom: 40px;
+  }
+
+  audio {
+    max-width: 100%;
+
+    @media (max-width: @screen-sm) {
+      display: none;
+    }
+  }
+
+  fieldset {
+    border: none!important;
+    padding: 0px!important;
+
+    legend {
+      font-size: 14px!important;
+      font-weight: 500!important;
+    }
+  }
+}

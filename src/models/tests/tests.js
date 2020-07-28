@@ -1,0 +1,7 @@
+import '~/src/models/tests/page-test'
+import '~/src/models/tests/answers-test'
+import '~/src/models/tests/answervm-test'
+import '~/src/models/tests/interview-test'
+import '~/src/models/tests/app-state-test'
+import '~/src/models/tests/memory-state-test'
+import '~/src/models/tests/get-skin-tone-test'

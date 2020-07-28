@@ -1,0 +1,5 @@
+import '~/src/mobile/util/tests/lang-test'
+import '~/src/mobile/util/tests/logic-test'
+import '~/src/mobile/util/tests/validations-test'
+import '~/src/mobile/util/tests/tlogic-test'
+import '~/src/mobile/util/tests/helpers-test'

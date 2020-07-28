@@ -1,0 +1,143 @@
+<can-import from="@caliorg/a2jdeps/alert/"/>
+<can-import from="~/src/desktop/navigation/navigation.less!"/>
+
+<nav class="navbar navbar-default" role="navigation">
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+    <ul class="nav navbar-nav navbar-mobile">
+    {{#not(isMobile)}}
+      <li class="focus-main-content nav-item">
+        <a href="#" class="nav-link" on:click="focusMainContent()" on:keydown="keydownFireClickHandler(scope.event, focusMainContent)"></a>
+      </li>
+    {{/not}}
+      <li
+        tabindex="0"
+        aria-labelledby="go-back-nav-button"
+        class="nav-item {{^if(./canNavigateBack)}}navigation-disabled{{/if}}"
+        on:click="./navigateBack()"
+        on:keydown="keydownFireClickHandler(scope.event, ./navigateBack)"
+      >
+        <a role="button" class="nav-link" id="go-back-nav-button">
+          <span class="glyphicon-left-open" aria-hidden="true"></span>{{lang.GoBack}}
+        </a>
+      </li>
+      <li class="divider" role="separator"></li>
+      <li
+        tabindex="0"
+        aria-labelledby="go-next-nav-button"
+        class="nav-item  {{^if(./canNavigateForward)}}navigation-disabled{{/if}}"
+        on:click="./navigateForward()"
+        on:keydown="keydownFireClickHandler(scope.event, ./navigateForward)"
+      >
+        <a role="button" class="nav-link" id="go-next-nav-button">
+          {{./lang.GoNext}}<span class="glyphicon-right-open" aria-hidden="true"></span>
+        </a>
+      </li>
+    </ul>
+
+    <form class="navbar-form navbar-left {{#if(isMobile)}}hidden{{/if}}" role="search">
+      <span id="myProgress">{{./lang.MyProgress}}:</span>
+      <div class="form-group ">
+        <div class="input-group">
+          <select
+            aria-labelledby="myProgress"
+            role="listbox"
+            id="myProgressSelect"
+            class="form-control"
+            value:from="this.rState.selectedPageIndex">
+            {{#for(option of myProgressOptions)}}
+              <option value:from="scope.index" disabled:from="this.disableOption(scope.index)">
+                {{{option}}}
+              </option>
+            {{/for}}
+          </select>
+        </div>
+      </div>
+    </form>
+
+  {{#if(./isMobile)}}
+    <!-- / navbar-right-mobile -->
+    <ul class="navbar-mobile nav navbar-nav navbar-right">
+      {{#if(interview.sendfeedback)}}
+      <li class="nav-item">
+        <a role="button"
+          target="_blank"
+          href="{{./feedbackFormUrl()}}"
+          aria-label="{{./lang.SendFeedback}}"
+          class="nav-link send-feedback">
+          <span class="glyphicon-mail" aria-hidden="true"></span>
+        </a>
+      </li>
+      {{/if}}
+
+      {{#if(./canSaveAndExit)}}
+      <li class="divider" role="separator"></li>
+        <li class="nav-item can-exit" on:click="./saveAndExit()" aria-label="{{./lang.SaveAndExit}}">
+          <a role="button" class="nav-link" tabindex="0">
+            <span class="glyphicon-floppy" aria-hidden="true"></span>
+          </a>
+        </li>
+      {{/if}}
+
+      {{#if(canResumeInterview)}}
+      <li class="divider" role="separator"></li>
+        <li class="nav-item can-resume" on:click="./resumeInterview()" aria-label="{{./lang.ResumeExit}}" >
+          <a role="button" class="nav-link" tabindex="0">
+            <span class="glyphicon-right-thin" aria-hidden="true"></span> {{./lang.ResumeExit}}
+          </a>
+        </li>
+      {{/if}}
+    </ul><!-- /navbar-right-mobile -->
+  {{else}}
+    <!-- /navbar-right -->
+    <ul class="navbar-mobile nav navbar-nav navbar-right">
+      {{#if(interview.sendfeedback)}}
+      <li class="divider" role="separator"></li>
+      <li class="nav-item">
+        <a role="button" target="_blank" href="{{./feedbackFormUrl()}}"
+          aria-label="{{./lang.SendFeedback}}"
+          class="nav-link send-feedback"
+          id="send-feedback-button">
+          <span class="glyphicon-mail" aria-hidden="true"></span> {{./lang.SendFeedback}}
+        </a>
+      </li>
+      {{/if}}
+
+      {{#if(canSaveAndExit)}}
+      <li class="divider" role="separator"></li>
+        <li class="nav-item can-exit" on:click="./saveAndExit()" on:keydown="keydownFireClickHandler(scope.event, ./saveAndExit)">
+          <a role="button" class="nav-link" aria-label="{{./lang.SaveAndExit}}" tabindex="0">
+            <span class="glyphicon-floppy" aria-hidden="true"></span> {{./lang.SaveAndExit}}
+          </a>
+        </li>
+      {{/if}}
+
+      {{#if(canResumeInterview)}}
+      <li class="divider" role="separator"></li>
+        <li class="nav-item can-resume" on:click="./resumeInterview()" on:keydown="keydownFireClickHandler(scope.event, ./resumeInterview)">
+          <a role="button" class="nav-link" aria-label="{{./lang.ResumeExit}}"  tabindex="0">
+            <span class="glyphicon-right-thin" aria-hidden="true"></span> {{./lang.ResumeExit}}
+          </a>
+        </li>
+      {{/if}}
+    </ul><!-- /navbar-right -->
+  {{/if}}
+  </div><!-- /.navbar-collapse -->
+</nav>
+
+{{#if(./showDemoNotice)}}
+  <app-alert open:from="true" alertType:raw="warning" class="demo-notice">
+    For demonstration and testing purposes only. Not intended for use by the
+    public. This A2J Guided Interview will not generate a form.
+  </app-alert>
+{{/if}}
+
+{{#not(isMobile)}}
+  <div class="horizon">
+    {{#if(courthouseImage)}}
+      <img class="courthouse" src="{{courthouseImage}}" role="presentation" alt="custom-courthouse-image"/>
+    {{else}}
+      <img class="courthouse" src="{{joinBase('images/A2J5_CourtHouse.svg')}}"
+        role="presentation" alt="author-courthouse-image" />
+    {{/if}}
+  </div>
+{{/not}}
