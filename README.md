@@ -1,35 +1,54 @@
 # A2JViewer
 
-This repo hosts the distributable production version of the A2J Viewer.
+This repo hosts the A2J Viewer, part of the Access to Justice Author (A2J Author®) software suite of applications.
 
-Within it you'll find a `.zip` file containing the minified JavaScript source for the viewer,a basic guide/interview, and a `README.md` file explaining the contents of the `.zip` file in greater detail.
-
-NOTE: By downloading this application, you are agreeing to the terms included in the user license [LICENSE.md](https://github.com/CCALI/A2JViewer/blob/master/LICENSE.md).
+NOTE: By downloading this application, you are agreeing to the terms included in the user license [GNU AGPLv3](./LICENSE.md).
 
 ## Hosting
 Current supported environments are:
 
 * Webserver platform of either IIS 8.5+, Apache 2.4+, or Nginx 1.12+
-* PHP is the recommended platform for processing interview data locally but is not required to run the viewer. All current samlple processing code and the demo widget is written in PHP. PHP Versions 7.2+ is currently supported.
+* PHP is the recommended platform for processing interview data locally but is not required to run the viewer. All current samlple processing code and the demo widget is written in PHP. PHP Versions 7.2+ are currently supported.
 
-While other server environments may work, they have not been tested.  Should you get another hosting environment working, please do a Pull Request at the hosted [A2J Viewer](https://github.com/CCALI/A2JViewer) repo to let us know any steps taken so that we may share with others.
+While other server environments may work, they have not been tested.  Should you get another hosting environment working, please do a Pull Request at the hosted [A2J Viewer](https://github.com/CCALI/a2jviewer) repo to let us know any steps taken so that we may share with others.
 
 ## Installing
-Unzip the viewer package into your webroot or preferred directory on your web server. The Apache user, for example `www-data` or `apache`, should own the folder where you place the viewer. Settings for configuring the viewer are found in the `viewer.html` file. The default settings work with the Demo Widget (see below), but should be updated to match your `guides` directory on your server. For example, you will most likely want to store A2J Guided Interview® files in a directory that is populated internally or with your own file upload interface.
+Using a terminal in your webroot or parent directory where you want to install A2J Viewer:
+
+```bash
+$ git clone https://github.com/CCALI/a2jviewer.git
+$ cd a2jviewer/
+$ npm install
+$ npm run build
+$ mv index.production.html index.html
+```
+
+The Apache user, for example `www-data` or `apache`, should own the folder where you place the viewer. Settings for configuring the viewer are found in the `viewer.html` file. The default settings work with the Demo Widget (see below), but should be updated to match your `guides` directory on your server. For example, you will most likely want to store A2J Guided Interview® files in a directory that is populated internally or with your own file upload interface.
 
 ## Upgrading
-1.) backup your old viewer and Guided Interviews
+1.) backup your Guided Interviews
 
-2.) unzip new viewer
+2.) `git pull` the latest code from the main branch
 
-3.) copy your Guided Interviews into the new viewer folder
+3.) Rebuild the A2J Viewer
+
+```bash
+$ npm install
+$ npm run build
+$ mv index.production.html index.html
+```
 
 ## Hosting Considerations
-Links to A2J Guided Interviews® are not 
-ted by default, and can be viewed by anyone who has an active link to that interview. Answers are output in a human readable text format and are recommended to be stored with strong encryption outside of the webtree with a robust access control mechanism. Please make sure to take proper steps to protect data and restrict access as needed.
+Links to A2J Guided Interviews® are not protected by default, and can be viewed by anyone who has an active link to that interview. Answers are output in a human readable text format and are recommended to be stored with strong encryption outside of the webtree with a robust access control mechanism. Please make sure to take proper steps to protect data and restrict access as needed.
 
 ## Viewer Customization
-The file viewer.html contains several endpoints to allow data to be be exported and imported into the viewer. A description can be found here: https://www.a2jauthor.org/content/setting-a2j-author%C2%AE-40-your-own-server-processing-xml-output-alternative-use and is listed below:
+The file viewer.html contains several endpoints to allow data to be be exported and imported into the viewer.  
+Note: The mandatory endpoints are often set via query parameters when creating a link to an active interview, which will take precedence over hard coded settings. For example:
+
+`http://localhost/CALI/a2jviewer/index.html?templateURL=demo/guides/default/Guide.xml&fileDataURL=demo/guides/default/`
+
+
+A description can be found here: https://www.a2jauthor.org/content/setting-a2j-author%C2%AE-40-your-own-server-processing-xml-output-alternative-use and is listed below:
 
 `templateURL` - **\[mandatory]** the location for the A2J Author® interview file (this is the file with the .a2j extension or the Guide.xml or Guide.json)
 
@@ -47,9 +66,9 @@ The default viewer.html points the save data endpoint, `setDataURL` to a demo pa
 You can also use a query parameter to force the endpoints to any custom value. For instance,you can point setDataURL to point to your custom save-answers code using relative paths like www.example.org/a2j-viewer/viewer/viewer.html?templateURL=../Guides/someguide&setDataURL=mysaveanswers.php
 
 ## Demo Widget
-There is a basic interview uploader and launcher at the default path of `yourwebroot/path/a2j-viewer/viewer` This allows you to quickly upload and test individual A2J Guided Interviews®, as well as see sample query string parameters used to load and launch those interviews. Click the upload button to select a A2J Guided Interview® saved in .zip format.  This generates a unique name and link to launch the interview in a new tab. Interviews can also be deleted from this list, which removes them from the local `guides` folder.
+There is a basic interview uploader and launcher at the default path of `yourwebroot/a2jviewer/demo/` This allows you to quickly upload and test individual A2J Guided Interviews®, as well as see sample query string parameters used to load and launch those interviews. Click the upload button to select a A2J Guided Interview® saved in .zip format.  This generates a unique name and link to launch the interview in a new tab. Interviews can also be deleted from this list, which removes them from the local `demo/guides/` folder.
 
-If A2J Guided Interviews® don't successfully upload or delete, make sure the folder permissions allow read and write capability to the `guides` folder, and execute permissions on any php code.
+If A2J Guided Interviews® don't successfully upload or delete, make sure the folder permissions allow read and write capability to the `demo/guides/` folder, and execute permissions on any php code.
 
 To find out more about A2J Viewer and A2J Author® please see our website, [www.a2jauthor.org](https://www.a2jauthor.org/)
 
