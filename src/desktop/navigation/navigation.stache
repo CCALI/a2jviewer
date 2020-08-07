@@ -6,7 +6,7 @@
     <ul class="nav navbar-nav navbar-mobile">
     {{#not(isMobile)}}
       <li class="focus-main-content nav-item">
-        <a href="#" class="nav-link" on:click="focusMainContent()" on:keydown="keydownFireClickHandler(scope.event, focusMainContent)"></a>
+        <a href="#" class="nav-link" on:click="focusMainContent()" on:keydown="keydownFireClickHandler(scope.event, focusMainContent)" aria-label="jump to main content"></a>
       </li>
     {{/not}}
       <li
@@ -16,7 +16,7 @@
         on:click="./navigateBack()"
         on:keydown="keydownFireClickHandler(scope.event, ./navigateBack)"
       >
-        <a role="button" class="nav-link">
+        <a role="button" class="nav-link" aui-action="previous">
           <span class="glyphicon-left-open" aria-hidden="true" id="nav-go-back-button"></span>{{lang.GoBack}}
         </a>
       </li>
@@ -28,7 +28,7 @@
         on:click="./navigateForward()"
         on:keydown="keydownFireClickHandler(scope.event, ./navigateForward)"
       >
-        <a role="button" class="nav-link">
+        <a role="button" class="nav-link" aui-action="next">
           {{./lang.GoNext}}<span class="glyphicon-right-open" aria-hidden="true" id="nav-go-next-button"></span>
         </a>
       </li>
@@ -63,7 +63,8 @@
           target="_blank"
           href="{{./feedbackFormUrl()}}"
           aria-label="{{./lang.SendFeedback}}"
-          class="nav-link send-feedback">
+          class="nav-link send-feedback"
+          aui-action="compose">
           <span class="glyphicon-mail" aria-hidden="true"></span>
         </a>
       </li>
@@ -72,7 +73,7 @@
       {{#if(./canSaveAndExit)}}
       <li class="divider" role="separator"></li>
         <li class="nav-item can-exit" on:click="./saveAndExit()">
-          <a role="button" class="nav-link" tabindex="0"  aria-label="{{./lang.SaveAndExit}}">
+          <a role="button" class="nav-link" tabindex="0"  aui-action="save" aria-label="{{./lang.SaveAndExit}}">
             <span class="glyphicon-floppy" aria-hidden="true"></span>
           </a>
         </li>
@@ -81,7 +82,7 @@
       {{#if(canResumeInterview)}}
       <li class="divider" role="separator"></li>
         <li class="nav-item can-resume" on:click="./resumeInterview()">
-          <a role="button" class="nav-link" tabindex="0" aria-labelledby="nav-resume-exit">
+          <a role="button" class="nav-link" tabindex="0" aria-labelledby="nav-resume-exit" aui-action="previous">
             <span class="glyphicon-right-thin" aria-hidden="true" id="nav-resume-exit"></span> {{./lang.ResumeExit}}
           </a>
         </li>
@@ -96,7 +97,8 @@
         <a role="button" target="_blank" href="{{./feedbackFormUrl()}}"
           aria-labelledby="nav-send-feedback"
           class="nav-link send-feedback"
-          id="send-feedback-button">
+          id="send-feedback-button"
+          aui-action="compose">
           <span class="glyphicon-mail" aria-hidden="true" id="nav-send-feedback"></span> {{./lang.SendFeedback}}
         </a>
       </li>
@@ -105,7 +107,7 @@
       {{#if(canSaveAndExit)}}
       <li class="divider" role="separator"></li>
         <li class="nav-item can-exit" on:click="./saveAndExit()" on:keydown="keydownFireClickHandler(scope.event, ./saveAndExit)">
-          <a role="button" class="nav-link" aria-labelledby="nav-save-and-exit" tabindex="0">
+          <a role="button" class="nav-link" aria-labelledby="nav-save-and-exit" tabindex="0" aui-action="save">
             <span class="glyphicon-floppy" aria-hidden="true" id="nav-save-and-exit"></span> {{./lang.SaveAndExit}}
           </a>
         </li>
@@ -114,7 +116,7 @@
       {{#if(canResumeInterview)}}
       <li class="divider" role="separator"></li>
         <li class="nav-item can-resume" on:click="./resumeInterview()" on:keydown="keydownFireClickHandler(scope.event, ./resumeInterview)">
-          <a role="button" class="nav-link" aria-labelledby="nav-resume-exit" tabindex="0">
+          <a role="button" class="nav-link" aria-labelledby="nav-resume-exit" tabindex="0" aui-action="previous">
             <span class="glyphicon-right-thin" aria-hidden="true" id="nav-resume-exit"></span> {{./lang.ResumeExit}}
           </a>
         </li>

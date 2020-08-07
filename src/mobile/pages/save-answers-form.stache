@@ -11,7 +11,8 @@
   <button
     type="submit"
     on:el:click="scope.vm.navigate(button, scope.element, scope.event)"
-    class="btn btn-default btn-navigate">
+    class="btn btn-default btn-navigate"
+    aui-action="send">
     {{getButtonLabel(scope.helpers.parseText(button.label))}}
   </button>
 </form>
