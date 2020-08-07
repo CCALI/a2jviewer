@@ -72,10 +72,10 @@
         {{/case}}
 
         {{#default}}
-          <button type="button"
-                  on:click="navigate(button)"
-                  class="btn btn-default btn-navigate"
-                  aria-label="{{getButtonLabel(parseText(button.label))}}">
+          <button
+            type="button"
+            on:click="navigate(button)"
+            class="btn btn-default btn-navigate">
             {{getButtonLabel(parseText(button.label))}}
           </button>
         {{/default}}
