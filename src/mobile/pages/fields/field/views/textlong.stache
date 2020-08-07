@@ -1,5 +1,4 @@
-
-
+<can-import from="~/src/mobile/pages/fields/field/views/textlong.less" />
 <div>
   <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
     <label class="control-label" for="{{field.label}}">
@@ -19,8 +18,9 @@
 
       <button
         aria-label="Expand Text"
-        class="btn btn-default btn-xs expand-textlong pull-right"
-        on:click="expandTextlong(field)">
+        class="btn btn-default expand-textlong pull-right"
+        on:click="expandTextlong(field)"
+        aui-action="expand">
           <span class="icon resize-btn-icon glyphicon-resize" aria-hidden="true"></span>
       </button>
 
