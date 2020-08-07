@@ -579,6 +579,12 @@
       "css": "login",
       "code": 59468,
       "src": "entypo"
+    },
+    {
+      "uid": "1ee2aeb352153a403df4b441a8bc9bda",
+      "css": "calc",
+      "code": 61932,
+      "src": "fontawesome"
     }
   ]
 }
