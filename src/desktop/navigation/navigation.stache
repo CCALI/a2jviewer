@@ -11,25 +11,25 @@
     {{/not}}
       <li
         tabindex="0"
-        aria-labelledby="go-back-nav-button"
+        aria-labelledby="nav-go-back-button"
         class="nav-item {{^if(./canNavigateBack)}}navigation-disabled{{/if}}"
         on:click="./navigateBack()"
         on:keydown="keydownFireClickHandler(scope.event, ./navigateBack)"
       >
-        <a role="button" class="nav-link" id="go-back-nav-button">
-          <span class="glyphicon-left-open" aria-hidden="true"></span>{{lang.GoBack}}
+        <a role="button" class="nav-link">
+          <span class="glyphicon-left-open" aria-hidden="true" id="nav-go-back-button"></span>{{lang.GoBack}}
         </a>
       </li>
       <li class="divider" role="separator"></li>
       <li
         tabindex="0"
-        aria-labelledby="go-next-nav-button"
+        aria-labelledby="nav-go-next-button"
         class="nav-item  {{^if(./canNavigateForward)}}navigation-disabled{{/if}}"
         on:click="./navigateForward()"
         on:keydown="keydownFireClickHandler(scope.event, ./navigateForward)"
       >
-        <a role="button" class="nav-link" id="go-next-nav-button">
-          {{./lang.GoNext}}<span class="glyphicon-right-open" aria-hidden="true"></span>
+        <a role="button" class="nav-link">
+          {{./lang.GoNext}}<span class="glyphicon-right-open" aria-hidden="true" id="nav-go-next-button"></span>
         </a>
       </li>
     </ul>
@@ -71,8 +71,8 @@
 
       {{#if(./canSaveAndExit)}}
       <li class="divider" role="separator"></li>
-        <li class="nav-item can-exit" on:click="./saveAndExit()" aria-label="{{./lang.SaveAndExit}}">
-          <a role="button" class="nav-link" tabindex="0">
+        <li class="nav-item can-exit" on:click="./saveAndExit()">
+          <a role="button" class="nav-link" tabindex="0"  aria-label="{{./lang.SaveAndExit}}">
             <span class="glyphicon-floppy" aria-hidden="true"></span>
           </a>
         </li>
@@ -80,9 +80,9 @@
 
       {{#if(canResumeInterview)}}
       <li class="divider" role="separator"></li>
-        <li class="nav-item can-resume" on:click="./resumeInterview()" aria-label="{{./lang.ResumeExit}}" >
-          <a role="button" class="nav-link" tabindex="0">
-            <span class="glyphicon-right-thin" aria-hidden="true"></span> {{./lang.ResumeExit}}
+        <li class="nav-item can-resume" on:click="./resumeInterview()">
+          <a role="button" class="nav-link" tabindex="0" aria-labelledby="nav-resume-exit">
+            <span class="glyphicon-right-thin" aria-hidden="true" id="nav-resume-exit"></span> {{./lang.ResumeExit}}
           </a>
         </li>
       {{/if}}
@@ -94,10 +94,10 @@
       <li class="divider" role="separator"></li>
       <li class="nav-item">
         <a role="button" target="_blank" href="{{./feedbackFormUrl()}}"
-          aria-label="{{./lang.SendFeedback}}"
+          aria-labelledby="nav-send-feedback"
           class="nav-link send-feedback"
           id="send-feedback-button">
-          <span class="glyphicon-mail" aria-hidden="true"></span> {{./lang.SendFeedback}}
+          <span class="glyphicon-mail" aria-hidden="true" id="nav-send-feedback"></span> {{./lang.SendFeedback}}
         </a>
       </li>
       {{/if}}
@@ -105,8 +105,8 @@
       {{#if(canSaveAndExit)}}
       <li class="divider" role="separator"></li>
         <li class="nav-item can-exit" on:click="./saveAndExit()" on:keydown="keydownFireClickHandler(scope.event, ./saveAndExit)">
-          <a role="button" class="nav-link" aria-label="{{./lang.SaveAndExit}}" tabindex="0">
-            <span class="glyphicon-floppy" aria-hidden="true"></span> {{./lang.SaveAndExit}}
+          <a role="button" class="nav-link" aria-labelledby="nav-save-and-exit" tabindex="0">
+            <span class="glyphicon-floppy" aria-hidden="true" id="nav-save-and-exit"></span> {{./lang.SaveAndExit}}
           </a>
         </li>
       {{/if}}
@@ -114,8 +114,8 @@
       {{#if(canResumeInterview)}}
       <li class="divider" role="separator"></li>
         <li class="nav-item can-resume" on:click="./resumeInterview()" on:keydown="keydownFireClickHandler(scope.event, ./resumeInterview)">
-          <a role="button" class="nav-link" aria-label="{{./lang.ResumeExit}}"  tabindex="0">
-            <span class="glyphicon-right-thin" aria-hidden="true"></span> {{./lang.ResumeExit}}
+          <a role="button" class="nav-link" aria-labelledby="nav-resume-exit" tabindex="0">
+            <span class="glyphicon-right-thin" aria-hidden="true" id="nav-resume-exit"></span> {{./lang.ResumeExit}}
           </a>
         </li>
       {{/if}}
