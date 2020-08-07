@@ -4,10 +4,10 @@
   <input type="hidden" name="guideTitle" value:from="scope.vm.interview.title">
   <input type="hidden" name="fileDataUrl" value:from="scope.vm.mState.fileDataURL">
 
-  <button type="submit"
-          on:click="scope.vm.navigate(button, scope.element, scope.event)"
-          class="btn btn-default btn-navigate"
-          aria-label="{{getButtonLabel(scope.helpers.parseText(button.label))}}">
+  <button
+    type="submit"
+    on:click="scope.vm.navigate(button, scope.element, scope.event)"
+    class="btn btn-default btn-navigate">
     {{getButtonLabel(scope.helpers.parseText(button.label))}}
   </button>
 </form>
