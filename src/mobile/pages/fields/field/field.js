@@ -560,7 +560,8 @@ export const FieldVM = CanMap.extend('FieldVM', {
       }).val(defaultDate)
 
       // add wcag aui-action="open" to date-picker button
-      $('.ui-datepicker-trigger').attr('aui-action', 'open')
+      // and bootstrap standard button classes
+      $('.ui-datepicker-trigger').attr('aui-action', 'open').addClass('btn btn-default')
     }
   }
 })
