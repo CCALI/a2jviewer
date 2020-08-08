@@ -1,5 +1,6 @@
 <can-import from="~/src/mobile/pages/fields/field/views/textlong.less" />
-<div>
+
+<div class="textlong-field">
   <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
     <label class="control-label" for="{{field.label}}">
       {{{ parseText(field.label) }}}

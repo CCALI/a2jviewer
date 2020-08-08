@@ -25,15 +25,22 @@ div.ui-datepicker {
   }
 }
 
+div.datepicker-field {
+  // account for 44px tall wcag button
+  margin-bottom: 36px;
 
-button.ui-datepicker-trigger {
-  margin-top: 2px;
-  height: 44px;
-  width: 44px;
-  float:right;
-  text-align: center;
-    img {
-      margin-left: -2px;
-      height: 32px;
-    }
+  button.ui-datepicker-trigger {
+    background: #fff;
+    margin-top: 2px;
+    margin-right: 0px!important;
+    height: 44px;
+    width: 44px;
+    float:right;
+    text-align: center;
+      img {
+        margin-top: -1px;
+        margin-left: -6px;
+        height: 30px;
+      }
+  }
 }
