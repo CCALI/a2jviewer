@@ -26,7 +26,7 @@
     {{#eq(rState.view, 'complete')}}
       <img src="{{joinBase 'images/logo_big.png'}}" class="img-responsive" alt="author-logo-image"/>
       <div class="btn-group btn-group-justified">
-        <a href="{{mState.redirect}}" aria-label="{{lang.Continue}}" class="btn btn-primary">{{lang.Continue}}</a>
+        <a href="{{mState.redirect}}" aria-label="{{lang.Continue}}" class="btn btn-primary" aui-action="next">{{lang.Continue}}</a>
       </div>
     {{/eq}}
 

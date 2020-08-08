@@ -16,7 +16,8 @@
               on:el:click="save()"
               {{#if disableSaveButton}}disabled{{/if}}
               class="btn save {{#if pState.isDirty}}btn-warning{{else}}btn-success{{/if}}"
-              aria-label="Save">
+              aria-label="Save"
+              aui-action="save">
         Save
       </button>
     </div>
