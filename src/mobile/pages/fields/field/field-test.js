@@ -344,14 +344,16 @@ describe('<a2j-field>', () => {
         numberDollarField.attr('calculator', true)
 
         let $calcFound = $('.calc-icon')
-
-        assert.equal($calcFound.attr('class'), 'calc-icon')
+        assert.equal($calcFound.length, 1, 'should find one .calc-icon element')
       })
 
       it('should not show the calculator image when unselected', () => {
+        let numberDollarField = numberDollarVm.attr('field')
+        numberDollarField.attr('calculator', false)
+
         let $calcFound = $('.calc-icon')
 
-        assert.equal($calcFound.attr('class'), undefined)
+        assert.equal($calcFound.length, 0, 'should find zero .calc-icon element')
       })
     })
 
