@@ -8,10 +8,11 @@
   <input type="hidden" name="fileDataUrl" el:value:from="scope.vm.mState.fileDataURL" aria-hidden="true"/>
   <input type="hidden" name="AnswerKeyJSON" el:value:from="scope.vm.answersJSON" aria-hidden="true"/>
 
-  <button type="submit"
-          on:el:click="scope.vm.navigate(button, scope.element, scope.event)"
-          class="btn btn-default btn-navigate"
-          aria-label="{{getButtonLabel(scope.helpers.parseText(button.label))}}">
+  <button
+    type="submit"
+    on:el:click="scope.vm.navigate(button, scope.element, scope.event)"
+    class="btn btn-default btn-navigate"
+    aui-action="send">
     {{getButtonLabel(scope.helpers.parseText(button.label))}}
   </button>
 </form>
