@@ -103,7 +103,6 @@
     "http-server": "^0.12.3",
     "jquery": "^3.4.1",
     "jquery-ui": "^1.12.1",
-    "jquerypp": "^2.0.2",
     "lightbox2": "^2.10.0",
     "localforage": "^1.3.0",
     "lodash": "^4.17.15",

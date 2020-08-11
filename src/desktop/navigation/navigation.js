@@ -7,8 +7,6 @@ import constants from '@caliorg/a2jdeps/models/constants'
 import { analytics } from '~/src/util/analytics'
 import isMobile from '~/src/util/is-mobile'
 
-import 'jquerypp/event/swipe/'
-
 /**
  * @property {can.Map} viewerNavigation.ViewModel
  * @parent <a2j-viewer-navigation>
@@ -412,27 +410,11 @@ export let ViewerNavigationVM = DefineMap.extend({
       ev.currentTarget.textContent = ''
     })
 
-    // add mobile swipe nav
-    const swipeRightHandler = function () {
-      if (vm.canNavigateBack) {
-        vm.navigateBack()
-      }
-    }
-    const swipeLeftHandler = function () {
-      if (vm.canNavigateForward) {
-        vm.navigateForward()
-      }
-    }
-    $('#viewer-app').on('swiperight', swipeRightHandler)
-    $('#viewer-app').on('swipeleft', swipeLeftHandler)
-
     // cleanup
     return () => {
       vm.rState.stopListening('selectedPageIndexSet', updateMyProgressOptions)
       myProgressSelect.removeEventListener('change', updateAppStateSelectedPageIndex)
       $('.focus-main-content a').off()
-      $('#viewer-app').off('swiperight', swipeRightHandler)
-      $('#viewer-app').off('swipeleft', swipeLeftHandler)
     }
   }
 })
