@@ -3,7 +3,7 @@ import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import _truncate from 'lodash/truncate'
 import template from './navigation.stache'
-import constants from '@caliorg/a2jdeps/models/constants'
+import constants from '~/src/models/constants'
 import { analytics } from '~/src/util/analytics'
 import isMobile from '~/src/util/is-mobile'
 

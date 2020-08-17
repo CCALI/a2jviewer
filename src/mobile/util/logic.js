@@ -5,7 +5,7 @@ import tLogic from '~/src/mobile/util/tlogic'
 import Lang from '~/src/mobile/util/lang'
 import cString from '@caliorg/a2jdeps/utils/string'
 import cDate from '@caliorg/a2jdeps/utils/date'
-import constants from '@caliorg/a2jdeps/models/constants'
+import constants from '~/src/models/constants'
 import _forEach from 'lodash/forEach'
 import numeral from 'numeral'
 

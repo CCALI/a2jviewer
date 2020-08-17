@@ -7,7 +7,7 @@ import queues from 'can-queues'
 import AnswerVM from '~/src/models/answervm'
 import Parser from '@caliorg/a2jdeps/utils/parser'
 import { analytics } from '~/src/util/analytics'
-import constants from '@caliorg/a2jdeps/models/constants'
+import constants from '~/src/models/constants'
 import moment from 'moment'
 
 import 'can-map-define'
