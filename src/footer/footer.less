@@ -1,0 +1,35 @@
+@screen-sm: 768px;
+@vert-navbar-width: 125px;
+@vert-navbar-collapsed: 50px;
+
+app-footer {
+  display: block;
+
+  .cajafooter {
+    font-size: 9px;
+    padding: 0;
+    padding: 0 10px;
+    margin: 0;
+    height: 16px;
+    width: 100%;
+    position: fixed;
+    overflow: hidden;
+    bottom: 0;
+    left: 0;
+    background: #fff;
+    border-top: 1px solid #eee;
+    z-index: 98;
+    #CAJAStatus {
+      margin-left: @vert-navbar-width;
+      @media (max-width: @screen-sm) {
+        margin-left: @vert-navbar-collapsed;
+      }
+    }
+  }
+
+  .copyright {
+    float: right;
+    text-align: right;
+    text-overflow: ellipsis
+  }
+}
