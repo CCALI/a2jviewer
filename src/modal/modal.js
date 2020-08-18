@@ -60,6 +60,11 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
 
   connectedCallback (el) {
     const showModalHandler = () => {
+      // modal-backdrop blocks when debug-panel is open in Author previewMode
+      // TODO: should be easier to manage when debug-panel is moved to viewer
+      if (this.previewActive) {
+        $('.modal-backdrop').remove()
+      }
       if (!this.previewActive) {
         $('body').addClass('bootstrap-styles')
       }

@@ -101,11 +101,9 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: () => new DefineList()
   },
 
+  // set when launched from preview.js during Author Preview
   previewActive: {
-    serialize: false,
-    get () {
-      return canReflect.getKeyValue(route.data, 'page') === 'preview'
-    }
+    serialize: false
   },
 
   saveAndExitActive: {
