@@ -47,6 +47,9 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     const mState = new MemoryState()
     const pState = new PersistedState()
 
+    // used in Viewer App during previewMode
+    rState.previewActive = true
+
     // if previewInterview.answers exist here, they are restored from Author app-state binding
     const previewAnswers = vm.attr('previewInterview.answers')
 
