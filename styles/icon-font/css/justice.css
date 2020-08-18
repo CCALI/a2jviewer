@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'justice';
-  src: url('../font/justice.eot?64988611');
-  src: url('../font/justice.eot?64988611#iefix') format('embedded-opentype'),
-       url('../font/justice.woff2?64988611') format('woff2'),
-       url('../font/justice.woff?64988611') format('woff'),
-       url('../font/justice.ttf?64988611') format('truetype'),
-       url('../font/justice.svg?64988611#justice') format('svg');
+  src: url('../font/justice.eot?6352872');
+  src: url('../font/justice.eot?6352872#iefix') format('embedded-opentype'),
+       url('../font/justice.woff2?6352872') format('woff2'),
+       url('../font/justice.woff?6352872') format('woff'),
+       url('../font/justice.ttf?6352872') format('truetype'),
+       url('../font/justice.svg?6352872#justice') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +15,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'justice';
-    src: url('../font/justice.svg?64988611#justice') format('svg');
+    src: url('../font/justice.svg?6352872#justice') format('svg');
   }
 }
 */
@@ -132,4 +132,5 @@
 .glyphicon-info-circled-1:before { content: '\e84a'; } /* '' */
 .glyphicon-attention-circled:before { content: '\e84b'; } /* '' */
 .glyphicon-login:before { content: '\e84c'; } /* '' */
+.glyphicon-link-ext:before { content: '\f08e'; } /* '' */
 .glyphicon-calc:before { content: '\f1ec'; } /* '' */
