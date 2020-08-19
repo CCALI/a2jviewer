@@ -68,7 +68,7 @@ const buildViewerHtml = function () {
               base-url="../">
       </script>
     </body>
-  </html>`;
+  </html>`
   }
 
   fs.writeFileSync(path.join(__dirname, '/viewer/viewer.html'), html, 'utf-8')
