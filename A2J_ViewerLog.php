@@ -1,6 +1,6 @@
 <?php
 /*
-	A2J Author 6 * Justice * justicia * 正义 * công lý * 사법 * правосудие
+	A2J Author 7 * Justice * justicia * 正义 * công lý * 사법 * правосудие
 	All Contents Copyright The Center for Computer-Assisted Legal Instruction
 
 	08/16/2011 Handle silent logging. A2J Viewer will ignore any results returned.
