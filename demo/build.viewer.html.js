@@ -8,7 +8,7 @@ const buildViewerHtml = function () {
 
   function template (version) {
     return `<!--
-    A2J Viewer 7 * Justice * justicia * 正义 * công lý * 사법 * правосудие
+    A2J Author 7 * Justice * justicia * 正义 * công lý * 사법 * правосудие
     All Contents Copyright The Center for Computer-Assisted Legal Instruction
     2012-2020
     A2J Viewer Plugin
