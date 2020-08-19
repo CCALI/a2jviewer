@@ -1,10 +1,8 @@
-import route from 'can-route'
 import stache from 'can-stache'
 import _findIndex from 'lodash/findIndex'
 import Infinite from '~/src/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
-import canReflect from 'can-reflect'
 import queues from 'can-queues'
 import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
 
