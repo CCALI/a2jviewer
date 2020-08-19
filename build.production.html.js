@@ -7,7 +7,7 @@ const html = template(version);
 function template (version) {
   return `<!DOCTYPE HTML>
   <!--
-    A2J Author 6 * Justice * justicia * 正义 * công lý * 사법 * правосудие
+    A2J Author 7 * Justice * justicia * 正义 * công lý * 사법 * правосудие
     All Contents Copyright The Center for Computer-Assisted Legal Instruction
     2012-2015
     A2J Viewer Plugin

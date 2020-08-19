@@ -21,7 +21,7 @@ export default function (gGuide,
   numeral = numeral || window.numeral
 
   /*******************************************************************************
-    A2J Author 6 * JusticeJustice * justicia * 正义 * công lý * 사법 * правосудие
+    A2J Author 7 * JusticeJustice * justicia * 正义 * công lý * 사법 * правосудие
     All Contents Copyright The Center for Computer-Assisted Legal Instruction
 
     Logic

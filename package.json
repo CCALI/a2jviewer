@@ -8,7 +8,8 @@
     "test": "npm run lint && testee --reporter Spec --browsers firefox tests/index.html",
     "build": "grunt build --gruntfile=Gruntfile.js",
     "build-docs": "grunt documentjs",
-    "serve-docs": "grunt documentjs-lite && http-server docs"
+    "serve-docs": "grunt documentjs-lite && http-server docs",
+    "build:viewer-zip": "node ./bin/make-viewer-package"
   },
   "author": "",
   "license": "AGPL-3.0-only",
@@ -117,6 +118,7 @@
     "validate.js": "^0.12.0"
   },
   "devDependencies": {
+    "archiver": "^3.1.1",
     "can-debug": "^2.0.1",
     "can-fixture": "^2.1.0",
     "chai": "^4.1.2",

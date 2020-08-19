@@ -1,0 +1,88 @@
+#!/usr/bin/env node
+
+var path = require('path')
+var fs = require('fs-extra')
+var chalk = require('chalk')
+var archiver = require('archiver')
+var stealTools = require('steal-tools')
+var { buildViewerHtml } = require('../demo/build.viewer.html')
+
+var cajaPath = path.join(__dirname, '..')
+var outputPath = path.join(cajaPath, '..', 'a2j-viewer')
+console.log(cajaPath, outputPath)
+
+var buildConfig = {
+  main: 'app',
+  config: path.join(cajaPath, 'package.json!npm')
+}
+
+var buildOptions = {
+  minify: true,
+  bundleSteal: true
+}
+
+// remove any existing build first
+fs.removeSync(path.join(cajaPath, 'dist'))
+fs.removeSync(outputPath)
+
+stealTools.build(buildConfig, buildOptions)
+  .then(function () {
+    makePackageFolder()
+    makePackageZip()
+  })
+  .catch(function (error) {
+    fs.removeSync(path.join(outputPath))
+    console.log(chalk.red('uh-oh something went wrong!'))
+    throw error
+  })
+
+function makePackageFolder () {
+  fs.mkdirSync(outputPath)
+
+  // build the cache busting viewer.html
+  buildViewerHtml()
+
+  // copy the bundled viewer code to 'a2j-viewer/dist'
+  fs.copySync(path.join(cajaPath, 'dist'),
+    path.join(outputPath, 'dist'))
+
+  // copy CAJA/demo content inside `a2j-viewer/`
+  fs.copySync(path.join(cajaPath, 'demo'), outputPath)
+
+
+  // copy package.json to `a2j-viewer/`
+
+  fs.copySync(path.join(cajaPath, 'package.json'),
+    path.join(outputPath, 'package.json'))
+
+  // copy styles required by the avatar's svg file
+  fs.copySync(path.join(cajaPath, 'styles', 'viewer-avatars.css'),
+    path.join(outputPath, 'styles', 'viewer-avatars.css'))
+
+  // copy avatar svgs from @caliorg/a2jdeps/images
+  fs.copySync(path.join(cajaPath, 'node_modules', '@caliorg', 'a2jdeps', 'avatar', 'images'),
+    path.join(outputPath, 'node_modules', '@caliorg', 'a2jdeps', 'avatar', 'images'))
+
+  // copy lightbox2 images to expected path
+  fs.copySync(path.join(cajaPath, 'node_modules', 'lightbox2', 'dist', 'images'),
+    path.join(outputPath, 'node_modules', 'lightbox2', 'dist', 'images'))
+
+  // copy other viewer images like the logo, courthouse, datepicker-button, calculator icon, etc
+  fs.copySync(path.join(cajaPath, 'images'),
+    path.join(outputPath, 'images'))
+}
+
+function makePackageZip () {
+  var zip = archiver('zip')
+  var timestamp = (new Date()).toISOString().substr(0, 10)
+  var zipname = 'a2j-7-viewer-' + timestamp + '.zip'
+  var output = fs.createWriteStream(path.join(cajaPath, '..', zipname))
+
+  output.on('close', function () {
+    fs.removeSync(path.join(outputPath))
+    console.log(chalk.green('A2J VIEWER distributable package generated successfully!'))
+  })
+
+  zip.pipe(output)
+  zip.directory(outputPath, 'a2j-viewer').finalize()
+}

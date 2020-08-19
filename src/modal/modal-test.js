@@ -23,7 +23,7 @@ describe('<a2j-modal> ', function () {
       }
 
       const rState = new AppState({ page: 'foo' })
-      const mState = new CanMap({ fileDataURL: '../images/' })
+      const mState = new CanMap({ fileDataURL: '../../tests/images/' })
       const logic = new CanMap({ eval (html) { return html } })
       const ModalContent = CanMap.extend({
         define: {
@@ -73,7 +73,7 @@ describe('<a2j-modal> ', function () {
       })
 
       F('img.modal-image').exists()
-      F('img.modal-image').attr('src', '../images/ui-icons_ffffff_256x240.png')
+      F('img.modal-image').attr('src', '../../tests/images/ui-icons_ffffff_256x240.png')
 
       F(done)
     })
@@ -108,7 +108,7 @@ describe('<a2j-modal> ', function () {
 
       canReflect.assign(vm.modalContent, { videoURL: helpVideoURL, helpAltText: altText })
       F('img.modal-video').exists()
-      F('img.modal-video').attr('src', '../images/panda.gif')
+      F('img.modal-video').attr('src', '../../tests/images/panda.gif')
 
       F(done)
     })
@@ -118,7 +118,7 @@ describe('<a2j-modal> ', function () {
 
       canReflect.assign(vm.modalContent, { videoURL: helpVideoURL })
       F('video.modal-video').exists()
-      F('video.modal-video').attr('src', '../images/pings.ogg')
+      F('video.modal-video').attr('src', '../../tests/images/pings.ogg')
 
       F(done)
     })
