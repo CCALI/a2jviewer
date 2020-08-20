@@ -4,11 +4,6 @@
 <nav class="navbar navbar-default" role="navigation">
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
     <ul class="nav navbar-nav navbar-mobile">
-    {{#not(isMobile)}}
-      <li class="focus-main-content nav-item">
-        <a href="#" class="nav-link" on:click="focusMainContent()" on:keydown="keydownFireClickHandler(scope.event, focusMainContent)" aria-label="jump to main content"></a>
-      </li>
-    {{/not}}
       <li
         tabindex="0"
         aria-labelledby="nav-go-back-button"

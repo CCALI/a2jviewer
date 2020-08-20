@@ -376,12 +376,6 @@ export let ViewerNavigationVM = DefineMap.extend({
     return text
   },
 
-  // allows keyboard users to skip nav bar and go directly to either the first question input or nav button
-  focusMainContent () {
-    let focusTarget = $('#guideBubble')[0]
-    focusTarget && focusTarget.focus()
-  },
-
   connectedCallback () {
     const vm = this
 
@@ -402,19 +396,10 @@ export let ViewerNavigationVM = DefineMap.extend({
     // covers normal Continue button and navigation via this component, back/next or dropdown select
     vm.rState.listenTo('selectedPageIndexSet', updateMyProgressOptions)
 
-    // Used to hide/show keyboard nav shortcut to GI Question content
-    $('.focus-main-content a').on('focus', (ev) => {
-      ev.currentTarget.textContent = 'Skip to Main Content'
-    })
-    $('.focus-main-content a').on('blur', (ev) => {
-      ev.currentTarget.textContent = ''
-    })
-
     // cleanup
     return () => {
       vm.rState.stopListening('selectedPageIndexSet', updateMyProgressOptions)
       myProgressSelect.removeEventListener('change', updateAppStateSelectedPageIndex)
-      $('.focus-main-content a').off()
     }
   }
 })

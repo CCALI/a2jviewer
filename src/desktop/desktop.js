@@ -40,11 +40,24 @@ let DesktopViewerVM = CanMap.extend('DesktopViewerVM', {
     }
   },
 
+  // allows keyboard users to skip nav bar and go directly to either the first question input or nav button
+  focusMainContent: () => {
+    document.querySelector('legend.question-text-legend').focus()
+  },
+
   connectedCallback () {
+    // Used to hide/show keyboard nav shortcut to GI Question content
+    const skipLink = document.getElementById('skiplink')
+    skipLink.addEventListener('click', this.focusMainContent)
+
     const location = window.location.toString()
     this.attr('showDemoNotice', location.indexOf('.a2jauthor.org') !== -1)
 
     this.checkPageExists()
+
+    return () => {
+      skipLink.removeEventListener('click', this.focusMainContent)
+    }
   },
 
   checkPageExists () {

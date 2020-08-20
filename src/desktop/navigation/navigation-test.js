@@ -472,16 +472,5 @@ describe('<a2j-viewer-navigation>', function () {
       let courthouseSrc = $('img.courthouse').attr('src')
       assert.isTrue(courthouseSrc.indexOf('A2J5_CourtHouse.svg') !== -1)
     })
-
-    it.skip('shows a Skip to Main Content button when focused by keyboard navigation', function (done) {
-      vm.connectedCallback()
-      const $focusTarget = $('.focus-main-content a')
-      $focusTarget.focus()
-      setTimeout(() => {
-        const text = $focusTarget.text()
-        assert.equal(text, 'Skip to Main Content', 'should update element text while showing button')
-        done()
-      })
-    })
   })
 })
