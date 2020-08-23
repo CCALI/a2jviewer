@@ -24,7 +24,7 @@
       </h3>
 
       <fieldset>
-        <legend class='question-text-legend'>
+        <legend class='question-text-legend' tabindex="0">
           <p class="question-text">{{{ insertExternalLinkIcon(parseText(currentPage.text)) }}}</p>
         </legend>
 
