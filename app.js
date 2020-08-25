@@ -12,9 +12,6 @@ import PersistedState from '~/src/models/persisted-state'
 import 'can-3-4-compat/dom-mutation-events'
 
 import '~/src/mobile/util/helpers'
-import '@caliorg/a2jdeps/calculator/jquery.plugin'
-import '@caliorg/a2jdeps/calculator/jquery.calculator'
-import '@caliorg/a2jdeps/calculator/jquery.calculator.css'
 
 // State attrs not needing persistance, such as showing/hiding the table of contents.
 // Load configuration from desktop into mobile

@@ -1,0 +1,179 @@
+/**
+  *  @stylesheet audio-player.less Audio Player
+  *  @parent styles-utilities 2
+  *
+  * To unify the look of the audio player across all browsers we created an audio player component allowing us to skin the audio controller. This code is based on a codepen: https://codepen.io/gregh/pen/NdVvbm – "An audio player written in javascript by Greg Hovanesyan, free for stealing and modifying".
+  *
+  * We modified the javascript proxies to work for our needs - for more information on that, visit the JS documentation for the component.
+  *
+  * More documentation to come as the component gets built.
+  *
+**/
+
+@import (reference) '../../styles/bootstrap-overrides/color-palette.less';
+
+audio-player {
+  display: block;
+  .audio.green-audio-player {
+    width: 100%;
+    max-width: 600px;
+    min-width: 300px;
+    height: 56px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, .15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-radius: 4px;
+    user-select: none;
+    -webkit-user-select: none;
+    background-color: @body-bg;
+    margin-top: 20px;
+
+    .audio-error {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3em;
+      margin: 0px auto;
+
+      span {
+        margin: 0px 10px;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .play-pause-btn {
+      cursor: pointer;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/loading.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      animation: spin 0.4s linear infinite;
+    }
+
+    .slider {
+      flex-grow: 1;
+      background-color: @gray-lighter;
+      cursor: pointer;
+      position: relative;
+
+      .progress {
+        background-color: @brand-secondary;
+        border-radius: inherit;
+        position: absolute;
+        pointer-events: none;
+
+        .pin {
+          height: 16px;
+          width: 16px;
+          border-radius: 8px;
+          background-color: @brand-secondary;
+          position: absolute;
+          pointer-events: all;
+          box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.32);
+        }
+      }
+    }
+
+    .controls {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 18px;
+      color: @gray;
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+      align-items: center;
+      margin-left: 24px;
+      margin-right: 24px;
+
+      .slider {
+        margin-left: 16px;
+        margin-right: 16px;
+        border-radius: 2px;
+        height: 4px;
+
+        .progress {
+          width: 0;
+          height: 100%;
+
+          .pin {
+            right: -8px;
+            top: -6px;
+          }
+        }
+      }
+
+      span {
+        cursor: default;
+      }
+    }
+
+    .volume {
+      position: relative;
+
+      .volume-btn {
+        cursor: pointer;
+
+        &.open path {
+          fill: @brand-secondary;
+        }
+      }
+
+      .volume-controls {
+        width: 135px;
+        height: 30px;
+        background-color: rgba(0, 0, 0, 0.62);
+        border-radius: 15px;
+        position: absolute;
+        left: -85px;
+        bottom: 35px;
+        align-items: center;
+        display: flex;
+
+        &.hidden {
+          display: none;
+        }
+
+        .slider {
+          margin: 0px 16px;
+          border-radius: 2px;
+          height: 4px;
+          width: 120px;
+
+          .progress {
+            width: 0;
+            height: 100%;
+
+            .pin {
+              right: -8px;
+              top: -6px;
+            }
+          }
+        }
+      }
+    }
+
+  }
+  svg, img {
+    display: block;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotateZ(0);
+    }
+    to {
+      transform: rotateZ(1turn);
+    }
+  }
+}

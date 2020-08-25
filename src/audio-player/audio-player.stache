@@ -1,0 +1,79 @@
+<can-import from="./audio-player.less"/>
+<!-- based on https://codepen.io/gregh/pen/NdVvbm?editors=0100#0 -->
+<div class="audio green-audio-player">
+  {{#if loadAudioError}}
+    <div class="audio-error">
+      <span class="glyphicon-attention" aria-hidden="true"></span>
+      <p>Failed to load audio</p>
+    </div>
+  {{else}}
+    {{#if isLoadingAudio}}
+      <div class="audio-loading" aria-label="audio player loading">
+          <div class="spinner" aria-label="loading spinner"></div>
+      </div>
+    {{else}}
+      <div class="play-pause-btn" on:el:click="togglePlay()" aria-label="play pause button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 18 24">
+              <path
+                id="playPause"
+                class="play-pause-icon"
+                fill="#566574"
+                fill-rule="evenodd"
+                {{#if isPlaying}}
+                  d="M0 0h6v24H0zM12 0h6v24h-6z"
+                {{else}}
+                  d="M18 12L0 24V0"
+                {{/if}}
+              />
+          </svg>
+      </div>
+    {{/if}}
+
+    <div class="controls">
+        <span class="current-time">{{currentTime}}</span>
+        <div class="slider slider-time" data-direction="horizontal" aria-label="time progress bar">
+            <div class="progress" style="width: {{currentPercentProgress}}%">
+                <div class="pin" id="progress-pin" data-method="time"></div>
+            </div>
+        </div>
+        <span class="total-time">{{totalTime}}</span>
+    </div>
+
+    <div class="volume">
+        <div class="volume-btn" on:el:click="toggleVolume()" aria-label="toggle volume button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path
+                  id="speaker"
+                  fill="#566574"
+                  fill-rule="evenodd"
+                  {{#is volumeType "loud"}}
+                    d="M14.667 0v2.747c3.853 1.146 6.666 4.72 6.666 8.946 0 4.227-2.813 7.787-6.666 8.934v2.76C20 22.173 24 17.4 24 11.693 24 5.987 20 1.213 14.667 0zM18 11.693c0-2.36-1.333-4.386-3.333-5.373v10.707c2-.947 3.333-2.987 3.333-5.334zm-18-4v8h5.333L12 22.36V1.027L5.333 7.693H0z"
+                  {{else}}{{#is volumeType "soft"}}
+                    d="M0 7.667v8h5.333L12 22.333V1L5.333 7.667M17.333 11.373C17.333 9.013 16 6.987 14 6v10.707c2-.947 3.333-2.987 3.333-5.334z"
+                  {{else}}
+                    d="M0 7.667v8h5.333L12 22.333V1L5.333 7.667"
+                  {{/is}}{{/is}}
+                />
+            </svg>
+        </div>
+        <div class="volume-controls{{^if isVolumeShowing}} hidden{{/if}}">
+            <div class="slider slider-volume" data-direction="horizontal" aria-label="volume bar at {{volumePercent}} percent">
+                <div class="progress" style="width: {{volumePercent}}%">
+                    <div class="pin" id="volume-pin" data-method="volume"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+  {{/if}}
+  <audio
+    crossorigin
+    on:el:timeupdate="updateProgress()"
+    on:el:volumechange="updateVolume()"
+    on:el:loadedmetadata="updateMetadata()"
+    on:el:canplay="updateLoading()"
+    on:el:ended="playerEnded()"
+    on:el:error="playerErrored()"
+  >
+    <source src="{{sourceUrl}}" type="audio/mpeg" />
+  </audio>
+</div>

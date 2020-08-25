@@ -16,6 +16,9 @@ import isMobile from '~/src/util/is-mobile'
 import joinURIs from 'can-util/js/join-uris/join-uris'
 
 import 'jquery-ui/ui/widgets/datepicker'
+import '~/src/calculator/jquery.plugin'
+import '~/src/calculator/jquery.calculator'
+import '~/src/calculator/jquery.calculator.css'
 import 'can-map-define'
 
 function getBaseUrl () {
@@ -371,7 +374,8 @@ export const FieldVM = CanMap.extend('FieldVM', {
       const vm = this
       const inputId = field.attr('label')
       const $inputEl = $("[id='" + inputId + "']")
-      $inputEl.calculator({ showOn: 'operator',
+      $inputEl.calculator({
+        showOn: 'operator',
         eraseText: 'Clear',
         onClose: function (calcValue, instance) {
           const $el = instance.elem

@@ -25,6 +25,7 @@
       "mocha"
     ],
     "ignore": [
+      "src/calculator/",
       "models/fixtures/**",
       "mobile/util/**",
       "build.production.html.js",
@@ -57,7 +58,7 @@
     }
   },
   "dependencies": {
-    "@caliorg/a2jdeps": "^7.0.11",
+    "@caliorg/a2jdeps": "^7.0.13",
     "@open-xchange/bootstrap-tokenfield": "^0.13.1",
     "bit-tabs": "^2.0.0",
     "blueimp-file-upload": "^9.10.1",

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>&lt;audio-player&gt;</title>
+    <style>
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="text/stache" can-autorender>
+      <can-import from="caja/author/app" />
+      <can-import from="~/styles/author/styles.less!" />
+      <can-import from="~/author/audio-player/" />
+
+      <audio-player
+        source-url='https://ia802508.us.archive.org/5/items/testmp3testfile/mpthreetest.mp3'
+      />
+    </script>
+
+    <script src="../../node_modules/steal/steal.js"
+      data-main="can-view-autorender/">
+      window.less = {
+        async: true,
+        fileSync: true
+      };
+    </script>
+  </body>
+</html>
