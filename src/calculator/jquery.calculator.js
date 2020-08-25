@@ -1,13 +1,13 @@
 ﻿/* http://keith-wood.name/calculator.html
    Calculator field entry extension for jQuery v2.0.1.
    Written by Keith Wood (kbwood{at}iinet.com.au) October 2008.
-   Licensed under the MIT (https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) licence. 
+   Licensed under the MIT (https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt) licence.
    Please attribute the author if you use it. */
-   
+
 (function($) { // hide the namespace
 
 	var pluginName = 'calculator';
-	
+
 	var layoutStandard = ['  BSCECA', '_1_2_3_+@X', '_4_5_6_-@U', '_7_8_9_*@E', '_0_._=_/'];
 
 	var digit = 'd';
@@ -26,10 +26,10 @@
 		@augments JQPlugin
 		@example $(selector).calculator() */
 	$.JQPlugin.createPlugin({
-	
+
 		/** The name of the plugin. */
 		name: pluginName,
-			
+
 		/** Calculator is operator callback.
 			Triggered when determining which keystrokes popup the calculator.
 			@callback isOperatorCallback
@@ -42,26 +42,26 @@
 			@example isOperator: function(ch, event, value, base, decimalChar) {
 	return '+-/*'.indexOf(ch) > -1;
 } */
-			
+
 		/** Calculator open callback.
 			Triggered when the popup calculator opens.
 			@callback openCallback
 			@param value {string} The current field value.
 			@param inst {object} The current instance settings. */
-			
+
 		/** Calculator button callback.
 			Triggered when a button in the calculator is clicked.
 			@callback buttonCallback
 			@param label {string} The label from the clicked button.
 			@param value {string} The current field value.
 			@param inst {object} The current instance settings. */
-			
+
 		/** Calculator close callback.
 			Triggered when the popup calculator closes.
 			@callback closeCallback
 			@param value {string} The current field value.
 			@param inst {object} The current instance settings. */
-			
+
 		/** Calculator math callback.
 			Triggered when a button is clicked to activate the underlying maths.
 			@callback mathCallback
@@ -70,7 +70,7 @@
 			@example function add(inst) {
 	inst.curValue = inst.prevValue + inst.curValue;
 } */
-			
+
 		/** Default settings for the plugin.
 			@property [showOn='focus'] {string} When to display the calculator:
 					'focus' for popup on focus, 'button' for trigger button,
@@ -211,7 +211,7 @@
 				isRTL: false
 			}
 		},
-		
+
 		/** Names of getter methods - those that can't be chained. */
 		_getters: ['isDisabled'],
 
@@ -219,7 +219,7 @@
 		_disabledFields: [], // List of calculator inputs that have been disabled
 		_showingCalculator: false, // True if the popup panel is showing , false if not
 		_showingKeystrokes: false, // True if showing keystrokes for calculator buttons
-		
+
 	/* The definitions of the buttons that may appear on the calculator.
 	   Key is ID. Fields are display text, button type, function,
 	   class(es), field name, keystroke, keystroke name. */
@@ -240,7 +240,7 @@
 		/** Indicator of a space.
 			For use with <code>addKeyDef</code>. */
 		space: space,
-		
+
 		_mainDivClass: pluginName + '-popup', // The name of the main calculator division marker class
 		_inlineClass: pluginName + '-inline', // The name of the inline marker class
 		_appendClass: pluginName + '-append', // The name of the appended text marker class
@@ -353,7 +353,7 @@
 				if (inst.options.showOn === 'button' || inst.options.showOn === 'both' ||
 						inst.options.showOn === 'opbutton') {
 					// pop-up calculator when button clicked
-					var trigger = $(inst.options.buttonImageOnly ? 
+					var trigger = $(inst.options.buttonImageOnly ?
 						$('<img/>').attr({src: inst.options.buttonImage,
 							alt: inst.options.buttonStatus, title: inst.options.buttonStatus}) :
 						$('<button type="button" title="' + inst.options.buttonStatus + '"></button>').
@@ -505,7 +505,7 @@
 			plugin._pos = null;
 			// determine sizing offscreen
 			inst._mainDiv.css({position: 'absolute', display: 'block', top: '-1000px', width: 'auto'});
-			// callback before calculator opening		
+			// callback before calculator opening
 			if ($.isFunction(inst.options.onOpen)) {
 				inst.options.onOpen.apply((inst._input ? inst._input[0] : null),  // trigger custom callback
 					[(inst._inline ? inst.curValue : inst._input.val()), inst]);
@@ -717,8 +717,8 @@
 				return;
 			}
 			var target = $(event.target);
-			if (!target.parents().andSelf().hasClass(plugin._mainDivClass) && !target.hasClass(plugin._getMarker()) &&
-					!target.parents().andSelf().hasClass(plugin._triggerClass) && plugin._showingCalculator) {
+			if (!target.parents().addBack().hasClass(plugin._mainDivClass) && !target.hasClass(plugin._getMarker()) &&
+					!target.parents().addBack().hasClass(plugin._triggerClass) && plugin._showingCalculator) {
 				plugin.hide();
 			}
 		},
@@ -795,7 +795,7 @@
 			var ch = String.fromCharCode(e.charCode === undefined ? e.keyCode : e.charCode);
 			var isOperator = inst.options.isOperator || plugin.isOperator;
 			if (!plugin._showingCalculator && !div &&
-					(inst.options.showOn === 'operator' || inst.options.showOn === 'opbutton') && 
+					(inst.options.showOn === 'operator' || inst.options.showOn === 'opbutton') &&
 					isOperator.apply(inst._input,
 						[ch, e, inst._input.val(), inst.options.base, inst.options.decimalChar])) {
 				plugin.show(this); // display the date picker on operator usage
@@ -840,7 +840,7 @@
 				(inst.options.useThemeRoller ? ' ui-widget-header' : '' ) +
 				(inst._focussed ? ' ' + this._focussedClass: '') + '">' +
 				(inst.options.showFormula ?
-				'<span class="' + this._formulaClass + '">' + inst._formula + '</span>' : '') + 
+				'<span class="' + this._formulaClass + '">' + inst._formula + '</span>' : '') +
 				'<span>' + inst.dispValue + '</span></div>';
 			for (var i = 0; i < inst.options.layout.length; i++) {
 				html += '<div class="' + this._rowClass + '">';
@@ -1393,4 +1393,4 @@
 	});
 
 })(jQuery);
- 
+
