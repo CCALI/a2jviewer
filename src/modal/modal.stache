@@ -1,5 +1,5 @@
 <can-import from='~/src/modal/modal.less' />
-<can-import from='@caliorg/a2jdeps/audio-player/' />
+<can-import from='~/src/audio-player/' />
 
   <div
     id="pageModal"
