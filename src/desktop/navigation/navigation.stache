@@ -8,6 +8,7 @@
         tabindex="0"
         aria-labelledby="nav-go-back-button"
         class="nav-item {{^if(./canNavigateBack)}}navigation-disabled{{/if}}"
+        aria-disabled="{{^if(./canNavigateBack)}}true{{else}}false{{/if}}"
         on:click="./navigateBack()"
         on:keydown="keydownFireClickHandler(scope.event, ./navigateBack)"
       >
@@ -20,11 +21,12 @@
         tabindex="0"
         aria-labelledby="nav-go-next-button"
         class="nav-item  {{^if(./canNavigateForward)}}navigation-disabled{{/if}}"
+        aria-disabled="{{^if(./canNavigateForward)}}true{{else}}false{{/if}}"
         on:click="./navigateForward()"
         on:keydown="keydownFireClickHandler(scope.event, ./navigateForward)"
       >
-        <a role="button" class="nav-link" aui-action="next">
-          {{./lang.GoNext}}<span class="glyphicon-right-open" aria-hidden="true" id="nav-go-next-button"></span>
+        <a role="button" class="nav-link" aui-action="next" id="nav-go-next-button">
+          {{./lang.GoNext}}}<span class="glyphicon-right-open" aria-hidden="true"></span>
         </a>
       </li>
     </ul>
