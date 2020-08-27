@@ -352,13 +352,16 @@ export const FieldVM = CanMap.extend('FieldVM', {
   preValidateNumber (ctx, el) {
     const $el = $(el)
     const field = this.attr('field')
+    const varName = field.attr('name')
     // accept only numbers, commas, periods, and negative sign
     const currentValue = $el.val()
     const scrubbedValue = currentValue.replace(/[^\d.,-]/g, '')
     if (currentValue !== scrubbedValue) {
       field.attr('hasError', true)
+      this.attr('groupValidationMap').attr(varName, true)
     } else {
       field.attr('hasError', false)
+      this.attr('groupValidationMap').attr(varName, false)
     }
   },
 
