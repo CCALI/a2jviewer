@@ -549,7 +549,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
         showOn: 'button',
         buttonImage: datepickerButtonSvg,
         buttonImageOnly: false,
-        buttonText: 'Calendar View',
+        buttonText: 'Open Calendar Widget',
         defaultDate,
         minDate,
         maxDate,

@@ -5,7 +5,7 @@
   on:click="../fireLearnMoreModal()"
   on:keydown="keydownFireClickHandler(scope.event, ../fireLearnMoreModal)"
   class="learn-more btn btn-default btn-navigate"
-  aria-labelledby="learnMore"
+  aria-labelledby="scope/lang.LearnMore"
   aui-action="help">
   {{scope/lang.LearnMore}}
 </button>

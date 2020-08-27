@@ -18,7 +18,7 @@
       on:input="calcAvailableLength(scope.event)"/>
 
       <button
-        aria-label="Expand Text"
+        aria-label="expand textarea"
         class="btn btn-default expand-textlong pull-right"
         on:click="expandTextlong(field)"
         aui-action="expand">

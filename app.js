@@ -38,6 +38,9 @@ route.register('view/{view}/page/{page}/{repeatVarValue}')
 route.register('view/{view}/page/{page}/{repeatVarValue}/{outerLoopVarValue}')
 route.data = rState
 
+const preventDefaultHandler = ev => ev.preventDefault()
+$('body').on('click', 'a[href="#"]', preventDefaultHandler)
+
 Promise.all([interviewPromise, persistedStatePromise])
   .then(function ([interview, pState]) {
     startApp({ interview, pState, mState, rState })

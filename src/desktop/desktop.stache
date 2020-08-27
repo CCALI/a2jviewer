@@ -10,6 +10,9 @@
         The page {{rState.page}} does not exist!
       </div>
     {{else}}
+      {{#not(isMobile)}}
+        <a id="skiplink" tabindex="0" class="skip-link" on:keydown="keydownFireClickHandler(scope.event, focusMainContent)">Skip to main content</a>
+      {{/not}}
       <a2j-viewer-navigation
         lang:from="lang"
         logic:from="logic"
