@@ -10,7 +10,8 @@
     <div class="numberdollar-field">
       <span>$</span>
       <input
-        type="tel"
+        type="text"
+        inputmode="decimal"
         id="{{field.label}}"
         name="{{field.name}}"
         {{#if(field.required)}}required{{/if}}

@@ -8,7 +8,8 @@
     </label>
     <div class="number-field">
       <input
-        type="tel"
+        type="text"
+        inputmode="decimal"
         id="{{field.label}}"
         name="{{field.name}}"
         {{#if(field.required)}}required{{/if}}
