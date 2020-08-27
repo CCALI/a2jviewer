@@ -336,6 +336,18 @@ describe('<a2j-field>', () => {
         document.getElementById('Likes Chocolate TF').click()
         assert.equal(textField.attr('_answerVm.answer.values.1'), 'Wilhelmina', 'Checking checkbox does not change text field')
       })
+
+      it('should set error state from number prevalidation', () => {
+        const e = new window.Event('input', {
+          bubbles: true,
+          cancelable: true
+        })
+        const numberDollarEl = document.getElementById('Salary')
+        numberDollarEl.value = 'safsd'
+        numberDollarEl.dispatchEvent(e)
+        const hasError = numberDollarVm.attr('groupValidationMap').attr('Salary')
+        assert.equal(hasError, true, 'pre-validation should catch number errors and update groupValidationMap')
+      })
     })
 
     describe('Calculator', () => {
