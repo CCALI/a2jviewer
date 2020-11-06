@@ -23,11 +23,8 @@
         {{/is}}
       </h3>
 
-      <fieldset>
-        <legend class='question-text-legend' tabindex="0">
-          <p class="question-text">{{{ insertExternalLinkIcon(parseText(currentPage.text)) }}}</p>
-        </legend>
-
+      <div class="question-text-container" tabindex="0">
+        <p class="question-text">{{{ insertExternalLinkIcon(parseText(currentPage.text)) }}}</p>
         {{#if(currentPage.fields.length)}}
           <a2j-fields
             lang:from="lang"
@@ -37,7 +34,7 @@
             rState:from="rState"
             modalContent:bind="modalContent" />
         {{/if}}
-      </fieldset>
+      </div>
 
 
       {{#if(currentPage.textAudioURL)}}
