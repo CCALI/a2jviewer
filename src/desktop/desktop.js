@@ -42,7 +42,7 @@ let DesktopViewerVM = CanMap.extend('DesktopViewerVM', {
 
   // allows keyboard users to skip nav bar and go directly to either the first question input or nav button
   focusMainContent: () => {
-    document.querySelector('legend.question-text-legend').focus()
+    document.querySelector('.question-text-container').focus()
   },
 
   connectedCallback () {
