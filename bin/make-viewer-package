@@ -51,11 +51,15 @@ function makePackageFolder () {
   // copy CAJA/demo content inside `a2j-viewer/`
   fs.copySync(path.join(cajaPath, 'demo'), outputPath)
 
-
-  // copy package.json to `a2j-viewer/`
-
-  fs.copySync(path.join(cajaPath, 'package.json'),
-    path.join(outputPath, 'package.json'))
+  // copy README.md & Legal Info
+  fs.copySync(path.join(srcPath, 'README.md'),
+    path.join(outputPath, 'README.md'))
+  fs.copySync(path.join(srcPath, 'License.md'),
+    path.join(outputPath, 'License.md'))
+  fs.copySync(path.join(srcPath, 'Privacy Policy'),
+    path.join(outputPath, 'Privacy Policy'))
+  fs.copySync(path.join(srcPath, 'A2J Analytics Explanation'),
+    path.join(outputPath, 'A2J Analytics Explanation'))
 
   // copy styles required by the avatar's svg file
   fs.copySync(path.join(cajaPath, 'styles', 'viewer-avatars.css'),
