@@ -83,7 +83,7 @@ function makePackageFolder () {
 function makePackageZip () {
   var zip = archiver('zip')
   var timestamp = (new Date()).toISOString().substr(0, 10)
-  var zipname = 'a2j-viewer-' + version + '_' + timestamp + '.zip'
+  var zipname = 'a2j-viewer_' + version + '_' + timestamp + '.zip'
   var output = fs.createWriteStream(path.join(srcPath, '..', zipname))
 
   output.on('close', function () {
