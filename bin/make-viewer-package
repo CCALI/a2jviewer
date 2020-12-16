@@ -5,6 +5,8 @@ var fs = require('fs-extra')
 var chalk = require('chalk')
 var archiver = require('archiver')
 var stealTools = require('steal-tools')
+var pjson = require('../package.json')
+var version = pjson.version
 var { buildViewerHtml } = require('../demo/build.viewer.html')
 
 var cajaPath = path.join(__dirname, '..')
@@ -75,8 +77,7 @@ function makePackageFolder () {
 function makePackageZip () {
   var zip = archiver('zip')
   var timestamp = (new Date()).toISOString().substr(0, 10)
-  var zipname = 'a2j-7-viewer-' + timestamp + '.zip'
-  var output = fs.createWriteStream(path.join(cajaPath, '..', zipname))
+  var zipname = 'a2j-viewer-' + version + '_' + timestamp + '.zip'
 
   output.on('close', function () {
     fs.removeSync(path.join(outputPath))
