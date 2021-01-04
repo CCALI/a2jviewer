@@ -10,7 +10,7 @@
     "build-docs": "grunt documentjs",
     "serve-docs": "grunt documentjs-lite && http-server docs",
     "build:viewer-zip": "node ./bin/make-viewer-package",
-    "preversion": "npm test && node ./bin/pre-npm-version"
+    "preversion": "npm test && node ./bin/pre-npm-version && git add src/models/version-date.js"
   },
   "author": "",
   "license": "AGPL-3.0-only",
