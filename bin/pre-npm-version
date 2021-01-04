@@ -1,0 +1,20 @@
+const fs = require('fs')
+const path = require('path')
+const format = require('date-fns/format')
+
+const buildVersionDate = function () {
+  const date = format(Date.now(), 'yyyy-MM-dd')
+  const versionDateModel = template(date)
+
+  function template (date) {
+    return `// version date updated in bin/pre-npm-version script.\nexport default {\n  versionDate: '${date}'\n}\n`
+  }
+
+  try {
+    fs.writeFileSync(path.join(__dirname, '../src/models/version-date.js'), versionDateModel, 'utf-8')
+  } catch (e) {
+    console.log('error creating publishDate', e)
+  }
+}
+
+buildVersionDate()
