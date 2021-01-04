@@ -5,15 +5,18 @@ var fs = require('fs-extra')
 var chalk = require('chalk')
 var archiver = require('archiver')
 var stealTools = require('steal-tools')
+var pjson = require('../package.json')
+var version = pjson.version
 var { buildViewerHtml } = require('../demo/build.viewer.html')
 
-var cajaPath = path.join(__dirname, '..')
-var outputPath = path.join(cajaPath, '..', 'a2j-viewer')
-console.log(cajaPath, outputPath)
+var srcPath = path.join(__dirname, '..')
+var outputPath = path.join(srcPath, '..', 'a2j-viewer')
+console.log('src path', srcPath)
+console.log('output path', outputPath)
 
 var buildConfig = {
   main: 'app',
-  config: path.join(cajaPath, 'package.json!npm')
+  config: path.join(srcPath, 'package.json!npm')
 }
 
 var buildOptions = {
@@ -22,7 +25,7 @@ var buildOptions = {
 }
 
 // remove any existing build first
-fs.removeSync(path.join(cajaPath, 'dist'))
+fs.removeSync(path.join(srcPath, 'dist'))
 fs.removeSync(outputPath)
 
 stealTools.build(buildConfig, buildOptions)
@@ -43,40 +46,45 @@ function makePackageFolder () {
   buildViewerHtml()
 
   // copy the bundled viewer code to 'a2j-viewer/dist'
-  fs.copySync(path.join(cajaPath, 'dist'),
+  fs.copySync(path.join(srcPath, 'dist'),
     path.join(outputPath, 'dist'))
 
   // copy CAJA/demo content inside `a2j-viewer/`
-  fs.copySync(path.join(cajaPath, 'demo'), outputPath)
+  fs.copySync(path.join(srcPath, 'demo/guides/default/'), path.join(outputPath, 'guides', 'default'))
+  fs.copySync(path.join(srcPath, 'demo/viewer/'), path.join(outputPath, 'viewer'))
 
-
-  // copy package.json to `a2j-viewer/`
-
-  fs.copySync(path.join(cajaPath, 'package.json'),
-    path.join(outputPath, 'package.json'))
+  // copy README.md & Legal Info
+  fs.copySync(path.join(srcPath, 'README.md'),
+    path.join(outputPath, 'README.md'))
+  fs.copySync(path.join(srcPath, 'License.md'),
+    path.join(outputPath, 'License.md'))
+  fs.copySync(path.join(srcPath, 'Privacy Policy'),
+    path.join(outputPath, 'Privacy Policy'))
+  fs.copySync(path.join(srcPath, 'A2J Analytics Explanation'),
+    path.join(outputPath, 'A2J Analytics Explanation'))
 
   // copy styles required by the avatar's svg file
-  fs.copySync(path.join(cajaPath, 'styles', 'viewer-avatars.css'),
+  fs.copySync(path.join(srcPath, 'styles', 'viewer-avatars.css'),
     path.join(outputPath, 'styles', 'viewer-avatars.css'))
 
   // copy avatar svgs from @caliorg/a2jdeps/images
-  fs.copySync(path.join(cajaPath, 'node_modules', '@caliorg', 'a2jdeps', 'avatar', 'images'),
+  fs.copySync(path.join(srcPath, 'node_modules', '@caliorg', 'a2jdeps', 'avatar', 'images'),
     path.join(outputPath, 'node_modules', '@caliorg', 'a2jdeps', 'avatar', 'images'))
 
-  // copy lightbox2 images to expected path
-  fs.copySync(path.join(cajaPath, 'node_modules', 'lightbox2', 'dist', 'images'),
+  // copy lightbox2 images to expected path in node_modules
+  fs.copySync(path.join(srcPath, 'node_modules', 'lightbox2', 'dist', 'images'),
     path.join(outputPath, 'node_modules', 'lightbox2', 'dist', 'images'))
 
   // copy other viewer images like the logo, courthouse, datepicker-button, calculator icon, etc
-  fs.copySync(path.join(cajaPath, 'images'),
+  fs.copySync(path.join(srcPath, 'images'),
     path.join(outputPath, 'images'))
 }
 
 function makePackageZip () {
   var zip = archiver('zip')
   var timestamp = (new Date()).toISOString().substr(0, 10)
-  var zipname = 'a2j-7-viewer-' + timestamp + '.zip'
-  var output = fs.createWriteStream(path.join(cajaPath, '..', zipname))
+  var zipname = 'a2j-viewer_' + version + '_' + timestamp + '.zip'
+  var output = fs.createWriteStream(path.join(srcPath, '..', zipname))
 
   output.on('close', function () {
     fs.removeSync(path.join(outputPath))
