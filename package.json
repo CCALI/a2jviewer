@@ -123,6 +123,7 @@
     "can-debug": "^2.0.1",
     "can-fixture": "^2.1.0",
     "chai": "^4.1.2",
+    "date-fns": "^2.16.1",
     "funcunit": "^3.0.0",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.1.0",
