@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import isMobile from './src/util/is-mobile'
+import isMobile from '~/src/util/is-mobile'
 import template from './app.stache'
 import Lang from '~/src/mobile/util/lang'
 import Logic from '~/src/mobile/util/logic'
