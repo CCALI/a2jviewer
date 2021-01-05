@@ -7,6 +7,7 @@ import Logic from '~/src/mobile/util/logic'
 import constants from '~/src/models/constants'
 import { ViewerNavigationVM } from '~/src/desktop/navigation/'
 import canReflect from 'can-reflect'
+import { differenceInYears, parseISO } from 'date-fns'
 import '@caliorg/a2jdeps/models/fixtures/'
 
 import 'steal-mocha'
@@ -299,11 +300,12 @@ describe('<a2j-viewer-navigation>', function () {
       interview.answers.varSet('Some number NU', 3, 1)
       interview.answers.varSet('Some number NU', 9.345, 2)
       interview.answers.varSet('date DA', '01/01/2000', 1)
+      const expectedAgeResult = differenceInYears(Date.now(), parseISO('2000-01-01'))
       interview.answers.varSet('date DA', 1000, 2)
       interview.answers.varSet('loopCount', 1, 1)
 
       const sortedMacros = [
-        { type: 'function', replaceText: '%%AGE([date DA#loopCount])%%', resolveText: 'AGE([date DA#loopCount])', expectedValue: 20, repeatVarValue: 1 },
+        { type: 'function', replaceText: '%%AGE([date DA#loopCount])%%', resolveText: 'AGE([date DA#loopCount])', expectedValue: expectedAgeResult, repeatVarValue: 1 },
         { type: 'function', replaceText: '%%DATE([date DA#2])%%', resolveText: 'DATE([date DA#2])', expectedValue: '09/27/1972' },
         { type: 'function', replaceText: '%%DOLLAR([Some number NU#1])%%', resolveText: 'DOLLAR([Some number NU#1])', expectedValue: '3.00' },
         { type: 'function', replaceText: '%%HASANSWERED([First name TE#1])%%', resolveText: 'HASANSWERED([First name TE#1])', expectedValue: true },
