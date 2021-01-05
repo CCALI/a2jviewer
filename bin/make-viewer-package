@@ -11,8 +11,8 @@ var { buildViewerHtml } = require('../demo/build.viewer.html')
 
 var srcPath = path.join(__dirname, '..')
 var outputPath = path.join(srcPath, '..', 'a2j-viewer')
-console.log('src path', srcPath)
-console.log('output path', outputPath)
+console.log(chalk.yellow('src path', srcPath))
+console.log(chalk.yellow('output path', outputPath))
 
 var buildConfig = {
   main: 'app',
@@ -83,8 +83,8 @@ function makePackageFolder () {
 function makePackageZip () {
   var zip = archiver('zip')
   var timestamp = (new Date()).toISOString().substr(0, 10)
-  var zipname = 'a2j-viewer_' + version + '_' + timestamp + '.zip'
-  var output = fs.createWriteStream(path.join(srcPath, '..', zipname))
+  var zipName = 'a2j-viewer_' + version + '_' + timestamp + '.zip'
+  var output = fs.createWriteStream(path.join(srcPath, 'viewer-latest-release', zipName))
 
   output.on('close', function () {
     fs.removeSync(path.join(outputPath))
