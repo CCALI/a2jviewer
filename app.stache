@@ -1,4 +1,5 @@
 <can-import from="~/src/mobile/" />
+<can-import from="~/src/debug-panel/" />
 <can-import from="~/src/desktop/" />
 <can-import from="~/src/modal/" />
 
@@ -14,19 +15,29 @@
     modalContent:bind="modalContent"
     class="bootstrap-styles" />
 {{else}}
-  {{ let remainingSteps = null, maxDisplayedSteps = null }}
-  <a2j-desktop-viewer
-    remainingSteps:to="remainingSteps"
-    maxDisplayedSteps:to="maxDisplayedSteps"
-    showDebugPanel:from="rState.showDebugPanel"
-    lang:from="lang"
-    logic:from="logic"
-    rState:from="rState"
-    pState:from="pState"
-    mState:from="mState"
-    interview:from="interview"
-    modalContent:bind="modalContent"
-    class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
+    {{#if(rState.showDebugPanel)}}
+    <div class="debug-panel">
+      <debug-panel
+        interview:from="interview"
+        traceMessage:from="rState.traceMessage" />
+    </div>
+    {{/if}}
+    <div id="viewer-app" {{#if(rState.showDebugPanel)}}class="with-debug-panel"{{/if}}>
+      {{ let remainingSteps = null, maxDisplayedSteps = null }}
+      <a2j-desktop-viewer
+        remainingSteps:to="remainingSteps"
+        maxDisplayedSteps:to="maxDisplayedSteps"
+        showDebugPanel:from="rState.showDebugPanel"
+        isMobile:from="isMobile"
+        lang:from="lang"
+        logic:from="logic"
+        rState:from="rState"
+        pState:from="pState"
+        mState:from="mState"
+        interview:from="interview"
+        modalContent:bind="modalContent"
+        class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
+    </div>
 {{/if}}
 
 <a2j-modal

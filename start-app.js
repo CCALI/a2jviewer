@@ -20,7 +20,7 @@ export default function ({ interview, pState, mState, rState }) {
   pState.attr('setDataURL', mState.attr('setDataURL'))
   pState.attr('autoSetDataURL', mState.attr('autoSetDataURL'))
 
-  const lang = new Lang(interview.attr('language'))
+  const lang = new Lang(interview.language)
   const answers = pState.attr('answers')
 
   answers.attr('lang', lang)
@@ -31,7 +31,7 @@ export default function ({ interview, pState, mState, rState }) {
     values: [null, true]
   })
 
-  interview.attr('answers', answers)
+  interview.answers = answers
 
   const logic = new Logic({
     interview: interview
@@ -52,7 +52,7 @@ export default function ({ interview, pState, mState, rState }) {
 
   // set initial page route
   rState.view = 'pages'
-  rState.page = interview.attr('firstPage')
+  rState.page = interview.firstPage
 
   const modalContent = compute()
 
@@ -60,7 +60,7 @@ export default function ({ interview, pState, mState, rState }) {
   const authorId = interview.authorId || 0
   analytics.initialize(authorId)
 
-  $('#viewer-app').append(template({
+  $('#viewer-app-container').append(template({
     rState, pState, mState, interview, logic, lang, isMobile, modalContent
   }))
 }
