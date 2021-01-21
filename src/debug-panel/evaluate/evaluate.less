@@ -1,0 +1,25 @@
+@import (reference) '../../../styles';
+
+@panel-width: 400px;
+
+author-evaluate-panel {
+    display: block;
+
+    #evaluate-form {
+        bottom: 10px;
+        left: 0;
+        width: @panel-width;
+        position: fixed;
+        padding: @grid-gutter-width/4;
+        border-bottom: 1px solid @gray-lighter;
+
+        #evaluate-input {
+            min-height: initial; // clear collision from viewer styles
+            width: 270px;
+        }
+
+        #evaluate-button {
+            margin-right: 15px;
+        }
+    }
+}

@@ -1,0 +1,11 @@
+<can-import from="~/src/debug-panel/evaluate/evaluate.less"/>
+
+<div id="evaluate-form">
+    <input
+    type="text"
+    placeholder="Enter short expression scripts here"
+    id="evaluate-input"
+    class="form-control input-sm"/>
+
+    <button on:el:click="evaluateScript()" id="evaluate-button" class="btn btn-default btn-sm pull-right"><span class="glyphicon-pencil" aria-hidden="true"></span> Evaluate</button>
+</div>
