@@ -1,34 +1,7 @@
 import DefineMap from 'can-define/map/map'
-import DefineList from 'can-define/list/list'
+import CanList from 'can-list'
 import Component from 'can-component'
 import template from './debug-panel.stache'
-import A2JVariable from '@caliorg/a2jdeps/models/a2j-variable'
-import { Gender, Hair, Skin } from '@caliorg/a2jdeps/avatar/colors'
-// with the existing Guide model that works with a different data structure.
-
-const Guide = DefineMap.extend('AppStateGuide', {
-  variablesList: {
-    get () {
-      const vars = this.vars
-      return A2JVariable.fromGuideVars(vars.serialize())
-    }
-  },
-
-  guideGender: {
-    type: Gender,
-    default: Gender.defaultValue
-  },
-
-  avatarSkinTone: {
-    type: Skin,
-    default: Skin.defaultValue
-  },
-
-  avatarHairColor: {
-    type: Hair,
-    default: Hair.defaultValue
-  }
-})
 
 /**
  * @property {DefineMap} debugPanel.ViewModel
@@ -38,18 +11,8 @@ const Guide = DefineMap.extend('AppStateGuide', {
  */
 export let DebugPanelVM = DefineMap.extend('DebugPanelVM', {
   // passed in via viewer-preview-layout.stache bindings
-  interview: {
-    set (interview = {}) {
-      console.log('interview', interview)
-      return new Guide(interview)
-    }
-  },
-  traceMessage: {
-    set (traceMessage) {
-      console.log('traceMessage', traceMessage)
-      return traceMessage
-    }
-  },
+  interview: {},
+  traceMessage: {},
   previewPageName: {},
   currentPageName: {
     get () {
@@ -68,8 +31,8 @@ export let DebugPanelVM = DefineMap.extend('DebugPanelVM', {
       const interview = this.interview
 
       return interview
-        ? interview.variablesList
-        : new DefineList([])
+        ? interview.attr('variablesList')
+        : new CanList([])
     }
   },
 
