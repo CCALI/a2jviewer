@@ -6,6 +6,15 @@
     <ul class="nav navbar-nav navbar-mobile">
       <li
         tabindex="0"
+        class="nav-item"
+        on:click="toggleDebugPanel()"
+      >
+        <a role="button" class="nav-link" aui-action="toggle">
+          <span class="glyphicon-left-open" aria-hidden="true" id="nav-go-back-button"></span>toggle debug
+        </a>
+      </li>
+      <li
+        tabindex="0"
         aria-labelledby="nav-go-back-button"
         class="nav-item {{^if(./canNavigateBack)}}navigation-disabled{{/if}}"
         aria-disabled="{{^if(./canNavigateBack)}}true{{else}}false{{/if}}"

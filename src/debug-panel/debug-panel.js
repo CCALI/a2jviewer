@@ -50,20 +50,20 @@ export let DebugPanelVM = DefineMap.extend('DebugPanelVM', {
   },
 
   connectedCallback (el) {
-    // this.listenTo('currentPageName', (ev, newVal, oldVal) => {
-    //   const $pageName = $(`span.page:contains(${newVal})`)
-    //   const pageNameTop = $pageName[0].offsetTop
-    //   const $debugPanel = $('#logic-trace-panel')
-    //   const modifier = 5
+    this.listenTo('currentPageName', (ev, newVal, oldVal) => {
+      const $pageName = $(`span.page:contains(${newVal})`)
+      const pageNameTop = $pageName[0].offsetTop
+      const $debugPanel = $('#logic-trace-panel')
+      const modifier = 5
 
-    //   setTimeout(() => {
-    //     $debugPanel.animate({ scrollTop: (pageNameTop - modifier) }, 100)
-    //   }, 0)
-    // })
+      setTimeout(() => {
+        $debugPanel.animate({ scrollTop: (pageNameTop - modifier) }, 100)
+      }, 0)
+    })
 
-    // return () => {
-    //   this.stopListening()
-    // }
+    return () => {
+      this.stopListening()
+    }
   }
 })
 

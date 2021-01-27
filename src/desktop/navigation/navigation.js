@@ -176,6 +176,16 @@ export let ViewerNavigationVM = DefineMap.extend({
   },
 
   /**
+   * @property {Function} viewerNavigation.ViewModel.toggleDebugPanel toggleDebugPanel
+   * @parent viewerNavigation.ViewModel
+   *
+   * Navigates to previous page.
+   */
+  toggleDebugPanel () {
+    this.rState.showDebugPanel = !this.rState.showDebugPanel
+  },
+
+  /**
    * @property {Function} viewerNavigation.ViewModel.navigateBack navigateBack
    * @parent viewerNavigation.ViewModel
    *

@@ -26,7 +26,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   showDebugPanel: {
     serialize: false,
-    default: null
+    default: true
   },
 
   infinite: {
