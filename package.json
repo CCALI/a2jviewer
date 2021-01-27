@@ -68,8 +68,7 @@
     }
   },
   "dependencies": {
-    "@caliorg/a2jdeps": "^7.0.13",
-    "@open-xchange/bootstrap-tokenfield": "^0.13.1",
+    "@caliorg/a2jdeps": "^7.0.14",
     "bit-tabs": "^2.0.0",
     "blueimp-file-upload": "^9.10.1",
     "bootstrap": "^3.4.1",
