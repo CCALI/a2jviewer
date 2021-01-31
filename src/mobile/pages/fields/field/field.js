@@ -46,12 +46,12 @@ export const FieldVM = CanMap.extend('FieldVM', {
     groupValidationMap: {},
     lastIndexMap: {},
     // Type: DefineMap
-    rState: {},
+    appState: {},
 
     // used in field views/*
     repeatVarValue: {
       get () {
-        return this.attr('rState').repeatVarValue
+        return this.attr('appState').repeatVarValue
       }
     },
 
@@ -75,7 +75,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
      */
     userAvatar: {
       get () {
-        return this.attr('rState').userAvatar
+        return this.attr('appState').userAvatar
       }
     },
 
@@ -178,7 +178,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
     savedGenderValue: {
       get: function () {
         let name = this.attr('field.name').toLowerCase()
-        let answerIndex = this.attr('rState.answerIndex')
+        let answerIndex = this.attr('appState.answerIndex')
         let answers = this.attr('logic.interview.answers')
         if (name && answers) {
           return answers.attr(name).attr('values.' + answerIndex)
@@ -339,7 +339,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
         { format: 'val', msg: value }
       ]
     }
-    this.attr('rState').traceMessage.addMessage(message)
+    this.attr('appState').traceMessage.addMessage(message)
   },
 
   /**
@@ -426,7 +426,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
    */
   expandTextlong (field) {
     const answerName = field.attr('name')
-    const previewActive = this.attr('rState.previewActive')
+    const previewActive = this.attr('appState.previewActive')
     // warning modal only in Author
     if (!answerName && previewActive) {
       this.attr('modalContent', { title: 'Author Warning', text: 'Text(long) fields require an assigned variable to expand' })

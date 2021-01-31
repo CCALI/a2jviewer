@@ -26,7 +26,7 @@ export default CanMap.extend('PagesVM', {
     resumeInterview: {},
     lang: {},
     logic: {},
-    rState: {},
+    appState: {},
     pState: {},
     mState: {},
     interview: {},
@@ -37,13 +37,13 @@ export default CanMap.extend('PagesVM', {
     previewActive: {
       get (lastSet) {
         if (lastSet) { return lastSet } // for testing override
-        return this.attr('rState').previewActive
+        return this.attr('appState').previewActive
       }
     },
 
     repeatVarValue: {
       get () {
-        return this.attr('rState').repeatVarValue
+        return this.attr('appState').repeatVarValue
       }
     },
 
@@ -177,7 +177,7 @@ export default CanMap.extend('PagesVM', {
   },
 
   returnHome () {
-    this.attr('rState').attr({}, true)
+    this.attr('appState').attr({}, true)
   },
 
   validateAllFields () {
@@ -197,7 +197,7 @@ export default CanMap.extend('PagesVM', {
   },
 
   traceButtonClicked (buttonLabel) {
-    this.attr('rState.traceMessage').addMessage({
+    this.attr('appState.traceMessage').addMessage({
       key: 'button',
       fragments: [
         { format: '', msg: 'You pressed' },
@@ -207,7 +207,7 @@ export default CanMap.extend('PagesVM', {
   },
 
   traceMessageAfterQuestion () {
-    this.attr('rState.traceMessage').addMessage({
+    this.attr('appState.traceMessage').addMessage({
       key: 'codeAfter',
       fragments: [{ format: 'info', msg: 'Logic After Question' }]
     })
@@ -223,11 +223,11 @@ export default CanMap.extend('PagesVM', {
       ev && ev.preventDefault()
       return false
     } else { // no errors/normal navigation
-      const rState = vm.attr('rState')
+      const appState = vm.attr('appState')
       const page = vm.attr('currentPage')
       const logic = vm.attr('logic')
       const previewActive = vm.attr('previewActive')
-      const onExitPage = rState.saveAndExitActive && (rState.currentPage.name === vm.attr('interview').exitPage)
+      const onExitPage = appState.saveAndExitActive && (appState.currentPage.name === vm.attr('interview').exitPage)
 
       button.next = vm.handleCrossedUseOfResumeOrBack(button, onExitPage)
 
@@ -242,7 +242,7 @@ export default CanMap.extend('PagesVM', {
 
       vm.setRepeatVariable(button) // set counting variables if exist
 
-      vm.handleBackButton(button, rState, logic) // prior question
+      vm.handleBackButton(button, appState, logic) // prior question
 
       if (previewActive && this.isSpecialButton(button)) {
         vm.handlePreviewResponses(button, ev) // a2j-viewer preview messages
@@ -254,8 +254,8 @@ export default CanMap.extend('PagesVM', {
         return // final POST buttons skip rest of navigate
       }
 
-      rState.page = vm.getNextPage(button, logic) // check for GOTO logic redirect, nav to next page
-      return rState.page // return destination page for testing
+      appState.page = vm.getNextPage(button, logic) // check for GOTO logic redirect, nav to next page
+      return appState.page // return destination page for testing
     }
   },
 
@@ -351,7 +351,7 @@ export default CanMap.extend('PagesVM', {
 
     if (repeatVar && repeatVarSet) {
       const logic = this.attr('logic')
-      const traceMessage = this.attr('rState.traceMessage')
+      const traceMessage = this.attr('appState.traceMessage')
       const traceMsg = {}
 
       switch (repeatVarSet) {
@@ -449,10 +449,10 @@ export default CanMap.extend('PagesVM', {
     })
   },
 
-  handleBackButton (button, rState, logic) {
+  handleBackButton (button, appState, logic) {
     if (button.next !== constants.qIDBACK) { return }
     // last visited page always at index 1
-    const priorQuestionName = rState.visitedPages[1].name
+    const priorQuestionName = appState.visitedPages[1].name
     // override with new gotoPage
     logic.attr('gotoPage', priorQuestionName)
     button.attr('next', priorQuestionName)
@@ -529,9 +529,9 @@ export default CanMap.extend('PagesVM', {
   setFieldAnswers (fields) {
     const logic = this.attr('logic')
     if (logic && fields.length) {
-      const rState = this.attr('rState')
+      const appState = this.attr('appState')
       const mState = this.attr('mState')
-      const answerIndex = rState.answerIndex
+      const answerIndex = appState.answerIndex
 
       fields.forEach(field => {
         const answer = this.__ensureFieldAnswer(field)
@@ -588,7 +588,7 @@ export default CanMap.extend('PagesVM', {
   logVarMessage (answerName, answerValue, isRepeating, answerIndex) {
     const answerIndexDisplay = isRepeating ? `#${answerIndex}` : ''
 
-    this.attr('rState.traceMessage').addMessage({
+    this.attr('appState.traceMessage').addMessage({
       key: answerName,
       fragments: [
         { format: 'var', msg: answerName + answerIndexDisplay },

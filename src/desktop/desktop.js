@@ -13,7 +13,7 @@ let DesktopViewerVM = CanMap.extend('DesktopViewerVM', {
     showDebugPanel: {},
     lang: {},
     logic: {},
-    rState: {},
+    appState: {},
     pState: {},
     mState: {},
     interview: {},
@@ -61,14 +61,14 @@ let DesktopViewerVM = CanMap.extend('DesktopViewerVM', {
   },
 
   checkPageExists () {
-    const rState = this.attr('rState')
+    const appState = this.attr('appState')
     const interview = this.attr('interview')
 
-    if (!rState || !interview) return
+    if (!appState || !interview) return
 
-    const pageName = rState.page
+    const pageName = appState.page
 
-    if (rState.view === 'pages') {
+    if (appState.view === 'pages') {
       const page = interview.attr('pages').find(pageName)
       this.attr('pageNotFound', _isUndefined(page))
     }
@@ -88,7 +88,7 @@ export default Component.extend({
   },
 
   events: {
-    '{rState} page': function () {
+    '{appState} page': function () {
       this.viewModel.checkPageExists()
     }
   },

@@ -19,7 +19,7 @@
             resumeInterview:from="resumeInterview"
             lang:from="lang"
             logic:from="logic"
-            rState:from="rState"
+            appState:from="appState"
             pState:from="pState"
             mState:from="mState"
             interview:from="interview"

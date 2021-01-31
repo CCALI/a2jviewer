@@ -30,18 +30,18 @@ const interviewPromise = Interview.findOne({
 const persistedStatePromise = PersistedState.findOne()
 
 // Route state
-const rState = new AppState()
-rState.connectedCallback(document.body)
+const appState = new AppState()
+appState.connectedCallback(document.body)
 
 route.register('view/{view}/page/{page}')
 route.register('view/{view}/page/{page}/{repeatVarValue}')
 route.register('view/{view}/page/{page}/{repeatVarValue}/{outerLoopVarValue}')
-route.data = rState
+route.data = appState
 
 const preventDefaultHandler = ev => ev.preventDefault()
 $('body').on('click', 'a[href="#"]', preventDefaultHandler)
 
 Promise.all([interviewPromise, persistedStatePromise])
   .then(function ([interview, pState]) {
-    startApp({ interview, pState, mState, rState })
+    startApp({ interview, pState, mState, appState })
   })

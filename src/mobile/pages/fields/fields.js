@@ -17,7 +17,7 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
     lang: {},
     logic: {},
     fields: {},
-    rState: {},
+    appState: {},
     modalContent: {},
 
     lastIndexMap: {},

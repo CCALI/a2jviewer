@@ -33,7 +33,7 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
     showDebugPanel: {},
     lang: {},
     logic: {},
-    rState: {},
+    appState: {},
     pState: {},
     mState: {},
     interview: {},
@@ -47,7 +47,7 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
      */
     userAvatar: {
       get () {
-        return this.attr('rState').userAvatar
+        return this.attr('appState').userAvatar
       }
     },
 
@@ -71,7 +71,7 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
      */
     currentPage: {
       get () {
-        return this.attr('rState').currentPage
+        return this.attr('appState').currentPage
       }
     },
 
@@ -527,7 +527,7 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
 
   fireLearnMoreModal () {
     const pages = this.attr('interview.pages')
-    const pageName = this.attr('rState.page')
+    const pageName = this.attr('appState.page')
 
     if (pages && pageName) {
       const page = pages.find(pageName)
@@ -560,7 +560,7 @@ export let ViewerStepsVM = CanMap.extend('ViewerStepsVM', {
         const userAvatar = answers.attr('user avatar')
         const previousUserAvatar = userAvatar.attr('values.1')
         if (previousUserAvatar) {
-          vm.attr('rState').userAvatar.update(JSON.parse(previousUserAvatar))
+          vm.attr('appState').userAvatar.update(JSON.parse(previousUserAvatar))
         }
       }
     }

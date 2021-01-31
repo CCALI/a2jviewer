@@ -17,7 +17,7 @@ describe('<a2j-viewer-navigation>', function () {
     let vm
     let pages
     let visited
-    let rState
+    let appState
     let interview
     let logic
 
@@ -27,11 +27,11 @@ describe('<a2j-viewer-navigation>', function () {
       promise.then(function (_interview) {
         interview = _interview
         interview.attr('answers', { 'a2j interview incomplete tf': {values: []} })
-        rState = new AppState({ interview })
+        appState = new AppState({ interview })
         pages = interview.attr('pages')
-        visited = canReflect.getKeyValue(rState, 'visitedPages')
+        visited = canReflect.getKeyValue(appState, 'visitedPages')
         logic = new Logic({ interview })
-        vm = new ViewerNavigationVM({ rState, interview, logic })
+        vm = new ViewerNavigationVM({ appState, interview, logic })
 
         done()
       })
@@ -40,7 +40,7 @@ describe('<a2j-viewer-navigation>', function () {
     it('collects feedback form data', function () {
       // simulate user navigates to interview second page.
       let secondPage = pages.attr(1)
-      vm.rState.visitedPages.unshift(secondPage)
+      vm.appState.visitedPages.unshift(secondPage)
 
       assert.deepEqual(vm.feedbackData, {
         questionid: secondPage.attr('name'),
@@ -53,119 +53,119 @@ describe('<a2j-viewer-navigation>', function () {
     })
 
     it('canSaveAndExit', function () {
-      // true only if vm.rState.lastPageBeforeExit has a non falsy value
+      // true only if vm.appState.lastPageBeforeExit has a non falsy value
       // and interview.attr('exitPage') NOT being constants.qIDNOWHERE
-      vm.rState.lastPageBeforeExit = ''
+      vm.appState.lastPageBeforeExit = ''
       interview.attr('exitPage', constants.qIDNOWHERE)
       assert.isFalse(vm.canSaveAndExit)
 
       // lastPageBeforeExit having a value means you've already hit Save&Exit button
-      vm.rState.lastPageBeforeExit = '2-Name'
+      vm.appState.lastPageBeforeExit = '2-Name'
       interview.attr('exitPage', '1-Exit')
       assert.isFalse(vm.canSaveAndExit)
 
       // exit page assigned, but Save&Exit button not hit
-      vm.rState.lastPageBeforeExit = ''
+      vm.appState.lastPageBeforeExit = ''
       interview.attr('exitPage', '1-Exit')
       assert.isTrue(vm.canSaveAndExit)
     })
 
     it('canResumeInterview - whether Resume button should be enabled', function () {
-      vm.rState.lastPageBeforeExit = ''
+      vm.appState.lastPageBeforeExit = ''
       assert.isFalse(vm.canResumeInterview)
 
-      vm.rState.lastPageBeforeExit = '1-Intro'
+      vm.appState.lastPageBeforeExit = '1-Intro'
       assert.isTrue(vm.canResumeInterview)
     })
 
     it('resumeInterview', function () {
       // navigate to first page
       visited.unshift(pages.attr(0))
-      vm.rState.selectedPageIndex = 0
+      vm.appState.selectedPageIndex = 0
 
       // navigate to second page
       visited.unshift(pages.attr(1))
-      vm.rState.selectedPageIndex = 0
+      vm.appState.selectedPageIndex = 0
 
       // navigate to exit page by normal nav (not Author best practice)
       visited.unshift(pages.attr(2))
-      vm.rState.selectedPageIndex = 0
+      vm.appState.selectedPageIndex = 0
 
       vm.resumeInterview()
       assert.equal(visited.length, 2, 'should remove the normal nav page from visitedPages on Resume')
     })
 
     it('canNavigateBack - whether back button should be enabled', function () {
-      vm.rState.connectedCallback()
+      vm.appState.connectedCallback()
       // navigate to first page
       visited.unshift(pages.attr(0))
-      vm.rState.selectedPageIndex = 0
+      vm.appState.selectedPageIndex = 0
       assert.isFalse(vm.canNavigateBack, 'false if only one page visited')
 
       // navigate to second page
       visited.unshift(pages.attr(1))
-      vm.rState.selectedPageIndex = 0
+      vm.appState.selectedPageIndex = 0
       assert.isTrue(vm.canNavigateBack, 'true when on last page')
 
       // go back to first page
-      vm.rState.selectedPageIndex = 1
+      vm.appState.selectedPageIndex = 1
       assert.isFalse(vm.canNavigateBack, 'false when on first page')
     })
 
     it('canNavigateForward - whether next button should be enabled', function () {
-      vm.rState.connectedCallback()
+      vm.appState.connectedCallback()
       // navigate to first page
       visited.unshift(pages.attr(0))
-      vm.rState.selectedPageIndex = 0
+      vm.appState.selectedPageIndex = 0
       assert.isFalse(vm.canNavigateForward, 'false if only one page visited')
 
       // navigate to second page
       visited.unshift(pages.attr(1))
-      vm.rState.selectedPageIndex = 0
+      vm.appState.selectedPageIndex = 0
       assert.isFalse(vm.canNavigateForward, 'false when on the last page')
 
       // go back to first page
-      vm.rState.selectedPageIndex = 1
+      vm.appState.selectedPageIndex = 1
       assert.isTrue(vm.canNavigateForward, 'true when on the first page')
     })
 
     it('navigateBack', () => {
-      vm.rState.connectedCallback()
+      vm.appState.connectedCallback()
       visited.unshift(pages.attr(2))
       visited.unshift(pages.attr(1))
       visited.unshift(pages.attr(0))
 
       // select most recent page
-      vm.rState.selectedPageIndex = 0
+      vm.appState.selectedPageIndex = 0
 
       vm.navigateBack()
-      assert.equal(vm.rState.selectedPageIndex, 1, 'should navigate to middle page')
+      assert.equal(vm.appState.selectedPageIndex, 1, 'should navigate to middle page')
 
       vm.navigateBack()
-      assert.equal(vm.rState.selectedPageIndex, 2, 'should navigate to oldest page')
+      assert.equal(vm.appState.selectedPageIndex, 2, 'should navigate to oldest page')
     })
 
     it('navigateForward', () => {
-      vm.rState.connectedCallback()
+      vm.appState.connectedCallback()
       visited.unshift(pages.attr(2))
       visited.unshift(pages.attr(1))
       visited.unshift(pages.attr(0))
 
       // select oldest page
-      vm.rState.selectedPageIndex = 2
+      vm.appState.selectedPageIndex = 2
 
       vm.navigateForward()
-      assert.equal(vm.rState.selectedPageIndex, 1, 'should navigate to middle page')
+      assert.equal(vm.appState.selectedPageIndex, 1, 'should navigate to middle page')
 
       vm.navigateForward()
-      assert.equal(vm.rState.selectedPageIndex, 0, 'should navigate to most recent page')
+      assert.equal(vm.appState.selectedPageIndex, 0, 'should navigate to most recent page')
     })
 
     it('disableOption', () => {
       assert.equal(vm.disableOption(0), false, 'false by default even with index 0')
 
-      // saveAndExitActive is derived from vm.rState.lastPageBeforeExit having a value
-      vm.rState.lastPageBeforeExit = '2-Name'
+      // saveAndExitActive is derived from vm.appState.lastPageBeforeExit having a value
+      vm.appState.lastPageBeforeExit = '2-Name'
       assert.equal(vm.disableOption(0), false, 'false if index is 0 and saveAndExitActive is true')
       assert.equal(vm.disableOption(1), true, 'true if index is NOT 0 and saveAndExitActive is true')
     })
@@ -368,7 +368,7 @@ describe('<a2j-viewer-navigation>', function () {
     let pages
     let visited
     let interview
-    let rState
+    let appState
     let vm // eslint-disable-line
     let lang
     let logic
@@ -378,7 +378,7 @@ describe('<a2j-viewer-navigation>', function () {
 
       promise.then(function (_interview) {
         interview = _interview
-        rState = new AppState()
+        appState = new AppState()
         lang = {
           GoNext: 'Next',
           GoBack: 'Back',
@@ -389,19 +389,19 @@ describe('<a2j-viewer-navigation>', function () {
         }
 
         pages = interview.attr('pages')
-        visited = canReflect.getKeyValue(rState, 'visitedPages')
+        visited = canReflect.getKeyValue(appState, 'visitedPages')
         logic = new Logic({ interview })
-        vm = new ViewerNavigationVM({ rState, interview, lang, logic })
+        vm = new ViewerNavigationVM({ appState, interview, lang, logic })
 
         let frag = stache(
           `<a2j-viewer-navigation interview:from="interview"
-            rState:from="rState" lang:from="lang"
+            appState:from="appState" lang:from="lang"
             showDemoNotice:bind="showDemoNotice"
             logic:from="logic" />`
         )
 
         $('#test-area').html(frag({
-          rState,
+          appState,
           interview,
           lang,
           logic,
@@ -419,10 +419,10 @@ describe('<a2j-viewer-navigation>', function () {
       // navigate to a couple of pages
       visited.unshift(pages.attr(0))
       visited.unshift(pages.attr(1))
-      // connect listeners, specifically for rState.selectedPageIndexSet
+      // connect listeners, specifically for appState.selectedPageIndexSet
       vm.connectedCallback()
-      // fire rState event
-      vm.rState.dispatch('selectedPageIndexSet')
+      // fire appState event
+      vm.appState.dispatch('selectedPageIndexSet')
       setTimeout(() => {
         assert.equal($('select option').length, 2, 'just one page visited')
         done()
@@ -451,11 +451,11 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('shows/hides Resume button based on vm.canSaveAndExit', function () {
       // turn off Resume button when saveAndExitActive is false even when lastPageBeforeExit has a value
-      vm.rState.lastPageBeforeExit = '1-Intro'
+      vm.appState.lastPageBeforeExit = '1-Intro'
       assert.equal($('.can-exit').length, 0, 'Resume button should not be rendered')
 
       // turn on Resume button when Exit button has been clicked
-      vm.rState.lastPageBeforeExit = '1-Intro'
+      vm.appState.lastPageBeforeExit = '1-Intro'
       assert.equal($('.can-resume').length, 1, 'Resume button should be rendered')
     })
 

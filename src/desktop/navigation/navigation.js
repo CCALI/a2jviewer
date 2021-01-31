@@ -15,7 +15,7 @@ import isMobile from '~/src/util/is-mobile'
  */
 export let ViewerNavigationVM = DefineMap.extend({
   // passed in via stache bindings
-  rState: {},
+  appState: {},
   courthouseImage: {},
   interview: {},
   lang: {},
@@ -40,7 +40,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   visitedPages: {
     get () {
-      return this.rState.visitedPages
+      return this.appState.visitedPages
     }
   },
 
@@ -52,7 +52,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   canSaveAndExit: {
     get () {
-      return !this.rState.saveAndExitActive &&
+      return !this.appState.saveAndExitActive &&
       this.interview.attr('exitPage') !== constants.qIDNOWHERE
     }
   },
@@ -65,7 +65,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   canResumeInterview: {
     get () {
-      return this.rState.saveAndExitActive
+      return this.appState.saveAndExitActive
     }
   },
 
@@ -78,7 +78,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   canNavigateBack: {
     get () {
       let totalPages = this.visitedPages.length
-      const canNavigateBack = totalPages > 1 && this.rState.selectedPageIndex < totalPages - 1 && !this.rState.saveAndExitActive
+      const canNavigateBack = totalPages > 1 && this.appState.selectedPageIndex < totalPages - 1 && !this.appState.saveAndExitActive
       return canNavigateBack
     }
   },
@@ -92,7 +92,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   canNavigateForward: {
     get () {
       let totalPages = this.visitedPages.length
-      const canNavigateForward = totalPages > 1 && this.rState.selectedPageIndex > 0 && !this.rState.saveAndExitActive
+      const canNavigateForward = totalPages > 1 && this.appState.selectedPageIndex > 0 && !this.appState.saveAndExitActive
       return canNavigateForward
     }
   },
@@ -106,7 +106,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   feedbackData: {
     get () {
       const pages = this.interview.attr('pages')
-      const page = pages.find(this.rState.selectedPageName)
+      const page = pages.find(this.appState.selectedPageName)
 
       if (!page) return {}
 
@@ -134,9 +134,9 @@ export let ViewerNavigationVM = DefineMap.extend({
   saveAndExit () {
     const answers = this.interview.attr('answers')
     const exitPage = this.interview.attr('exitPage')
-    const pageName = this.rState.selectedPageName
+    const pageName = this.appState.selectedPageName
 
-    this.rState.lastPageBeforeExit = pageName
+    this.appState.lastPageBeforeExit = pageName
 
     if (window._paq) {
       analytics.trackCustomEvent('Save&Exit', 'from: ' + pageName)
@@ -146,8 +146,8 @@ export let ViewerNavigationVM = DefineMap.extend({
       answers.attr('a2j interview incomplete tf').attr('values.1', true)
     }
 
-    this.rState.page = exitPage
-    this.rState.selectedPageIndex = 0
+    this.appState.page = exitPage
+    this.appState.selectedPageIndex = 0
   },
 
   /**
@@ -158,11 +158,11 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   resumeInterview () {
     const answers = this.interview.answers
-    const resumeTargetPageName = this.rState.lastPageBeforeExit
-    this.rState.lastPageBeforeExit = null
+    const resumeTargetPageName = this.appState.lastPageBeforeExit
+    this.appState.lastPageBeforeExit = null
 
     // Special Exit page should only show in My Progress while on that page
-    this.rState.visitedPages.shift()
+    this.appState.visitedPages.shift()
 
     if (answers) {
       answers.attr('a2j interview incomplete tf').attr('values', [null])
@@ -171,7 +171,7 @@ export let ViewerNavigationVM = DefineMap.extend({
       analytics.trackCustomEvent('Resume-Interview', 'to: ' + resumeTargetPageName)
     }
     if (resumeTargetPageName) {
-      this.rState.page = resumeTargetPageName
+      this.appState.page = resumeTargetPageName
     }
   },
 
@@ -183,7 +183,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   navigateBack () {
     if (this.canNavigateBack) {
-      this.rState.selectedPageIndex = this.rState.selectedPageIndex + 1
+      this.appState.selectedPageIndex = this.appState.selectedPageIndex + 1
     }
   },
 
@@ -195,7 +195,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   navigateForward () {
     if (this.canNavigateForward) {
-      this.rState.selectedPageIndex = this.rState.selectedPageIndex - 1
+      this.appState.selectedPageIndex = this.appState.selectedPageIndex - 1
     }
   },
 
@@ -206,7 +206,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    * Used to disable My Progress options when saveAndExit is active
    */
   disableOption (index) {
-    if (index !== 0 && this.rState.saveAndExitActive) {
+    if (index !== 0 && this.appState.saveAndExitActive) {
       return true
     }
     return false
@@ -382,7 +382,7 @@ export let ViewerNavigationVM = DefineMap.extend({
     // update the selectedPageIndex
     const myProgressSelect = document.getElementById('myProgressSelect')
     const updateAppStateSelectedPageIndex = (ev) => {
-      vm.rState.selectedPageIndex = myProgressSelect.selectedIndex
+      vm.appState.selectedPageIndex = myProgressSelect.selectedIndex
     }
     myProgressSelect.addEventListener('change', updateAppStateSelectedPageIndex)
 
@@ -392,13 +392,13 @@ export let ViewerNavigationVM = DefineMap.extend({
       vm.myProgressOptions.update(this.buildOptions(this.visitedPages))
     }
 
-    // rebuild options on selectedPageIndexSet dispatched on app-state level rState
+    // rebuild options on selectedPageIndexSet dispatched on app-state level appState
     // covers normal Continue button and navigation via this component, back/next or dropdown select
-    vm.rState.listenTo('selectedPageIndexSet', updateMyProgressOptions)
+    vm.appState.listenTo('selectedPageIndexSet', updateMyProgressOptions)
 
     // cleanup
     return () => {
-      vm.rState.stopListening('selectedPageIndexSet', updateMyProgressOptions)
+      vm.appState.stopListening('selectedPageIndexSet', updateMyProgressOptions)
       myProgressSelect.removeEventListener('change', updateAppStateSelectedPageIndex)
     }
   }
@@ -413,8 +413,8 @@ export let ViewerNavigationVM = DefineMap.extend({
  *
  * @codestart
  * <a2j-viewer-navigation>
- *   {(selected-page-name)}="rState.page"
- *   {(app-state)}="rState"
+ *   {(selected-page-name)}="appState.page"
+ *   {(app-state)}="appState"
  *   {(interview)}="interview">
  * </a2j-viewer-navigation>
  * @codeend

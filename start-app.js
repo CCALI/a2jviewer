@@ -13,7 +13,7 @@ import route from 'can-route'
 
 import '~/src/util/object-assign-polyfill'
 
-export default function ({ interview, pState, mState, rState }) {
+export default function ({ interview, pState, mState, appState }) {
   route.start()
 
   pState = pState || new PersistedState()
@@ -39,20 +39,20 @@ export default function ({ interview, pState, mState, rState }) {
 
   pState.backup()
 
-  rState.bind('change', function (ev, attr, how, val) {
+  appState.bind('change', function (ev, attr, how, val) {
     if (attr === 'page' && val) {
       pState.attr('currentPage', val)
     }
   })
 
-  rState.interview = interview
+  appState.interview = interview
   setMobileDesktopClass(isMobile, $('body'))
 
-  rState.logic = logic
+  appState.logic = logic
 
   // set initial page route
-  rState.view = 'pages'
-  rState.page = interview.attr('firstPage')
+  appState.view = 'pages'
+  appState.page = interview.attr('firstPage')
 
   const modalContent = compute()
 
@@ -61,6 +61,6 @@ export default function ({ interview, pState, mState, rState }) {
   analytics.initialize(authorId)
 
   $('#viewer-app').append(template({
-    rState, pState, mState, interview, logic, lang, isMobile, modalContent
+    appState, pState, mState, interview, logic, lang, isMobile, modalContent
   }))
 }

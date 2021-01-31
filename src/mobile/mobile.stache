@@ -23,29 +23,29 @@
   {{/if}}
 
   {{#not(tocOrCreditsShown())}}
-    {{#eq(rState.view, 'complete')}}
+    {{#eq(appState.view, 'complete')}}
       <img src="{{joinBase 'images/logo_big.png'}}" class="img-responsive" alt="author-logo-image"/>
       <div class="btn-group btn-group-justified">
         <a href="{{mState.redirect}}" aria-label="{{lang.Continue}}" class="btn btn-primary" aui-action="next">{{lang.Continue}}</a>
       </div>
     {{/eq}}
 
-    {{#eq(rState.view, 'pages')}}
+    {{#eq(appState.view, 'pages')}}
       <a2j-viewer-navigation
-        repeatVarValue:from="rState.repeatVarValue"
-        selectedPageName:from="rState.selectedPageName"
+        repeatVarValue:from="appState.repeatVarValue"
+        selectedPageName:from="appState.selectedPageName"
         lang:from="lang"
         logic:from="logic"
-        rState:from="rState"
+        appState:from="appState"
         interview:from="interview"
-        selectedPageName:bind="rState.page"
-        selectedPageIndex:bind="rState.selectedPageIndex" />
+        selectedPageName:bind="appState.page"
+        selectedPageIndex:bind="appState.selectedPageIndex" />
 
       <a2j-pages
-        currentPage:from="rState.currentPage"
+        currentPage:from="appState.currentPage"
         lang:from="lang"
         logic:from="logic"
-        rState:from="rState"
+        appState:from="appState"
         pState:from="pState"
         mState:from="mState"
         interview:from="interview"

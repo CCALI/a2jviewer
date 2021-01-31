@@ -22,7 +22,7 @@ describe('<a2j-modal> ', function () {
         }
       }
 
-      const rState = new AppState({ page: 'foo' })
+      const appState = new AppState({ page: 'foo' })
       const mState = new CanMap({ fileDataURL: '../../tests/images/' })
       const logic = new CanMap({ eval (html) { return html } })
       const ModalContent = CanMap.extend({
@@ -48,12 +48,12 @@ describe('<a2j-modal> ', function () {
           logic:from="logic"
           interview:from="interview"
           modalContent:bind="modalContent"
-          previewActive:from="rState.previewActive"
-          lastVisitedPageName:from="rState.lastVisitedPageName"
-          repeatVarValue:from="rState.repeatVarValue"
+          previewActive:from="appState.previewActive"
+          lastVisitedPageName:from="appState.lastVisitedPageName"
+          repeatVarValue:from="appState.repeatVarValue"
           />`
       )
-      vm = new ModalVM({ interview, rState, logic, mState, modalContent, pauseActivePlayers: pauseActivePlayersSpy })
+      vm = new ModalVM({ interview, appState, logic, mState, modalContent, pauseActivePlayers: pauseActivePlayersSpy })
       // stub app-state parseText helper
       stache.registerHelper('parseText', (text) => text)
 
