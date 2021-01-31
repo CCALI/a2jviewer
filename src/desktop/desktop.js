@@ -2,6 +2,7 @@ import CanMap from 'can-map'
 import Component from 'can-component'
 import template from './desktop.stache'
 import _isUndefined from 'lodash/isUndefined'
+import isMobile from '~/src/util/is-mobile'
 
 import 'can-map-define'
 
@@ -18,6 +19,11 @@ let DesktopViewerVM = CanMap.extend('DesktopViewerVM', {
     mState: {},
     interview: {},
     modalContent: {},
+    isMobile: {
+      get () {
+        return isMobile()
+      }
+    },
 
     pageNotFound: {
       value: false
