@@ -1,48 +1,47 @@
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './desktop.stache'
 import _isUndefined from 'lodash/isUndefined'
 import isMobile from '~/src/util/is-mobile'
 
-import 'can-map-define'
+let DesktopViewerVM = DefineMap.extend('DesktopViewerVM', {
+  // passed in via viewer app.stache bindings
+  remainingSteps: {},
+  maxDisplayedSteps: {},
+  showDebugPanel: {},
+  lang: {},
+  logic: {},
+  appState: {},
+  pState: {},
+  mState: {},
+  interview: {},
+  modalContent: {},
+  // passed up from steps.js
+  traceMessage: {},
+  // singleton compute
+  isMobile: {
+    get () {
+      return isMobile()
+    }
+  },
 
-let DesktopViewerVM = CanMap.extend('DesktopViewerVM', {
-  define: {
-    // passed in via viewer app.stache bindings
-    remainingSteps: {},
-    maxDisplayedSteps: {},
-    showDebugPanel: {},
-    lang: {},
-    logic: {},
-    appState: {},
-    pState: {},
-    mState: {},
-    interview: {},
-    modalContent: {},
-    isMobile: {
-      get () {
-        return isMobile()
-      }
-    },
+  pageNotFound: {
+    default: false
+  },
 
-    pageNotFound: {
-      value: false
-    },
+  showDemoNotice: {
+    default: false
+  },
 
-    showDemoNotice: {
-      value: false
-    },
+  authorBrandLogo: {
+    get () {
+      return this.interview.logoImage
+    }
+  },
 
-    authorBrandLogo: {
-      get () {
-        return this.attr('interview.logoImage')
-      }
-    },
-
-    authorCourthouseImage: {
-      get () {
-        return this.attr('interview.endImage')
-      }
+  authorCourthouseImage: {
+    get () {
+      return this.interview.endImage
     }
   },
 
@@ -57,7 +56,7 @@ let DesktopViewerVM = CanMap.extend('DesktopViewerVM', {
     skipLink.addEventListener('click', this.focusMainContent)
 
     const location = window.location.toString()
-    this.attr('showDemoNotice', location.indexOf('.a2jauthor.org') !== -1)
+    this.showDemoNotice = location.indexOf('.a2jauthor.org') !== -1
 
     this.checkPageExists()
 
@@ -67,16 +66,16 @@ let DesktopViewerVM = CanMap.extend('DesktopViewerVM', {
   },
 
   checkPageExists () {
-    const appState = this.attr('appState')
-    const interview = this.attr('interview')
+    const appState = this.appState
+    const interview = this.interview
 
     if (!appState || !interview) return
 
     const pageName = appState.page
 
     if (appState.view === 'pages') {
-      const page = interview.attr('pages').find(pageName)
-      this.attr('pageNotFound', _isUndefined(page))
+      const page = interview.pages.find(pageName)
+      this.pageNotFound = _isUndefined(page)
     }
   }
 })
@@ -89,7 +88,7 @@ export default Component.extend({
   helpers: {
     eval (str) {
       str = typeof str === 'function' ? str() : str
-      return this.attr('logic').eval(str)
+      return this.logic.eval(str)
     }
   },
 
