@@ -54,7 +54,7 @@ describe('<a2j-viewer-steps>', function () {
         }
       })
 
-      const interview = {
+      const interview = new CanMap({
         getPageByName () {
           return currentPage
         },
@@ -67,7 +67,7 @@ describe('<a2j-viewer-steps>', function () {
         ],
 
         answers
-      }
+      })
 
       appStateTeardown = appState.connectedCallback()
       appState.interview = interview
@@ -75,8 +75,7 @@ describe('<a2j-viewer-steps>', function () {
       appState.traceMessage = new TraceMessage()
       appState.page = '01-Introduction'
 
-      vm = new ViewerStepsVM({ appState })
-      vm.attr({ interview })
+      vm = new ViewerStepsVM({ appState, interview })
     })
 
     afterEach(() => {
@@ -84,32 +83,32 @@ describe('<a2j-viewer-steps>', function () {
     })
 
     it('hasAvatarPicker', () => {
-      vm.attr('currentPage.fields', [{ type: 'text' }, { type: 'useravatar' }])
+      vm.currentPage.fields = [{ type: 'text' }, { type: 'useravatar' }]
 
-      assert.isTrue(vm.attr('hasAvatarPicker'), 'should detect if fields contains avatarpicker field type')
+      assert.isTrue(vm.hasAvatarPicker, 'should detect if fields contains avatarpicker field type')
     })
 
     it('getTextForStep', () => {
-      const step = vm.attr('interview.steps.0')
-      const stepVar = vm.attr('interview.answers.a2j step 0')
+      const step = vm.interview.attr('steps.0')
+      const stepVar = vm.interview.attr('answers.a2j step 0')
 
       assert.equal(vm.getTextForStep(step), 'Audio Test', 'show default step sign text')
       // update matching step var
       stepVar.attr('values.1', 'New Sign Text')
       assert.equal(vm.getTextForStep(step), 'New Sign Text', 'Authors can set new sign displayText')
       // clear custom value
-      stepVar.attr('values.1', '')
+      stepVar.values[1] = ''
       assert.equal(vm.getTextForStep(step), 'Audio Test', 'should restore text when step var set to empty string')
     })
 
     it('getStepIndex', () => {
-      const step = vm.attr('interview.steps.2')
+      const step = vm.interview.attr('steps.2')
 
       assert.equal(vm.getStepIndex(step), 2, 'it did not return the correct index for the step')
     })
 
     it('truncateText', () => {
-      const step = vm.attr('interview.steps.0')
+      const step = vm.interview.attr('steps.0')
       assert.equal(vm.truncateText(step.text), 'Audio Test', 'should not change short text')
 
       step.attr('text', 'slightly longer text with a space as the 51st char that gets truncated')
@@ -137,146 +136,146 @@ describe('<a2j-viewer-steps>', function () {
       ]
 
       assert.deepEqual(
-        vm.attr('nextSteps').serialize(),
+        vm.nextSteps.serialize(),
         expectedNextSteps,
         'it should match expected fixtures'
       )
 
       assert.equal(
-        vm.attr('remainingSteps'),
+        vm.remainingSteps,
         expectedNextSteps.length,
         'there should be 3 steps remaining'
       )
     })
 
     it('maxDisplayedSteps', () => {
-      vm.attr('interview.steps', [1, 2, 3, 4, 5])
-      vm.attr('sidewalkHeight', 50)
+      vm.interview.attr('steps', [1, 2, 3, 4, 5])
+      vm.sidewalkHeight = 50
 
-      assert.equal(vm.attr('maxDisplayedSteps'), 1, 'show 1 step when sidewalk < 100px')
+      assert.equal(vm.maxDisplayedSteps, 1, 'show 1 step when sidewalk < 100px')
 
-      vm.attr('sidewalkHeight', 100)
-      assert.equal(vm.attr('maxDisplayedSteps'), 2, 'show 2 steps when sidewalk is 100-450px')
-      vm.attr('sidewalkHeight', 449)
-      assert.equal(vm.attr('maxDisplayedSteps'), 2, 'show 2 steps when sidewalk is 100-449px')
+      vm.sidewalkHeight = 100
+      assert.equal(vm.maxDisplayedSteps, 2, 'show 2 steps when sidewalk is 100-450px')
+      vm.sidewalkHeight = 449
+      assert.equal(vm.maxDisplayedSteps, 2, 'show 2 steps when sidewalk is 100-449px')
 
-      vm.attr('sidewalkHeight', 450)
-      assert.equal(vm.attr('maxDisplayedSteps'), 3, 'show 3 steps when sidewalk is 450-549')
-      vm.attr('sidewalkHeight', 549)
-      assert.equal(vm.attr('maxDisplayedSteps'), 3, 'show 3 steps when sidewalk is 450-549')
+      vm.sidewalkHeight = 450
+      assert.equal(vm.maxDisplayedSteps, 3, 'show 3 steps when sidewalk is 450-549')
+      vm.sidewalkHeight = 549
+      assert.equal(vm.maxDisplayedSteps, 3, 'show 3 steps when sidewalk is 450-549')
 
-      vm.attr('sidewalkHeight', 550)
-      assert.equal(vm.attr('maxDisplayedSteps'), 4, 'show 4 steps when sidewalk is 550-749')
-      vm.attr('sidewalkHeight', 749)
-      assert.equal(vm.attr('maxDisplayedSteps'), 4, 'show 4 steps when sidewalk is 550-749')
+      vm.sidewalkHeight = 550
+      assert.equal(vm.maxDisplayedSteps, 4, 'show 4 steps when sidewalk is 550-749')
+      vm.sidewalkHeight = 749
+      assert.equal(vm.maxDisplayedSteps, 4, 'show 4 steps when sidewalk is 550-749')
 
-      vm.attr('sidewalkHeight', 750)
-      assert.equal(vm.attr('maxDisplayedSteps'), 5, 'show 5 steps when sidewalk is 750px or above')
+      vm.sidewalkHeight = 750
+      assert.equal(vm.maxDisplayedSteps, 5, 'show 5 steps when sidewalk is 750px or above')
 
-      vm.attr('interview.steps.length', 4)
-      assert.equal(vm.attr('maxDisplayedSteps'), 4, 'never show more steps than interview has')
+      vm.interview.attr('steps').length = 4
+      assert.equal(vm.maxDisplayedSteps, 4, 'never show more steps than interview has')
     })
 
     it('guideAvatarSkinTone', () => {
-      vm.attr({
-        interview: {},
-        mState: {}
+      vm.assign({
+        interview: new CanMap(),
+        mState: new CanMap()
       })
 
-      vm.attr('interview.avatarSkinTone', 'avatar')
-      assert.equal(vm.attr('guideAvatarSkinTone'), 'avatar', 'should use interview skin tone if set')
+      vm.interview.attr('avatarSkinTone', 'avatar')
+      assert.equal(vm.guideAvatarSkinTone, 'avatar', 'should use interview skin tone if set')
 
-      vm.attr('interview.avatarSkinTone', '')
-      vm.attr('mState.avatarSkinTone', 'global')
-      assert.equal(vm.attr('guideAvatarSkinTone'), 'global', 'should use global skin tone if set')
+      vm.interview.attr('avatarSkinTone', '')
+      vm.mState.attr('avatarSkinTone', 'global')
+      assert.equal(vm.guideAvatarSkinTone, 'global', 'should use global skin tone if set')
 
-      vm.attr('interview.avatarSkinTone', 'avatar')
-      assert.equal(vm.attr('guideAvatarSkinTone'), 'global', 'should use global skin tone if both are set')
+      vm.interview.attr('avatarSkinTone', 'avatar')
+      assert.equal(vm.guideAvatarSkinTone, 'global', 'should use global skin tone if both are set')
     })
 
     it('showUserAvatar / guideAvatarFacingDirection', () => {
       currentPage = new CanMap()
 
-      vm.attr({
-        interview: {
+      vm.assign({
+        interview: new CanMap({
           avatarGender: '',
           getPageByName () {
             return currentPage
           }
-        }
+        })
       })
 
-      assert.ok(!vm.attr('showUserAvatar'), 'should not show user avatar')
+      assert.ok(!vm.showUserAvatar, 'should not show user avatar')
       assert.equal(
-        vm.attr('guideAvatarFacingDirection'),
+        vm.guideAvatarFacingDirection,
         'front',
         'should show guide avatar facing front'
       )
 
-      vm.attr('interview.avatarGender', 'gender')
+      vm.interview.attr('avatarGender', 'gender')
       currentPage.attr('hasUserGenderOrAvatarField', true)
-      assert.ok(!vm.attr('showUserAvatar'), 'should not show user avatar when current page has the user gender field')
+      assert.ok(!vm.showUserAvatar, 'should not show user avatar when current page has the user gender field')
       assert.equal(
-        vm.attr('guideAvatarFacingDirection'),
+        vm.guideAvatarFacingDirection,
         'front',
         'should still show guide avatar facing front'
       )
 
       currentPage.attr('hasUserGenderOrAvatarField', false)
-      assert.ok(!!vm.attr('showUserAvatar'), 'should show user avatar when user has a gender')
+      assert.ok(!!vm.showUserAvatar, 'should show user avatar when user has a gender')
       assert.equal(
-        vm.attr('guideAvatarFacingDirection'),
+        vm.guideAvatarFacingDirection,
         'right',
         'should show guide avatar facing right'
       )
     })
 
     it('sidewalkLength', () => {
-      vm.attr('sidewalkHeight', 4)
-      vm.attr('sidewalkWidth', 3)
-      assert.equal(vm.attr('sidewalkLength'), 5)
+      vm.sidewalkHeight = 4
+      vm.sidewalkWidth = 3
+      assert.equal(vm.sidewalkLength, 5)
     })
 
     it('sidewalkAngleA', () => {
-      vm.attr('sidewalkHeight', 600)
+      vm.sidewalkHeight = 600
 
       // set sidewalkLength to 1200 by doing 1200^2 - 600^2 = sidewalkWidth^2
-      vm.attr('sidewalkWidth', Math.pow(Math.pow(1200, 2) - Math.pow(600, 2), 0.5))
+      vm.sidewalkWidth = Math.pow(Math.pow(1200, 2) - Math.pow(600, 2), 0.5)
 
       // angle A is then PI/6 radians (30 degrees)
-      assert.equal(_round(vm.attr('sidewalkAngleA'), 5), _round(Math.PI / 6, 5))
+      assert.equal(_round(vm.sidewalkAngleA, 5), _round(Math.PI / 6, 5))
     })
 
     it('guideBubbleTallerThanAvatar', () => {
-      vm.attr('guideBubbleHeight', 100)
-      vm.attr('avatarHeight', 100)
-      assert.equal(vm.attr('guideBubbleTallerThanAvatar'), false, 'false')
+      vm.guideBubbleHeight = 100
+      vm.avatarHeight = 100
+      assert.equal(vm.guideBubbleTallerThanAvatar, false, 'false')
 
-      vm.attr('avatarHeight', 99)
-      assert.equal(vm.attr('guideBubbleTallerThanAvatar'), true, 'true')
+      vm.avatarHeight = 99
+      assert.equal(vm.guideBubbleTallerThanAvatar, true, 'true')
     })
 
     it('userBubbleTallerThanAvatar', () => {
-      vm.attr('clientBubbleHeight', 100)
-      vm.attr('avatarHeight', 100)
-      assert.equal(vm.attr('userBubbleTallerThanAvatar'), false, 'false')
+      vm.clientBubbleHeight = 100
+      vm.avatarHeight = 100
+      assert.equal(vm.userBubbleTallerThanAvatar, false, 'false')
 
-      vm.attr('avatarHeight', 99)
-      assert.equal(vm.attr('userBubbleTallerThanAvatar'), true, 'true')
+      vm.avatarHeight = 99
+      assert.equal(vm.userBubbleTallerThanAvatar, true, 'true')
     })
 
     it('minusHeader', () => {
-      vm.attr('bodyHeight', 100)
-      vm.attr('sidewalkHeight', 50)
-      assert.equal(vm.attr('minusHeader'), 25)
+      vm.bodyHeight = 100
+      vm.sidewalkHeight = 50
+      assert.equal(vm.minusHeader, 25)
     })
 
     it('getStepWidth()', () => {
-      vm.attr('avatarOffsetTop', 211)
-      vm.attr('minusHeader', 98)
-      vm.attr('bodyHeight', 768)
-      vm.attr('sidewalkHeight', 573)
-      vm.attr('sidewalkWidth', 512)
+      vm.avatarOffsetTop = 211
+      vm.minusHeader = 98
+      vm.bodyHeight = 768
+      vm.sidewalkHeight = 573
+      vm.sidewalkWidth = 512
 
       assert.equal(Math.ceil(vm.getStepWidth(true)), 303)
       assert.equal(Math.ceil(vm.getStepWidth(false, 378.156)), 195)
