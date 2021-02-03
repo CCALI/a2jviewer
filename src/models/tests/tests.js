@@ -1,4 +1,5 @@
 import '~/src/models/tests/page-test'
+import '~/src/models/tests/answer-test'
 import '~/src/models/tests/answers-test'
 import '~/src/models/tests/answervm-test'
 import '~/src/models/tests/interview-test'
