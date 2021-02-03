@@ -13,6 +13,18 @@ describe('Answers Model', function () {
     answers = null
   })
 
+  it('varExists and varCreate', function () {
+    let varExists = answers.varExists('foo')
+    assert.equal(varExists, null, 'should return null if var does not exist')
+
+    let answerModel = answers.varCreate('foo', 'text', false)
+    varExists = answers.varExists('foo')
+    assert.deepEqual(varExists.serialize(), answerModel.serialize(), 'should return the answerModel if it exists')
+
+    answerModel = answers.varCreate('bar', 'text', false)
+    varExists = answers.varExists('bar')
+    assert.deepEqual(varExists.serialize(), answerModel.serialize(), 'handles repeated varCreate calls')
+  })
   it('does not set TF vars to non boolean values', function () {
     answers.varCreate('gotMilk', 'TF', 'false')
 
@@ -35,7 +47,7 @@ describe('Answers Model', function () {
     answers.varCreate('gotMilk', 'TF', 'false')
     assert.equal(answers.varGet('gotMilk', 1), undefined, 'new TF vars should be set to undefined')
 
-    answers.gotmilk.attr('values').push('true')
+    answers.gotmilk.values.push('true')
     assert.equal(answers.varGet('gotMilk', 1), true, 'should cast legacy string values to boolean')
   })
 

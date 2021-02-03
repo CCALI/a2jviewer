@@ -1,73 +1,65 @@
-import $ from 'jquery'
-import CanMap from 'can-map'
-import Model from 'can-model'
-import _find from 'lodash/find'
+import DefineMap from 'can-define/map/map'
+import Answer from '~/src/models/answer'
+import canReflect from 'can-reflect'
 import CONST from '~/src/models/constants'
 import cString from '@caliorg/a2jdeps/utils/string'
 import cDate from '@caliorg/a2jdeps/utils/date'
 import readableList from '~/src/util/readable-list'
 
-import 'can-map-define'
-
-export default Model.extend('AnswersModel', {}, {
-  define: {
-    lang: {
-      serialize: function () {
-
-      }
-    }
+export default DefineMap.extend('AnswersModel', { seal: false }, {
+  lang: { // TODO: figure out why this is set to not serialize aka is it bound to the router
+    serialize: false
   },
 
   varExists: function (prop) {
-    prop = $.trim(prop).toLowerCase()
+    const key = prop.trim().toLowerCase()
+    const hasKey = canReflect.hasOwnKey(this, key)
 
-    let keys = CanMap.keys(this)
-
-    let key = _find(keys, function (k) {
-      return k.toLowerCase() === prop
-    })
-
-    let v
-
-    if (key) {
-      v = this.attr(key)
-
-      if (!v.attr('values')) {
-        v.attr('values', [null])
+    if (hasKey) {
+      const varAnswerModel = this[key]
+      // TODO: all answers should be answerModels and won't need this values check
+      if (!varAnswerModel.values) {
+        varAnswerModel.values = [null]
       }
-    }
 
-    return typeof v === 'undefined' ? null : v
+      return varAnswerModel
+    } else {
+      return null
+    }
   },
 
   varCreate: function (varName, varType, varRepeat) {
-    this.attr(varName.toLowerCase(), {
-      name: varName,
-      repeating: varRepeat,
-      type: varType,
-      values: [null]
+    // TODO: this should handle missing params, possibly wrong order as well
+    const varNameKey = varName.toLowerCase()
+    this.assign({
+      [varNameKey]: new Answer({
+        name: varName,
+        repeating: varRepeat,
+        type: varType,
+        values: [null]
+      })
     })
 
-    return this.attr(varName.toLowerCase())
+    return this[varNameKey]
   },
 
   varGet: function (varName, varIndex, opts) {
-    var v = this.varExists(varName)
+    let varAnswerModel = this.varExists(varName)
 
-    if (!v) return undefined
+    if (!varAnswerModel) return undefined
 
     if (typeof varIndex === 'undefined' || varIndex === null || varIndex === '') {
-      if (v.repeating) {
+      if (varAnswerModel.repeating) {
         // Repeating variable without an index returns a readable list for display
-        return readableList(v.values, this.attr('lang'))
+        return readableList(varAnswerModel.values, this.lang)
       }
 
       varIndex = 1
     }
 
-    var val = v.values[varIndex]
+    let val = varAnswerModel.values[varIndex]
 
-    switch (v.type) {
+    switch (varAnswerModel.type) {
       case CONST.vtNumber:
         if (opts && opts.num2num === true) {
           // Handle text numbers with commas and decimals
@@ -112,11 +104,11 @@ export default Model.extend('AnswersModel', {}, {
   },
 
   varSet: function (varName, varVal, varIndex) {
-    let v = this.varExists(varName)
+    let varAnswerModel = this.varExists(varName)
 
-    if (v === null) {
+    if (varAnswerModel === null) {
       // Create variable at runtime
-      v = this.varCreate(varName, CONST.vtText,
+      varAnswerModel = this.varCreate(varName, CONST.vtText,
         !((typeof varIndex === 'undefined') || (varIndex === null) ||
           (varIndex === '') || (varIndex === 0)), '')
     }
@@ -126,7 +118,7 @@ export default Model.extend('AnswersModel', {}, {
     }
 
     // Handle type conversion, like number to date and null to proper `notanswered` values.
-    switch (v.attr('type')) {
+    switch (varAnswerModel.type) {
       case CONST.vtDate:
         if (typeof varVal === 'number') {
           // this can take a second format param. default is 'MM/DD/YYYY' if no second param sent
@@ -147,11 +139,11 @@ export default Model.extend('AnswersModel', {}, {
 
     // Reset all values or set new single value
     if (varIndex === 0 && varVal === null) {
-      v.attr('values', [null])
+      varAnswerModel.values = [null]
     } else if (varIndex === 0) {
-      v.attr('values.1', varVal)
+      varAnswerModel.values[1] = varVal
     } else {
-      v.attr('values.' + varIndex, varVal)
+      varAnswerModel.values[varIndex] = varVal
     }
   }
 })
