@@ -83,7 +83,7 @@ export default CanMap.extend('AnswerVM', {
       }
     })
 
-    validations.attr('val', val)
+    validations.val = val
 
     let invalid
 
@@ -133,7 +133,7 @@ export default CanMap.extend('AnswerVM', {
           return !!checkbox.attr(`_answerVm.answer.values.${index}`)
         })
 
-        validations.attr('val', anyChecked || null)
+        validations.val = anyChecked || null
 
         invalid = validations.required()
         break
