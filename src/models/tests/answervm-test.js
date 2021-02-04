@@ -1,26 +1,23 @@
 import { assert } from 'chai'
 import Field from '~/src/models/field'
-import Answer from '~/src/models/answer'
 import Answers from '~/src/models/answers'
 import AnswerVM from '~/src/models/answervm'
 
 import 'steal-mocha'
 
 describe('AnswerViewModel', function () {
+  let avm
+  beforeEach(() => {
+    const field = new Field({ name: 'user gender', type: 'gender' })
+    avm = new AnswerVM({ field })
+  })
+
   it('serialize', function () {
     const answers = new Answers()
+    const answer = answers.varCreate('user gender', 'text', false)
+    avm.answer = answer
 
-    const answer = new Answer({
-      type: 'text',
-      values: [null],
-      repeating: false,
-      name: 'user gender'
-    })
-
-    answers.attr('user gender', answer)
-    const avm = new AnswerVM({ answer })
-
-    avm.attr('values', 'm')
+    avm.values = 'm'
     assert.deepEqual(answers.serialize(), {
       'user gender': {
         type: 'text',
@@ -30,8 +27,8 @@ describe('AnswerViewModel', function () {
       }
     }, 'single value serialize')
 
-    avm.attr('answerIndex', 2)
-    avm.attr('values', 'f')
+    avm.answerIndex = 2
+    avm.values = 'f'
     assert.deepEqual(answers.serialize(), {
       'user gender': {
         type: 'text',
@@ -43,33 +40,31 @@ describe('AnswerViewModel', function () {
   })
 
   it('set() when answer is null', function () {
-    const avm = new AnswerVM({ answer: null })
+    avm.answer = null
 
     assert.doesNotThrow(() => {
-      avm.attr('values', false)
+      avm.values = false
     })
 
-    assert.deepEqual(avm.attr('answer.values').attr(), [null, false])
+    assert.deepEqual(avm.answer.values, [null, false])
   })
 
   it('sets number field answer correctly from text input', function () {
     const field = new Field({ name: 'foo', type: 'number' })
-    field.attr('answer', field.attr('emptyAnswer'))
 
-    const avm = new AnswerVM({ field, answer: field.attr('answer') })
-    avm.attr('values', '123,456.78')
+    avm.assign({ field, answer: field.emptyAnswer })
+    avm.values = '123,456.78'
 
-    assert.deepEqual(avm.attr('answer.values').attr(), [null, 123456.78])
+    assert.deepEqual(avm.answer.values, [null, 123456.78])
   })
 
   it('sets zero number values correctly', function () {
     const field = new Field({ name: 'foo', type: 'number' })
-    field.attr('answer', field.attr('emptyAnswer'))
 
-    const avm = new AnswerVM({ field, answer: field.attr('answer') })
-    avm.attr('values', '0')
+    avm.assign({ field, answer: field.emptyAnswer })
+    avm.values = '0'
 
-    assert.deepEqual(avm.attr('answer.values').attr(), [null, 0])
+    assert.deepEqual(avm.answer.values, [null, 0])
   })
 
   describe('validating checkboxes', function () {
@@ -84,7 +79,6 @@ describe('AnswerViewModel', function () {
           repeating: false
         })
 
-        checkbox.attr('answer', checkbox.attr('emptyAnswer'))
         return checkbox
       }
 
@@ -95,43 +89,43 @@ describe('AnswerViewModel', function () {
       ])
 
       checkboxes.forEach(function (checkbox) {
-        checkbox.attr('_answerVm', new AnswerVM({
+        checkbox._answerVm = new AnswerVM({
           answerIndex: 1,
           field: checkbox,
           fields: checkboxes,
-          answer: checkbox.attr('answer')
-        }))
+          answer: checkbox.emptyAnswer
+        })
       })
     })
 
     it('fails if no required checkbox has been checked', function () {
-      const checkbox = checkboxes.attr(0)
+      const checkbox = checkboxes[0]
 
       // trigger the validation logic
-      checkbox.attr('_answerVm.values', null)
+      checkbox._answerVm.values = null
 
-      assert.equal(checkbox.attr('_answerVm.errors'), true, 'should fail')
+      assert.equal(checkbox._answerVm.errors, true, 'should fail')
     })
 
     it('does not fail if a required checkbox has been checked', function () {
-      const checkbox = checkboxes.attr(0)
+      const checkbox = checkboxes[0]
 
       // trigger the validation logic
-      checkbox.attr('_answerVm.values', 'foo')
+      checkbox._answerVm.values = 'foo'
 
-      assert.equal(checkbox.attr('_answerVm.errors'), null, 'should not fail')
+      assert.equal(checkbox._answerVm.errors, null, 'should not fail')
     })
 
     it('does not fail if none of the checkboxes is required', function () {
       checkboxes.forEach(function (checkbox) {
-        checkbox.attr('required', false)
+        checkbox.required = false
       })
 
       // trigger the validation logic
-      const checkbox = checkboxes.attr(0)
-      checkbox.attr('_answerVm.values', null)
+      const checkbox = checkboxes[0]
+      checkbox._answerVm.values = null
 
-      assert.equal(checkbox.attr('_answerVm.errors'), undefined, 'should not fail')
+      assert.equal(checkbox._answerVm.errors, undefined, 'should not fail')
     })
   })
 
@@ -147,7 +141,6 @@ describe('AnswerViewModel', function () {
           repeating: false
         })
 
-        radio.attr('answer', radio.attr('emptyAnswer'))
         return radio
       }
 
@@ -158,30 +151,31 @@ describe('AnswerViewModel', function () {
       ])
 
       radioButtons.forEach(function (radio) {
-        radio.attr('_answerVm', new AnswerVM({
+        radio._answerVm = new AnswerVM({
           answerIndex: 1,
           field: radio,
           fields: radioButtons,
-          answer: radio.attr('answer')
-        }))
+          answer: radio.emptyAnswer
+        })
       })
     })
 
     it('groups radio button validation by field.name', function () {
-      const barRadio = radioButtons[2].attr('name', 'bar')
+      const barRadio = radioButtons[2]
+      barRadio.name = 'bar'
       const fooRadio0 = radioButtons[0]
       const fooRadio1 = radioButtons[1]
 
       // trigger the validation logic for barRadio only
-      barRadio.attr('_answerVm.values', 'has a value')
-      assert.equal(barRadio.attr('_answerVm.errors'), null, 'bar radio should be valid')
-      assert.equal(fooRadio0.attr('_answerVm.errors'), true, 'foo radio buttons should fail')
-      assert.equal(fooRadio1.attr('_answerVm.errors'), true, 'foo radio buttons should fail')
+      barRadio._answerVm.values = 'has a value'
+      assert.equal(barRadio._answerVm.errors, null, 'bar radio should be valid')
+      assert.equal(fooRadio0._answerVm.errors, true, 'foo radio buttons should fail')
+      assert.equal(fooRadio1._answerVm.errors, true, 'foo radio buttons should fail')
 
       // trigger the validation logic for fooRadio0 only
-      fooRadio0.attr('_answerVm.values', 'has a value')
-      assert.equal(fooRadio0.attr('_answerVm.errors'), null, 'fooRadio0 button should be valid')
-      assert.equal(fooRadio1.attr('_answerVm.errors'), null, 'fooRadio1 button is in group and should also be valid')
+      fooRadio0._answerVm.values = 'has a value'
+      assert.equal(fooRadio0._answerVm.errors, null, 'fooRadio0 button should be valid')
+      assert.equal(fooRadio1._answerVm.errors, null, 'fooRadio1 button is in group and should also be valid')
     })
   })
 })
