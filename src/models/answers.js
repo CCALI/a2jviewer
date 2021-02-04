@@ -6,6 +6,8 @@ import cString from '@caliorg/a2jdeps/utils/string'
 import cDate from '@caliorg/a2jdeps/utils/date'
 import readableList from '~/src/util/readable-list'
 
+// TODO: move dynamic answers to an internal list so we don't need seal:false
+// see varCreate below where new props are assigned
 export default DefineMap.extend('AnswersModel', { seal: false }, {
   lang: { // TODO: figure out why this is set to not serialize aka is it bound to the router
     serialize: false
