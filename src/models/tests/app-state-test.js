@@ -63,7 +63,7 @@ describe('AppState', function () {
   it('restores userAvatar from saved interview.answers ', function () {
     const savedAvatar = JSON.stringify({ gender: 'male', isOld: false, hasWheelchair: true, hairColor: 'red', skinTone: 'medium' })
     const answers = appState.interview.attr('answers')
-    answers.attr('user avatar', { name: 'user avatar', values: [null, savedAvatar] })
+    answers.varSet('user avatar', savedAvatar)
     assert.deepEqual(appState.userAvatar.serialize(), { gender: 'male', isOld: false, hasWheelchair: true, hairColor: 'red', skinTone: 'medium' }, 'should set defaultAvatar')
   })
 

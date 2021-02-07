@@ -176,8 +176,8 @@ const Interview = Model.extend('InterviewModel', {
       get () {
         let result
         const answers = this.attr('answers')
-        const userAvatar = answers.attr('user avatar')
-        const gender = answers.attr('user gender')
+        const userAvatar = answers.varGet('user avatar')
+        const gender = answers.varGet('user gender')
 
         if (userAvatar || gender) {
           const genderValues = (gender && gender.attr('values').attr()) || []
@@ -226,7 +226,7 @@ const Interview = Model.extend('InterviewModel', {
 
         _keys(vars).forEach(function (key) {
           let variable = vars[key]
-          let answer = answers.attr(key.toLowerCase())
+          let answer = answers.varGet(key.toLowerCase())
 
           let values = answer ? answer.attr('values').attr() : variable.values
 

@@ -476,7 +476,8 @@ export default CanMap.extend('PagesVM', {
 
   setInterviewAsComplete () {
     const answers = this.attr('interview.answers')
-    answers.attr(`${constants.vnInterviewIncompleteTF.toLowerCase()}.values`, [null, false])
+    const interviewCompleteKey = constants.vnInterviewIncompleteTF.toLowerCase()
+    answers.varSet(interviewCompleteKey, null, 0)
   },
 
   setCurrentPage () {
@@ -515,13 +516,12 @@ export default CanMap.extend('PagesVM', {
     const name = field.attr('name').toLowerCase()
     const answers = this.attr('interview.answers')
 
-    let answer = answers.attr(name)
+    let answer = answers.varGet(name)
 
     if (answer) {
       return answer
     } else {
-      answer = field.attr('emptyAnswer')
-      answers.attr(name, answer)
+      answers.varSet(name, answer)
       return answer
     }
   },

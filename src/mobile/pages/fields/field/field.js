@@ -181,7 +181,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
         let answerIndex = this.attr('appState.answerIndex')
         let answers = this.attr('logic.interview.answers')
         if (name && answers) {
-          return answers.attr(name).attr('values.' + answerIndex)
+          return answers.varGet(name, answerIndex)
         }
       }
     },

@@ -78,21 +78,20 @@ describe('Interview model', function () {
     it('computes its value from the answer of the "user gender" variable', function () {
       let answers = interview.attr('answers')
 
-      assert.notProperty(answers.attr(), 'user gender',
-        'interview has no "user gender" variable')
+      assert.notProperty(answers.serialize(), 'user gender', 'interview has no "user gender" variable')
       assert.isUndefined(interview.attr('avatarGender'))
 
-      answers.attr('user gender', {
+      answers.varSet('user gender', {
         name: 'user gender',
         values: [null]
       })
-      assert.property(answers.attr(), 'user gender')
+      assert.property(answers.serialize(), 'user gender')
       assert.isUndefined(interview.attr('avatarGender'), 'variable has no value')
 
-      answers.attr('user gender').attr('values').push('m')
+      answers.varSet('user gender', 'm')
       assert.equal(interview.attr('avatarGender'), 'male')
 
-      answers.attr('user gender').attr('values').push('female')
+      answers.varSet('user gender', 'female')
       assert.equal(interview.attr('avatarGender'), 'female')
     })
   })
@@ -203,7 +202,7 @@ describe('Interview model', function () {
       let answers = interview.attr('answers')
       interview.clearAnswers()
 
-      let salary = answers.attr('salary')
+      let salary = answers.varGet('salary')
       let values = salary.attr('values')
       assert.equal(values.length, 1)
       assert.equal(values[0], null)
@@ -226,7 +225,7 @@ describe('Interview model', function () {
       let answers = interview.attr('answers')
       interview.clearAnswers()
 
-      let lang = answers.attr('lang')
+      let lang = answers.varGet('lang')
       assert.notProperty(lang, 'values', 'no values array added to lang')
     })
   })

@@ -345,7 +345,7 @@ describe('<a2j-viewer-steps>', function () {
       const answers = interview.attr('answers')
 
       // user has not set their gender
-      answers.attr('user gender', {
+      answers.varSet('user gender', {
         name: 'user gender',
         values: [null]
       })
@@ -360,7 +360,7 @@ describe('<a2j-viewer-steps>', function () {
         const answers = interview.attr('answers')
 
         // user set her gender.
-        answers.attr('user gender', {
+        answers.varSet('user gender', {
           name: 'user gender',
           values: [null, 'f']
         })

@@ -65,12 +65,13 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     const answers = pState.attr('answers')
 
     if (previewAnswers) { // restore previous answers
-      answers.attr(previewAnswers.serialize())
+      // TODO: allow answers.varSet to take maps/lists
+      answers._answerMap.assign(previewAnswers.serialize())
     } else { // just set the interview vars
-      answers.attr(_assign({}, interview.serialize().vars))
+      answers._answerMap.assign(interview.serialize().vars)
     }
 
-    answers.attr('lang', lang)
+    answers.varSet('lang', lang)
     interview.attr('answers', answers)
 
     appState.interview = interview

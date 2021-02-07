@@ -143,7 +143,7 @@ export let ViewerNavigationVM = DefineMap.extend({
     }
 
     if (answers) {
-      answers.attr('a2j interview incomplete tf').attr('values.1', true)
+      answers.varSet('a2j interview incomplete tf', true, 1)
     }
 
     this.appState.page = exitPage
@@ -165,7 +165,8 @@ export let ViewerNavigationVM = DefineMap.extend({
     this.appState.visitedPages.shift()
 
     if (answers) {
-      answers.attr('a2j interview incomplete tf').attr('values', [null])
+      // sets answer values prop to default value of [null]
+      answers.varSet('a2j interview incomplete tf', null, 0)
     }
     if (window._paq) {
       analytics.trackCustomEvent('Resume-Interview', 'to: ' + resumeTargetPageName)

@@ -13,7 +13,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     get () {
       const defaultUserAvatar = { gender: 'female', isOld: false, hasWheelchair: false, hairColor: 'brownDark', skinTone: 'medium' }
       const answers = this.interview && this.interview.attr('answers')
-      const savedUserAvatar = answers.attr('user avatar') && answers.attr('user avatar').values[1]
+      const savedUserAvatar = answers.varGet('user avatar', 1)
       const userAvatar = savedUserAvatar ? JSON.parse(savedUserAvatar) : defaultUserAvatar
       return new DefineMap(userAvatar)
     }

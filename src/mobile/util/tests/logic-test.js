@@ -57,11 +57,11 @@ describe('Logic', function () {
       answers: answers
     })
 
-    let avm = new AnswerVM({ answer: answers.attr('firstname') })
-    avm.attr('values', 'John')
+    let avm = new AnswerVM({ answer: answers.varGet('firstname') })
+    avm.values = 'John'
 
-    avm = new AnswerVM({ answer: answers.attr('lastname') })
-    avm.attr('values', 'Doe')
+    avm = new AnswerVM({ answer: answers.varGet('lastname') })
+    avm.values = 'Doe'
 
     logic = new Logic({ interview })
   })
@@ -134,10 +134,10 @@ describe('Logic', function () {
       set fullname to firstname + " " + middlename + " " + lastname<BR/>
       end if`
 
-    let avm = new AnswerVM({ answer: answers.attr('middlename') })
-    avm.attr('values', '')
+    let avm = new AnswerVM({ answer: answers.varGet('middlename') })
+    avm.values = ''
 
-    answers.attr('fullname', new Answer({
+    answers.varSet('fullname', new Answer({
       name: 'fullname',
       type: 'text',
       repeating: false,
@@ -171,7 +171,7 @@ describe('Logic', function () {
     }, 'values set without extra whitespace')
 
     // setting middlename
-    avm.attr('values', 'T')
+    avm.values = 'T'
 
     logic.exec(str)
 
@@ -239,7 +239,7 @@ describe('Logic', function () {
     })
 
     it('evaluates to else block correctly', function () {
-      answers.attr('childcount').attr('values', [null, '1'])
+      answers.varSet('childcount', 1)
 
       logic.exec(code)
 

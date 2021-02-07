@@ -166,7 +166,7 @@ describe('<a2j-pages>', () => {
           values: [null]
         })
 
-        answers.attr('kidstf', kidstf)
+        answers.varSet('kidstf', kidstf)
 
         const button = new CanMap({
           label: 'Go!',
@@ -178,7 +178,7 @@ describe('<a2j-pages>', () => {
 
         vm.navigate(button)
 
-        assert.deepEqual(answers.attr('kidstf.values.1'), true,
+        assert.deepEqual(answers.varGet('kidstf', 1), true,
           'saved value should be true')
       })
 
@@ -193,7 +193,7 @@ describe('<a2j-pages>', () => {
           values: [null]
         })
 
-        answers.attr('kidstf', kidstf)
+        answers.varSet('kidstf', kidstf)
 
         const button = new CanMap({
           label: 'Go!',
@@ -204,7 +204,7 @@ describe('<a2j-pages>', () => {
 
         vm.navigate(button)
 
-        assert.deepEqual(answers.attr('kidstf.values.1'), true,
+        assert.deepEqual(answers.varGet('kidstf', 1), true,
           'first saved value should be true')
       })
 
@@ -228,8 +228,8 @@ describe('<a2j-pages>', () => {
           values: [null, 3]
         })
 
-        answers.attr('agesnu', agesnu)
-        answers.attr('count', count)
+        answers.varSet('agesnu', agesnu)
+        answers.varSet('count', count)
 
         const button = new CanMap({
           label: 'Go!',
@@ -243,7 +243,7 @@ describe('<a2j-pages>', () => {
 
         vm.navigate(button)
 
-        assert.deepEqual(answers.attr('agesnu.values.3'), 42,
+        assert.deepEqual(answers.varGet('agesnu', 3), 42,
           'adds mutli value to index 3')
       })
 
@@ -264,9 +264,9 @@ describe('<a2j-pages>', () => {
           next: constants.qIDSUCCESS
         })
 
-        answers.attr(incompleteTF, incomplete)
+        answers.varSet(incompleteTF, incomplete)
         vm.navigate(specialButton)
-        assert.equal(answers.attr(`${incompleteTF}.values.1`), false, 'success button should complete interview')
+        assert.equal(answers.varGet(incompleteTF, 1), false, 'success button should complete interview')
       })
 
       it('handleCrossedUseOfResumeOrBack', () => {
@@ -311,7 +311,7 @@ describe('<a2j-pages>', () => {
         values: [null]
       })
 
-      answers.attr('counter', counter)
+      answers.varSet('counter', counter)
 
       const button = new CanMap({
         repeatVar: 'counter',
@@ -345,8 +345,8 @@ describe('<a2j-pages>', () => {
         values: [null, 101, 202]
       })
 
-      answers.attr('salary', salary)
-      answers.attr('salaryCount', salaryCount)
+      answers.varSet('salary', salary)
+      answers.varSet('salaryCount', salaryCount)
       vm.attr('currentPage.repeatVar', 'salaryCount')
 
       const fields = vm.attr('currentPage.fields')
@@ -354,9 +354,9 @@ describe('<a2j-pages>', () => {
 
       vm.setFieldAnswers(fields)
       const field = vm.attr('currentPage.fields.0')
-      const answerValues = field.attr('_answerVm.answer.values')
+      const answerValues = field._answerVm.answer.values
 
-      assert.deepEqual(answerValues.attr(), [null, 101, 202], 'should set repeatVarValues')
+      assert.deepEqual(answerValues.serialize(), [null, 101, 202], 'should set repeatVarValues')
     })
 
     describe('default values', () => {
