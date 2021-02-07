@@ -6,25 +6,30 @@ import cString from '@caliorg/a2jdeps/utils/string'
 import cDate from '@caliorg/a2jdeps/utils/date'
 import readableList from '~/src/util/readable-list'
 
+// TODO: should this be an export of the Answer Model?
+const AnswerMap = DefineMap.extend('AnswerMap', { seal: false }, {
+  '*': Answer
+})
+
 // TODO: move dynamic answers to an internal list so we don't need seal:false
 // see varCreate below where new props are assigned
-export default DefineMap.extend('AnswersModel', { seal: false }, {
+export default DefineMap.extend('AnswersModel', {
   lang: { // TODO: figure out why this is set to not serialize aka is it bound to the router
     serialize: false
   },
 
+  // internal DefineMap of Answer Models, managed with the support methods below
+  _answerMap: {
+    Type: AnswerMap,
+    Default: AnswerMap
+  },
+
   varExists: function (prop) {
     const key = prop.trim().toLowerCase()
-    const hasKey = canReflect.hasOwnKey(this, key)
+    const hasKey = canReflect.hasOwnKey(this._answerMap, key)
 
     if (hasKey) {
-      const varAnswerModel = this[key]
-      // TODO: all answers should be answerModels and won't need this values check
-      if (!varAnswerModel.values) {
-        varAnswerModel.values = [null]
-      }
-
-      return varAnswerModel
+      return this._answerMap[key]
     } else {
       return null
     }
@@ -33,16 +38,16 @@ export default DefineMap.extend('AnswersModel', { seal: false }, {
   varCreate: function (varName, varType, varRepeat) {
     // TODO: this should handle missing params, possibly wrong order as well
     const varNameKey = varName.toLowerCase()
-    this.assign({
-      [varNameKey]: new Answer({
-        name: varName,
-        repeating: varRepeat,
-        type: varType,
-        values: [null]
-      })
+    const newAnswer = new Answer({
+      name: varName,
+      repeating: varRepeat,
+      type: varType,
+      values: [null]
     })
 
-    return this[varNameKey]
+    this._answerMap.assign({ [varNameKey]: newAnswer })
+
+    return newAnswer
   },
 
   varGet: function (varName, varIndex, opts) {
@@ -51,6 +56,7 @@ export default DefineMap.extend('AnswersModel', { seal: false }, {
     if (!varAnswerModel) return undefined
 
     if (typeof varIndex === 'undefined' || varIndex === null || varIndex === '') {
+      // TODO: handle this side effect of a readableList in a better way/different place
       if (varAnswerModel.repeating) {
         // Repeating variable without an index returns a readable list for display
         return readableList(varAnswerModel.values, this.lang)
@@ -141,8 +147,8 @@ export default DefineMap.extend('AnswersModel', { seal: false }, {
 
     // Reset all values or set new single value
     if (varIndex === 0 && varVal === null) {
-      varAnswerModel.values = [null]
-    } else if (varIndex === 0) {
+      varAnswerModel.assign('values', [null])
+    } else if (varIndex === 0) { // don't overwrite 0th value of null
       varAnswerModel.values[1] = varVal
     } else {
       varAnswerModel.values[varIndex] = varVal

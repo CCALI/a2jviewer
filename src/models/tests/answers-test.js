@@ -13,6 +13,20 @@ describe('Answers Model', function () {
     answers = null
   })
 
+  it('serialize', () => {
+    answers.varCreate('Foo', 'Text', false)
+    let expectedResult = { _answerMap: {'foo': { name: 'Foo', type: 'Text', repeating: false, values: [null] }} }
+    assert.deepEqual(answers.serialize(), expectedResult, 'should serialize() answers with props ignoring `lang` prop')
+
+    answers.varCreate('Bar', 'Text', false)
+    answers.varSet('bar', 'baz')
+    expectedResult = { _answerMap: {
+      'foo': { name: 'Foo', type: 'Text', repeating: false, values: [null] },
+      'bar': { name: 'Bar', type: 'Text', repeating: false, values: [null, 'baz'] }
+    } }
+    assert.deepEqual(answers.serialize(), expectedResult, 'should serialize() answers with props and updated values ignoring `lang` prop')
+  })
+
   it('varExists and varCreate', function () {
     let varExists = answers.varExists('foo')
     assert.equal(varExists, null, 'should return null if var does not exist')
@@ -35,7 +49,7 @@ describe('Answers Model', function () {
   })
 
   it('should set proper boolean values for TF vars', function () {
-    answers.varCreate('gotMilk', 'TF', 'false')
+    answers.varCreate('gotMilk', 'TF', false)
 
     answers.varSet('gotMilk', true, 1)
     assert.equal(answers.varGet('gotMilk', 1), true, 'did not set to boolean true')
@@ -44,11 +58,11 @@ describe('Answers Model', function () {
   })
 
   it('should get boolean values for TF vars', function () {
-    answers.varCreate('gotMilk', 'TF', 'false')
+    answers.varCreate('gotMilk', 'TF', false)
     assert.equal(answers.varGet('gotMilk', 1), undefined, 'new TF vars should be set to undefined')
 
-    answers.gotmilk.values.push('true')
-    assert.equal(answers.varGet('gotMilk', 1), true, 'should cast legacy string values to boolean')
+    answers.varSet('gotmilk', 'true')
+    assert.equal(answers.varGet('gotMilk', 1), undefined, 'should return undefined for non boolean values')
   })
 
   it('handles zero and falsy values for number types', function () {
