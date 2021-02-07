@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import Field from '~/src/models/field'
+import Answer from '~/src/models/answer'
 import Answers from '~/src/models/answers'
 import AnswerVM from '~/src/models/answervm'
 
@@ -13,9 +14,8 @@ describe('AnswerViewModel', function () {
   })
 
   it('serialize', function () {
-    const answers = new Answers()
-    const answer = answers.varCreate('user gender', 'text', false)
-    avm.answer = answer
+    const answerModel = new Answer({ name: 'user gender', type: 'text', repeating: false, values: [null] })
+    const answers = new Answers({ answer: answerModel })
 
     avm.values = 'm'
     assert.deepEqual(answers.serialize(), {

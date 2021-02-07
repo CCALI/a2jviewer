@@ -12,7 +12,7 @@ export default DefineMap.extend('AnswerVM', {
   },
 
   answer: {
-    default: null
+    default: {}
   },
 
   answerIndex: {
@@ -139,5 +139,4 @@ export default DefineMap.extend('AnswerVM', {
 
     return invalid
   }
-
 })
