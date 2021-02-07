@@ -25,7 +25,7 @@ const Page = CanMap.extend({
         let fields = this.attr('fields')
 
         return !!_find(fields, function (field) {
-          let fieldName = field.attr('name').toLowerCase()
+          let fieldName = field.name.toLowerCase()
           return fieldName === 'user gender' || fieldName === 'user avatar'
         })
       }

@@ -180,8 +180,8 @@ const Interview = Model.extend('InterviewModel', {
         const gender = answers.varGet('user gender')
 
         if (userAvatar || gender) {
-          const genderValues = (gender && gender.attr('values').attr()) || []
-          const userAvatarValues = (userAvatar && userAvatar.attr('values').attr()) || []
+          const genderValues = (gender && gender.values) || []
+          const userAvatarValues = (userAvatar && userAvatar.values) || []
           const userAvatarValue = userAvatarValues[1] && JSON.parse(userAvatarValues[1]).gender
           let lastValue = userAvatarValue || genderValues.pop()
 
@@ -228,7 +228,7 @@ const Interview = Model.extend('InterviewModel', {
           let variable = vars[key]
           let answer = answers.varGet(key.toLowerCase())
 
-          let values = answer ? answer.attr('values').attr() : variable.values
+          let values = answer ? answer.values : variable.values
 
           if (!variable.repeating) {
             // handle [ null ] or [ null, "foo" ] scenarios

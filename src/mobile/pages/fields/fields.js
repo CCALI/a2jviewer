@@ -31,7 +31,7 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
 
     if (fields.length) {
       fields.forEach((field) => {
-        const varName = field.attr('name')
+        const varName = field.name
         groupValidationMap.attr(varName, false)
       })
     }
@@ -45,7 +45,7 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
 
     if (fields.length) {
       fields.forEach((field, index) => {
-        const varName = field.attr('name')
+        const varName = field.name
         lastIndexMap.attr(varName, index)
       })
     }

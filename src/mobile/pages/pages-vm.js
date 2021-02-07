@@ -185,15 +185,15 @@ export default CanMap.extend('PagesVM', {
     const fields = this.attr('currentPage.fields')
 
     _forEach(fields, function (field) {
-      const hasError = !!field.attr('_answerVm.errors')
-      field.attr('hasError', hasError)
+      const hasError = !!field._answerVm.errors
+      field.hasError = hasError
       // track radio button group validation
-      const varName = field.attr('name')
+      const varName = field.name
       const groupValidationMap = vm.attr('groupValidationMap')
       groupValidationMap && groupValidationMap.attr(varName, hasError)
     })
 
-    return _some(fields, f => f.attr('hasError'))
+    return _some(fields, f => f.hasError)
   },
 
   traceButtonClicked (buttonLabel) {
@@ -513,7 +513,7 @@ export default CanMap.extend('PagesVM', {
    * ** This is doing too many things, it probably does not belong here either.
    */
   __ensureFieldAnswer (field) {
-    const name = field.attr('name').toLowerCase()
+    const name = field.name.toLowerCase()
     const answers = this.attr('interview.answers')
 
     let answer = answers.varGet(name)
@@ -521,6 +521,7 @@ export default CanMap.extend('PagesVM', {
     if (answer) {
       return answer
     } else {
+      answer = field.emptyAnswer
       answers.varSet(name, answer)
       return answer
     }
@@ -537,18 +538,18 @@ export default CanMap.extend('PagesVM', {
         const answer = this.__ensureFieldAnswer(field)
         const avm = new AnswerVM({ field, answerIndex, answer, fields })
 
-        if (field.attr('type') === 'textpick') {
+        if (field.type === 'textpick') {
           field.getOptions(mState.attr('fileDataURL'))
         }
 
         // Assign default value if it exists and no previous answer
-        if (field.value && !avm.attr('answer.values.' + answerIndex)) {
+        if (field.value && !avm.answer.values[answerIndex]) {
           this.setDefaultValue(field, avm, answer, answerIndex)
         }
 
-        field.attr('_answerVm', avm)
+        field._answerVm = avm
         // if repeating true, show var#count in debug-panel
-        const answerValue = avm.attr('answer.values.' + answerIndex)
+        const answerValue = avm.answer.values[answerIndex]
         this.logVarMessage(answer.name, answerValue, answer.repeating, answerIndex)
       })
     }
@@ -573,12 +574,12 @@ export default CanMap.extend('PagesVM', {
 
     if (defaultAllowed) {
       if (fieldIsNumber) {
-        avm.attr('answer.values.' + answerIndex, parseFloat(field.value, 10))
+        avm.answer.values[answerIndex] = parseFloat(field.value, 10)
       } else if (fieldIsDate && field.value.toUpperCase() === 'TODAY') {
         // resolve special value TODAY
-        avm.attr('answer.values.' + answerIndex, moment().format('MM/DD/YYYY'))
+        avm.answer.values[answerIndex] = moment().format('MM/DD/YYYY')
       } else {
-        avm.attr('answer.values.' + answerIndex, field.value)
+        avm.answer.values[answerIndex] = field.value
       }
     }
 

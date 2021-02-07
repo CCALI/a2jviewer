@@ -41,7 +41,7 @@ stache.registerPartial('exceeded-maxchars-tpl', exceededMaxcharsTpl)
 export const FieldVM = CanMap.extend('FieldVM', {
   define: {
     // passed in via fields.stache binding
-    field: {},
+    field: {}, // Field Model is a DefineMap
     fieldIndex: {},
     groupValidationMap: {},
     lastIndexMap: {},
@@ -133,8 +133,8 @@ export const FieldVM = CanMap.extend('FieldVM', {
     invalidPrompt: {
       get () {
         let field = this.attr('field')
-        let defaultInvalidPrompt = this.attr('lang')['FieldPrompts_' + field.attr('type')]
-        return field.attr('invalidPrompt') || defaultInvalidPrompt
+        let defaultInvalidPrompt = this.attr('lang')['FieldPrompts_' + field.type]
+        return field.invalidPrompt || defaultInvalidPrompt
       }
     },
 
@@ -284,7 +284,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
   validateField (ctx, el) {
     const $el = $(el)
     let field = this.attr('field')
-    let _answerVm = field.attr('_answerVm')
+    let _answerVm = field._answerVm
     let value
 
     // textpick binding fired onChange even on first load
@@ -309,12 +309,12 @@ export const FieldVM = CanMap.extend('FieldVM', {
       value = $el.val()
     }
 
-    _answerVm.attr('values', value)
+    _answerVm.values = value
 
-    let errors = _answerVm.attr('errors')
-    field.attr('hasError', errors)
+    let errors = _answerVm.errors
+    field.hasError = errors
     // update group validation for radio buttons
-    const varName = field.attr('name')
+    const varName = field.name
     this.attr('groupValidationMap').attr(varName, !!errors)
 
     if (!errors) {
@@ -325,9 +325,9 @@ export const FieldVM = CanMap.extend('FieldVM', {
   },
 
   debugPanelMessage (field, value) {
-    const answerName = field.attr('name')
-    const answerIndex = field.attr('_answerVm.answerIndex')
-    const isRepeating = field.attr('_answerVm.answer.repeating')
+    const answerName = field.name
+    const answerIndex = field._answerVm.answerIndex
+    const isRepeating = field._answerVm.answer.repeating
     // if repeating true, show var#count in debug-panel
     const displayAnswerIndex = isRepeating ? `#${answerIndex}` : ''
 
@@ -352,15 +352,15 @@ export const FieldVM = CanMap.extend('FieldVM', {
   preValidateNumber (ctx, el) {
     const $el = $(el)
     const field = this.attr('field')
-    const varName = field.attr('name')
+    const varName = field.name
     // accept only numbers, commas, periods, and negative sign
     const currentValue = $el.val()
     const scrubbedValue = currentValue.replace(/[^\d.,-]/g, '')
     if (currentValue !== scrubbedValue) {
-      field.attr('hasError', true)
+      field.hasError = true
       this.attr('groupValidationMap').attr(varName, true)
     } else {
-      field.attr('hasError', false)
+      field.hasError = false
       this.attr('groupValidationMap').attr(varName, false)
     }
   },
@@ -375,7 +375,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
   showCalculator (field) {
     if (field && field.calculator === true) {
       const vm = this
-      const inputId = field.attr('label')
+      const inputId = field.label
       const $inputEl = $("[id='" + inputId + "']")
       $inputEl.calculator({
         showOn: 'operator',
@@ -386,7 +386,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
           const field = vm.attr('field')
 
           // set answer and validate
-          field.attr('_answerVm.values', calcValue)
+          field._answerVm.values = calcValue
           vm.validateField(null, $el)
         },
         useText: 'Enter',
@@ -425,15 +425,15 @@ export const FieldVM = CanMap.extend('FieldVM', {
    *
    */
   expandTextlong (field) {
-    const answerName = field.attr('name')
+    const answerName = field.name
     const previewActive = this.attr('appState.previewActive')
     // warning modal only in Author
     if (!answerName && previewActive) {
       this.attr('modalContent', { title: 'Author Warning', text: 'Text(long) fields require an assigned variable to expand' })
     }
     if (answerName) {
-      const title = field.attr('label')
-      const textlongValue = field.attr('_answerVm.values')
+      const title = field.label
+      const textlongValue = field._answerVm.values
       const textlongVM = this
       this.attr('modalContent', {
         title,
@@ -446,7 +446,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
   },
 
   fireModalClose (field, newValue, textlongVM) {
-    field.attr('_answerVm.values', newValue)
+    field._answerVm.values = newValue
     const selector = "[name='" + field.name + "']"
     const longtextEl = $(selector)[0]
     textlongVM.validateField(textlongVM, longtextEl)
@@ -501,12 +501,12 @@ export const FieldVM = CanMap.extend('FieldVM', {
   // other checkbox selections when nota is checked, and vice-versa
   notaCheckboxHandler (field, isChecked) {
     if (isChecked) {
-      const fields = field.attr('_answerVm.fields')
+      const fields = field._answerVm.fields
       if (fields) {
         const toStayChecked = field.type
         fields.forEach(function (field) {
           if (field.type !== toStayChecked && (field.type === 'checkbox' || field.type === 'checkboxNOTA')) {
-            field.attr('_answerVm.values', false)
+            field._answerVm.values = false
           }
         })
       }
