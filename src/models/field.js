@@ -97,8 +97,8 @@ const Field = DefineMap.extend('Field', {
   }
 })
 
-Field.List = DefineList.extend({
-  Type: Field
-}, {})
+Field.List = DefineList.extend('FieldList', {
+  '#': Field
+})
 
 export default Field

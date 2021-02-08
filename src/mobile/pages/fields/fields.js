@@ -1,9 +1,8 @@
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './fields.stache'
 
 import '~/src/mobile/pages/fields/field/'
-import 'can-map-define'
 
 /**
  * @property {can.Map} fields.ViewModel
@@ -11,28 +10,26 @@ import 'can-map-define'
  *
  * `<a2j-fields>`'s viewModel.
  */
-export const FieldsVM = CanMap.extend('FieldsVM', {
-  define: {
-    // passed in via pages.stache bindings
-    lang: {},
-    logic: {},
-    fields: {},
-    appState: {},
-    modalContent: {},
+export const FieldsVM = DefineMap.extend('FieldsVM', {
+  // passed in via pages.stache bindings
+  lang: {},
+  logic: {},
+  fields: {},
+  appState: {},
+  modalContent: {},
 
-    lastIndexMap: {},
+  lastIndexMap: {},
 
-    groupValidationMap: {}
-  },
+  groupValidationMap: {},
 
   buildGroupValidationMap () {
-    const fields = this.attr('fields')
-    const groupValidationMap = new CanMap()
+    const fields = this.fields
+    const groupValidationMap = new DefineMap()
 
     if (fields.length) {
       fields.forEach((field) => {
         const varName = field.name
-        groupValidationMap.attr(varName, false)
+        groupValidationMap.set(varName, false)
       })
     }
 
@@ -40,13 +37,13 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
   },
 
   buildLastIndexMap () {
-    const fields = this.attr('fields')
-    const lastIndexMap = new CanMap()
+    const fields = this.fields
+    const lastIndexMap = new DefineMap()
 
     if (fields.length) {
       fields.forEach((field, index) => {
         const varName = field.name
-        lastIndexMap.attr(varName, index)
+        lastIndexMap.set(varName, index)
       })
     }
 
@@ -55,14 +52,19 @@ export const FieldsVM = CanMap.extend('FieldsVM', {
 
   connectedCallback () {
     // first page
-    this.attr('groupValidationMap', this.buildGroupValidationMap())
-    this.attr('lastIndexMap', this.buildLastIndexMap())
+    this.groupValidationMap = this.buildGroupValidationMap()
+    this.lastIndexMap = this.buildLastIndexMap()
 
+    const fieldsHandler = () => {
+      this.groupValidationMap = this.buildGroupValidationMap()
+      this.lastIndexMap = this.buildLastIndexMap()
+    }
     // navigated pages which resets fields list
-    this.listenTo('fields', () => {
-      this.attr('groupValidationMap', this.buildGroupValidationMap())
-      this.attr('lastIndexMap', this.buildLastIndexMap())
-    })
+    this.listenTo('fields', fieldsHandler)
+
+    return () => {
+      this.stopListening('fields', fieldsHandler)
+    }
   }
 })
 

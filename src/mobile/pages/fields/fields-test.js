@@ -1,5 +1,6 @@
 import { assert } from 'chai'
 import { FieldsVM } from './fields'
+import Field from '~/src/models/field'
 import 'steal-mocha'
 
 describe('<a2j-fields>', () => {
@@ -8,13 +9,13 @@ describe('<a2j-fields>', () => {
 
     beforeEach(() => {
       vm = new FieldsVM({
-        fields: [
+        fields: new Field.List([
           { name: 'foo' },
           { name: 'foo' },
           { name: 'foobaroo' },
           { name: 'baz' },
           { name: 'baz' }
-        ]
+        ])
       })
     })
 
@@ -29,18 +30,18 @@ describe('<a2j-fields>', () => {
         foobaroo: 2,
         baz: 4
       }
-      assert.deepEqual(vm.attr('lastIndexMap').serialize(), expectedResults, 'should build lastIndexMap based on passed in fields')
+      assert.deepEqual(vm.lastIndexMap.serialize(), expectedResults, 'should build lastIndexMap based on passed in fields')
 
       expectedResults = {}
-      vm.attr('fields', [])
-      assert.deepEqual(vm.attr('lastIndexMap').serialize(), expectedResults, 'lastIndexMap should handle no fields')
+      vm.fields = []
+      assert.deepEqual(vm.lastIndexMap.serialize(), expectedResults, 'lastIndexMap should handle no fields')
 
       expectedResults = {
         foo: 0,
         bar: 2
       }
-      vm.attr('fields', [{name: 'foo'}, {name: 'bar'}, {name: 'bar'}])
-      assert.deepEqual(vm.attr('lastIndexMap').serialize(), expectedResults, 'lastIndexMap should update when fields changes')
+      vm.fields = [{name: 'foo'}, {name: 'bar'}, {name: 'bar'}]
+      assert.deepEqual(vm.lastIndexMap.serialize(), expectedResults, 'lastIndexMap should update when fields changes')
     })
 
     it('groupValidationMap', () => {
@@ -50,18 +51,18 @@ describe('<a2j-fields>', () => {
         foobaroo: false,
         baz: false
       }
-      assert.deepEqual(vm.attr('groupValidationMap').serialize(), expectedResults, 'should build groupValidationMap based on passed in fields')
+      assert.deepEqual(vm.groupValidationMap.serialize(), expectedResults, 'should build groupValidationMap based on passed in fields')
 
       expectedResults = {}
-      vm.attr('fields', [])
-      assert.deepEqual(vm.attr('groupValidationMap').serialize(), expectedResults, 'groupValidationMap should handle no fields')
+      vm.fields = []
+      assert.deepEqual(vm.groupValidationMap.serialize(), expectedResults, 'groupValidationMap should handle no fields')
 
       expectedResults = {
         foo: false,
         bar: false
       }
-      vm.attr('fields', [{name: 'foo'}, {name: 'bar'}, {name: 'bar'}])
-      assert.deepEqual(vm.attr('groupValidationMap').serialize(), expectedResults, 'groupValidationMap should update when fields changes')
+      vm.fields = [{name: 'foo'}, {name: 'bar'}, {name: 'bar'}]
+      assert.deepEqual(vm.groupValidationMap.serialize(), expectedResults, 'groupValidationMap should update when fields changes')
     })
   })
 })
