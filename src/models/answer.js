@@ -16,5 +16,9 @@ export default DefineMap.extend('AnswerModel', {
   // values array 0th value is always null for legacy reasons
   values: {
     default: () => [null]
+  },
+  // reset to the default
+  clearAnswer () {
+    this.values = [null]
   }
 })

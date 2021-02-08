@@ -32,6 +32,19 @@ describe('Answer Model', function () {
     assert.deepEqual(answer.serialize(), expectedResult, 'new Answer() takes values to the constructor')
   })
 
+  it('clearAnswer()', () => {
+    answer = new Answer({values: [null, 'foo', 'bar', 'baz']})
+    expectedResult = {
+      name: '',
+      repeating: false,
+      type: '',
+      values: [null]
+    }
+
+    answer.clearAnswer()
+    assert.deepEqual(answer.values, [null], 'should reset values to default of [null]')
+  })
+
   afterEach(() => {
     answer = null
   })
