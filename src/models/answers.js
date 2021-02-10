@@ -6,30 +6,20 @@ import cString from '@caliorg/a2jdeps/utils/string'
 import cDate from '@caliorg/a2jdeps/utils/date'
 import readableList from '~/src/util/readable-list'
 
-// TODO: should this be an export of the Answer Model?
-const AnswerMap = DefineMap.extend('AnswerMap', { seal: false }, {
-  '*': Answer
-})
+export default DefineMap.extend('AnswersModel', { seal: false }, {
+  '*': Answer,
 
-// TODO: move dynamic answers to an internal list so we don't need seal:false
-// see varCreate below where new props are assigned
-export default DefineMap.extend('AnswersModel', {
-  lang: { // TODO: figure out why this is set to not serialize aka is it bound to the router
+  lang: {
+    Type: DefineMap,
     serialize: false
-  },
-
-  // internal DefineMap of Answer Models, managed with the support methods below
-  _answerMap: {
-    Type: AnswerMap,
-    Default: AnswerMap
   },
 
   varExists: function (prop) {
     const key = prop.trim().toLowerCase()
-    const hasKey = canReflect.hasOwnKey(this._answerMap, key)
+    const hasKey = canReflect.hasOwnKey(this, key)
 
     if (hasKey) {
-      return this._answerMap[key]
+      return this[key]
     } else {
       return null
     }
@@ -45,7 +35,7 @@ export default DefineMap.extend('AnswersModel', {
       values: [null]
     })
 
-    this._answerMap.assign({ [varNameKey]: newAnswer })
+    this.assign({ [varNameKey]: newAnswer })
 
     return newAnswer
   },

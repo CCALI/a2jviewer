@@ -66,9 +66,9 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     if (previewAnswers) { // restore previous answers
       // TODO: allow answers.varSet to take maps/lists
-      answers._answerMap.assign(previewAnswers.serialize())
+      answers.assign(previewAnswers.serialize())
     } else { // just set the interview vars
-      answers._answerMap.assign(interview.serialize().vars)
+      answers.assign(interview.serialize().vars)
     }
 
     answers.varSet('lang', lang)

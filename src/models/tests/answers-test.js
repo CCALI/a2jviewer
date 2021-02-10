@@ -1,29 +1,45 @@
 import { assert } from 'chai'
 import Answers from '~/src/models/answers'
+import Lang from '~/src/mobile/util/lang'
+import DefineMap from 'can-define/map/map'
+import Answer from '~/src/models/answer'
 
 import 'steal-mocha'
 
 describe('Answers Model', function () {
   let answers
+  let lang = new Lang()
   beforeEach(() => {
-    answers = new Answers()
+    answers = new Answers({ lang })
   })
 
   afterEach(() => {
     answers = null
   })
 
+  it('added props and lang prop types preserved', () => {
+    answers.varCreate('Foo', 'Text', false)
+
+    const fooInstanceOfAnswer = (answers.foo instanceof Answer)
+    const langInstanceOfDefineMap = (answers.lang instanceof DefineMap)
+    const langInstanceOfAnswer = (answers.lang instanceof Answer)
+
+    assert.isTrue(fooInstanceOfAnswer, 'added props should be Answer Models')
+    assert.isTrue(langInstanceOfDefineMap, 'passed in lang prop should be DefineMap')
+    assert.isFalse(langInstanceOfAnswer, 'passed in lang prop should NOT be an Answer Model')
+  })
+
   it('serialize', () => {
     answers.varCreate('Foo', 'Text', false)
-    let expectedResult = { _answerMap: {'foo': { name: 'Foo', type: 'Text', repeating: false, values: [null] }} }
+    let expectedResult = {'foo': { name: 'Foo', type: 'Text', repeating: false, values: [null] }}
     assert.deepEqual(answers.serialize(), expectedResult, 'should serialize() answers with props ignoring `lang` prop')
 
     answers.varCreate('Bar', 'Text', false)
     answers.varSet('bar', 'baz')
-    expectedResult = { _answerMap: {
+    expectedResult = {
       'foo': { name: 'Foo', type: 'Text', repeating: false, values: [null] },
       'bar': { name: 'Bar', type: 'Text', repeating: false, values: [null, 'baz'] }
-    } }
+    }
     assert.deepEqual(answers.serialize(), expectedResult, 'should serialize() answers with props and updated values ignoring `lang` prop')
   })
 
