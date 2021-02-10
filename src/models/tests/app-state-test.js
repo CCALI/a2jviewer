@@ -50,6 +50,7 @@ describe('AppState', function () {
   it('parseText helper', function () {
     const parseText = stache.getHelper('parseText')
     const answers = appState.interview.attr('answers')
+    answers.varCreate('client first name te', 'Text', false)
     answers.varSet('client first name te', 'JessBob', 1)
     const result = parseText('My name is %%[Client first name TE]%%')
     assert.equal(result, 'My name is JessBob', 'should resolve macros in text')

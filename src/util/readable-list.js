@@ -3,7 +3,7 @@ import _isFunction from 'lodash/isFunction'
 
 // 2014-09-03 Return comma separated, optional 'and' for array.
 export default function readableList (list, lang) {
-  const values = _isFunction(list.attr) ? list.attr() : list
+  const values = _isFunction(list.serialize) ? list.serialize() : list
   const repeatAnd = (lang && lang.RepeatAnd) ? lang.RepeatAnd : 'and'
 
   // Remove null or blanks.
