@@ -2,7 +2,6 @@ import { assert } from 'chai'
 import Answer from '~/src/models/answer'
 import Answers from '~/src/models/answers'
 import Logic from '~/src/mobile/util/logic'
-import AnswerVM from '~/src/models/answervm'
 import Interview from '~/src/models/interview'
 
 import 'steal-mocha'
