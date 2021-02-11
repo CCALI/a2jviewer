@@ -14,21 +14,21 @@ describe('Logic', function () {
 
   beforeEach(function () {
     answers = new Answers({
-      firstname: {
+      firstname: new Answer({
         type: 'text',
         values: [null],
         name: 'firstname'
-      },
-      middlename: {
+      }),
+      middlename: new Answer({
         type: 'text',
         values: [null],
         name: 'middlename'
-      },
-      lastname: {
+      }),
+      lastname: new Answer({
         type: 'text',
         values: [null],
         name: 'lastname'
-      }
+      })
     })
 
     interview = new Interview({
@@ -57,11 +57,13 @@ describe('Logic', function () {
       answers: answers
     })
 
-    let avm = new AnswerVM({ answer: answers.varGet('firstname') })
-    avm.values = 'John'
+    answers.varSet('firstname', 'John')
+    answers.varSet('lastname', 'Doe')
+    // let avm = new AnswerVM({ answer: answers.varGet('firstname') })
+    // avm.values = 'John'
 
-    avm = new AnswerVM({ answer: answers.varGet('lastname') })
-    avm.values = 'Doe'
+    // avm = new AnswerVM({ answer: answers.varGet('lastname') })
+    // avm.values = 'Doe'
 
     logic = new Logic({ interview })
   })
@@ -73,16 +75,19 @@ describe('Logic', function () {
       firstname: {
         name: 'firstname',
         type: 'text',
+        repeating: false,
         values: [null, 'Bob']
       },
       middlename: {
+        name: 'middlename',
         type: 'text',
-        values: [null],
-        name: 'middlename'
+        repeating: false,
+        values: [null]
       },
       lastname: {
         name: 'lastname',
         type: 'text',
+        repeating: false,
         values: [null, 'Doe']
       }
     }
@@ -134,67 +139,66 @@ describe('Logic', function () {
       set fullname to firstname + " " + middlename + " " + lastname<BR/>
       end if`
 
-    let avm = new AnswerVM({ answer: answers.varGet('middlename') })
-    avm.values = ''
-
-    answers.varSet('fullname', new Answer({
-      name: 'fullname',
-      type: 'text',
-      repeating: false,
-      values: [null]
-    }))
+    answers.varSet('middlename', '')
+    answers.varCreate('fullname', 'text', false)
 
     logic.exec(str)
 
     assert.deepEqual(answers.serialize(), {
       fullname: {
         name: 'fullname',
-        repeating: false,
         type: 'text',
+        repeating: false,
         values: [null, 'John Doe']
       },
       firstname: {
         name: 'firstname',
         type: 'text',
+        repeating: false,
         values: [null, 'John']
       },
       lastname: {
         name: 'lastname',
         type: 'text',
+        repeating: false,
         values: [null, 'Doe']
       },
       middlename: {
         name: 'middlename',
         type: 'text',
+        repeating: false,
         values: [null, '']
       }
     }, 'values set without extra whitespace')
 
     // setting middlename
-    avm.values = 'T'
+    answers.varSet('middlename', 'T')
 
     logic.exec(str)
 
     assert.deepEqual(answers.serialize(), {
       fullname: {
         name: 'fullname',
-        repeating: false,
         type: 'text',
+        repeating: false,
         values: [null, 'John T Doe']
       },
       firstname: {
         name: 'firstname',
         type: 'text',
+        repeating: false,
         values: [null, 'John']
       },
       lastname: {
         name: 'lastname',
         type: 'text',
+        repeating: false,
         values: [null, 'Doe']
       },
       middlename: {
         name: 'middlename',
         type: 'text',
+        repeating: false,
         values: [null, 'T']
       }
     }, 'middle name set')
