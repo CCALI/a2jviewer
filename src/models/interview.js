@@ -176,8 +176,8 @@ const Interview = Model.extend('InterviewModel', {
       get () {
         let result
         const answers = this.attr('answers')
-        const userAvatar = answers.varGet('user avatar')
-        const gender = answers.varGet('user gender')
+        const userAvatar = answers['user avatar']
+        const gender = answers['user gender']
 
         if (userAvatar || gender) {
           const genderValues = (gender && gender.values) || []
@@ -269,8 +269,8 @@ const Interview = Model.extend('InterviewModel', {
     queues.batch.start()
 
     this.attr('answers').forEach((answer) => {
-      if (answer && answer.attr && answer.attr('values')) {
-        answer.attr('values', [null])
+      if (answer) {
+        answer.clearAnswer()
       }
     })
 

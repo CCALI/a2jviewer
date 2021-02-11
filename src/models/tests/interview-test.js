@@ -1,6 +1,10 @@
 import { assert } from 'chai'
 import Interview from '~/src/models/interview'
-import CanMap from 'can-map'
+import Answers from '~/src/models/answers'
+
+import '~/src/models/tests/fixtures/'
+
+import 'steal-mocha'
 
 describe('Interview model', function () {
   it('parseModels', function () {
@@ -81,10 +85,7 @@ describe('Interview model', function () {
       assert.notProperty(answers.serialize(), 'user gender', 'interview has no "user gender" variable')
       assert.isUndefined(interview.attr('avatarGender'))
 
-      answers.varSet('user gender', {
-        name: 'user gender',
-        values: [null]
-      })
+      answers.varCreate('user gender', 'Text', false)
       assert.property(answers.serialize(), 'user gender')
       assert.isUndefined(interview.attr('avatarGender'), 'variable has no value')
 
@@ -166,7 +167,7 @@ describe('Interview model', function () {
 
     beforeEach(function () {
       interview = new Interview()
-      let answers = new CanMap({
+      let answers = new Answers({
         name: {
           comment: '',
           name: 'Name',
@@ -202,8 +203,8 @@ describe('Interview model', function () {
       let answers = interview.attr('answers')
       interview.clearAnswers()
 
-      let salary = answers.varGet('salary')
-      let values = salary.attr('values')
+      let salary = answers['salary']
+      let values = salary.values
       assert.equal(values.length, 1)
       assert.equal(values[0], null)
     })
@@ -213,7 +214,7 @@ describe('Interview model', function () {
       interview.clearAnswers()
 
       answers.forEach(function (answer) {
-        let values = answer.attr('values')
+        let values = answer.values
         if (values) { // skip answers without values prop
           assert.equal(values.length, 1)
           assert.equal(values[0], null)
@@ -225,7 +226,7 @@ describe('Interview model', function () {
       let answers = interview.attr('answers')
       interview.clearAnswers()
 
-      let lang = answers.varGet('lang')
+      let lang = answers['lang']
       assert.notProperty(lang, 'values', 'no values array added to lang')
     })
   })
