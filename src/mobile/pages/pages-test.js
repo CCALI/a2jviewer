@@ -287,6 +287,7 @@ describe('<a2j-pages>', () => {
     it('validateAllFields', () => {
       let hasErrors = vm.validateAllFields()
       assert.isFalse(hasErrors, 'should return false if there are no fields')
+      console.log(vm.attr('currentPage').fields)
 
       vm.attr('currentPage.fields', [{name: 'foo', _answerVm: {errors: true}}, {name: 'bar', _answerVm: {errors: false}}])
       hasErrors = vm.validateAllFields()
