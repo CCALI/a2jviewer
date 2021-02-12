@@ -177,7 +177,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
     // batching here for performance reasons due to codeBefore string parsing
     queues.batch.start()
-    logic.exec(currentPage.attr('codeBefore'))
+    logic.exec(currentPage.codeBefore)
     queues.batch.stop()
 
     let postGotoPage = this.logic.attr('gotoPage')
@@ -222,7 +222,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
       if (!this.currentPage) { return }
 
       // handle codeBefore A2J logic
-      if (this.currentPage.attr('codeBefore')) {
+      if (this.currentPage.codeBefore) {
         this.traceMessage.addMessage({ key: 'codeBefore', fragments: [{ format: 'info', msg: 'Logic Before Question' }] })
         const newGotoPage = this.fireCodeBefore(this.currentPage, this.logic)
         if (newGotoPage) {
