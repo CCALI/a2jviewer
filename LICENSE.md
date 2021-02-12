@@ -1,6 +1,6 @@
 Access to Justice Author (A2J Author®) is a cloud based software tool that delivers greater access to justice for self-represented litigants by enabling non-technical authors from the courts, clerk’s offices, legal services organizations, and law schools to rapidly build and implement user friendly web-based document assembly projects. It is managed by The Center for Computer-Assisted Legal Instruction (CALI).
 
-Copyright © 2020 Center for Computer-Assisted Legal Instruction (CALI) and IIT Chicago-Kent College of Law  
+Copyright © 2021 Center for Computer-Assisted Legal Instruction (CALI) and IIT Chicago-Kent College of Law  
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, under version 3 of the License.
