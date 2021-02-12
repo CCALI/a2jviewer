@@ -23,7 +23,7 @@
     "email": "webmaster@a2jauthor.org",
     "url": "https://www.a2jauthor.org"
   },
-  "license": "AGPL-3.0-only",
+  "license": "GNU AGPL v3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/CCALI/a2jviewer"
