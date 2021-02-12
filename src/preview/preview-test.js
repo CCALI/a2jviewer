@@ -11,7 +11,7 @@ describe('<a2j-viewer-preview>', function () {
         // this is parsed to get vars
         window.gGuide = {
           vars: {
-            someVar: { name: 'someVar', values: [null] }
+            someVar: { name: 'someVar', type: 'Text', values: [null] }
           }
         }
         vm = new ViewerPreviewVM({
@@ -36,7 +36,7 @@ describe('<a2j-viewer-preview>', function () {
         // emulate first run or previewInterview clear from Interviews tab
         vm.attr('previewInterview', undefined)
 
-        const expectedAnswerKeys = [ 'lang', 'somevar' ]
+        const expectedAnswerKeys = [ 'somevar' ]
         const previewCleanup = vm.connectedCallback(el)
         const connectedCallbackAnswerKeys = Object.keys(vm.attr('interview.answers')._data)
 
@@ -46,7 +46,7 @@ describe('<a2j-viewer-preview>', function () {
 
       it('restores answers from previewInterview', () => {
         const el = []
-        const expectedAnswerKeys = [ 'lang', 'someAnswer' ]
+        const expectedAnswerKeys = [ 'someAnswer' ]
         const previewCleanup = vm.connectedCallback(el)
         const connectedCallbackAnswerKeys = Object.keys(vm.attr('interview.answers')._data)
 
