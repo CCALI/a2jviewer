@@ -43,8 +43,8 @@ describe('<a2j-viewer-navigation>', function () {
       vm.appState.visitedPages.unshift(secondPage)
 
       assert.deepEqual(vm.feedbackData, {
-        questionid: secondPage.attr('name'),
-        questiontext: secondPage.attr('text'),
+        questionid: secondPage.name,
+        questiontext: secondPage.text,
         interviewid: interview.attr('version'),
         viewerversion: constants.A2JVersionNum,
         emailto: interview.attr('emailContact'),

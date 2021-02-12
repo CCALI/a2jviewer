@@ -111,8 +111,8 @@ export let ViewerNavigationVM = DefineMap.extend({
       if (!page) return {}
 
       return {
-        questionid: page.attr('name'),
-        questiontext: page.attr('text'),
+        questionid: page.name,
+        questiontext: page.text,
         interviewid: this.interview.attr('version'),
         viewerversion: constants.A2JVersionNum,
         emailto: this.interview.attr('emailContact'),
