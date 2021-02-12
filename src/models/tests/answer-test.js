@@ -15,7 +15,7 @@ describe('Answer Model', function () {
     expectedResult = {
       name: '',
       repeating: false,
-      type: '',
+      type: 'Text',
       values: [null]
     }
 
