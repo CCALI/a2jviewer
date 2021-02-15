@@ -42,7 +42,7 @@ describe('Answer Model', function () {
     }
 
     answer.clearAnswer()
-    assert.deepEqual(answer.values, [null], 'should reset values to default of [null]')
+    assert.deepEqual(answer.values.serialize(), [null], 'should reset values to default of [null]')
   })
 
   afterEach(() => {
