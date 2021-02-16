@@ -1,25 +1,29 @@
 {
   "name": "@caliorg/a2jviewer",
-  "version": "7.0.17",
+  "version": "7.0.21",
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
   "scripts": {
     "lint": "standard --fix --env mocha",
     "test": "npm run lint && testee --reporter Spec --browsers firefox tests/index.html",
     "build": "grunt build --gruntfile=Gruntfile.js",
+    "deploy": "npm i && npm run build && mv index.html index.dev.html && mv index.production.html index.html",
     "build-docs": "grunt documentjs",
     "serve-docs": "grunt documentjs-lite && http-server docs",
     "build:viewer-zip": "node ./bin/make-viewer-package",
     "preversion": "npm test",
-    "version": "git commit -am \"Update version for release\" && git checkout -b release",
-    "postversion": "git push --tags && git checkout - && git branch -D release && git push",
     "release:pre": "npm version prerelease && npm publish --tag=pre",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish"
+    "release:major": "npm version major && npm publish",
+    "postpublish": "git push --tags && git push"
   },
-  "author": "",
-  "license": "AGPL-3.0-only",
+  "author": {
+    "name": "Center for Computer-Assisted Legal Instruction (CALI)",
+    "email": "webmaster@a2jauthor.org",
+    "url": "https://www.a2jauthor.org"
+  },
+  "license": "GNU AGPL v3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/CCALI/a2jviewer"
@@ -65,8 +69,7 @@
     }
   },
   "dependencies": {
-    "@caliorg/a2jdeps": "^7.0.13",
-    "@open-xchange/bootstrap-tokenfield": "^0.13.1",
+    "@caliorg/a2jdeps": "^7.0.15",
     "bit-tabs": "^2.0.0",
     "blueimp-file-upload": "^9.10.1",
     "bootstrap": "^3.4.1",
