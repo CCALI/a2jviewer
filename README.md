@@ -57,6 +57,15 @@ mv index.html index.dev.html
 mv index.production.html index.html
 ```
 
+**Note that index.dev.html allows for viewing live changes for developers and index.production.html is the minified, production ready entry point**
+
+### package as zip
+run the command below in a terminal
+
+`npm run build:viewer-zip`
+
+This will build a zip in the parent folder of the cloned repo with the naming patern a2j-viewer_{MAJVER}.{MINVER}.{PATCH}_{YYYY}-{MM}-{DD}.zip
+
 ## Upgrading
 1.) backup your old viewer and Guided Interviews
 
