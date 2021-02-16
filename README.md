@@ -10,7 +10,7 @@ NOTE: By downloading this application, you are agreeing to the terms included in
 Current supported environments are:
 
 * Webserver platform of either IIS 8.5+, Apache 2.4+, or Nginx 1.12+
-* PHP is the recommended platform for processing interview data locally but is not required to run the viewer. All current samlple processing code and the demo widget is written in PHP. PHP Versions 7.2+ is currently supported.
+* PHP is the recommended platform for processing interview data locally but is not required to run the viewer. All current samlple processing code and the demo widget is written in PHP. PHP Versions 7.4+ is currently supported.
 
 While other server environments may work, they have not been tested.  Should you get another hosting environment working, please do a Pull Request at the hosted [A2J Viewer](https://github.com/CCALI/a2jviewer) repo to let us know any steps taken so that we may share with others.
 
