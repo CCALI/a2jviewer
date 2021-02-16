@@ -41,7 +41,8 @@ check that the install was successful by typing
 `node -v`
 
 which should produce the version number of node we installed, `12.20.1`
-clone this repo (https://github.com/CCALI/a2jviewer/releases)
+
+3.) clone this repo (https://github.com/CCALI/a2jviewer/releases)
 
 ### Build from source
 
