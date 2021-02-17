@@ -12,7 +12,7 @@ import setupPromise from 'can-reflect-promise'
  * A map representing a field of an interview page
  */
 const Field = DefineMap.extend('Field', {
-  // these props set in src/models/page.fields is of Type: Field.List
+  // these props set in src/models/page.fields which is of Type: Field.List
   calculator: {},
   invalidPrompt: {},
   label: {},
@@ -30,7 +30,7 @@ const Field = DefineMap.extend('Field', {
   values: {},
 
   options: {
-    default: ''
+    default: () => ''
   },
 
   hasError: {},
