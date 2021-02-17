@@ -29,9 +29,8 @@ const Page = DefineMap.extend('Page Model', {
   }
 })
 
-Page.List = DefineList.extend('Page List', {
-  '#': Page
-}, {
+Page.List = DefineList.extend('PageList', {
+  '#': Page,
   find (name) {
     return _find(this, p => p.name === name)
   }
