@@ -128,10 +128,10 @@ const Interview = Model.extend('InterviewModel', {
         const pages = this.attr('pages')
 
         // This is an array of step numbers which have pages associated to them
-        const stepsNumbers = pages.map(p => p.attr('step.number')).attr()
+        const stepsNumbers = pages.map(p => p.step.number)
 
         // Filters all the steps that own pages.
-        return steps.filter(s => _includes(stepsNumbers, s.attr('number')))
+        return steps.filter(s => _includes(stepsNumbers, s.number))
       }
     },
 
@@ -293,7 +293,7 @@ const Interview = Model.extend('InterviewModel', {
     let pages = this.attr('pages')
 
     return _find(pages, function (page) {
-      return page.attr('name') === name
+      return page.name === name
     })
   }
 })
