@@ -12,7 +12,7 @@ export default DefineMap.extend('AnswerVM', {
   },
 
   answer: {
-    default: {}
+    default: null
   },
 
   answerIndex: {
@@ -49,10 +49,10 @@ export default DefineMap.extend('AnswerVM', {
       }
       // TODO: this can probably be removed now we are assigning a new AnswerModel above
       if (!this.answer.values) {
-        this.answer.values = [null]
+        this.answer.set('values', [null])
       }
 
-      this.answer.values[index] = val
+      this.answer.values.set(index, val)
 
       return val
     }

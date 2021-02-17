@@ -14,15 +14,24 @@ describe('AnswerViewModel', function () {
   })
 
   it('serialize', function () {
-    const answerModel = new Answer({ name: 'user gender', type: 'text', repeating: false, values: [null] })
-    const answers = new Answers({ answer: answerModel })
+    const answers = new Answers()
+
+    const answer = new Answer({
+      type: 'text',
+      values: [null],
+      repeating: false,
+      name: 'user gender'
+    })
+
+    answers.assign({ 'user gender': answer })
+    avm.answer = answer
 
     avm.values = 'm'
     assert.deepEqual(answers.serialize(), {
       'user gender': {
-        type: 'text',
-        repeating: false,
         name: 'user gender',
+        repeating: false,
+        type: 'text',
         values: [null, 'm']
       }
     }, 'single value serialize')
@@ -46,7 +55,7 @@ describe('AnswerViewModel', function () {
       avm.values = false
     })
 
-    assert.deepEqual(avm.answer.values, [null, false])
+    assert.deepEqual(avm.answer.values.serialize(), [null, false])
   })
 
   it('sets number field answer correctly from text input', function () {
@@ -55,7 +64,7 @@ describe('AnswerViewModel', function () {
     avm.assign({ field, answer: field.emptyAnswer })
     avm.values = '123,456.78'
 
-    assert.deepEqual(avm.answer.values, [null, 123456.78])
+    assert.deepEqual(avm.answer.values.serialize(), [null, 123456.78])
   })
 
   it('sets zero number values correctly', function () {
@@ -64,7 +73,7 @@ describe('AnswerViewModel', function () {
     avm.assign({ field, answer: field.emptyAnswer })
     avm.values = '0'
 
-    assert.deepEqual(avm.answer.values, [null, 0])
+    assert.deepEqual(avm.answer.values.serialize(), [null, 0])
   })
 
   describe('validating checkboxes', function () {
