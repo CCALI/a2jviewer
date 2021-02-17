@@ -39,7 +39,7 @@ export default Component.extend({
 
   helpers: {
     getButtonLabel (label) {
-      return label || this.attr('lang')['Continue']
+      return label || this.lang['Continue']
     }
   },
 
@@ -48,8 +48,8 @@ export default Component.extend({
       ev.preventDefault()
 
       const vm = this.viewModel
-      const pages = vm.attr('interview.pages')
-      const pageName = vm.attr('appState.page')
+      const pages = vm.interview.pages
+      const pageName = vm.appState.page
 
       if (pages && pageName) {
         const page = pages.find(pageName)
@@ -58,9 +58,7 @@ export default Component.extend({
           analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
         }
 
-        vm.attr('modalContent', {
-          // name undefined prevents stache warnings
-          answerName: undefined,
+        vm.modalContent.assign({
           title: page.learn,
           text: page.help,
           imageURL: page.helpImageURL,
@@ -77,12 +75,12 @@ export default Component.extend({
       if (el.href && el.href.toLowerCase().indexOf('popup') === 0) {
         ev.preventDefault()
         const vm = this.viewModel
-        const pages = vm.attr('interview.pages')
+        const pages = vm.interview.pages
 
         if (pages) {
           const pageName = el.href.replace('popup://', '').replace('POPUP://', '').replace('/', '') // pathname is not supported in FF and IE.
           const page = pages.find(pageName)
-          const sourcePageName = vm.attr('currentPage.name')
+          const sourcePageName = vm.currentPage.name
 
           // piwik tracking of popups
           if (window._paq) {
@@ -91,9 +89,7 @@ export default Component.extend({
 
           // popups only have text, textAudioURL possible values
           // title (page.name) is more of internal descriptor for popups
-          vm.attr('modalContent', {
-            // undefined values prevent stache warnings
-            answerName: undefined,
+          vm.modalContent.assign({
             title: '',
             text: page.text,
             imageURL: undefined,
@@ -134,8 +130,8 @@ export default Component.extend({
     '{appState} selectedPageIndexSet': function () {
       const vm = this.viewModel
       // repeatVarValue means we're in a loop
-      if (vm.attr('appState.repeatVarValue')) {
-        const fields = vm.attr('currentPage.fields')
+      if (vm.appState.repeatVarValue) {
+        const fields = vm.currentPage.fields
         vm.setFieldAnswers(fields)
       }
     },
