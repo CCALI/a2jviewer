@@ -30,8 +30,8 @@ export default DefineMap.extend('AnswersModel', { seal: false }, {
     const varNameKey = varName.toLowerCase()
     const newAnswer = new Answer({
       name: varName,
-      repeating: varRepeat,
-      type: varType,
+      type: varType || 'Text',
+      repeating: varRepeat || false,
       values: [null]
     })
 
@@ -104,11 +104,11 @@ export default DefineMap.extend('AnswersModel', { seal: false }, {
   varSet: function (varName, varVal, varIndex) {
     let varAnswerModel = this.varExists(varName)
 
+    // TODO: this legacy auto create behavior causes bugs - should throw Author error instead
     if (varAnswerModel === null) {
       // Create variable at runtime
-      varAnswerModel = this.varCreate(varName, CONST.vtText,
-        !((typeof varIndex === 'undefined') || (varIndex === null) ||
-          (varIndex === '') || (varIndex === 0)), '')
+      const repeating = !((typeof varIndex === 'undefined') || (varIndex === null) || (varIndex === '') || (varIndex === 0))
+      varAnswerModel = this.varCreate(varName, CONST.vtText, repeating, '')
     }
 
     if ((typeof varIndex === 'undefined') || (varIndex === null) || (varIndex === '')) {
@@ -137,11 +137,14 @@ export default DefineMap.extend('AnswersModel', { seal: false }, {
 
     // Reset all values or set new single value
     if (varIndex === 0 && varVal === null) {
-      varAnswerModel.assign('values', [null])
+      canReflect.setKeyValue(varAnswerModel, 'values', [null])
     } else if (varIndex === 0) { // don't overwrite 0th value of null
-      varAnswerModel.values[1] = varVal
+      canReflect.setKeyValue(varAnswerModel.values, 1, varVal)
     } else {
-      varAnswerModel.values[varIndex] = varVal
+      canReflect.setKeyValue(varAnswerModel.values, varIndex, varVal)
     }
+
+    // courtesy return for tests
+    return varAnswerModel
   }
 })
