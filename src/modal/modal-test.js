@@ -104,9 +104,9 @@ describe('<a2j-modal> ', function () {
 
     it('renders image tag if page includes helpVideoURL (gif)', function (done) {
       const helpVideoURL = 'panda.gif'
-      const altText = 'this is a panda'
+      const helpAltText = 'this is a panda'
 
-      canReflect.assign(vm.modalContent, { videoURL: helpVideoURL, helpAltText: altText })
+      canReflect.assign(vm.modalContent, { videoURL: helpVideoURL, altText: helpAltText })
       F('img.modal-video').exists()
       F('img.modal-video').attr('src', '../../tests/images/panda.gif')
 

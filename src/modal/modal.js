@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
+import ModalContent from './modal-content'
 import template from './modal.stache'
 import { analytics } from '~/src/util/analytics'
 
@@ -10,8 +11,11 @@ import 'lightbox2/dist/js/lightbox'
 import 'lightbox2/dist/css/lightbox.css'
 
 export let ModalVM = DefineMap.extend('ViewerModalVM', {
-  // passed in
-  modalContent: {},
+  // passed in, coerce to ModalContent Type
+  modalContent: {
+    Type: ModalContent,
+    Default: ModalContent
+  },
   repeatVarValue: {},
   lastVisitedPageName: {},
   logic: {},
