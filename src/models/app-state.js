@@ -6,16 +6,23 @@ import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
 
+const UserAvatar = DefineMap.extend('UserAvatar', {
+  gender: { default: 'female' },
+  isOld: { default: false },
+  hasWheelchair: { default: false },
+  hairColor: { default: 'brownDark' },
+  skinTone: { default: 'medium' }
+})
+const defaultUserAvatar = new UserAvatar()
+
 export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   // skinTone, hairColor, gender, isOld, hasWheelChair
   userAvatar: {
     serialize: false,
     get () {
-      const defaultUserAvatar = { gender: 'female', isOld: false, hasWheelchair: false, hairColor: 'brownDark', skinTone: 'medium' }
       const answers = this.interview && this.interview.attr('answers')
       const savedUserAvatar = answers.varGet('user avatar', 1)
-      const userAvatar = savedUserAvatar ? JSON.parse(savedUserAvatar) : defaultUserAvatar
-      return new DefineMap(userAvatar)
+      return savedUserAvatar ? defaultUserAvatar.assign(JSON.parse(savedUserAvatar)) : defaultUserAvatar
     }
   },
 
@@ -208,6 +215,8 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   connectedCallback () {
     const vm = this
 
+    // TODO: move this to helpers util and handle vm reference?
+    // depends on html, answers, and logic.eval
     const parseTextHelper = (html) => {
       // re-eval if answer values have updated via beforeCode'
       const answersChanged = vm.interview && vm.interview.attr('answers').serialize() // eslint-disable-line
