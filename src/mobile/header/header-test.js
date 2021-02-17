@@ -39,7 +39,7 @@ describe('a2j-header', function () {
     assert(!$('.btn.save').length, 'save button should not be in the DOM')
   })
 
-  it('save button is disabled while ajax is pending and succeds', function (done) {
+  it('save button is disabled while ajax is pending and succeeds', function (done) {
     let called = false
     const button = '.btn.save'
     const deferred = $.Deferred()
