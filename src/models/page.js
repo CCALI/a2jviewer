@@ -11,7 +11,8 @@ const Page = DefineMap.extend('Page Model', {
   },
 
   fields: {
-    Type: Field.List
+    Type: Field.List,
+    default: () => []
   },
 
   // whether this page has an 'user gender' or 'user avatar' field.
