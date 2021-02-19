@@ -35,7 +35,7 @@ export default DefineMap.extend('AnswersModel', { seal: false }, {
       values: [null]
     })
 
-    this.assign({ [varNameKey]: newAnswer })
+    canReflect.setKeyValue(this, varNameKey, newAnswer)
 
     return newAnswer
   },
