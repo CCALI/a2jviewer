@@ -175,20 +175,27 @@ const Interview = Model.extend('InterviewModel', {
       serialize: false,
       get () {
         let result
+        // unsealed DefineMap -> answers.varCreate('newVar', 'Text', false)
         const answers = this.attr('answers')
-        const userAvatar = answers['user avatar']
-        const gender = answers['user gender']
+        // It's possible either or both of these keys could be created after the first run of this getter
+        const userAvatarAnswer = answers.get('user avatar')
+        const userGenderAnswer = answers.get('user gender')
 
-        if (userAvatar || gender) {
-          const genderValues = (gender && gender.values) || []
-          const userAvatarValues = (userAvatar && userAvatar.values) || []
-          const userAvatarValue = userAvatarValues[1] && JSON.parse(userAvatarValues[1]).gender
-          let lastValue = userAvatarValue || genderValues.pop()
+        const userAvatarValuesList = userAvatarAnswer && userAvatarAnswer.get('values')
+        const userGenderValuesList = userGenderAnswer && userGenderAnswer.get('values')
 
-          if (_isString(lastValue) && lastValue.length) {
-            lastValue = lastValue.toLowerCase()
+        // built-in answerVars `user gender` and `user avatar` only support one answer currently
+        const userAvatarJson = userAvatarValuesList && userAvatarValuesList.get(1)
+        const userGenderValue = userGenderValuesList && userGenderValuesList.get(1)
 
-            switch (lastValue) {
+        if (userAvatarJson || userGenderValue) {
+          const userAvatarGenderValue = userAvatarJson && JSON.parse(userAvatarJson).gender
+          let lastGenderValue = userAvatarGenderValue || userGenderValue
+
+          if (lastGenderValue) {
+            lastGenderValue = lastGenderValue.toLowerCase()
+
+            switch (lastGenderValue) {
               case 'm':
               case 'male':
                 result = 'male'
