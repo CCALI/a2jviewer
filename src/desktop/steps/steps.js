@@ -15,7 +15,7 @@ import canReflect from 'can-reflect'
 stache.registerPartial('learn-more-tpl', learnMoreTemplate)
 
 /**
- * @property {can.Map} steps.ViewModel
+ * @property {DefineMap} steps.ViewModel
  * @parent <a2j-viewer-steps>
  *
  * `<a2j-viewer-steps>`'s viewModel.
@@ -34,7 +34,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   traceMessage: {},
 
   /**
-   * @property {can.DefineMap} steps.ViewModel.prototype.userAvatar userAvatar
+   * @property {DefineMap} steps.ViewModel.prototype.userAvatar userAvatar
    * @parent steps.ViewModel
    *
    * current User Avatar in interview
@@ -46,7 +46,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   },
 
   /**
-   * @property {can.DefineMap} steps.ViewModel.prototype.hasWheelchair hasWheelchair
+   * @property {DefineMap} steps.ViewModel.prototype.hasWheelchair hasWheelchair
    * @parent steps.ViewModel
    *
    * for bubble styling when User Avatar has a wheelchair
@@ -58,7 +58,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   },
 
   /**
-   * @property {can.Map} steps.ViewModel.prototype.currentPage currentPage
+   * @property {DefineMap} steps.ViewModel.prototype.currentPage currentPage
    * @parent steps.ViewModel
    *
    * current page in interview
@@ -77,7 +77,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   },
 
   /**
-   * @property {can.List} steps.ViewModel.prototype.steps steps
+   * @property {DefineList} steps.ViewModel.prototype.steps steps
    * @parent steps.ViewModel
    *
    * list of steps in the interview
@@ -89,7 +89,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   },
 
   /**
-   * @property {can.Map} steps.ViewModel.prototype.currentStep currentStep
+   * @property {DefineMap} steps.ViewModel.prototype.currentStep currentStep
    * @parent steps.ViewModel
    *
    * current step in interview
@@ -113,7 +113,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   },
 
   /**
-   * @property {can.List} steps.ViewModel.prototype.nextSteps nextSteps
+   * @property {DefineList} steps.ViewModel.prototype.nextSteps nextSteps
    * @parent steps.ViewModel
    *
    * list of steps after current step in interview
@@ -235,7 +235,9 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
    */
   showUserAvatar: {
     get () {
-      return this.interview.attr('avatarGender') && !this.currentPage.hasUserGenderOrAvatarField
+      const hasAvatarGender = !!this.interview.attr('avatarGender')
+      const noGenderFieldInPage = this.currentPage && !this.currentPage.hasUserGenderOrAvatarField
+      return hasAvatarGender && noGenderFieldInPage
     }
   },
 
