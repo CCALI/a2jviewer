@@ -40,7 +40,7 @@
             role="listbox"
             id="myProgressSelect"
             class="form-control"
-            value:from="this.rState.selectedPageIndex">
+            value:from="this.appState.selectedPageIndex">
             {{#for(option of myProgressOptions)}}
               <option value:from="scope.index" disabled:from="this.disableOption(scope.index)">
                 {{{option}}}

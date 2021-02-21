@@ -26,11 +26,11 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     previewInterview: {},
     interviewPageName: {
       get: function () {
-        return this.attr('rState.page')
+        return this.attr('appState.page')
       }
     },
     // set by attr call in connectedCallback
-    rState: {},
+    appState: {},
     pState: {},
     mState: {},
     interview: {},
@@ -42,13 +42,13 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
   connectedCallback (el) {
     const vm = this
-    const rState = new AppState()
-    const tearDownAppState = rState.connectedCallback(el)
+    const appState = new AppState()
+    const tearDownAppState = appState.connectedCallback(el)
     const mState = new MemoryState()
     const pState = new PersistedState()
 
     // used in Viewer App during previewMode
-    rState.previewActive = true
+    appState.previewActive = true
 
     // if previewInterview.answers exist here, they are restored from Author app-state binding
     const previewAnswers = vm.attr('previewInterview.answers')
@@ -73,34 +73,34 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     answers.attr('lang', lang)
     interview.attr('answers', answers)
 
-    rState.interview = interview
+    appState.interview = interview
 
     // needs to be created after answers are set
     const logic = new Logic({ interview })
-    rState.logic = logic
-    rState.traceMessage = this.traceMessage
+    appState.logic = logic
+    appState.traceMessage = this.traceMessage
 
     // listen for _tLogic trace message events
-    const tLogic = rState.logic._tLogic
+    const tLogic = appState.logic._tLogic
     const tLogicMessageHandler = (ev) => {
-      rState.traceMessage.addMessage(ev.message)
+      appState.traceMessage.addMessage(ev.message)
     }
     tLogic.listenTo('traceMessage', tLogicMessageHandler)
 
     // if previewPageName is set, we need to make sure the viewer
     // loads that specific page (covers the case when user clicks
     // `preview` from the edit page popup).
-    rState.view = 'pages'
+    appState.view = 'pages'
     if (vm.attr('previewPageName')) {
-      rState.set('page', vm.attr('previewPageName'))
+      appState.set('page', vm.attr('previewPageName'))
     } else {
-      rState.set('page', interview.attr('firstPage'))
+      appState.set('page', interview.attr('firstPage'))
     }
 
     const modalContent = compute()
 
     vm.attr({
-      rState,
+      appState,
       pState,
       mState,
       interview,

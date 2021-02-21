@@ -29,7 +29,7 @@ describe('<a2j-field>', () => {
 
       vm = new FieldVM({
         field: fieldStub,
-        rState: {
+        appState: {
           traceMessage: new TraceMessage({
             currentPageName: 'FieldTest'
           }),
@@ -47,7 +47,7 @@ describe('<a2j-field>', () => {
     it('restoreUserAvatar', () => {
       const userAvatarJSON = '{"gender":"male","isOld":true,"hasWheelchair":false,"hairColor":"grayLight","skinTone":"darker"}'
       vm.restoreUserAvatar(userAvatarJSON)
-      const userAvatar = vm.attr('rState.userAvatar')
+      const userAvatar = vm.attr('appState.userAvatar')
       assert.equal(userAvatar.hairColor, 'grayLight', 'should restore userAvatar.hairColor')
       assert.equal(userAvatar.skinTone, 'darker', 'should restore userAvatar.skinTone')
       assert.equal(userAvatar.gender, 'male', 'should restore userAvatar.skinTone')
@@ -251,7 +251,7 @@ describe('<a2j-field>', () => {
         lang: langStub,
         groupValidationMap: new CanMap(),
         lastIndexMap: new CanMap(),
-        rState: {
+        appState: {
           traceMessage: new TraceMessage({
             currentPageName: 'FieldTest'
           }),
@@ -279,7 +279,7 @@ describe('<a2j-field>', () => {
           repeatVarValue:from="repeatVarValue"
           lastIndexMap:from="lastIndexMap"
           groupValidationMap:from="groupValidationMap"
-          rState:from="rState"
+          appState:from="appState"
         />`
       )
 

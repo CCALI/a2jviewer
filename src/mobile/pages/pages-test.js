@@ -58,7 +58,7 @@ describe('<a2j-pages>', () => {
         step: { number: '0', text: 'Step 0' } }
       ),
       logic: logic,
-      rState: new AppState({ interview, logic, traceMessage }),
+      appState: new AppState({ interview, logic, traceMessage }),
       mState: { },
       interview,
       groupValidationMap: new CanMap()
@@ -73,7 +73,7 @@ describe('<a2j-pages>', () => {
     beforeEach(() => {
       vm = new PagesVM(defaults)
       vm.connectedCallback()
-      appStateTeardown = vm.attr('rState').connectedCallback()
+      appStateTeardown = vm.attr('appState').connectedCallback()
     })
 
     afterEach(() => {
@@ -145,14 +145,14 @@ describe('<a2j-pages>', () => {
       })
 
       it('navigates to prior question with BACK button', () => {
-        const rState = vm.attr('rState')
-        const visitedPages = rState.visitedPages
+        const appState = vm.attr('appState')
+        const visitedPages = appState.visitedPages
         const button = new CanMap({ next: constants.qIDBACK })
         visitedPages[0] = defaults.currentPage
         visitedPages[1] = new CanMap({ name: 'priorPage' })
 
         vm.navigate(button)
-        assert.equal(rState.page, 'priorPage', 'should navigate to prior page')
+        assert.equal(appState.page, 'priorPage', 'should navigate to prior page')
       })
 
       it('saves answer when button has a value with special buttons as next target', () => {
@@ -377,7 +377,7 @@ describe('<a2j-pages>', () => {
         vm.attr('interview.answers.statete', answerVar)
 
         vm.attr('currentPage.fields').push(field)
-        vm.attr('rState').page = 'Next' // page find() always returns nextPageStub
+        vm.attr('appState').page = 'Next' // page find() always returns nextPageStub
 
         vm.setFieldAnswers(vm.attr('currentPage.fields'))
 
@@ -422,7 +422,7 @@ describe('<a2j-pages>', () => {
         vm.attr('interview.answers.statete', answerVar)
 
         nextPageStub.fields.push(field)
-        vm.attr('rState').page = 'Next' // page find() always returns nextPageStub
+        vm.attr('appState').page = 'Next' // page find() always returns nextPageStub
 
         vm.setFieldAnswers(vm.attr('currentPage.fields'))
 
@@ -446,7 +446,7 @@ describe('<a2j-pages>', () => {
         vm.attr('interview.answers.somenum', answerVar)
 
         vm.attr('currentPage.fields').push(field)
-        vm.attr('rState').page = 'Next' // page find() always returns nextPageStub
+        vm.attr('appState').page = 'Next' // page find() always returns nextPageStub
 
         vm.setFieldAnswers(vm.attr('currentPage.fields'))
 
@@ -470,7 +470,7 @@ describe('<a2j-pages>', () => {
         vm.attr('interview.answers.salary', answerVar)
 
         vm.attr('currentPage.fields').push(field)
-        vm.attr('rState').page = 'Next' // page find() always returns nextPageStub
+        vm.attr('appState').page = 'Next' // page find() always returns nextPageStub
 
         vm.setFieldAnswers(vm.attr('currentPage.fields'))
 
@@ -480,7 +480,7 @@ describe('<a2j-pages>', () => {
   })
 
   describe('Component', () => {
-    let rStateTeardown
+    let appStateTeardown
     beforeEach(() => {
       let frag = stache(
         '<a2j-pages></a2j-pages>'
@@ -489,7 +489,7 @@ describe('<a2j-pages>', () => {
       vm = $('a2j-pages')[0].viewModel
       vm.attr(defaults)
       vm.connectedCallback()
-      rStateTeardown = vm.attr('rState').connectedCallback()
+      appStateTeardown = vm.attr('appState').connectedCallback()
     })
 
     it('fires setFieldAnswers to update repeat loops', () => {
@@ -499,13 +499,13 @@ describe('<a2j-pages>', () => {
       vm.navigate(button)
       assert.equal(setFieldAnswersSpy.calledOnce, true, 'should call setFieldAnswers once if no repeat loop')
 
-      vm.attr('rState.repeatVarValue', 1)
+      vm.attr('appState.repeatVarValue', 1)
       vm.navigate(button)
       assert.equal(setFieldAnswersSpy.callCount, 2, 'should call setFieldAnswers twice with repeat loop')
     })
 
     afterEach(() => {
-      rStateTeardown()
+      appStateTeardown()
       $('#test-area').empty()
     })
   })

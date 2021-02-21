@@ -21,7 +21,7 @@ let FooterVM = CanMap.extend({
     // Used to hide status updates in Author preview mode
     showCAJAStatus: {
       get () {
-        return !this.attr('rState.previewActive')
+        return !this.attr('appState.previewActive')
       }
     }
   }

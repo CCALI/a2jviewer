@@ -2,7 +2,7 @@
 <can-import from="~/src/mobile/pages/pages.less!" />
 <can-import from='~/src/audio-player/' />
 
-{{#eq(rState.page, '__error')}}
+{{#eq(appState.page, '__error')}}
   <div class="jumbotron">
     <h1>Oops!</h1>
     <p>You've reached this page in error.</p>
@@ -31,7 +31,7 @@
             logic:from="logic"
             fields:from="currentPage.fields"
             groupValidationMap:to="groupValidationMap"
-            rState:from="rState"
+            appState:from="appState"
             modalContent:bind="modalContent" />
         {{/if}}
       </div>

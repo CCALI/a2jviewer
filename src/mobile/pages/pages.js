@@ -49,7 +49,7 @@ export default Component.extend({
 
       const vm = this.viewModel
       const pages = vm.attr('interview.pages')
-      const pageName = vm.attr('rState.page')
+      const pageName = vm.attr('appState.page')
 
       if (pages && pageName) {
         const page = pages.find(pageName)
@@ -131,16 +131,16 @@ export default Component.extend({
     },
 
     // any navigation from myProgress, check for and re-render page fields for loop values
-    '{rState} selectedPageIndexSet': function () {
+    '{appState} selectedPageIndexSet': function () {
       const vm = this.viewModel
       // repeatVarValue means we're in a loop
-      if (vm.attr('rState.repeatVarValue')) {
+      if (vm.attr('appState.repeatVarValue')) {
         const fields = vm.attr('currentPage.fields')
         vm.setFieldAnswers(fields)
       }
     },
 
-    '{rState} setCurrentPage': function () {
+    '{appState} setCurrentPage': function () {
       this.viewModel.setCurrentPage()
     }
   }

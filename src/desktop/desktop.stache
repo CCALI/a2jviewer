@@ -7,7 +7,7 @@
   <div class="app-container" role="main">
     {{#if (pageNotFound)}}
       <div class="alert alert-danger text-center" role="alert">
-        The page {{rState.page}} does not exist!
+        The page {{appState.page}} does not exist!
       </div>
     {{else}}
       {{#not(isMobile)}}
@@ -16,7 +16,7 @@
       <a2j-viewer-navigation
         lang:from="lang"
         logic:from="logic"
-        rState:from="rState"
+        appState:from="appState"
         resumeInterview:to="resumeInterview"
         interview:from="interview"
         showDemoNotice:from="showDemoNotice"
@@ -32,7 +32,7 @@
           resumeInterview:from="resumeInterview"
           lang:from="lang"
           logic:from="logic"
-          rState:from="rState"
+          appState:from="appState"
           pState:from="pState"
           mState:from="mState"
           interview:from="interview"
@@ -47,6 +47,6 @@
       {{/if}}
     {{/if}}
 
-    <app-footer rState:from="rState" />
+    <app-footer appState:from="appState" />
   </div><!-- app-container -->
 </div><!-- app-wrapper -->

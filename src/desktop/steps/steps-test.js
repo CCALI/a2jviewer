@@ -23,7 +23,7 @@ describe('<a2j-viewer-steps>', function () {
     let currentPage
 
     beforeEach(() => {
-      const rState = new AppState()
+      const appState = new AppState()
 
       const logicStub = new CanMap({
         exec: $.noop,
@@ -69,13 +69,13 @@ describe('<a2j-viewer-steps>', function () {
         answers
       }
 
-      appStateTeardown = rState.connectedCallback()
-      rState.interview = interview
-      rState.logic = logicStub
-      rState.traceMessage = new TraceMessage()
-      rState.page = '01-Introduction'
+      appStateTeardown = appState.connectedCallback()
+      appState.interview = interview
+      appState.logic = logicStub
+      appState.traceMessage = new TraceMessage()
+      appState.page = '01-Introduction'
 
-      vm = new ViewerStepsVM({ rState })
+      vm = new ViewerStepsVM({ appState })
       vm.attr({ interview })
     })
 
@@ -303,10 +303,10 @@ describe('<a2j-viewer-steps>', function () {
 
       const traceMessage = new TraceMessage()
       const mState = new CanMap()
-      const rState = new AppState({ traceMessage })
-      appStateTeardown = rState.connectedCallback()
-      rState.page = interview.attr('firstPage')
-      rState.interview = interview
+      const appState = new AppState({ traceMessage })
+      appStateTeardown = appState.connectedCallback()
+      appState.page = interview.attr('firstPage')
+      appState.interview = interview
 
       const logic = new Logic({ interview })
 
@@ -318,14 +318,14 @@ describe('<a2j-viewer-steps>', function () {
 
       const frag = stache(
         `<a2j-viewer-steps
-        rState:from="rState"
+        appState:from="appState"
         mState:from="mState"
         interview:from="interview"
         logic:from="logic"
         lang:from="langStub"/>`
       )
 
-      $('#test-area').html(frag({ rState, interview, mState, logic, langStub }))
+      $('#test-area').html(frag({ appState, interview, mState, logic, langStub }))
       vm = $('a2j-viewer-steps')[0].viewModel
     })
 

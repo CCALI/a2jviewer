@@ -8,7 +8,7 @@ const MobileViewerVM = CanMap.extend('MobileViewerVM', {
     // passed in via app.stache bindings
     lang: {},
     logic: {},
-    rState: {},
+    appState: {},
     pState: {},
     mState: {},
     interview: {},
