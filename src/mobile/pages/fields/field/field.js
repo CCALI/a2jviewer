@@ -2,7 +2,6 @@ import $ from 'jquery'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import FieldModel from '~/src/models/field'
-import ModalContent from '~/src/modal/modal-content'
 import moment from 'moment'
 import views from './views/'
 import _range from 'lodash/range'
@@ -49,7 +48,11 @@ export const FieldVM = DefineMap.extend('FieldVM', {
   groupValidationMap: {},
   lastIndexMap: {},
   appState: {},
-  modalContent: {},
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
+  },
 
   // used in field views/*
   repeatVarValue: {
@@ -435,14 +438,13 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       const title = field.label
       const textlongValue = field._answerVm.values
       const textlongVM = this
-      const modalContent = new ModalContent({
+      this.modalContent.assign({
         title,
         textlongValue,
         answerName,
         field,
         textlongVM
       })
-      this.modalContent = modalContent
     }
   },
 
@@ -589,8 +591,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     groupValidationMap:from="groupValidationMap"
     lang:from="lang"
     logic:from="logic"
-    appState:from="appState"
-    modalContent:bind="modalContent" />
+    appState:from="appState"/>
  * @codeend
  */
 export default Component.extend('FieldComponent', {

@@ -1,6 +1,5 @@
 import $ from 'jquery'
 import CanMap from 'can-map'
-import compute from 'can-compute'
 import _assign from 'lodash/assign'
 import Component from 'can-component'
 import isMobile from '~/src/util/is-mobile'
@@ -36,8 +35,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     interview: {},
     logic: {},
     lang: {},
-    isMobile: {},
-    modalContent: {}
+    isMobile: {}
   },
 
   connectedCallback (el) {
@@ -98,8 +96,6 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
       appState.set('page', interview.attr('firstPage'))
     }
 
-    const modalContent = compute()
-
     vm.attr({
       appState,
       pState,
@@ -107,8 +103,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
       interview,
       logic,
       lang,
-      isMobile,
-      modalContent
+      isMobile
     })
 
     $(el).html(template(vm))

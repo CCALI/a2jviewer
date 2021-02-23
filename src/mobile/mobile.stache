@@ -48,8 +48,7 @@
         appState:from="appState"
         pState:from="pState"
         mState:from="mState"
-        interview:from="interview"
-        modalContent:bind="modalContent" />
+        interview:from="interview" />
     {{/eq}}
   {{/not}}
 </div>

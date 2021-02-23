@@ -11,7 +11,6 @@
     mState:from="mState"
     interview:from="interview"
     traceMessage:to="traceMessage"
-    modalContent:bind="modalContent"
     class="bootstrap-styles" />
 {{else}}
   {{ let remainingSteps = null, maxDisplayedSteps = null }}
@@ -25,16 +24,12 @@
     pState:from="pState"
     mState:from="mState"
     interview:from="interview"
-    modalContent:bind="modalContent"
     class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
 {{/if}}
 
 <a2j-modal
+  appState:from="appState"
   mState:from="mState"
   logic:from="logic"
   interview:from="interview"
-  modalContent:bind="modalContent"
-  previewActive:from="appState.previewActive"
-  lastVisitedPageName:from="appState.lastVisitedPageName"
-  repeatVarValue:from="appState.repeatVarValue"
   class="bootstrap-styles" />

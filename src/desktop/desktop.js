@@ -15,7 +15,11 @@ let DesktopViewerVM = DefineMap.extend('DesktopViewerVM', {
   pState: {},
   mState: {},
   interview: {},
-  modalContent: {},
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
+  },
   // passed up from steps.js
   traceMessage: {},
   // singleton compute

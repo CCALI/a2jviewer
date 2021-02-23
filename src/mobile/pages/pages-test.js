@@ -9,7 +9,6 @@ import AnswerVM from '~/src/models/answervm'
 import Answer from '~/src/models/answer'
 import Page from '~/src/models/page'
 import AppState from '~/src/models/app-state'
-import ModalContent from '~/src/modal/modal-content'
 import MemoryState from '~/src/models/memory-state'
 import FieldModel from '~/src/models/field'
 import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
@@ -63,7 +62,6 @@ describe('<a2j-pages>', () => {
         buttons: null,
         step: { number: '0', text: 'Step 0' } }
       ),
-      modalContent: new ModalContent(),
       lang: new Lang(),
       logic: logic,
       appState: new AppState({ interview, logic, traceMessage }),

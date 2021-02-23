@@ -12,7 +12,11 @@ const MobileViewerVM = CanMap.extend('MobileViewerVM', {
     pState: {},
     mState: {},
     interview: {},
-    modalContent: {}
+    modalContent: {
+      get () {
+        return this.appState.modalContent
+      }
+    }
   },
   hideCredits: function () {
     this.attr('mState.showCredits', false)

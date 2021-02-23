@@ -6,6 +6,5 @@
     groupValidationMap:from="groupValidationMap"
     lang:from="lang"
     logic:from="logic"
-    appState:from="appState"
-    modalContent:bind="modalContent" />
+    appState:from="appState" />
 {{/for}}

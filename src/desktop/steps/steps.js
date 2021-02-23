@@ -533,7 +533,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
         analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
       }
 
-      this.modalContent = {
+      this.modalContent.assign({
         // name undefined prevents stache warnings
         answerName: undefined,
         title: page.learn,
@@ -544,7 +544,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
         audioURL: page.helpAudioURL,
         videoURL: page.helpVideoURL,
         helpReader: page.helpReader
-      }
+      })
     }
   },
 

@@ -28,7 +28,11 @@ export default DefineMap.extend('PagesVM', {
   pState: {},
   mState: {},
   interview: {},
-  modalContent: {},
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
+  },
   // passed up from fields.js
   groupValidationMap: {},
 

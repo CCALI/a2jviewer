@@ -31,8 +31,7 @@
             logic:from="logic"
             fields:from="currentPage.fields"
             groupValidationMap:to="groupValidationMap"
-            appState:from="appState"
-            modalContent:bind="modalContent" />
+            appState:from="appState" />
         {{/if}}
       </div>
 

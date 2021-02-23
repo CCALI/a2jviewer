@@ -16,7 +16,11 @@ export const FieldsVM = DefineMap.extend('FieldsVM', {
   logic: {},
   fields: {},
   appState: {},
-  modalContent: {},
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
+  },
 
   lastIndexMap: {},
 

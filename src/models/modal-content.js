@@ -7,9 +7,6 @@ export default DefineMap.extend('ModalContent', {
   // shows glyphicon-lifebuoy if emptry
   title: { default: '' },
 
-  // used for 'zoom in' on long text fields
-  textLongValue: { default: '' },
-
   // question text
   text: { default: '' },
 
@@ -28,7 +25,8 @@ export default DefineMap.extend('ModalContent', {
   // text transcript of video content
   helpReader: { default: '' },
 
-  // only used for textlong modals
+  // only used for textlong `zoom` modals
+  textlongValue: { default: '' },
   textlongVM: { Default: DefineMap },
   field: { Default: DefineMap }
 })

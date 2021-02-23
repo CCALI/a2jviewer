@@ -250,12 +250,12 @@ describe('<a2j-field>', () => {
         lang: new Lang(),
         groupValidationMap: new DefineMap(),
         lastIndexMap: new DefineMap(),
-        appState: {
+        appState: new AppState({
           traceMessage: new TraceMessage({
             currentPageName: 'FieldTest'
           }),
           userAvatar: {}
-        }
+        })
       }
 
       const fieldModels = [

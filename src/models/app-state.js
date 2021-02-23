@@ -5,6 +5,7 @@ import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
+import ModalContent from '~/src/models/modal-content'
 
 const UserAvatar = DefineMap.extend('UserAvatar', {
   gender: { default: 'female' },
@@ -147,7 +148,9 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   modalContent: {
-    serialize: false
+    serialize: false,
+    Type: ModalContent,
+    Default: ModalContent
   },
 
   logic: {
