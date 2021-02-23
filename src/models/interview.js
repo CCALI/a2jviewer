@@ -111,6 +111,9 @@ const Interview = Model.extend('InterviewModel', {
   }
 }, {
   define: {
+    // 2-letter string code, 'en'
+    language: {},
+
     answers: {
       Type: Answers,
 

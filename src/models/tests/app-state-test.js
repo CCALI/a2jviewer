@@ -2,8 +2,8 @@ import { assert } from 'chai'
 import AppState from '~/src/models/app-state'
 import Interview from '~/src/models/interview'
 import Logic from '~/src/mobile/util/logic'
-import DefineMap from 'can-define/map/map'
-import CanMap from 'can-map'
+import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
+import Answers from '~/src/models/answers'
 import stache from 'can-stache'
 import sinon from 'sinon'
 import '~/src/models/tests/fixtures/'
@@ -25,8 +25,8 @@ describe('AppState', function () {
 
     promise.then(function (_interview) {
       interview = _interview
-      answers = new CanMap()
-      traceMessage = new DefineMap({ addMessage: sinon.stub() })
+      answers = new Answers()
+      traceMessage = new TraceMessage({ addMessage: sinon.stub() })
       interview.attr('answers', answers)
 
       logic = new Logic({ interview })

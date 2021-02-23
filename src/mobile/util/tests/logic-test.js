@@ -58,11 +58,6 @@ describe('Logic', function () {
 
     answers.varSet('firstname', 'John')
     answers.varSet('lastname', 'Doe')
-    // let avm = new AnswerVM({ answer: answers.varGet('firstname') })
-    // avm.values = 'John'
-
-    // avm = new AnswerVM({ answer: answers.varGet('lastname') })
-    // avm.values = 'Doe'
 
     logic = new Logic({ interview })
   })

@@ -4,11 +4,10 @@ import _inRange from 'lodash/inRange'
 export default DefineMap.extend('Infinite', {
   _counter: {
     type: 'number',
-    value: 0
+    default: 0
   },
 
   outOfRange: {
-    type: 'boolean',
     get () {
       return !_inRange(this._counter, 0, 100)
     }
