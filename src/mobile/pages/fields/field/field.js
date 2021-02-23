@@ -445,6 +445,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
         field,
         textlongVM
       })
+      $('#pageModal').modal('show')
     }
   },
 
