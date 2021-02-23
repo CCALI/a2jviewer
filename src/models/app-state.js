@@ -198,7 +198,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   checkInfiniteLoop () {
-    if (this.infinite.attr('outOfRange')) {
+    if (this.infinite.outOfRange) {
       this.traceMessage.addMessage({
         key: 'infinite loop',
         fragments: [{

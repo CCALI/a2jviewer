@@ -1,27 +1,24 @@
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import _inRange from 'lodash/inRange'
-import 'can-map-define'
 
-export default CanMap.extend({
-  define: {
-    _counter: {
-      type: 'number',
-      value: 0
-    },
+export default DefineMap.extend('Infinite', {
+  _counter: {
+    type: 'number',
+    value: 0
+  },
 
-    outOfRange: {
-      type: 'boolean',
-      get () {
-        return !_inRange(this._counter, 0, 100)
-      }
+  outOfRange: {
+    type: 'boolean',
+    get () {
+      return !_inRange(this._counter, 0, 100)
     }
   },
 
   inc: function () {
-    this.attr('_counter', this.attr('_counter') + 1)
+    this._counter = this._counter + 1
   },
 
   reset: function () {
-    this.attr('_counter', 0)
+    this._counter = 0
   }
 })
