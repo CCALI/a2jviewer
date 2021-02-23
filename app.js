@@ -10,8 +10,12 @@ import MemoryState from '~/src/models/memory-state'
 import PersistedState from '~/src/models/persisted-state'
 
 import 'can-3-4-compat/dom-mutation-events'
-
 import '~/src/mobile/util/helpers'
+
+// !steal-remove-start
+import debug from 'can-debug'
+debug()
+// !steal-remove-end
 
 // State attrs not needing persistance, such as showing/hiding the table of contents.
 // Load configuration from desktop into mobile

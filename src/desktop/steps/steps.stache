@@ -23,8 +23,7 @@
             pState:from="pState"
             mState:from="mState"
             interview:from="interview"
-            traceMessage:to="traceMessage"
-            modalContent:bind="modalContent" />
+            traceMessage:to="traceMessage" />
       </div><!-- guideBubble -->
 
       {{#not(showUserAvatar)}}

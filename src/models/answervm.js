@@ -1,74 +1,72 @@
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
+import Answer from '~/src/models/answer'
 import _some from 'lodash/some'
 import _filter from 'lodash/filter'
 import Validations from '~/src/mobile/util/validations'
 import cString from '@caliorg/a2jdeps/utils/string'
-import 'can-map-define'
 
-export default CanMap.extend('AnswerVM', {
-  define: {
-    // top 4 props passed in from pages-vm.js setFieldAnswers() #526
-    field: {
-      value: null
+export default DefineMap.extend('AnswerVM', {
+  // top 4 props passed in from pages-vm.js setFieldAnswers() #526
+  field: {
+    default: null
+  },
+
+  answer: {
+    default: null
+  },
+
+  answerIndex: {
+    default: 1
+  },
+
+  fields: {
+    default: null
+  },
+
+  // TODO: find a better way to handle setting and restoring values
+  // at the very least, rename this to something better: ex,`getSetValues`
+  // `values` is confusing when reading this along side other code.
+  values: {
+    get (lastSet) {
+      const index = this.answerIndex
+      const previousValue = this.answer.values[index]
+
+      return previousValue
     },
 
-    answer: {
-      value: null
-    },
+    set (val) {
+      const index = this.answerIndex
+      const type = this.field.type
 
-    answerIndex: {
-      value: 1
-    },
-
-    fields: {
-      value: null
-    },
-
-    // TODO: find a better way to handle setting and restoring values
-    // at the very least, rename this to something better: ex,`getSetValues`
-    // `values` is confusing when reading this along side other code.
-    values: {
-      get (lastSet) {
-        const index = this.attr('answerIndex')
-        const previousValue = this.attr(`answer.values.${index}`)
-
-        return previousValue
-      },
-
-      set (val) {
-        const index = this.attr('answerIndex')
-        const type = this.attr('field.type')
-
-        // TODO: this conversion allows for future locales
-        // should probably be moved to a better place when that happens
-        if (type === 'number' || type === 'numberdollar') {
-          val = cString.textToNumber(val)
-        }
-
-        if (!this.attr('answer')) {
-          this.attr('answer', {})
-        }
-
-        if (!this.attr('answer.values')) {
-          this.attr('answer.values', [null])
-        }
-
-        this.attr(`answer.values.${index}`, val)
-
-        return val
+      // TODO: this conversion allows for future locales
+      // should probably be moved to a better place when that happens
+      if (type === 'number' || type === 'numberdollar') {
+        val = cString.textToNumber(val)
       }
-    },
 
-    errors: {
-      get () {
-        const testValue = this.attr('values')
-        return this.validateAnswer(testValue)
+      if (!this.answer) {
+        this.answer = new Answer()
       }
+      // TODO: this can probably be removed now we are assigning a new AnswerModel above
+      if (!this.answer.values) {
+        this.answer.set('values', [null])
+      }
+
+      this.answer.values.set(index, val)
+
+      return val
+    }
+  },
+
+  errors: {
+    get () {
+      const testValue = this.values
+      return this.validateAnswer(testValue)
     }
   },
 
   validateAnswer (val) {
-    const field = this.attr('field')
+    const field = this.field
 
     if (!field) return
 
@@ -83,7 +81,7 @@ export default CanMap.extend('AnswerVM', {
       }
     })
 
-    validations.attr('val', val)
+    validations.val = val
 
     let invalid
 
@@ -113,9 +111,9 @@ export default CanMap.extend('AnswerVM', {
       case 'checkbox':
       case 'radio':
       case 'checkboxNOTA':
-        const fields = this.attr('fields')
-        const index = this.attr('answerIndex')
-        const varName = this.attr('field.name')
+        const fields = this.fields
+        const index = this.answerIndex
+        const varName = this.field.name
 
         const checkboxes = _filter(fields, function (f) {
           // if the field being validated is either 'checkbox' or 'checkboxNOTA',
@@ -130,10 +128,10 @@ export default CanMap.extend('AnswerVM', {
         })
 
         const anyChecked = _some(checkboxes, function (checkbox) {
-          return !!checkbox.attr(`_answerVm.answer.values.${index}`)
+          return !!checkbox._answerVm.answer.values[index]
         })
 
-        validations.attr('val', anyChecked || null)
+        validations.val = anyChecked || null
 
         invalid = validations.required()
         break
@@ -141,5 +139,4 @@ export default CanMap.extend('AnswerVM', {
 
     return invalid
   }
-
 })

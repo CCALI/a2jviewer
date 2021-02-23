@@ -6,7 +6,5 @@
     groupValidationMap:from="groupValidationMap"
     lang:from="lang"
     logic:from="logic"
-    repeatVarValue:from="appState.repeatVarValue"
-    appState:from="appState"
-    modalContent:bind="modalContent" />
+    appState:from="appState" />
 {{/for}}

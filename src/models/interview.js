@@ -111,6 +111,9 @@ const Interview = Model.extend('InterviewModel', {
   }
 }, {
   define: {
+    // 2-letter string code, 'en'
+    language: {},
+
     answers: {
       Type: Answers,
 
@@ -128,10 +131,10 @@ const Interview = Model.extend('InterviewModel', {
         const pages = this.attr('pages')
 
         // This is an array of step numbers which have pages associated to them
-        const stepsNumbers = pages.map(p => p.attr('step.number')).attr()
+        const stepsNumbers = pages.map(p => p.step.number)
 
         // Filters all the steps that own pages.
-        return steps.filter(s => _includes(stepsNumbers, s.attr('number')))
+        return steps.filter(s => _includes(stepsNumbers, s.number))
       }
     },
 
@@ -175,20 +178,27 @@ const Interview = Model.extend('InterviewModel', {
       serialize: false,
       get () {
         let result
+        // unsealed DefineMap -> answers.varCreate('newVar', 'Text', false)
         const answers = this.attr('answers')
-        const userAvatar = answers.attr('user avatar')
-        const gender = answers.attr('user gender')
+        // It's possible either or both of these keys could be created after the first run of this getter
+        const userAvatarAnswer = answers.get('user avatar')
+        const userGenderAnswer = answers.get('user gender')
 
-        if (userAvatar || gender) {
-          const genderValues = (gender && gender.attr('values').attr()) || []
-          const userAvatarValues = (userAvatar && userAvatar.attr('values').attr()) || []
-          const userAvatarValue = userAvatarValues[1] && JSON.parse(userAvatarValues[1]).gender
-          let lastValue = userAvatarValue || genderValues.pop()
+        const userAvatarValuesList = userAvatarAnswer && userAvatarAnswer.get('values')
+        const userGenderValuesList = userGenderAnswer && userGenderAnswer.get('values')
 
-          if (_isString(lastValue) && lastValue.length) {
-            lastValue = lastValue.toLowerCase()
+        // built-in answerVars `user gender` and `user avatar` only support one answer currently
+        const userAvatarJson = userAvatarValuesList && userAvatarValuesList.get(1)
+        const userGenderValue = userGenderValuesList && userGenderValuesList.get(1)
 
-            switch (lastValue) {
+        if (userAvatarJson || userGenderValue) {
+          const userAvatarGenderValue = userAvatarJson && JSON.parse(userAvatarJson).gender
+          let lastGenderValue = userAvatarGenderValue || userGenderValue
+
+          if (lastGenderValue) {
+            lastGenderValue = lastGenderValue.toLowerCase()
+
+            switch (lastGenderValue) {
               case 'm':
               case 'male':
                 result = 'male'
@@ -226,9 +236,9 @@ const Interview = Model.extend('InterviewModel', {
 
         _keys(vars).forEach(function (key) {
           let variable = vars[key]
-          let answer = answers.attr(key.toLowerCase())
+          let answer = answers.varGet(key.toLowerCase())
 
-          let values = answer ? answer.attr('values').attr() : variable.values
+          let values = answer ? answer.values : variable.values
 
           if (!variable.repeating) {
             // handle [ null ] or [ null, "foo" ] scenarios
@@ -269,8 +279,8 @@ const Interview = Model.extend('InterviewModel', {
     queues.batch.start()
 
     this.attr('answers').forEach((answer) => {
-      if (answer && answer.attr && answer.attr('values')) {
-        answer.attr('values', [null])
+      if (answer) {
+        answer.clearAnswer()
       }
     })
 
@@ -293,7 +303,7 @@ const Interview = Model.extend('InterviewModel', {
     let pages = this.attr('pages')
 
     return _find(pages, function (page) {
-      return page.attr('name') === name
+      return page.name === name
     })
   }
 })

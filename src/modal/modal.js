@@ -10,13 +10,31 @@ import 'lightbox2/dist/js/lightbox'
 import 'lightbox2/dist/css/lightbox.css'
 
 export let ModalVM = DefineMap.extend('ViewerModalVM', {
-  // passed in
-  modalContent: {},
-  repeatVarValue: {},
-  lastVisitedPageName: {},
+  // passed in from app.stache
   logic: {},
   interview: {},
-  previewActive: {},
+  appState: {},
+
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
+  },
+  repeatVarValue: {
+    get () {
+      return this.appState.repeatVarValue
+    }
+  },
+  lastVisitedPageName: {
+    get () {
+      return this.appState.lastVisitedPageName
+    }
+  },
+  previewActive: {
+    get () {
+      return this.appState.previewActive
+    }
+  },
 
   showTranscript: { default: false },
 
@@ -144,7 +162,7 @@ export default Component.extend({
 
           // popup content is only title, text, and textAudio
           // but title is internal descriptor so set to empty string
-          vm.modalContent = {
+          vm.modalContent.assign({
             // undefined values prevent stache warnings
             answerName: undefined,
             title: '',
@@ -153,7 +171,7 @@ export default Component.extend({
             mediaLabel: undefined,
             audioURL: page.textAudioURL,
             videoURL: undefined
-          }
+          })
         }
       } else { // external link
         const $el = $(el)

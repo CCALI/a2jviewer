@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import _some from 'lodash/some'
 import _isString from 'lodash/isString'
 import _forEach from 'lodash/forEach'
@@ -10,162 +10,167 @@ import { analytics } from '~/src/util/analytics'
 import constants from '~/src/models/constants'
 import moment from 'moment'
 
-import 'can-map-define'
 import 'bootstrap/js/modal'
 
 /**
- * @property {can.Map} pages.ViewModel
+ * @property {DefineMap} pages.ViewModel
  * @parent viewer/mobile/pages/
  *
  * `<a2j-pages>` viewModel.
  */
-export default CanMap.extend('PagesVM', {
-  define: {
-    // passed in via steps.stache or mobile.stache
-    currentPage: {},
-    resumeInterview: {},
-    lang: {},
-    logic: {},
-    appState: {},
-    pState: {},
-    mState: {},
-    interview: {},
-    modalContent: {},
-    // passed up from fields.js
-    groupValidationMap: {},
+export default DefineMap.extend('PagesVM', {
+  // passed in via steps.stache or mobile.stache
+  currentPage: {},
+  resumeInterview: {},
+  lang: {},
+  logic: {},
+  appState: {},
+  pState: {},
+  mState: {},
+  interview: {},
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
+  },
+  // passed up from fields.js
+  groupValidationMap: {},
 
-    previewActive: {
-      get (lastSet) {
-        if (lastSet) { return lastSet } // for testing override
-        return this.attr('appState').previewActive
-      }
-    },
+  previewActive: {
+    get (lastSet) {
+      if (lastSet) { return lastSet } // for testing override
+      return this.appState.previewActive
+    }
+  },
 
-    repeatVarValue: {
-      get () {
-        return this.attr('appState').repeatVarValue
-      }
-    },
+  repeatVarValue: {
+    get () {
+      return this.appState.repeatVarValue
+    }
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.backButton backButton
-     * @parent pages.ViewModel
-     *
-     * String used to represent the button that sends the user back to the most
-     * recently visited page.
-     */
-    backButton: {
-      value: constants.qIDBACK
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.backButton backButton
+   * @parent pages.ViewModel
+   *
+   * String used to represent the button that sends the user back to the most
+   * recently visited page.
+   */
+  backButton: {
+    default: constants.qIDBACK
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.saveAnswersButton saveAnswersButton
-     * @parent pages.ViewModel
-     *
-     * String used to represent the button that saves the answers to the server
-     * and replaces the viewer with the server's response.
-     */
-    saveAnswersButton: {
-      value: constants.qIDSUCCESS
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.saveAnswersButton saveAnswersButton
+   * @parent pages.ViewModel
+   *
+   * String used to represent the button that saves the answers to the server
+   * and replaces the viewer with the server's response.
+   */
+  saveAnswersButton: {
+    default: constants.qIDSUCCESS
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.exitButton exitButton
-     * @parent pages.ViewModel
-     *
-     * String used to represent the button that saves the answers to the server
-     * when the interview is only partially complete.
-     */
-    exitButton: {
-      value: constants.qIDEXIT
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.exitButton exitButton
+   * @parent pages.ViewModel
+   *
+   * String used to represent the button that saves the answers to the server
+   * when the interview is only partially complete.
+   */
+  exitButton: {
+    default: constants.qIDEXIT
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.resumeButton resumeButton
-     * @parent pages.ViewModel
-     *
-     * String used to represent the button that resumes the interview rather than Exit.
-     */
-    resumeButton: {
-      value: constants.qIDRESUME
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.resumeButton resumeButton
+   * @parent pages.ViewModel
+   *
+   * String used to represent the button that resumes the interview rather than Exit.
+   */
+  resumeButton: {
+    default: constants.qIDRESUME
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.assembleButton assembleButton
-     * @parent pages.ViewModel
-     *
-     * String used to represent the button that generates a PDF document.
-     */
-    assembleButton: {
-      value: constants.qIDASSEMBLE
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.assembleButton assembleButton
+   * @parent pages.ViewModel
+   *
+   * String used to represent the button that generates a PDF document.
+   */
+  assembleButton: {
+    default: constants.qIDASSEMBLE
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.assembleAndSaveButton assembleAndSaveButton
-     * @parent pages.ViewModel
-     *
-     * String used to represent the button that generates a PDF document and also
-     * saves the answers to the server.
-     */
-    assembleAndSaveButton: {
-      value: constants.qIDASSEMBLESUCCESS
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.assembleAndSaveButton assembleAndSaveButton
+   * @parent pages.ViewModel
+   *
+   * String used to represent the button that generates a PDF document and also
+   * saves the answers to the server.
+   */
+  assembleAndSaveButton: {
+    default: constants.qIDASSEMBLESUCCESS
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.guideId guideId
-     * @parent pages.ViewModel
-     *
-     * Id of the guided interview being "previewed" by the author.
-     *
-     * This property is not available (it's undefined) when the viewer runs
-     * in standalone mode. It's used during document assembly to filter the
-     * templates used to generate the final document.
-     */
-    guideId: {
-      get () {
-        return window.gGuideID
-      }
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.guideId guideId
+   * @parent pages.ViewModel
+   *
+   * Id of the guided interview being "previewed" by the author.
+   *
+   * This property is not available (it's undefined) when the viewer runs
+   * in standalone mode. It's used during document assembly to filter the
+   * templates used to generate the final document.
+   */
+  guideId: {
+    get () {
+      return window.gGuideID
+    }
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.answersString answersString
-     * @parent pages.ViewModel
-     *
-     * JSON representation of the `answers` entered by the user.
-     *
-     * This is used during document assembly to fill in the variables added by
-     * the author to any of the templates.
-     */
-    answersString: {
-      get () {
-        const answers = this.attr('pState.answers')
-        return JSON.stringify(answers.serialize())
-      }
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.answersString answersString
+   * @parent pages.ViewModel
+   *
+   * JSON representation of the `answers` entered by the user.
+   *
+   * This is used during document assembly to fill in the variables added by
+   * the author to any of the templates.
+   */
+  answersString: {
+    get () {
+      const answers = this.pState.answers
+      return JSON.stringify(answers.serialize())
+    }
+  },
 
-    /**
-     * @property {String} pages.ViewModel.prototype.answersString answersString
-     * @parent pages.ViewModel
-     *
-     * XML version of the `answers` entered by the user.
-     *
-     * This is POSTed to `setDataURL` when user finishes the interview,
-     * and populated when a user loads saved answers.
-     */
-    answersANX: {
-      get () {
-        const answers = this.attr('interview.answers')
-        const parsed = Parser.parseANX(answers.serialize())
-        return parsed
-      }
-    },
+  /**
+   * @property {String} pages.ViewModel.prototype.answersString answersString
+   * @parent pages.ViewModel
+   *
+   * XML version of the `answers` entered by the user.
+   *
+   * This is POSTed to `setDataURL` when user finishes the interview,
+   * and populated when a user loads saved answers.
+   */
+  answersANX: {
+    get () {
+      const parsed = Parser.parseANX(this.answers.serialize())
+      return parsed
+    }
+  },
 
-    answersJSON: {
-      get () {
-        const answers = this.attr('interview.answers')
-        const parsed = JSON.stringify(answers.serialize())
-        return parsed
-      }
+  answersJSON: {
+    get () {
+      const parsed = JSON.stringify(this.answers.serialize())
+      return parsed
+    }
+  },
+
+  answers: {
+    get () {
+      return this.interview.attr('answers')
     }
   },
 
@@ -177,27 +182,29 @@ export default CanMap.extend('PagesVM', {
   },
 
   returnHome () {
-    this.attr('appState').attr({}, true)
+    this.appState.update({})
   },
 
   validateAllFields () {
     const vm = this
-    const fields = this.attr('currentPage.fields')
+    const fields = this.currentPage.fields
 
     _forEach(fields, function (field) {
-      const hasError = !!field.attr('_answerVm.errors')
-      field.attr('hasError', hasError)
+      const hasError = !!field._answerVm.errors
+      field.hasError = hasError
       // track radio button group validation
-      const varName = field.attr('name')
-      const groupValidationMap = vm.attr('groupValidationMap')
-      groupValidationMap && groupValidationMap.attr(varName, hasError)
+      const varName = field.name
+      const groupValidationMap = vm.groupValidationMap
+      if (groupValidationMap) {
+        groupValidationMap[varName] = hasError
+      }
     })
 
-    return _some(fields, f => f.attr('hasError'))
+    return _some(fields, f => f.hasError)
   },
 
   traceButtonClicked (buttonLabel) {
-    this.attr('appState.traceMessage').addMessage({
+    this.appState.traceMessage.addMessage({
       key: 'button',
       fragments: [
         { format: '', msg: 'You pressed' },
@@ -207,7 +214,7 @@ export default CanMap.extend('PagesVM', {
   },
 
   traceMessageAfterQuestion () {
-    this.attr('appState.traceMessage').addMessage({
+    this.appState.traceMessage.addMessage({
       key: 'codeAfter',
       fragments: [{ format: 'info', msg: 'Logic After Question' }]
     })
@@ -217,17 +224,17 @@ export default CanMap.extend('PagesVM', {
     const vm = this // preserve navigate context for post/assemble stache forms
     const anyFieldHasError = vm.validateAllFields()
 
-    vm.traceButtonClicked(button.attr('label')) // always show clicked button in debug-panel
+    vm.traceButtonClicked(button.label) // always show clicked button in debug-panel
 
     if (anyFieldHasError) { // do nothing if there are field(s) with error(s)
       ev && ev.preventDefault()
       return false
     } else { // no errors/normal navigation
-      const appState = vm.attr('appState')
-      const page = vm.attr('currentPage')
-      const logic = vm.attr('logic')
-      const previewActive = vm.attr('previewActive')
-      const onExitPage = appState.saveAndExitActive && (appState.currentPage.name === vm.attr('interview').exitPage)
+      const appState = vm.appState
+      const page = vm.currentPage
+      const logic = vm.logic
+      const previewActive = vm.previewActive
+      const onExitPage = appState.saveAndExitActive && (appState.currentPage.name === vm.interview.attr('exitPage'))
 
       button.next = vm.handleCrossedUseOfResumeOrBack(button, onExitPage)
 
@@ -293,7 +300,7 @@ export default CanMap.extend('PagesVM', {
     let hasProtocol = failURL.indexOf('http') === 0
     failURL = hasProtocol ? failURL : 'http://' + failURL
     if (failURL === 'http://') { // If Empty, standard message
-      vm.attr('modalContent', {
+      vm.modalContent.assign({
         title: 'You did not Qualify',
         text: 'Unfortunately, you did not qualify to use this A2J Guided Interview. Please close your browser window or tab to exit the interview.'
       })
@@ -310,7 +317,7 @@ export default CanMap.extend('PagesVM', {
     if (!button.name) { return } // no variable assigned
 
     const buttonAnswer = vm.__ensureFieldAnswer(button)
-    const repeatVar = page.attr('repeatVar')
+    const repeatVar = page.repeatVar
     let buttonAnswerIndex = repeatVar ? logic.varGet(repeatVar) : 1
     let buttonValue = button.value
 
@@ -327,7 +334,7 @@ export default CanMap.extend('PagesVM', {
   },
 
   handleCodeAfter (button, vm, page, logic) {
-    const codeAfter = page.attr('codeAfter')
+    const codeAfter = page.codeAfter
     // default next page is derived from the button pressed.
     // might be overridden by the After logic or special
     // back to prior question button.
@@ -346,12 +353,12 @@ export default CanMap.extend('PagesVM', {
   },
 
   setRepeatVariable (button) {
-    const repeatVar = button.attr('repeatVar')
-    const repeatVarSet = button.attr('repeatVarSet')
+    const repeatVar = button.repeatVar
+    const repeatVarSet = button.repeatVarSet
 
     if (repeatVar && repeatVarSet) {
-      const logic = this.attr('logic')
-      const traceMessage = this.attr('appState.traceMessage')
+      const logic = this.logic
+      const traceMessage = this.appState.traceMessage
       const traceMsg = {}
 
       switch (repeatVarSet) {
@@ -382,34 +389,34 @@ export default CanMap.extend('PagesVM', {
     ev && ev.preventDefault()
     switch (button.next) {
       case constants.qIDFAIL:
-        this.attr('modalContent', {
+        this.modalContent.assign({
           title: 'Author note:',
           text: 'User would be redirected to \n(' + button.url + ')'
         })
         break
 
       case constants.qIDEXIT:
-        this.attr('modalContent', {
+        this.modalContent.assign({
           title: 'Author note:',
           text: "User's INCOMPLETE data would upload to the server."
         })
         break
 
       case constants.qIDASSEMBLE:
-        this.attr('modalContent', {
+        this.modalContent.assign({
           title: 'Author note:',
           text: 'Document Assembly would happen here.  Use Test Assemble under the Templates tab to assemble in A2J Author'
         })
         break
 
       case constants.qIDSUCCESS:
-        this.attr('modalContent', {
+        this.modalContent.assign({
           title: 'Author note:',
           text: "User's data would upload to the server."
         })
         break
       case constants.qIDASSEMBLESUCCESS:
-        this.attr('modalContent', {
+        this.modalContent.assign({
           title: 'Author note:',
           text: "User's data would upload to the server, then assemble their document.  Use Test Assemble under the Templates tab to assemble in A2J Author"
         })
@@ -428,7 +435,7 @@ export default CanMap.extend('PagesVM', {
     // This modal and disable is for LHI/HotDocs issue taking too long to process
     // prompting users to repeatedly press submit, crashing HotDocs
     // Matches A2J4 functionality, but should really be handled better on LHI's server
-    vm.attr('modalContent', {
+    vm.modalContent.assign({
       title: 'Answers Submitted :',
       text: 'Page will redirect shortly'
     })
@@ -455,7 +462,7 @@ export default CanMap.extend('PagesVM', {
     const priorQuestionName = appState.visitedPages[1].name
     // override with new gotoPage
     logic.attr('gotoPage', priorQuestionName)
-    button.attr('next', priorQuestionName)
+    button.next = priorQuestionName
   },
 
   // navigate util functions
@@ -475,12 +482,13 @@ export default CanMap.extend('PagesVM', {
   },
 
   setInterviewAsComplete () {
-    const answers = this.attr('interview.answers')
-    answers.attr(`${constants.vnInterviewIncompleteTF.toLowerCase()}.values`, [null, false])
+    const answers = this.answers
+    const interviewCompleteKey = constants.vnInterviewIncompleteTF.toLowerCase()
+    answers.varSet(interviewCompleteKey, false, 0)
   },
 
   setCurrentPage () {
-    const currentPage = this.attr('currentPage')
+    const currentPage = this.currentPage
 
     if (currentPage && currentPage.name !== constants.qIDFAIL) {
       if (!currentPage) {
@@ -490,9 +498,9 @@ export default CanMap.extend('PagesVM', {
 
       queues.batch.start()
 
-      this.setFieldAnswers(currentPage.attr('fields'))
-      this.attr('mState.header', currentPage.attr('step.text'))
-      this.attr('mState.step', currentPage.attr('step.number'))
+      this.setFieldAnswers(currentPage.fields)
+      this.mState.attr('header', currentPage.step.text)
+      this.mState.attr('step', currentPage.step.number)
 
       queues.batch.stop()
     }
@@ -512,43 +520,43 @@ export default CanMap.extend('PagesVM', {
    * ** This is doing too many things, it probably does not belong here either.
    */
   __ensureFieldAnswer (field) {
-    const name = field.attr('name').toLowerCase()
-    const answers = this.attr('interview.answers')
+    const name = field.name.toLowerCase()
+    const answers = this.answers
 
-    let answer = answers.attr(name)
+    let answer = answers[name]
 
     if (answer) {
       return answer
     } else {
-      answer = field.attr('emptyAnswer')
-      answers.attr(name, answer)
+      answer = field.emptyAnswer
+      answers.varSet(name, answer)
       return answer
     }
   },
 
   setFieldAnswers (fields) {
-    const logic = this.attr('logic')
+    const logic = this.logic
     if (logic && fields.length) {
-      const appState = this.attr('appState')
-      const mState = this.attr('mState')
+      const appState = this.appState
+      const mState = this.mState
       const answerIndex = appState.answerIndex
 
       fields.forEach(field => {
         const answer = this.__ensureFieldAnswer(field)
         const avm = new AnswerVM({ field, answerIndex, answer, fields })
 
-        if (field.attr('type') === 'textpick') {
+        if (field.type === 'textpick') {
           field.getOptions(mState.attr('fileDataURL'))
         }
 
         // Assign default value if it exists and no previous answer
-        if (field.value && !avm.attr('answer.values.' + answerIndex)) {
+        if (field.value && !avm.answer.values[answerIndex]) {
           this.setDefaultValue(field, avm, answer, answerIndex)
         }
 
-        field.attr('_answerVm', avm)
+        field._answerVm = avm
         // if repeating true, show var#count in debug-panel
-        const answerValue = avm.attr('answer.values.' + answerIndex)
+        const answerValue = avm.answer.values[answerIndex]
         this.logVarMessage(answer.name, answerValue, answer.repeating, answerIndex)
       })
     }
@@ -573,12 +581,12 @@ export default CanMap.extend('PagesVM', {
 
     if (defaultAllowed) {
       if (fieldIsNumber) {
-        avm.attr('answer.values.' + answerIndex, parseFloat(field.value, 10))
+        avm.answer.values[answerIndex] = parseFloat(field.value, 10)
       } else if (fieldIsDate && field.value.toUpperCase() === 'TODAY') {
         // resolve special value TODAY
-        avm.attr('answer.values.' + answerIndex, moment().format('MM/DD/YYYY'))
+        avm.answer.values[answerIndex] = moment().format('MM/DD/YYYY')
       } else {
-        avm.attr('answer.values.' + answerIndex, field.value)
+        avm.answer.values[answerIndex] = field.value
       }
     }
 
@@ -588,7 +596,7 @@ export default CanMap.extend('PagesVM', {
   logVarMessage (answerName, answerValue, isRepeating, answerIndex) {
     const answerIndexDisplay = isRepeating ? `#${answerIndex}` : ''
 
-    this.attr('appState.traceMessage').addMessage({
+    this.appState.traceMessage.addMessage({
       key: answerName,
       fragments: [
         { format: 'var', msg: answerName + answerIndexDisplay },

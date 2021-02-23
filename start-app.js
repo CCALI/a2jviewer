@@ -7,8 +7,6 @@ import constants from '~/src/models/constants'
 import PersistedState from '~/src/models/persisted-state'
 import setMobileDesktopClass from '~/src/util/set-mobile-desktop-class'
 import { analytics } from '~/src/util/analytics'
-import _assign from 'lodash/assign'
-import compute from 'can-compute'
 import route from 'can-route'
 
 import '~/src/util/object-assign-polyfill'
@@ -23,10 +21,11 @@ export default function ({ interview, pState, mState, appState }) {
   const lang = new Lang(interview.attr('language'))
   const answers = pState.attr('answers')
 
-  answers.attr('lang', lang)
-  answers.attr(_assign({}, interview.serialize().vars))
-  answers.attr(constants.vnInterviewIncompleteTF.toLowerCase(), {
-    name: constants.vnInterviewIncompleteTF.toLowerCase(),
+  answers.lang = lang
+  answers.assign(interview.serialize().vars)
+  const incompleteKey = constants.vnInterviewIncompleteTF.toLowerCase()
+  answers.varSet(incompleteKey, {
+    name: incompleteKey,
     type: constants.vtTF,
     values: [null, true]
   })
@@ -54,13 +53,11 @@ export default function ({ interview, pState, mState, appState }) {
   appState.view = 'pages'
   appState.page = interview.attr('firstPage')
 
-  const modalContent = compute()
-
   // piwik: set author id for filtering/tracking
   const authorId = interview.authorId || 0
   analytics.initialize(authorId)
 
   $('#viewer-app').append(template({
-    appState, pState, mState, interview, logic, lang, isMobile, modalContent
+    appState, pState, mState, interview, logic, lang, isMobile
   }))
 }

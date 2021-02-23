@@ -39,12 +39,12 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('collects feedback form data', function () {
       // simulate user navigates to interview second page.
-      let secondPage = pages.attr(1)
+      let secondPage = pages[1]
       vm.appState.visitedPages.unshift(secondPage)
 
       assert.deepEqual(vm.feedbackData, {
-        questionid: secondPage.attr('name'),
-        questiontext: secondPage.attr('text'),
+        questionid: secondPage.name,
+        questiontext: secondPage.text,
         interviewid: interview.attr('version'),
         viewerversion: constants.A2JVersionNum,
         emailto: interview.attr('emailContact'),
@@ -80,15 +80,15 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('resumeInterview', function () {
       // navigate to first page
-      visited.unshift(pages.attr(0))
+      visited.unshift(pages[0])
       vm.appState.selectedPageIndex = 0
 
       // navigate to second page
-      visited.unshift(pages.attr(1))
+      visited.unshift(pages[1])
       vm.appState.selectedPageIndex = 0
 
       // navigate to exit page by normal nav (not Author best practice)
-      visited.unshift(pages.attr(2))
+      visited.unshift(pages[2])
       vm.appState.selectedPageIndex = 0
 
       vm.resumeInterview()
@@ -98,12 +98,12 @@ describe('<a2j-viewer-navigation>', function () {
     it('canNavigateBack - whether back button should be enabled', function () {
       vm.appState.connectedCallback()
       // navigate to first page
-      visited.unshift(pages.attr(0))
+      visited.unshift(pages[0])
       vm.appState.selectedPageIndex = 0
       assert.isFalse(vm.canNavigateBack, 'false if only one page visited')
 
       // navigate to second page
-      visited.unshift(pages.attr(1))
+      visited.unshift(pages[1])
       vm.appState.selectedPageIndex = 0
       assert.isTrue(vm.canNavigateBack, 'true when on last page')
 
@@ -115,12 +115,12 @@ describe('<a2j-viewer-navigation>', function () {
     it('canNavigateForward - whether next button should be enabled', function () {
       vm.appState.connectedCallback()
       // navigate to first page
-      visited.unshift(pages.attr(0))
+      visited.unshift(pages[0])
       vm.appState.selectedPageIndex = 0
       assert.isFalse(vm.canNavigateForward, 'false if only one page visited')
 
       // navigate to second page
-      visited.unshift(pages.attr(1))
+      visited.unshift(pages[1])
       vm.appState.selectedPageIndex = 0
       assert.isFalse(vm.canNavigateForward, 'false when on the last page')
 
@@ -131,9 +131,9 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('navigateBack', () => {
       vm.appState.connectedCallback()
-      visited.unshift(pages.attr(2))
-      visited.unshift(pages.attr(1))
-      visited.unshift(pages.attr(0))
+      visited.unshift(pages[2])
+      visited.unshift(pages[1])
+      visited.unshift(pages[0])
 
       // select most recent page
       vm.appState.selectedPageIndex = 0
@@ -147,9 +147,9 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('navigateForward', () => {
       vm.appState.connectedCallback()
-      visited.unshift(pages.attr(2))
-      visited.unshift(pages.attr(1))
-      visited.unshift(pages.attr(0))
+      visited.unshift(pages[2])
+      visited.unshift(pages[1])
+      visited.unshift(pages[0])
 
       // select oldest page
       vm.appState.selectedPageIndex = 2
@@ -417,8 +417,8 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('renders pages history dropdown', function (done) {
       // navigate to a couple of pages
-      visited.unshift(pages.attr(0))
-      visited.unshift(pages.attr(1))
+      visited.unshift(pages[0])
+      visited.unshift(pages[1])
       // connect listeners, specifically for appState.selectedPageIndexSet
       vm.connectedCallback()
       // fire appState event

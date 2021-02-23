@@ -2,7 +2,6 @@ import { assert } from 'chai'
 import Answer from '~/src/models/answer'
 import Answers from '~/src/models/answers'
 import Logic from '~/src/mobile/util/logic'
-import AnswerVM from '~/src/models/answervm'
 import Interview from '~/src/models/interview'
 
 import 'steal-mocha'
@@ -14,21 +13,21 @@ describe('Logic', function () {
 
   beforeEach(function () {
     answers = new Answers({
-      firstname: {
+      firstname: new Answer({
         type: 'text',
         values: [null],
         name: 'firstname'
-      },
-      middlename: {
+      }),
+      middlename: new Answer({
         type: 'text',
         values: [null],
         name: 'middlename'
-      },
-      lastname: {
+      }),
+      lastname: new Answer({
         type: 'text',
         values: [null],
         name: 'lastname'
-      }
+      })
     })
 
     interview = new Interview({
@@ -57,11 +56,8 @@ describe('Logic', function () {
       answers: answers
     })
 
-    let avm = new AnswerVM({ answer: answers.attr('firstname') })
-    avm.attr('values', 'John')
-
-    avm = new AnswerVM({ answer: answers.attr('lastname') })
-    avm.attr('values', 'Doe')
+    answers.varSet('firstname', 'John')
+    answers.varSet('lastname', 'Doe')
 
     logic = new Logic({ interview })
   })
@@ -73,16 +69,19 @@ describe('Logic', function () {
       firstname: {
         name: 'firstname',
         type: 'text',
+        repeating: false,
         values: [null, 'Bob']
       },
       middlename: {
+        name: 'middlename',
         type: 'text',
-        values: [null],
-        name: 'middlename'
+        repeating: false,
+        values: [null]
       },
       lastname: {
         name: 'lastname',
         type: 'text',
+        repeating: false,
         values: [null, 'Doe']
       }
     }
@@ -134,67 +133,66 @@ describe('Logic', function () {
       set fullname to firstname + " " + middlename + " " + lastname<BR/>
       end if`
 
-    let avm = new AnswerVM({ answer: answers.attr('middlename') })
-    avm.attr('values', '')
-
-    answers.attr('fullname', new Answer({
-      name: 'fullname',
-      type: 'text',
-      repeating: false,
-      values: [null]
-    }))
+    answers.varSet('middlename', '')
+    answers.varCreate('fullname', 'text', false)
 
     logic.exec(str)
 
     assert.deepEqual(answers.serialize(), {
       fullname: {
         name: 'fullname',
-        repeating: false,
         type: 'text',
+        repeating: false,
         values: [null, 'John Doe']
       },
       firstname: {
         name: 'firstname',
         type: 'text',
+        repeating: false,
         values: [null, 'John']
       },
       lastname: {
         name: 'lastname',
         type: 'text',
+        repeating: false,
         values: [null, 'Doe']
       },
       middlename: {
         name: 'middlename',
         type: 'text',
+        repeating: false,
         values: [null, '']
       }
     }, 'values set without extra whitespace')
 
     // setting middlename
-    avm.attr('values', 'T')
+    answers.varSet('middlename', 'T')
 
     logic.exec(str)
 
     assert.deepEqual(answers.serialize(), {
       fullname: {
         name: 'fullname',
-        repeating: false,
         type: 'text',
+        repeating: false,
         values: [null, 'John T Doe']
       },
       firstname: {
         name: 'firstname',
         type: 'text',
+        repeating: false,
         values: [null, 'John']
       },
       lastname: {
         name: 'lastname',
         type: 'text',
+        repeating: false,
         values: [null, 'Doe']
       },
       middlename: {
         name: 'middlename',
         type: 'text',
+        repeating: false,
         values: [null, 'T']
       }
     }, 'middle name set')
@@ -239,7 +237,7 @@ describe('Logic', function () {
     })
 
     it('evaluates to else block correctly', function () {
-      answers.attr('childcount').attr('values', [null, '1'])
+      answers.varSet('childcount', 1)
 
       logic.exec(code)
 

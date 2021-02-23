@@ -2,8 +2,8 @@ import { assert } from 'chai'
 import AppState from '~/src/models/app-state'
 import Interview from '~/src/models/interview'
 import Logic from '~/src/mobile/util/logic'
-import DefineMap from 'can-define/map/map'
-import CanMap from 'can-map'
+import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
+import Answers from '~/src/models/answers'
 import stache from 'can-stache'
 import sinon from 'sinon'
 import '~/src/models/tests/fixtures/'
@@ -25,8 +25,8 @@ describe('AppState', function () {
 
     promise.then(function (_interview) {
       interview = _interview
-      answers = new CanMap()
-      traceMessage = new DefineMap({ addMessage: sinon.stub() })
+      answers = new Answers()
+      traceMessage = new TraceMessage({ addMessage: sinon.stub() })
       interview.attr('answers', answers)
 
       logic = new Logic({ interview })
@@ -37,7 +37,7 @@ describe('AppState', function () {
 
       // collect the actual page names of the interview
       pages = interview.attr('pages')
-      pageNames = pages.map(page => page.attr('name'))
+      pageNames = pages.map(page => page.name)
 
       done()
     })
@@ -50,6 +50,7 @@ describe('AppState', function () {
   it('parseText helper', function () {
     const parseText = stache.getHelper('parseText')
     const answers = appState.interview.attr('answers')
+    answers.varCreate('client first name te', 'Text', false)
     answers.varSet('client first name te', 'JessBob', 1)
     const result = parseText('My name is %%[Client first name TE]%%')
     assert.equal(result, 'My name is JessBob', 'should resolve macros in text')
@@ -63,7 +64,7 @@ describe('AppState', function () {
   it('restores userAvatar from saved interview.answers ', function () {
     const savedAvatar = JSON.stringify({ gender: 'male', isOld: false, hasWheelchair: true, hairColor: 'red', skinTone: 'medium' })
     const answers = appState.interview.attr('answers')
-    answers.attr('user avatar', { name: 'user avatar', values: [null, savedAvatar] })
+    answers.varSet('user avatar', savedAvatar)
     assert.deepEqual(appState.userAvatar.serialize(), { gender: 'male', isOld: false, hasWheelchair: true, hairColor: 'red', skinTone: 'medium' }, 'should set defaultAvatar')
   })
 
@@ -91,8 +92,9 @@ describe('AppState', function () {
 
   it('handles repeatVarValues', function () {
     const answers = appState.interview.attr('answers')
+    const page = appState.interview.attr('pages')[1]
     answers.varSet('childcount', 1)
-    interview.attr('pages.1.repeatVar', 'childCount')
+    page.repeatVar = 'childCount'
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'appState.visitedPages should be correct length')
@@ -101,10 +103,10 @@ describe('AppState', function () {
   })
 
   it('handles following pages without repeatVarValues', function () {
-    interview.attr('pages.1.repeatVar', 'childCount')
     const answers = appState.interview.attr('answers')
+    const page = appState.interview.attr('pages')[1]
     answers.varSet('childcount', 1)
-    interview.attr('pages.1.repeatVar', 'childCount')
+    page.repeatVar = 'childCount'
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'appState.visitedPages should be correct length')
@@ -112,16 +114,16 @@ describe('AppState', function () {
     assert.equal(appState.visitedPages[0].repeatVarValue, '1', 'page has repeatVarValue')
 
     appState.page = pageNames[2]
-    // answers.varSet('childcount', null)
     assert.equal(appState.visitedPages.length, 2, 'appState.visitedPages should be correct length')
     assert.equal(appState.visitedPages[0].repeatVar, '', 'page should not have repeatVar')
-    assert.equal(appState.visitedPages[0].repeatVarValue, null, 'page has no repeatVarValue')
+    assert.isTrue(typeof appState.visitedPages[0].repeatVarValue === 'undefined', 'page has no repeatVarValue')
   })
 
   it('handles repeatVarValue changes with same page name', function () {
-    interview.attr('pages.1.repeatVar', 'childCount')
     const answers = appState.interview.attr('answers')
+    const page = appState.interview.attr('pages')[1]
     answers.varSet('childcount', 1)
+    page.repeatVar = 'childCount'
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'first page appState.visitedPages')
@@ -139,7 +141,7 @@ describe('AppState', function () {
     // simulate logic changing gotoPage based on A2J codeBefore script
     logic.attr('gotoPage', pageNames[1])
     logic.exec = function () { logic.attr('gotoPage', pageNames[2]) }
-    interview.attr('pages.0.codeBefore', 'a2j script is here, fired by logic.exec above to change gotoPage')
+    interview.attr('pages')[0].codeBefore = 'a2j script is here, fired by logic.exec above to change gotoPage'
 
     appState.page = pageNames[0]
 
@@ -179,15 +181,15 @@ describe('AppState', function () {
 
   it('changing selectedPageIndex resolves page', () => {
     // populate visitedPages
-    appState.page = pages.attr(2).name
-    appState.page = pages.attr(1).name
-    appState.page = pages.attr(0).name
+    appState.page = pages[2].name
+    appState.page = pages[1].name
+    appState.page = pages[0].name
 
     appState.selectedPageIndex = '1'
 
     assert.equal(
       appState.page,
-      pages.attr(appState.selectedPageIndex).attr('name'),
+      pages[appState.selectedPageIndex].name,
       'should set appState.page to page 1'
     )
 
@@ -195,23 +197,23 @@ describe('AppState', function () {
 
     assert.equal(
       appState.page,
-      pages.attr(appState.selectedPageIndex).attr('name'),
+      pages[appState.selectedPageIndex].name,
       'should set appState.page to page 1'
     )
   })
 
   it('selectedPageName', function () {
     // navigate to first page
-    appState.page = pages.attr(0).name
+    appState.page = pages[0].name
     // navigate to second page
-    appState.page = pages.attr(1).name
+    appState.page = pages[1].name
 
     appState.selectedPageIndex = 1
-    assert.equal(appState.selectedPageName, pages.attr(0).attr('name'),
+    assert.equal(appState.selectedPageName, pages[0].name,
       'should return most recently visited page name')
 
     appState.selectedPageIndex = 0
-    assert.equal(appState.selectedPageName, pages.attr(1).attr('name'),
+    assert.equal(appState.selectedPageName, pages[1].name,
       'should return second page name')
   })
 

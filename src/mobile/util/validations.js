@@ -1,90 +1,90 @@
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import moment from 'moment'
 import _isNull from 'lodash/isNull'
 import _isUndefined from 'lodash/isUndefined'
 import _isFinite from 'lodash/isFinite'
 
-import 'can-map-define'
-
 /**
- * @property {can.Map} validations.prototype.Config
+ * @property {DefineMap} validations.prototype.Config
  * @parent viewer/mobile/util/validations
  *
  * validations Config Constructor
  *
  * defines the type of each property in the validations Map
  */
-let Config = CanMap.extend({
-  define: {
-    maxChars: {
-      type: 'number'
-    },
+let Config = DefineMap.extend({
+  type: {
+    type: 'string'
+  },
 
-    /**
-     * @property {String} validations.Config.prototype.min min
-     * @parent validations.prototype.Config
-     *
-     * the minimum value of a property
-     * if this is a datemdy type, min will be converted to a date
-     * if this is a datemdy type and the value is 'TODAY', min will be converted to today's date
-     * otherwise the value is returned as a number
-     */
-    min: {
-      type: function (val) {
-        if (this.attr('type') === 'datemdy') {
-          if (!val) {
-            return ''
-          }
-          let date = (val.toUpperCase() === 'TODAY') ? moment() : moment(val)
-          return date.isValid() ? date.format('MM/DD/YYYY') : ''
+  maxChars: {
+    type: 'number'
+  },
+
+  /**
+   * @property {String} validations.Config.prototype.min min
+   * @parent validations.prototype.Config
+   *
+   * the minimum value of a property
+   * if this is a datemdy type, min will be converted to a date
+   * if this is a datemdy type and the value is 'TODAY', min will be converted to today's date
+   * otherwise the value is returned as a number
+   */
+  min: {
+    type: function (val) {
+      if (this.type === 'datemdy') {
+        if (!val) {
+          return ''
         }
-
-        return parseFloat(val)
+        let date = (val.toUpperCase() === 'TODAY') ? moment() : moment(val)
+        return date.isValid() ? date.format('MM/DD/YYYY') : ''
       }
-    },
 
-    /**
-     * @property {String} validations.Config.prototype.max max
-     * @parent validations.prototype.Config
-     *
-     * the maximum value of a property
-     * if this is a datemdy type, max will be converted to a date
-     * if this is a datemdy type and the value is 'TODAY', max will be converted to today's date
-     * otherwise the value is returned as a number
-     */
-    max: {
-      type: function (val) {
-        if (this.attr('type') === 'datemdy') {
-          if (!val) {
-            return ''
-          }
-          let date = (val.toUpperCase() === 'TODAY') ? moment() : moment(val)
-          return date.isValid() ? date.format('MM/DD/YYYY') : ''
-        }
-
-        return parseFloat(val)
-      }
-    },
-
-    /**
-     * @property {Boolean} validations.Config.prototype.required required
-     * @parent validations.prototype.Config
-     *
-     * whether the property is required
-     */
-    required: {
-      type: 'boolean'
-    },
-
-    /**
-     * @property {Boolean} validations.Config.prototype.isNumber isNumber
-     * @parent validations.prototype.Config
-     *
-     * this value is always true to check number and numberdollar types
-     */
-    isNumber: {
-      type: 'boolean'
+      return parseFloat(val)
     }
+  },
+
+  /**
+   * @property {String} validations.Config.prototype.max max
+   * @parent validations.prototype.Config
+   *
+   * the maximum value of a property
+   * if this is a datemdy type, max will be converted to a date
+   * if this is a datemdy type and the value is 'TODAY', max will be converted to today's date
+   * otherwise the value is returned as a number
+   */
+  max: {
+    type: function (val) {
+      if (this.type === 'datemdy') {
+        if (!val) {
+          return ''
+        }
+        let date = (val.toUpperCase() === 'TODAY') ? moment() : moment(val)
+        return date.isValid() ? date.format('MM/DD/YYYY') : ''
+      }
+
+      return parseFloat(val)
+    }
+  },
+
+  /**
+   * @property {Boolean} validations.Config.prototype.required required
+   * @parent validations.prototype.Config
+   *
+   * whether the property is required
+   */
+  required: {
+    type: 'boolean'
+  },
+
+  /**
+   * @property {Boolean} validations.Config.prototype.isNumber isNumber
+   * @parent validations.prototype.Config
+   *
+   * this value is always true to check number and numberdollar types
+   */
+  isNumber: {
+    type: 'boolean'
   }
 })
 
@@ -105,31 +105,29 @@ let Config = CanMap.extend({
  *        required: true
  *     }
  *   });
- *   validations.attr('val', '12/15/2014');
+ *   validations.val = '12/15/2014';
  *   var error = validations.required() || validations.min() || validations.max();
  * @codeend
  */
-export default CanMap.extend({
-  define: {
-    /**
-     * @property {can.Map} validations.prototype.config config
-     * @parent validations
-     *
-     * instance of Config map
-     */
-    config: {
-      Type: Config,
-      Value: Config
-    },
-
-    /**
-     * @property {String} validations.prototype.val val
-     * @parent validations
-     *
-     * current value
-     */
-    val: {}
+export default DefineMap.extend({
+  /**
+   * @property {can.Map} validations.prototype.config config
+   * @parent validations
+   *
+   * instance of Config map
+   */
+  config: {
+    Type: Config,
+    Default: Config
   },
+
+  /**
+   * @property {String} validations.prototype.val val
+   * @parent validations
+   *
+   * current value
+   */
+  val: {},
 
   /**
    * @property {String} validations.prototype.require require

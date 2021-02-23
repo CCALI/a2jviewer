@@ -25,35 +25,17 @@ describe('<a2j-modal> ', function () {
       const appState = new AppState({ page: 'foo' })
       const mState = new CanMap({ fileDataURL: '../../tests/images/' })
       const logic = new CanMap({ eval (html) { return html } })
-      const ModalContent = CanMap.extend({
-        define: {
-          answerName: { value: '' },
-          title: { value: '' },
-          text: { value: '' },
-          imageURL: { value: '' },
-          altText: { value: '' },
-          mediaLabel: { value: '' },
-          audioURL: { value: '' },
-          videoURL: { value: '' },
-          helpReader: { value: '' },
-          textlongValue: { value: '' }
-        }
-      })
-      const modalContent = new ModalContent()
       pauseActivePlayersSpy = sinon.spy()
 
       const frag = stache(
-        `<a2j-modal class="bootstrap-styles"
+        `<a2j-modal
+          appState:from="appState"
           mState:from="mState"
           logic:from="logic"
           interview:from="interview"
-          modalContent:bind="modalContent"
-          previewActive:from="appState.previewActive"
-          lastVisitedPageName:from="appState.lastVisitedPageName"
-          repeatVarValue:from="appState.repeatVarValue"
-          />`
+          class="bootstrap-styles" />`
       )
-      vm = new ModalVM({ interview, appState, logic, mState, modalContent, pauseActivePlayers: pauseActivePlayersSpy })
+      vm = new ModalVM({ interview, appState, logic, mState, pauseActivePlayers: pauseActivePlayersSpy })
       // stub app-state parseText helper
       stache.registerHelper('parseText', (text) => text)
 
@@ -104,9 +86,9 @@ describe('<a2j-modal> ', function () {
 
     it('renders image tag if page includes helpVideoURL (gif)', function (done) {
       const helpVideoURL = 'panda.gif'
-      const altText = 'this is a panda'
+      const helpAltText = 'this is a panda'
 
-      canReflect.assign(vm.modalContent, { videoURL: helpVideoURL, helpAltText: altText })
+      canReflect.assign(vm.modalContent, { videoURL: helpVideoURL, altText: helpAltText })
       F('img.modal-video').exists()
       F('img.modal-video').attr('src', '../../tests/images/panda.gif')
 

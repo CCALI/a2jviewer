@@ -5,23 +5,32 @@ import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
+import ModalContent from '~/src/models/modal-content'
+
+const UserAvatar = DefineMap.extend('UserAvatar', {
+  gender: { default: 'female' },
+  isOld: { default: false },
+  hasWheelchair: { default: false },
+  hairColor: { default: 'brownDark' },
+  skinTone: { default: 'medium' }
+})
+const defaultUserAvatar = new UserAvatar()
 
 export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   // skinTone, hairColor, gender, isOld, hasWheelChair
   userAvatar: {
     serialize: false,
     get () {
-      const defaultUserAvatar = { gender: 'female', isOld: false, hasWheelchair: false, hairColor: 'brownDark', skinTone: 'medium' }
       const answers = this.interview && this.interview.attr('answers')
-      const savedUserAvatar = answers.attr('user avatar') && answers.attr('user avatar').values[1]
-      const userAvatar = savedUserAvatar ? JSON.parse(savedUserAvatar) : defaultUserAvatar
-      return new DefineMap(userAvatar)
+      const savedUserAvatar = answers.varGet('user avatar', 1)
+      return savedUserAvatar ? new UserAvatar((JSON.parse(savedUserAvatar))) : defaultUserAvatar
     }
   },
 
   traceMessage: {
     serialize: false,
-    default: () => new TraceMessage()
+    Type: TraceMessage,
+    Default: TraceMessage
   },
 
   showDebugPanel: {
@@ -140,7 +149,9 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   modalContent: {
-    serialize: false
+    serialize: false,
+    Type: ModalContent,
+    Default: ModalContent
   },
 
   logic: {
@@ -177,7 +188,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
     // batching here for performance reasons due to codeBefore string parsing
     queues.batch.start()
-    logic.exec(currentPage.attr('codeBefore'))
+    logic.exec(currentPage.codeBefore)
     queues.batch.stop()
 
     let postGotoPage = this.logic.attr('gotoPage')
@@ -187,7 +198,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   checkInfiniteLoop () {
-    if (this.infinite.attr('outOfRange')) {
+    if (this.infinite.outOfRange) {
       this.traceMessage.addMessage({
         key: 'infinite loop',
         fragments: [{
@@ -208,6 +219,8 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   connectedCallback () {
     const vm = this
 
+    // TODO: move this to helpers util and handle vm reference?
+    // depends on html, answers, and logic.eval
     const parseTextHelper = (html) => {
       // re-eval if answer values have updated via beforeCode'
       const answersChanged = vm.interview && vm.interview.attr('answers').serialize() // eslint-disable-line
@@ -222,7 +235,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
       if (!this.currentPage) { return }
 
       // handle codeBefore A2J logic
-      if (this.currentPage.attr('codeBefore')) {
+      if (this.currentPage.codeBefore) {
         this.traceMessage.addMessage({ key: 'codeBefore', fragments: [{ format: 'info', msg: 'Logic Before Question' }] })
         const newGotoPage = this.fireCodeBefore(this.currentPage, this.logic)
         if (newGotoPage) {

@@ -1,30 +1,31 @@
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './mobile.stache'
-import 'can-map-define'
 
-const MobileViewerVM = CanMap.extend('MobileViewerVM', {
-  define: {
-    // passed in via app.stache bindings
-    lang: {},
-    logic: {},
-    appState: {},
-    pState: {},
-    mState: {},
-    interview: {},
-    modalContent: {}
+const MobileViewerVM = DefineMap.extend('MobileViewerVM', {
+  // passed in via app.stache bindings
+  lang: {},
+  logic: {},
+  appState: {},
+  pState: {},
+  mState: {},
+  interview: {},
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
   },
+
   hideCredits: function () {
-    this.attr('mState.showCredits', false)
+    this.mState.attr('showCredits', false)
   },
   connectedCallback () {
     // mobile view does not use header or step
-    this.attr('mState.header', '')
-    this.attr('mState.step', '')
+    this.mState.attr('header', '')
+    this.mState.attr('step', '')
   }
 })
 
-// ScreenManager is to handle which view is currently on the screen. Also,
 // if we add any animations on bringing views into the viewport, we'll add that here.
 export default Component.extend({
   view: template,
@@ -34,8 +35,8 @@ export default Component.extend({
 
   helpers: {
     tocOrCreditsShown: function () {
-      const showToc = this.attr('mState.showToc')
-      const showCredits = this.attr('mState.showCredits')
+      const showToc = this.mState.attr('showToc')
+      const showCredits = this.mState.attr('showCredits')
 
       return (showCredits || showToc)
     }

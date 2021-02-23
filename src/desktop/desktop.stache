@@ -17,7 +17,7 @@
         lang:from="lang"
         logic:from="logic"
         appState:from="appState"
-        resumeInterview:to="resumeInterview"
+        resumeInterview:to="scope.resumeInterview"
         interview:from="interview"
         showDemoNotice:from="showDemoNotice"
         {{#if(scope.vm.authorCourthouseImage)}}courthouseImage:raw="{{normalizePath(mState.fileDataURL, scope.vm.authorCourthouseImage)}}"{{/if}} />
@@ -29,15 +29,14 @@
           remainingSteps:to="remainingSteps"
           maxDisplayedSteps:to="maxDisplayedSteps"
           showDebugPanel:from="showDebugPanel"
-          resumeInterview:from="resumeInterview"
+          resumeInterview:from="scope.resumeInterview"
           lang:from="lang"
           logic:from="logic"
           appState:from="appState"
           pState:from="pState"
           mState:from="mState"
           interview:from="interview"
-          traceMessage:to="traceMessage"
-          modalContent:bind="modalContent" />
+          traceMessage:to="traceMessage" />
       </div><!-- app-content -->
 
       {{#if (authorBrandLogo)}}

@@ -1,11 +1,9 @@
 import $ from 'jquery'
-import CanMap from 'can-map'
-import CanList from 'can-list'
+import DefineMap from 'can-define/map/map'
+import DefineList from 'can-define/list/list'
 import Answer from '~/src/models/answer'
 import normalizePath from '~/src/util/normalize-path'
 import setupPromise from 'can-reflect-promise'
-
-import 'can-map-define'
 
 /**
  * @module {can.Map} Field
@@ -13,25 +11,40 @@ import 'can-map-define'
  *
  * A map representing a field of an interview page
  */
-const Field = CanMap.extend('FieldModel', {
-  define: {
-    options: {
-      value: ''
-    },
+const Field = DefineMap.extend('Field', {
+  // these props set in src/models/page.fields which is of Type: Field.List
+  calculator: {},
+  invalidPrompt: {},
+  label: {},
+  listData: {},
+  listSrc: {},
+  max: {},
+  maxChars: {},
+  min: {},
+  name: {},
+  order: {},
+  required: {},
+  sample: {},
+  type: {},
+  repeating: {},
+  values: {},
 
-    hasError: {},
+  options: {
+    default: () => ''
+  },
 
-    _answerVm: {},
+  hasError: {},
 
-    emptyAnswer: {
-      get () {
-        return new Answer({
-          name: this.attr('name').toLowerCase(),
-          repeating: this.attr('repeating'),
-          type: this.attr('type'),
-          values: [null]
-        })
-      }
+  _answerVm: {},
+
+  emptyAnswer: {
+    get () {
+      return new Answer({
+        name: this.name.toLowerCase(),
+        type: this.type,
+        repeating: this.repeating,
+        values: [null]
+      })
     }
   },
 
@@ -50,15 +63,15 @@ const Field = CanMap.extend('FieldModel', {
   getOptions (guidePath) {
     let dfd = $.Deferred()
     setupPromise(dfd)
-    let listSrc = this.attr('listSrc')
-    let listData = this.attr('listData')
+    let listSrc = this.listSrc
+    let listData = this.listData
 
     if (!listData && !listSrc) {
       return dfd.reject(new Error('Missing listData or listSrc values'))
     }
 
     if (listData) {
-      this.attr('options', listData)
+      this.options = listData
       return dfd.resolve(listData)
     }
 
@@ -72,7 +85,7 @@ const Field = CanMap.extend('FieldModel', {
         .then(options => {
           // strip anything before or after option tags
           let formatted = options.replace(/<select>/ig, '').replace(/<\/select/ig, '')
-          this.attr('options', formatted)
+          this.options = formatted
           dfd.resolve(formatted)
         })
         .then(null, function (error) {
@@ -84,8 +97,8 @@ const Field = CanMap.extend('FieldModel', {
   }
 })
 
-Field.List = CanList.extend({
-  Map: Field
-}, {})
+Field.List = DefineList.extend('FieldList', {
+  '#': Field
+})
 
 export default Field

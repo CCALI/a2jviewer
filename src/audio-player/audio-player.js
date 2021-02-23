@@ -1,9 +1,7 @@
 import $ from 'jquery'
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './audio-player.stache'
-
-import 'can-map-define'
 
 function leftPad (len, char, str) {
   while (str.length < len) {
@@ -34,64 +32,62 @@ function formatTime (inputSeconds) {
   return `${minutes}:${minTwoDigit(seconds)}`
 }
 
-export const AudioPlayerVm = CanMap.extend('AudioPlayer', {
-  define: {
-    player: { value: null },
-    isPlaying: { value: false },
-    sourceUrl: { value: null },
-    isLoadingAudio: { value: false },
-    loadAudioError: { value: null },
-    isVolumeShowing: { value: false },
-    currentVolume: { value: 0 },
-    currentSecond: { value: null },
-    totalSeconds: { value: null },
-    currentTime: {
-      get () {
-        return formatTime(this.attr('currentSecond'))
+export const AudioPlayerVm = DefineMap.extend('AudioPlayer', {
+  player: { default: null },
+  isPlaying: { default: false },
+  sourceUrl: { default: null },
+  isLoadingAudio: { default: false },
+  loadAudioError: { default: null },
+  isVolumeShowing: { default: false },
+  currentVolume: { default: 0 },
+  currentSecond: { default: null },
+  totalSeconds: { default: null },
+  currentTime: {
+    get () {
+      return formatTime(this.currentSecond)
+    }
+  },
+  totalTime: {
+    get () {
+      return formatTime(this.totalSeconds)
+    }
+  },
+  currentPercentProgress: {
+    get () {
+      const currentSecond = this.currentSecond
+      const totalSeconds = this.totalSeconds
+      if (!totalSeconds) {
+        return 0
       }
-    },
-    totalTime: {
-      get () {
-        return formatTime(this.attr('totalSeconds'))
-      }
-    },
-    currentPercentProgress: {
-      get () {
-        const currentSecond = this.attr('currentSecond')
-        const totalSeconds = this.attr('totalSeconds')
-        if (!totalSeconds) {
-          return 0
-        }
 
-        const percent = (currentSecond / totalSeconds) * 100
-        return percent
+      const percent = (currentSecond / totalSeconds) * 100
+      return percent
+    }
+  },
+  volumePercent: {
+    get () {
+      return this.currentVolume * 100
+    }
+  },
+  volumeType: {
+    get () {
+      const loudVolume = 0.5
+      const softVolume = 0.05
+      const currentVolume = this.currentVolume
+      if (currentVolume >= loudVolume) {
+        return 'loud'
       }
-    },
-    volumePercent: {
-      get () {
-        return this.attr('currentVolume') * 100
+      if (currentVolume >= softVolume) {
+        return 'soft'
       }
-    },
-    volumeType: {
-      get () {
-        const loudVolume = 0.5
-        const softVolume = 0.05
-        const currentVolume = this.attr('currentVolume')
-        if (currentVolume >= loudVolume) {
-          return 'loud'
-        }
-        if (currentVolume >= softVolume) {
-          return 'soft'
-        }
-        return 'none'
-      }
+      return 'none'
     }
   },
 
   togglePlay () {
     const player = this.player
-    const isPlaying = !this.attr('isPlaying')
-    this.attr('isPlaying', isPlaying)
+    const isPlaying = !this.isPlaying
+    this.isPlaying = isPlaying
     if (player) {
       if (isPlaying) {
         player.play()
@@ -102,38 +98,38 @@ export const AudioPlayerVm = CanMap.extend('AudioPlayer', {
   },
 
   toggleVolume () {
-    this.attr('isVolumeShowing', !this.attr('isVolumeShowing'))
+    this.isVolumeShowing = !this.isVolumeShowing
   },
 
   updateMetadata () {
     if (this.player) {
-      this.attr('totalSeconds', this.player.duration)
+      this.totalSeconds = this.player.duration
     }
   },
 
   updateLoading () {
-    this.attr('isLoadingAudio', false)
+    this.isLoadingAudio = false
     if (this.player) {
-      this.attr('currentSecond', this.player.currentTime)
-      this.attr('currentVolume', this.player.volume)
-      this.attr('totalSeconds', this.player.duration)
+      this.currentSecond = this.player.currentTime
+      this.currentVolume = this.player.volume
+      this.totalSeconds = this.player.duration
     }
   },
 
   updateProgress () {
     if (this.player) {
-      this.attr('currentSecond', this.player.currentTime)
+      this.currentSecond = this.player.currentTime
     }
   },
 
   updateVolume () {
     if (this.player) {
-      this.attr('currentVolume', this.player.volume)
+      this.currentVolume = this.player.volume
     }
   },
 
   playerEnded () {
-    this.attr('isPlaying', false)
+    this.isPlaying = false
     if (this.player) {
       this.player.currentTime = 0
       this.player.pause()
@@ -143,7 +139,7 @@ export const AudioPlayerVm = CanMap.extend('AudioPlayer', {
   playerErrored () {
     const error = this.player && this.player.error
     if (error) {
-      this.attr('loadAudioError', error)
+      this.loadAudioError = error
     }
   }
 })
@@ -204,11 +200,11 @@ export default Component.extend({
   events: {
     inserted () {
       const player = $(this.element).find('audio')[0]
-      this.viewModel.attr('player', player)
-      this.viewModel.attr('isLoadingAudio', true)
+      this.viewModel.player = player
+      this.viewModel.isLoadingAudio = true
     },
     '{element} beforeremove' () {
-      this.viewModel.attr('player', null)
+      this.viewModel.player = null
     },
     '{window} mousedown' (target, event) {
       if (!isDraggable(event.target)) return
@@ -230,7 +226,7 @@ export default Component.extend({
         window.removeEventListener('mouseup', done)
         const visualDelay = 300
         setTimeout(() => {
-          this.viewModel.attr('isVolumeShowing', false)
+          this.viewModel.isVolumeShowing = false
         }, visualDelay)
       }
 
