@@ -99,6 +99,7 @@ export default Component.extend({
             videoURL: undefined,
             helpReader: undefined
           })
+          $('#pageModal').modal('show')
         }
       } else { // external link
         const $el = $(el)

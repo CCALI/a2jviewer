@@ -29,7 +29,11 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   lang: {},
   logic: {},
   interview: {},
-  modalContent: {},
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
+  },
   // passed up from pages-stache
   traceMessage: {},
 
@@ -545,6 +549,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
         videoURL: page.helpVideoURL,
         helpReader: page.helpReader
       })
+      $('#pageModal').modal('show')
     }
   },
 
