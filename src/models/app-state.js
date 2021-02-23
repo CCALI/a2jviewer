@@ -29,7 +29,8 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   traceMessage: {
     serialize: false,
-    default: () => new TraceMessage()
+    Type: TraceMessage,
+    Default: TraceMessage
   },
 
   showDebugPanel: {
