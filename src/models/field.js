@@ -40,7 +40,7 @@ const Field = DefineMap.extend('Field', {
   emptyAnswer: {
     get () {
       return new Answer({
-        name: this.name.toLowerCase(),
+        name: this.name,
         type: this.type,
         repeating: this.repeating,
         values: [null]
