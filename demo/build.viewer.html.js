@@ -23,7 +23,7 @@ const buildViewerHtml = function () {
     </head>
 
     <body>
-      <div id="viewer-app"></div>
+      <div id="viewer-app-container"></div>
       <script>window.pushState = function () { debugger } </script>
       <script>global = window;</script>
       <script>window.less = { async: true };</script>
