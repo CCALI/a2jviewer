@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>&lt;debug-panel&gt;</title>
+  </head>
+
+  <body>
+    <div id="demo-html" style="margin: 20px;">
+      <debug-panel></debug-panel>
+    </div>
+
+    <script src="../../node_modules/steal/steal.js"
+      data-main="@empty">
+    </script>
+
+    <script type="steal-module">
+      import DebugPanel from "~/src/debug-panel/"
+      import "~/styles.less"
+
+      const interview = {
+        variablesList: [
+          {value: null, name: "Client first name TE", repeating: null},
+          {value: null, name: "Client last name TE", repeating: null},
+          {value: null, name: "Client middle name TE", repeating: null},
+          {value: null, name: "sansAnswer", repeating: null},
+          {value: null, name: "User Avatar", repeating: null},
+          {value: null, name: "User Gender", repeating: null}
+        ],
+        pages: [
+          {name: "1-Introduction", type: "A2J", repeatVar: ""},
+          {name: "2-Name", type: "A2J", repeatVar: ""},
+          {name: "3-Avatar", type: "A2J", repeatVar: ""},
+          {name: "1-Question 1", type: "A2J", repeatVar: ""}
+        ]
+      }
+
+      const vm = document.querySelector('debug-panel').viewModel
+      vm.interview = interview
+      vm.traceMessage.currentPageName = vm.interview.pages[0].name
+    </script>
+  </body>
+</html>
