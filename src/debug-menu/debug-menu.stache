@@ -1,0 +1,20 @@
+<can-import from="~/src/debug-menu/debug-menu.less"/>
+
+<div class="debugmenu">
+  <button type="button" class="btn btn-default btn-warning btn-variables-panel btn-wide-md">
+    Debug Panel
+  </button>
+  {{#if (../appState.showDebugPanel)}}
+    <button type="button" class="btn btn-default btn-warning btn-fill-sample btn-wide-md">
+      Fill
+    </button>
+
+    <button type="button" class="btn btn-default btn-warning btn-resume-edit btn-wide-md">
+      Resume Edit
+    </button>
+
+    <button type="button" class="btn btn-default btn-warning btn-edit-this btn-wide-md">
+      Edit this
+    </button>
+  {{/if}}
+</div>
