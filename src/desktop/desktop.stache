@@ -3,8 +3,7 @@
 <can-import from="~/src/desktop/navigation/"/>
 <can-import from="~/src/desktop/desktop.less!"/>
 
-<div class="app-wrapper">
-  <div class="app-container" role="main">
+  <div class="desktop-container" role="main">
     {{#if (pageNotFound)}}
       <div class="alert alert-danger text-center" role="alert">
         The page {{appState.page}} does not exist!
@@ -47,5 +46,5 @@
     {{/if}}
 
     <app-footer appState:from="appState" />
-  </div><!-- app-container -->
-</div><!-- app-wrapper -->
+  </div><!-- desktop-container -->
+

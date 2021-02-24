@@ -158,6 +158,15 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     serialize: false
   },
 
+  viewerAlertMessages: {
+    serialize: false,
+    default: () => new DefineList()
+  },
+
+  toggleDebugPanel () {
+    this.showDebugPanel = !this.showDebugPanel
+  },
+
   getVisitedPageIndex (visitedPage) {
     return _findIndex(this.visitedPages, function (page) {
       return visitedPage.name === page.name &&
