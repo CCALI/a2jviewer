@@ -143,5 +143,20 @@ describe('<a2j-modal> ', function () {
 
       assert.isTrue(pauseActivePlayersSpy.calledOnce, 'should fire pauseActivePlayers() on modal close to pause audio and video players')
     })
+
+    it('resets modalContent on close', function () {
+      // simulate DOM insert
+      vm.connectedCallback()
+      vm.modalContent.assign({ title: 'best modal ever' })
+      // open modal
+      $('#pageModal').modal('show')
+
+      assert.equal(vm.modalContent.title, 'best modal ever', 'should clear modalContent props on close')
+
+      // close modal
+      $('#pageModal').modal('hide')
+
+      assert.equal(vm.modalContent.title, '', 'should clear modalContent props on close')
+    })
   })
 })
