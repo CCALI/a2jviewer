@@ -151,7 +151,7 @@ describe('<a2j-modal> ', function () {
       // open modal
       $('#pageModal').modal('show')
 
-      assert.equal(vm.modalContent.title, 'best modal ever', 'should clear modalContent props on close')
+      assert.equal(vm.modalContent.title, 'best modal ever', 'should retain modalContent on open')
 
       // close modal
       $('#pageModal').modal('hide')
