@@ -165,6 +165,13 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   toggleDebugPanel () {
     this.showDebugPanel = !this.showDebugPanel
+    const body = document.querySelector('body')
+    // toggle lawn background color
+    if (this.showDebugPanel) {
+      body.classList.remove('with-lawn')
+    } else {
+      body.classList.add('with-lawn')
+    }
   },
 
   getVisitedPageIndex (visitedPage) {

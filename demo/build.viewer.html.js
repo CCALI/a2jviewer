@@ -22,7 +22,7 @@ const buildViewerHtml = function () {
       <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
-    <body>
+    <body class="with-lawn">
       <div id="viewer-app-container"></div>
       <script>window.pushState = function () { debugger } </script>
       <script>global = window;</script>
