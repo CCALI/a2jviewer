@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
+import ModalContent from '~/src/models/modal-content'
 import template from './modal.stache'
 import { analytics } from '~/src/util/analytics'
 
@@ -59,6 +60,9 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
       const textlongVM = this.modalContent.textlongVM
       textlongVM.fireModalClose(field, newValue, textlongVM)
     }
+
+    // reset modalContent for next use
+    this.appState.modalContent.update(new ModalContent())
 
     $('body').removeClass('bootstrap-styles')
   },
