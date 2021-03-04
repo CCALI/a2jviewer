@@ -1,11 +1,11 @@
-import $ from 'jquery'
 import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './debug-menu.stache'
-import _isFunction from 'lodash/isFunction'
+import constants from '~/src/models/constants'
+import _includes from 'lodash/includes'
 
 /**
- * @module {Module} author/debug-menu <author-debug-menu>
+ * @module {Module} author/debug-menu <debug-menu>
  * @parent api-components
  *
  * This component renders some buttons that allow the user (author) to debug
@@ -16,64 +16,58 @@ import _isFunction from 'lodash/isFunction'
  * ## Use
  *
  * @codestart
- *   <author-debug-menu {(app-state)}="appState" />
+ *   <debug-menu {(app-state)}="appState" />
  * @codeend
  */
 
+// List of field types that can be filled with the `sample` property.
+const canUseSampleValues = [
+  constants.ftText, constants.ftTextLong,
+  constants.ftTextPick, constants.ftNumber,
+  constants.ftNumberDollar, constants.ftNumberSSN,
+  constants.ftNumberPhone, constants.ftNumberZIP,
+  constants.ftNumberPick, constants.ftDateMDY
+]
+
 let DebugMenuVM = DefineMap.extend('DebugMenuVM', {
+  // passed in via stache
   appState: {},
 
-  resumeEdit () {
-    this.attr('appState.page', 'pages')
+  currentPageName: {
+    get () {
+      return this.appState.page
+    }
+  },
+
+  validateSampleFill (fieldVM, context, fieldEl) {
+    return fieldVM.validateField(context, fieldEl)
+  },
+
+  fillPageSample () {
+    // fieldElements NodeList used to access individual FieldVMs & validate
+    const fieldElements = document.querySelectorAll('a2j-field')
+    // do nothing if `a2j-field` components not in the DOM.
+    if (!fieldElements.length) return
+
+    let fieldVM
+    let fieldModel
+
+    for (const fieldEl of fieldElements) {
+      fieldVM = fieldEl.viewModel
+      fieldModel = fieldVM.field
+      if (_includes(canUseSampleValues, fieldModel.type)) {
+        // this emulates user input and onBlur validation
+        fieldEl.value = fieldModel.sample
+        this.validateSampleFill(fieldVM, null, fieldEl)
+      }
+    }
   }
 })
 
 export default Component.extend({
   view: template,
   ViewModel: DebugMenuVM,
-  tag: 'author-debug-menu',
-
-  events: {
-    '.btn-variables-panel click': function () {
-      this.viewModel.appState.toggleDebugPanel()
-    },
-
-    '.btn-fill-sample click': function () {
-      $('#author-app').trigger('author:fill-page-sample')
-    },
-
-    '.btn-resume-edit click': function () {
-      let vm = this.viewModel
-      let appState = vm.appState
-      let previewPageName = this.viewModel.appState.previewPageName
-
-      let $pageEditDialog = $('.page-edit-form')
-      let dialogInstance = $pageEditDialog.dialog('instance')
-
-      // return user to the pages tab.
-      vm.resumeEdit()
-
-      // if user enters preview mode by clicking the preview tab, do not try
-      // to open the edit page dialog, it should only be done when user clicks
-      // the preview button in the edit page dialog.
-      if (dialogInstance && previewPageName) {
-        appState.previewPageName = ''
-        // gotoPageEdit defined in A2J_Pages.js: 314
-        window.gotoPageEdit(previewPageName)
-      }
-    },
-
-    '.btn-edit-this click': function () {
-      let vm = this.viewModel
-      let appState = vm.appState
-      let pageName = appState.interviewPageName
-
-      if (_isFunction(window.gotoPageEdit)) {
-        vm.resumeEdit()
-        window.gotoPageEdit(pageName)
-      }
-    }
-  },
+  tag: 'debug-menu',
 
   leakScope: true
 })
