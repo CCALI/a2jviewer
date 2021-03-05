@@ -17,6 +17,9 @@ const UserAvatar = DefineMap.extend('UserAvatar', {
 const defaultUserAvatar = new UserAvatar()
 
 export const ViewerAppState = DefineMap.extend('ViewerAppState', {
+  // set in preview.js
+  resumeEdit: {},
+
   // skinTone, hairColor, gender, isOld, hasWheelChair
   userAvatar: {
     serialize: false,

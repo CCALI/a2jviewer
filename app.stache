@@ -38,9 +38,9 @@
         class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
 
 
-      <author-debug-menu appState:from="appState"/>
+      <debug-menu appState:from="appState" />
       {{#if(appState.viewerAlertMessages.length)}}
-        <author-debug-alerts alertMessages:from="appState.viewerAlertMessages"/>
+        <author-debug-alerts alertMessages:from="appState.viewerAlertMessages" />
       {{/if}}
     </div>
 {{/if}}

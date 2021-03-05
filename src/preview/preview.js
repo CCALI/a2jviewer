@@ -17,6 +17,7 @@ import 'can-map-define'
 export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
   define: {
     // passed in via viewer-preview-layout.stache bindings
+    resumeEdit: {},
     guidePath: {},
     showDebugPanel: {},
     previewPageName: {},
@@ -73,6 +74,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     interview.attr('answers', answers)
 
     appState.interview = interview
+    appState.resumeEdit = vm.resumeEdit
 
     // needs to be created after answers are set
     const logic = new Logic({ interview })
