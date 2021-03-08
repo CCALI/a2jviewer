@@ -75,6 +75,12 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     appState.interview = interview
     appState.resumeEdit = vm.resumeEdit
+    appState.showDebugPanel = vm.showDebugPanel
+
+    const showDebugPanelHandler = (ev, showDebugPanel) => {
+      vm.attr('showDebugPanel', showDebugPanel)
+    }
+    appState.listenTo('showDebugPanel', showDebugPanelHandler)
 
     // needs to be created after answers are set
     const logic = new Logic({ interview })
@@ -115,6 +121,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     return function () {
       tLogic.stopListening('traceMessage', tLogicMessageHandler)
+      appState.stopListening('showDebugPanel', showDebugPanelHandler)
       tearDownAppState()
     }
   }
