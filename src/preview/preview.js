@@ -21,7 +21,6 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     guidePath: {},
     showDebugPanel: {},
     previewPageName: {},
-    traceMessage: {},
     // passed up to Author app-state via viewer-preview-layout.stache bindings
     previewInterview: {},
     interviewPageName: {
@@ -85,7 +84,6 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // needs to be created after answers are set
     const logic = new Logic({ interview })
     appState.logic = logic
-    appState.traceMessage = this.traceMessage
 
     // listen for _tLogic trace message events
     const tLogic = appState.logic._tLogic

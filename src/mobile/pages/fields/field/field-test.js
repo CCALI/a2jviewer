@@ -8,7 +8,7 @@ import Interview from '~/src/models/interview'
 import FieldModel from '~/src/models/field'
 import Lang from '~/src/mobile/util/lang'
 import DefineMap from 'can-define/map/map'
-import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
+import TraceMessage from '~/src/models/trace-message'
 import sinon from 'sinon'
 
 import 'steal-mocha'

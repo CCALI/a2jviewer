@@ -4,7 +4,7 @@ import Infinite from '~/src/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
-import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
+import TraceMessage from '~/src/models/trace-message'
 import ModalContent from '~/src/models/modal-content'
 
 const UserAvatar = DefineMap.extend('UserAvatar', {
