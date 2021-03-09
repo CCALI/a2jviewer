@@ -244,15 +244,12 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
     // TODO: move this to helpers util and handle vm reference?
     // depends on html, answers, and logic.eval
-    const parseText = stache.getHelper('parseText')
-    if (!parseText) {
-      const parseTextHelper = (html) => {
-        // re-eval if answer values have updated via beforeCode'
-        const answersChanged = vm.interview && vm.interview.attr('answers').serialize() // eslint-disable-line
-        return (html && vm.logic) && vm.logic.eval(html)
-      }
-      stache.registerHelper('parseText', parseTextHelper)
+    const parseTextHelper = (html) => {
+      // re-eval if answer values have updated via beforeCode'
+      const answersChanged = vm.interview && vm.interview.attr('answers').serialize() // eslint-disable-line
+      return (html && vm.logic) && vm.logic.eval(html)
     }
+    stache.registerHelper('parseText', parseTextHelper)
 
     const questionCountPerStep = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
