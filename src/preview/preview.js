@@ -22,9 +22,10 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     showDebugPanel: {},
     previewPageName: {},
     // passed up to Author app-state via viewer-preview-layout.stache bindings
+    traceMessage: {},
     previewInterview: {},
     interviewPageName: {
-      get: function () {
+      get () {
         return this.attr('appState.page')
       }
     },
@@ -76,6 +77,12 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     appState.resumeEdit = vm.resumeEdit
     appState.showDebugPanel = vm.showDebugPanel
 
+    // restore Author messageLog
+    if (vm.attr('traceMessage')) {
+      const authorTraceMessageLog = vm.attr('traceMessage').messageLog
+      appState.traceMessage.messageLog = authorTraceMessageLog
+    }
+
     const showDebugPanelHandler = (ev, showDebugPanel) => {
       vm.attr('showDebugPanel', showDebugPanel)
     }
@@ -116,6 +123,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     // trigger update of previewInterview to author app-state
     vm.attr('previewInterview', interview)
+    vm.attr('traceMessage', appState.traceMessage)
 
     return function () {
       tLogic.stopListening('traceMessage', tLogicMessageHandler)
