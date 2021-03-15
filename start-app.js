@@ -57,7 +57,7 @@ export default function ({ interview, pState, mState, appState }) {
   const authorId = interview.authorId || 0
   analytics.initialize(authorId)
 
-  $('#viewer-app').append(template({
+  $('#viewer-app-container').append(template({
     appState, pState, mState, interview, logic, lang, isMobile
   }))
 }

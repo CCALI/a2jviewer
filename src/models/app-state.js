@@ -4,7 +4,7 @@ import Infinite from '~/src/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
-import TraceMessage from '@caliorg/a2jdeps/models/trace-message'
+import TraceMessage from '~/src/models/trace-message'
 import ModalContent from '~/src/models/modal-content'
 
 const UserAvatar = DefineMap.extend('UserAvatar', {
@@ -17,6 +17,9 @@ const UserAvatar = DefineMap.extend('UserAvatar', {
 const defaultUserAvatar = new UserAvatar()
 
 export const ViewerAppState = DefineMap.extend('ViewerAppState', {
+  // set in preview.js
+  resumeEdit: {},
+
   // skinTone, hairColor, gender, isOld, hasWheelChair
   userAvatar: {
     serialize: false,
@@ -108,7 +111,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: () => new DefineList()
   },
 
-  // set when launched from preview.js during Author Preview
+  // set when launched via preview.js during Author Preview
   previewActive: {
     serialize: false
   },
@@ -156,6 +159,15 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   logic: {
     serialize: false
+  },
+
+  viewerAlertMessages: {
+    serialize: false,
+    default: () => new DefineList()
+  },
+
+  toggleDebugPanel () {
+    this.showDebugPanel = !this.showDebugPanel
   },
 
   getVisitedPageIndex (visitedPage) {
@@ -218,6 +230,17 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   connectedCallback () {
     const vm = this
+
+    const body = document.querySelector('body')
+    // toggle lawn background color
+    const toggleLawnHandler = (ev, showDebugPanel) => {
+      if (showDebugPanel) {
+        body.classList.remove('with-lawn')
+      } else {
+        body.classList.add('with-lawn')
+      }
+    }
+    vm.listenTo('showDebugPanel', toggleLawnHandler)
 
     // TODO: move this to helpers util and handle vm reference?
     // depends on html, answers, and logic.eval
@@ -288,7 +311,10 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     })
 
     // cleanup memory
-    return () => { this.stopListening() }
+    return () => {
+      body.classList.remove('with-lawn')
+      this.stopListening()
+    }
   }
 })
 

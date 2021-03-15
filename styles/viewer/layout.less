@@ -1,23 +1,24 @@
 * {
   box-sizing: border-box;
 }
-html, body, #viewer-app, #author-app {
+html, body, #viewer-app {
   height: 100%;
   margin: 0;
   padding: 0;
+  .with-debug-panel {
+    right: 0;
+    left: 410px;
+    position: fixed;
+  }
 }
-.app-wrapper {
-  width: 100%;
-  height: 100%;
+.debug-panel {
+  position: fixed;
+  width: 400px;
 }
-.app-container {
+.desktop-container {
   display: table;
   width: 100%;
   height: 100%;
-}
-.app-header {
-  display:table-row;
-  height: @header-height;
 }
 .app-content {
   display:table-row;
@@ -38,6 +39,11 @@ html, body, #viewer-app, #author-app {
 .client-wrapper {
   padding-left: @grid-gutter-width;
 }
+
+body.with-lawn {
+  background: @lawn-color;
+}
+
 .desktop {
   // this prevents extraneous scroll bars, specifically in ie11 and Edge
   overflow: hidden;

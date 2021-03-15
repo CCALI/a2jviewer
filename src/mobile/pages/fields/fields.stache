@@ -1,3 +1,5 @@
+<can-import from="~/src/mobile/pages/fields/field/" />
+
 {{#for(field of fields)}}
   <a2j-field
     field:from="field"

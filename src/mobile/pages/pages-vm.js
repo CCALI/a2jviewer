@@ -520,18 +520,17 @@ export default DefineMap.extend('PagesVM', {
    * ** This is doing too many things, it probably does not belong here either.
    */
   __ensureFieldAnswer (field) {
-    const name = field.name.toLowerCase()
+    const answerKey = field.name.toLowerCase()
     const answers = this.answers
 
-    let answer = answers[name]
+    let answer = answers[answerKey]
 
-    if (answer) {
-      return answer
-    } else {
+    if (!answer) {
       answer = field.emptyAnswer
-      answers.varSet(name, answer)
-      return answer
+      answers.set(answerKey, answer)
     }
+
+    return answer
   },
 
   setFieldAnswers (fields) {

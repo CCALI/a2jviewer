@@ -236,7 +236,7 @@ const Interview = Model.extend('InterviewModel', {
 
         _keys(vars).forEach(function (key) {
           let variable = vars[key]
-          let answer = answers.varGet(key.toLowerCase())
+          let answer = answers[key.toLowerCase()]
 
           let values = answer ? answer.values : variable.values
 

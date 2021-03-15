@@ -1,4 +1,7 @@
 <can-import from="~/src/mobile/" />
+<can-import from="~/src/debug-alerts/"/>
+<can-import from="~/src/debug-menu/"/>
+<can-import from="~/src/debug-panel/" />
 <can-import from="~/src/desktop/" />
 <can-import from="~/src/modal/" />
 
@@ -13,18 +16,33 @@
     traceMessage:to="traceMessage"
     class="bootstrap-styles" />
 {{else}}
-  {{ let remainingSteps = null, maxDisplayedSteps = null }}
-  <a2j-desktop-viewer
-    remainingSteps:to="remainingSteps"
-    maxDisplayedSteps:to="maxDisplayedSteps"
-    showDebugPanel:from="appState.showDebugPanel"
-    lang:from="lang"
-    logic:from="logic"
-    appState:from="appState"
-    pState:from="pState"
-    mState:from="mState"
-    interview:from="interview"
-    class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
+    {{#if(showDebugPanel)}}
+      <div class="debug-panel">
+        <debug-panel
+          interview:from="interview"
+          traceMessage:from="appState.traceMessage" />
+      </div>
+    {{/if}}
+    <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-debug-panel"{{/if}}>
+      {{ let remainingSteps = null, maxDisplayedSteps = null }}
+      <a2j-desktop-viewer
+        remainingSteps:to="remainingSteps"
+        maxDisplayedSteps:to="maxDisplayedSteps"
+        showDebugPanel:from="showDebugPanel"
+        lang:from="lang"
+        logic:from="logic"
+        appState:from="appState"
+        pState:from="pState"
+        mState:from="mState"
+        interview:from="interview"
+        class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
+
+
+      <debug-menu appState:from="appState" />
+      {{#if(appState.viewerAlertMessages.length)}}
+        <author-debug-alerts alertMessages:from="appState.viewerAlertMessages" />
+      {{/if}}
+    </div>
 {{/if}}
 
 <a2j-modal

@@ -2,8 +2,6 @@ import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './fields.stache'
 
-import '~/src/mobile/pages/fields/field/'
-
 /**
  * @property {can.Map} fields.ViewModel
  * @parent <a2j-fields>

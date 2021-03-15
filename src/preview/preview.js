@@ -17,14 +17,15 @@ import 'can-map-define'
 export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
   define: {
     // passed in via viewer-preview-layout.stache bindings
+    resumeEdit: {},
     guidePath: {},
     showDebugPanel: {},
     previewPageName: {},
-    traceMessage: {},
     // passed up to Author app-state via viewer-preview-layout.stache bindings
+    traceMessage: {},
     previewInterview: {},
     interviewPageName: {
-      get: function () {
+      get () {
         return this.attr('appState.page')
       }
     },
@@ -73,11 +74,23 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     interview.attr('answers', answers)
 
     appState.interview = interview
+    appState.resumeEdit = vm.resumeEdit
+    appState.showDebugPanel = vm.showDebugPanel
+
+    // restore Author messageLog
+    if (vm.attr('traceMessage')) {
+      const authorTraceMessageLog = vm.attr('traceMessage').messageLog
+      appState.traceMessage.messageLog = authorTraceMessageLog
+    }
+
+    const showDebugPanelHandler = (ev, showDebugPanel) => {
+      vm.attr('showDebugPanel', showDebugPanel)
+    }
+    appState.listenTo('showDebugPanel', showDebugPanelHandler)
 
     // needs to be created after answers are set
     const logic = new Logic({ interview })
     appState.logic = logic
-    appState.traceMessage = this.traceMessage
 
     // listen for _tLogic trace message events
     const tLogic = appState.logic._tLogic
@@ -110,9 +123,11 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     // trigger update of previewInterview to author app-state
     vm.attr('previewInterview', interview)
+    vm.attr('traceMessage', appState.traceMessage)
 
     return function () {
       tLogic.stopListening('traceMessage', tLogicMessageHandler)
+      appState.stopListening('showDebugPanel', showDebugPanelHandler)
       tearDownAppState()
     }
   }
