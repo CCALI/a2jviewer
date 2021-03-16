@@ -16,10 +16,9 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   interview: {},
   appState: {},
 
+  // set in appState and cleared here on close
   modalContent: {
-    get () {
-      return this.appState.modalContent
-    }
+    Type: ModalContent
   },
   repeatVarValue: {
     get () {
@@ -60,9 +59,6 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
       const textlongVM = this.modalContent.textlongVM
       textlongVM.fireModalClose(field, newValue, textlongVM)
     }
-
-    // reset modalContent for next use
-    this.appState.modalContent.update(new ModalContent())
 
     $('body').removeClass('bootstrap-styles')
   },
@@ -136,7 +132,7 @@ export default Component.extend({
     '#pageModal keydown': function (el, ev) {
       // esc key closing modal
       if (ev.keyCode === 27) {
-        this.viewModel.modalContent.attr('textlongValue', ev.target.value)
+        this.viewModel.modalContent.textlongValue = ev.target.value
         this.viewModel.closeModalHandler()
       }
     },

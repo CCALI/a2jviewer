@@ -47,6 +47,7 @@
 
 <a2j-modal
   appState:from="appState"
+  modalContent:from="appState.modalContent"
   mState:from="mState"
   logic:from="logic"
   interview:from="interview"

@@ -438,14 +438,13 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       const title = field.label
       const textlongValue = field._answerVm.values
       const textlongVM = this
-      this.modalContent.assign({
+      this.appState.modalContent = {
         title,
         textlongValue,
         answerName,
         field,
         textlongVM
-      })
-      $('#pageModal').modal('show')
+      }
     }
   },
 

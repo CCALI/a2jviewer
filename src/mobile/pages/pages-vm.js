@@ -28,11 +28,6 @@ export default DefineMap.extend('PagesVM', {
   pState: {},
   mState: {},
   interview: {},
-  modalContent: {
-    get () {
-      return this.appState.modalContent
-    }
-  },
   // passed up from fields.js
   groupValidationMap: {},
 
@@ -300,10 +295,10 @@ export default DefineMap.extend('PagesVM', {
     let hasProtocol = failURL.indexOf('http') === 0
     failURL = hasProtocol ? failURL : 'http://' + failURL
     if (failURL === 'http://') { // If Empty, standard message
-      vm.modalContent.assign({
+      vm.appState.modalContent = {
         title: 'You did not Qualify',
         text: 'Unfortunately, you did not qualify to use this A2J Guided Interview. Please close your browser window or tab to exit the interview.'
-      })
+      }
     } else {
       // track the external link
       if (window._paq) {
@@ -389,37 +384,37 @@ export default DefineMap.extend('PagesVM', {
     ev && ev.preventDefault()
     switch (button.next) {
       case constants.qIDFAIL:
-        this.modalContent.assign({
+        this.appState.modalContent = {
           title: 'Author note:',
           text: 'User would be redirected to \n(' + button.url + ')'
-        })
+        }
         break
 
       case constants.qIDEXIT:
-        this.modalContent.assign({
+        this.appState.modalContent = {
           title: 'Author note:',
           text: "User's INCOMPLETE data would upload to the server."
-        })
+        }
         break
 
       case constants.qIDASSEMBLE:
-        this.modalContent.assign({
+        this.appState.modalContent = {
           title: 'Author note:',
           text: 'Document Assembly would happen here.  Use Test Assemble under the Templates tab to assemble in A2J Author'
-        })
+        }
         break
 
       case constants.qIDSUCCESS:
-        this.modalContent.assign({
+        this.appState.modalContent = {
           title: 'Author note:',
           text: "User's data would upload to the server."
-        })
+        }
         break
       case constants.qIDASSEMBLESUCCESS:
-        this.modalContent.assign({
+        this.appState.modalContent = {
           title: 'Author note:',
           text: "User's data would upload to the server, then assemble their document.  Use Test Assemble under the Templates tab to assemble in A2J Author"
-        })
+        }
         break
     }
   },
@@ -435,10 +430,10 @@ export default DefineMap.extend('PagesVM', {
     // This modal and disable is for LHI/HotDocs issue taking too long to process
     // prompting users to repeatedly press submit, crashing HotDocs
     // Matches A2J4 functionality, but should really be handled better on LHI's server
-    vm.modalContent.assign({
+    vm.appState.modalContent = {
       title: 'Answers Submitted :',
       text: 'Page will redirect shortly'
-    })
+    }
 
     if (button.next !== constants.qIDASSEMBLE) {
       vm.dispatch('post-answers-to-server')
