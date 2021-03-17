@@ -58,7 +58,7 @@ export default Component.extend({
           analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
         }
 
-        vm.modalContent.assign({
+        vm.appState.modalContent = {
           title: page.learn,
           text: page.help,
           imageURL: page.helpImageURL,
@@ -67,7 +67,7 @@ export default Component.extend({
           audioURL: page.helpAudioURL,
           videoURL: page.helpVideoURL,
           helpReader: page.helpReader
-        })
+        }
       }
     },
 
@@ -89,7 +89,7 @@ export default Component.extend({
 
           // popups only have text, textAudioURL possible values
           // title (page.name) is more of internal descriptor for popups
-          vm.modalContent.assign({
+          vm.appState.modalContent = {
             title: '',
             text: page.text,
             imageURL: undefined,
@@ -98,8 +98,7 @@ export default Component.extend({
             audioURL: page.textAudioURL,
             videoURL: undefined,
             helpReader: undefined
-          })
-          $('#pageModal').modal('show')
+          }
         }
       } else { // external link
         const $el = $(el)

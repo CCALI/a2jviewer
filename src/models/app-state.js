@@ -5,7 +5,6 @@ import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '~/src/models/trace-message'
-import ModalContent from '~/src/models/modal-content'
 
 const UserAvatar = DefineMap.extend('UserAvatar', {
   gender: { default: 'female' },
@@ -124,8 +123,8 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   lastPageBeforeExit: {
-    default: null,
-    serialize: false
+    serialize: false,
+    default: null
   },
 
   lastVisitedPageName: {
@@ -151,10 +150,10 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     }
   },
 
+  // passed into modal.stache - shows modal on new values
   modalContent: {
     serialize: false,
-    Type: ModalContent,
-    Default: ModalContent
+    default: null
   },
 
   logic: {

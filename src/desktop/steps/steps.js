@@ -29,11 +29,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   lang: {},
   logic: {},
   interview: {},
-  modalContent: {
-    get () {
-      return this.appState.modalContent
-    }
-  },
+
   // passed up from pages-stache
   traceMessage: {},
 
@@ -537,7 +533,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
         analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
       }
 
-      this.modalContent.assign({
+      this.appState.modalContent = {
         // name undefined prevents stache warnings
         answerName: undefined,
         title: page.learn,
@@ -548,8 +544,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
         audioURL: page.helpAudioURL,
         videoURL: page.helpVideoURL,
         helpReader: page.helpReader
-      })
-      $('#pageModal').modal('show')
+      }
     }
   },
 

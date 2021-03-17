@@ -1,9 +1,10 @@
 import { ModalVM } from './modal'
 import $ from 'jquery'
-import CanMap from 'can-map'
 import stache from 'can-stache'
 import AppState from '~/src/models/app-state'
-import canReflect from 'can-reflect'
+import Interview from '~/src/models/interview'
+import Logic from '~/src/mobile/util/logic'
+import MemoryState from '~/src/models/memory-state'
 import F from 'funcunit'
 import { assert } from 'chai'
 import sinon from 'sinon'
@@ -16,20 +17,20 @@ describe('<a2j-modal> ', function () {
   describe('Component', function () {
     let vm, pauseActivePlayersSpy
     beforeEach(function () {
-      const interview = {
-        getPageByName () {
-          return new CanMap()
-        }
-      }
+      const interview = new Interview()
 
       const appState = new AppState({ page: 'foo' })
-      const mState = new CanMap({ fileDataURL: '../../tests/images/' })
-      const logic = new CanMap({ eval (html) { return html } })
+      const mState = new MemoryState({ fileDataURL: '../../tests/images/' })
+      const logic = new Logic({
+        interview,
+        eval (html) { return html }
+      })
       pauseActivePlayersSpy = sinon.spy()
 
       const frag = stache(
         `<a2j-modal
           appState:from="appState"
+          modalContent:from="appState.modalContent"
           mState:from="mState"
           logic:from="logic"
           interview:from="interview"
@@ -40,7 +41,6 @@ describe('<a2j-modal> ', function () {
       stache.registerHelper('parseText', (text) => text)
 
       $('#test-area').html(frag(vm))
-      // vm = $('a2j-modal')[0].viewModel
     })
 
     afterEach(function () {
@@ -50,9 +50,9 @@ describe('<a2j-modal> ', function () {
     it('renders image tag if modalContent includes imageURL', function (done) {
       const helpImageURL = 'ui-icons_ffffff_256x240.png'
 
-      canReflect.assign(vm.modalContent, {
+      vm.appState.modalContent = {
         imageURL: helpImageURL
-      })
+      }
 
       F('img.modal-image').exists()
       F('img.modal-image').attr('src', '../../tests/images/ui-icons_ffffff_256x240.png')
@@ -63,10 +63,10 @@ describe('<a2j-modal> ', function () {
     it('renders image AltText if modalContent includes altText', function (done) {
       const helpImageURL = 'ui-icons_ffffff_256x240.png'
 
-      canReflect.assign(vm.modalContent, {
+      vm.appState.modalContent = {
         imageURL: helpImageURL,
         altText: 'this is a bunch of icons'
-      })
+      }
 
       F('img.modal-image').exists()
       F('img.modal-image').attr('alt', 'this is a bunch of icons')
@@ -77,7 +77,7 @@ describe('<a2j-modal> ', function () {
     it('renders audio tag if page includes helpAudioURL', function (done) {
       const helpAudioURL = 'pings.ogg'
 
-      canReflect.assign(vm.modalContent, { audioURL: helpAudioURL })
+      vm.appState.modalContent = { audioURL: helpAudioURL }
 
       F('audio-player').exists()
 
@@ -88,7 +88,7 @@ describe('<a2j-modal> ', function () {
       const helpVideoURL = 'panda.gif'
       const helpAltText = 'this is a panda'
 
-      canReflect.assign(vm.modalContent, { videoURL: helpVideoURL, altText: helpAltText })
+      vm.appState.modalContent = { videoURL: helpVideoURL, altText: helpAltText }
       F('img.modal-video').exists()
       F('img.modal-video').attr('src', '../../tests/images/panda.gif')
 
@@ -98,7 +98,7 @@ describe('<a2j-modal> ', function () {
     it('renders video tag if page includes helpVideoURL (other)', function (done) {
       const helpVideoURL = 'pings.ogg'
 
-      canReflect.assign(vm.modalContent, { videoURL: helpVideoURL })
+      vm.appState.modalContent = { videoURL: helpVideoURL }
       F('video.modal-video').exists()
       F('video.modal-video').attr('src', '../../tests/images/pings.ogg')
 
@@ -106,7 +106,7 @@ describe('<a2j-modal> ', function () {
     })
 
     it('renders video transcript text if modalContent includes helpReader property', function (done) {
-      canReflect.assign(vm.modalContent, { videoURL: 'pings.ogg', helpReader: 'some transcript text' })
+      vm.appState.modalContent = { videoURL: 'pings.ogg', helpReader: 'some transcript text' }
 
       F('button.btn.btn-secondary.btn-sm.btn-block').exists().click(() => {
         F('p.video-transcript-text').text(/some transcript text/)
@@ -115,14 +115,14 @@ describe('<a2j-modal> ', function () {
     })
 
     it('renders an expanded text area if page includes answerName (a2j variable name)', function (done) {
-      canReflect.assign(vm.modalContent, { answerName: 'longAnswerTE', textlongValue: 'some really long text' })
+      vm.appState.modalContent = { answerName: 'longAnswerTE', textlongValue: 'some really long text' }
       F('textarea.expanded-textarea').exists()
 
       F(done)
     })
 
     it('targets a new tab (_blank) if question text contains a link', function (done) {
-      canReflect.assign(vm.modalContent, { title: '', text: '<p>My popup text <a href="http://www.google.com">lasercats</a></p>' })
+      vm.appState.modalContent = { title: '', text: '<p>My popup text <a href="http://www.google.com">lasercats</a></p>' }
       // prevent the tab from opening
       $('a').click((ev) => {
         ev.preventDefault()
@@ -136,27 +136,15 @@ describe('<a2j-modal> ', function () {
     it('pauseActivePlayers()', function () {
       // simulate DOM insert
       vm.connectedCallback()
+      // coerced to ModelContent type with sane defaults
+      vm.modalContent = {}
+
       // open modal
       $('#pageModal').modal('show')
       // close modal
       $('#pageModal').modal('hide')
 
       assert.isTrue(pauseActivePlayersSpy.calledOnce, 'should fire pauseActivePlayers() on modal close to pause audio and video players')
-    })
-
-    it('resets modalContent on close', function () {
-      // simulate DOM insert
-      vm.connectedCallback()
-      vm.modalContent.assign({ title: 'best modal ever' })
-      // open modal
-      $('#pageModal').modal('show')
-
-      assert.equal(vm.modalContent.title, 'best modal ever', 'should retain modalContent on open')
-
-      // close modal
-      $('#pageModal').modal('hide')
-
-      assert.equal(vm.modalContent.title, '', 'should clear modalContent props on close')
     })
   })
 })

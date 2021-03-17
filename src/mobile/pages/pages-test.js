@@ -136,7 +136,7 @@ describe('<a2j-pages>', () => {
 
         vm.previewActive = true
         vm.navigate(button)
-        const modalContent = vm.modalContent
+        const modalContent = vm.appState.modalContent
 
         assert.equal(modalContent.text, `User's data would upload to the server.`, 'modalContent should update to display modal when previewActive')
       })
