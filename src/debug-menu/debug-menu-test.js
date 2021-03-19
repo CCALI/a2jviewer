@@ -4,6 +4,7 @@ import AnswerVM from '~/src/models/answervm'
 import stache from 'can-stache'
 import canViewModel from 'can-view-model'
 import { assert } from 'chai'
+import Lang from '~/src/mobile/util/lang.js'
 
 import 'steal-mocha'
 import './debug-menu'
@@ -22,12 +23,9 @@ describe('<debug-panel>', () => {
     }
 
     it('fillPageSample', (done) => {
-      const appState = new AppState()
+      const appState = new AppState({page: 'testPage'})
       const vm = render({ appState })
-
-      // validation is tested in ~/src/mobile/pages/fields/field/field-test.js
-      const oldValidateSampleFill = vm.validateSampleFill
-      vm.constructor.prototype.validateSampleFill = () => {}
+      appState.traceMessage.currentPageName = 'Test Page'
 
       const fieldModel = new FieldModel({ name: 'someName', type: 'text', sample: 'foo' })
       fieldModel._answerVm = new AnswerVM({ field: fieldModel, answer: fieldModel.emptyAnswer })
@@ -40,8 +38,36 @@ describe('<debug-panel>', () => {
 
       setTimeout(() => {
         vm.fillPageSample()
-        assert.equal(fieldEl.value, 'foo', 'should fill in field with sample value')
-        vm.constructor.prototype.validateSampleFill = oldValidateSampleFill
+        let answerValue = fieldEl.querySelector('input').value
+        assert.equal(answerValue, 'foo', 'should fill in field with sample value')
+        done()
+      })
+    })
+
+    it('fillPageSample-datefields', (done) => {
+      const appState = new AppState()
+      const lang = new Lang()
+      const vm = render({ appState, lang })
+      appState.traceMessage.currentPageName = 'Test Page'
+
+      const fieldModel = new FieldModel({ name: 'someName', type: 'datemdy', sample: '02/02/1992', label: 'date' })
+      fieldModel._answerVm = new AnswerVM({ field: fieldModel, answer: fieldModel.emptyAnswer })
+
+      const fields = [ fieldModel ]
+      const fieldsTpl = stache('<a2j-fields appState:from="appState" fields:from="fields" />')
+      document.querySelector('#test-area').appendChild(fieldsTpl({ appState, fields }))
+
+      const fieldEl = document.querySelector('a2j-field')
+
+      const fieldVm = fieldEl.viewModel
+      fieldVm.lang = lang
+
+      let answerValue = fieldEl.querySelector('.datepicker-input')
+
+      setTimeout(() => {
+        vm.fillPageSample()
+        answerValue = fieldEl.querySelector('input').value
+        assert.equal(answerValue, '02/02/1992', 'should fill in field with sample value')
         done()
       })
     })

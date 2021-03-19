@@ -52,7 +52,7 @@ export const LogItem = DefineMap.extend('LogItem', {
 })
 
 export default DefineMap.extend('TraceMessageModel', {
-  // set in pages-vm.js during each new page navigation
+  // set in connectedCallback() in app-state.js via listener
   currentPageName: {
     type: 'string',
     set (pageName) {
