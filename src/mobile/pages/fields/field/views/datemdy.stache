@@ -11,6 +11,7 @@
       type="text"
       id:from="this.trimFieldLabel(field.label)"
       name="{{field.name}}"
+      value:bind="field._answerVm.values"
       on:change="validateField(null, scope.element)"
       {{#if(field.required)}}required{{/if}}
       class="form-control datepicker-input" />
