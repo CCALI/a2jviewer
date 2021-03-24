@@ -6,7 +6,7 @@
 
   <body>
     <div id="demo-html" style="margin: 20px;">
-      <debug-panel></debug-panel>
+      <div  id="demo-area"></div>
     </div>
 
     <script src="../../node_modules/steal/steal.js"
@@ -15,10 +15,21 @@
 
     <script type="steal-module">
       import DebugPanel from "~/src/debug-panel/"
+      import Interview from "~/src/models/interview"
+      import TraceMessage from "~/src/models/trace-message"
+      import canViewModel from "can-view-model"
+      import stache from 'can-stache'
+
       import "~/styles.less"
 
-      const interview = {
-        variablesList: [
+      const render = (data) => {
+        const tpl = stache('<debug-panel interview:from="interview" traceMessage:from="traceMessage" />')
+        document.querySelector('#demo-area').appendChild(tpl(data))
+        return canViewModel('debug-panel')
+      }
+
+      const interview = new Interview({
+        vars: [
           {value: null, name: "Client first name TE", repeating: null},
           {value: null, name: "Client last name TE", repeating: null},
           {value: null, name: "Client middle name TE", repeating: null},
@@ -32,11 +43,13 @@
           {name: "3-Avatar", type: "A2J", repeatVar: ""},
           {name: "1-Question 1", type: "A2J", repeatVar: ""}
         ]
-      }
+      })
 
-      const vm = document.querySelector('debug-panel').viewModel
-      vm.interview = interview
-      vm.traceMessage.currentPageName = vm.interview.pages[0].name
+      const traceMessage = new TraceMessage({currentPageName: 'demo'})
+
+      const vm = render({interview, traceMessage})
+      window.vm = vm
+
     </script>
   </body>
 </html>
