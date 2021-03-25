@@ -30,12 +30,12 @@
 
       const interview = new Interview({
         vars: [
-          {value: null, name: "Client first name TE", repeating: null},
-          {value: null, name: "Client last name TE", repeating: null},
-          {value: null, name: "Client middle name TE", repeating: null},
-          {value: null, name: "sansAnswer", repeating: null},
-          {value: null, name: "User Avatar", repeating: null},
-          {value: null, name: "User Gender", repeating: null}
+          {values: ["Mardy"], name: "Client first name TE", repeating: null},
+          {values: ["Bum"], name: "Client last name TE", repeating: null},
+          {values: [null], name: "Client middle name TE", repeating: null},
+          {values: [null], name: "sansAnswer", repeating: null},
+          {values: ['{"gender":"female","isOld":false,"hasWheelchair":false,"hairColor":"red","skinTone":"dark"}'], name: "User Avatar", repeating: null},
+          {values: [null], name: "User Gender", repeating: null}
         ],
         pages: [
           {name: "1-Introduction", type: "A2J", repeatVar: ""},
@@ -47,8 +47,9 @@
 
       const traceMessage = new TraceMessage({currentPageName: 'demo'})
 
+      traceMessage.addMessage({ key: 'codeBefore', fragments: [{ format: 'info', msg: 'Logic Before Question' }] })
+
       const vm = render({interview, traceMessage})
-      window.vm = vm
 
     </script>
   </body>
