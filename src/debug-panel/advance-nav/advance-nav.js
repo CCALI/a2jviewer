@@ -11,7 +11,9 @@ import template from './advance-nav.stache'
  * `<advance-nav>`'s viewModel.
  */
 export let AdvanceNavVM = DefineMap.extend('AdvanceNavVM', {
+  // passed in view debug-panel.stache
   appState: {},
+
   myProgressOptions: {
     get () {
       const options = [{name: 'hhhhh'}, {name: 'jjjjjjj'}, {name: 'bbbbbb'}]
