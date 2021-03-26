@@ -1,10 +1,16 @@
 <can-import from="~/src/debug-panel/variables/"/>
+<can-import from="~/src/debug-panel/advance-nav/"/>
 <can-import from="~/src/debug-panel/evaluate/"/>
 <can-import from="~/src/debug-panel/debug-panel.less"/>
 
-{{#if(variables.length)}}
+{{#if(false)}}
   <author-variables-table interview:from="interview" variables:from="variables"/>
 {{/if}}
+
+{{#if(true)}}
+  <advance-nav appState:from="appState"></advance-nav>
+{{/if}}
+
 
 <div id="viewer-logic-form">
   <div id="logic-trace-panel" class="tracepanel">

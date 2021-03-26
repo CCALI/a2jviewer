@@ -19,6 +19,7 @@
     {{#if(showDebugPanel)}}
       <div class="debug-panel">
         <debug-panel
+          appState:from="appState"
           interview:from="interview"
           traceMessage:from="appState.traceMessage" />
       </div>

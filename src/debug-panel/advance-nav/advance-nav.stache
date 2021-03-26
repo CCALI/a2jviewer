@@ -1,0 +1,16 @@
+<can-import from="~/src/debug-panel/advance-nav/advance-nav.less" />
+<div id="viewer-var-form">
+
+  <div class="varvalpanel">
+    <div>
+      Advance Nav
+      <ol>
+        {{#for(page of navPages)}}
+          <li>
+            <a href="#" on:click="navToPage(page.name)">Step: {{page.step.number}} {{stripHTMLTags(scope.helpers.parseText(page.text))}}</a>
+          </li>
+        {{/for}}
+      </ol>
+    </div>
+  </div>
+</div>
