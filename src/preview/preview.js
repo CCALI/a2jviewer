@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import _assign from 'lodash/assign'
 import Component from 'can-component'
 import isMobile from '~/src/util/is-mobile'
@@ -12,32 +12,28 @@ import MemoryState from '~/src/models/memory-state'
 import PersistedState from '~/src/models/persisted-state'
 import parseGuideToMobile from '~/src/mobile/util/guide-to-mobile'
 
-import 'can-map-define'
-
-export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
-  define: {
-    // passed in via viewer-preview-layout.stache bindings
-    resumeEdit: {},
-    guidePath: {},
-    showDebugPanel: {},
-    previewPageName: {},
-    // passed up to Author app-state via viewer-preview-layout.stache bindings
-    traceMessage: {},
-    previewInterview: {},
-    interviewPageName: {
-      get () {
-        return this.attr('appState.page')
-      }
-    },
-    // set by attr call in connectedCallback
-    appState: {},
-    pState: {},
-    mState: {},
-    interview: {},
-    logic: {},
-    lang: {},
-    isMobile: {}
+export const ViewerPreviewVM = DefineMap.extend('ViewerPreviewVM', {
+  // passed in via viewer-preview-layout.stache bindings
+  resumeEdit: {},
+  guidePath: {},
+  showDebugPanel: {},
+  previewPageName: {},
+  // passed up to Author app-state via viewer-preview-layout.stache bindings
+  traceMessage: {},
+  previewInterview: {},
+  interviewPageName: {
+    get () {
+      return this.appState && this.appState.page
+    }
   },
+  // set by attr call in connectedCallback
+  appState: {},
+  pState: {},
+  mState: {},
+  interview: {},
+  logic: {},
+  lang: {},
+  isMobile: {},
 
   connectedCallback (el) {
     const vm = this
@@ -50,11 +46,11 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     appState.previewActive = true
 
     // if previewInterview.answers exist here, they are restored from Author app-state binding
-    const previewAnswers = vm.attr('previewInterview.answers')
+    const previewAnswers = vm.previewInterview && vm.previewInterview.attr('answers')
 
     // Set fileDataURL to window.gGuidePath, so the viewer can locate the
     // interview assets (images, sounds, etc).
-    mState.attr('fileDataURL', vm.attr('guidePath'))
+    mState.attr('fileDataURL', vm.guidePath)
 
     const mobileData = parseGuideToMobile(_assign({}, window.gGuide))
     const parsedData = Interview.parseModel(mobileData)
@@ -78,13 +74,13 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     appState.showDebugPanel = vm.showDebugPanel
 
     // restore Author messageLog
-    if (vm.attr('traceMessage')) {
-      const authorTraceMessageLog = vm.attr('traceMessage').messageLog
+    if (vm.traceMessage) {
+      const authorTraceMessageLog = vm.traceMessage.messageLog
       appState.traceMessage.messageLog = authorTraceMessageLog
     }
 
     const showDebugPanelHandler = (ev, showDebugPanel) => {
-      vm.attr('showDebugPanel', showDebugPanel)
+      vm.showDebugPanel = showDebugPanel
     }
     appState.listenTo('showDebugPanel', showDebugPanelHandler)
 
@@ -103,13 +99,13 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // loads that specific page (covers the case when user clicks
     // `preview` from the edit page popup).
     appState.view = 'pages'
-    if (vm.attr('previewPageName')) {
-      appState.set('page', vm.attr('previewPageName'))
+    if (vm.previewPageName) {
+      appState.set('page', vm.previewPageName)
     } else {
       appState.set('page', interview.attr('firstPage'))
     }
 
-    vm.attr({
+    vm.update({
       appState,
       pState,
       mState,
@@ -122,8 +118,8 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     $(el).html(template(vm))
 
     // trigger update of previewInterview to author app-state
-    vm.attr('previewInterview', interview)
-    vm.attr('traceMessage', appState.traceMessage)
+    vm.previewInterview = interview
+    vm.traceMessage = appState.traceMessage
 
     return function () {
       tLogic.stopListening('traceMessage', tLogicMessageHandler)
