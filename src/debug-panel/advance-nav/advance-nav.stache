@@ -7,7 +7,9 @@
       <ol>
         {{#for(page of navPages)}}
           <li>
-            <a href="#" on:click="navToPage(page.name)">Step: {{page.step.number}} {{stripHTMLTags(scope.helpers.parseText(page.text))}}</a>
+            <a role="button" on:click="navToPage(page.name)"> 
+              Step: {{page.step.number}} {{truncateText(stripHTMLTags(scope.helpers.parseText(page.text)))}}
+            </a>
           </li>
         {{/for}}
       </ol>

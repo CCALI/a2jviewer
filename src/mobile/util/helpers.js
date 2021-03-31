@@ -3,6 +3,7 @@ import route from 'can-route'
 import $ from 'jquery'
 import _isFunction from 'lodash/isFunction'
 import normalizePath from '~/src/util/normalize-path'
+import _truncate from 'lodash/truncate'
 
 export const normalizePathHelper = function (fileDataUrl, path) {
   path = _isFunction(path) ? path() : path
@@ -26,11 +27,32 @@ export const keydownFireClickHandlerHelper = function (ev, clickHandler) {
   }
 }
 
+/**
+   * @param {String} text that has to be truncated; required
+   * @param {Number} maxChars optional
+   * @param {String} overflowText optional
+   *
+   * final text will be truncated and displayed with ellipses at the end
+   */
+
+export const truncateTextHelper = function (text, maxChars, overflowText) {
+  maxChars = maxChars || 50
+  overflowText = overflowText || '...'
+
+  return _truncate(text, {
+    length: maxChars + overflowText.length,
+    separator: ' ',
+    omission: overflowText
+  })
+}
+
 stache.registerHelper('normalizePath', normalizePathHelper)
 
 stache.registerHelper('insertExternalLinkIcon', insertExternalLinkIconHelper)
 
 stache.registerHelper('keydownFireClickHandler', keydownFireClickHandlerHelper)
+
+stache.registerHelper('truncateText', truncateTextHelper)
 
 // override for setURL issue
 route.bindings.hashchange.setURL = function (path) {
