@@ -273,6 +273,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
       return Math.sqrt(Math.pow(sidewalkHeight, 2) + Math.pow(sidewalkWidth, 2))
     }
   },
+  
 
   /**
    * @property {Number} steps.ViewModel.prototype.sidewalkAngleA sidewalkAngleA
