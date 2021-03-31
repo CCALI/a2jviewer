@@ -1,6 +1,6 @@
 import DefineMap from 'can-define/map/map'
 // import CanList from 'can-list'
-import DefineList from 'can-define/list/list'
+// import DefineList from 'can-define/list/list'
 import Component from 'can-component'
 import template from './advance-nav.stache'
 
@@ -13,14 +13,6 @@ import template from './advance-nav.stache'
 export let AdvanceNavVM = DefineMap.extend('AdvanceNavVM', {
   // passed in view debug-panel.stache
   appState: {},
-
-  myProgressOptions: {
-    get () {
-      const options = [{name: 'hhhhh'}, {name: 'jjjjjjj'}, {name: 'bbbbbb'}]
-
-      return new DefineList(options)
-    }
-  },
 
   navPages: {
     get () {
@@ -37,7 +29,15 @@ export let AdvanceNavVM = DefineMap.extend('AdvanceNavVM', {
   navToPage (pageName) {
     // a click should nav to the selected page,
     // it should also match the MyProgress state.
-    console.log(pageName, 'page')
+    let selectedIndex
+    this.appState.visitedPages.forEach((pageObj, index) => {
+      if (pageObj.name === pageName) {
+        selectedIndex = index
+      }
+    })
+    this.appState.selectedPageIndex = selectedIndex
+    // for testing purposes
+    return selectedIndex
   },
 
   connectedCallback (el) {
@@ -49,8 +49,5 @@ export let AdvanceNavVM = DefineMap.extend('AdvanceNavVM', {
 export default Component.extend({
   view: template,
   ViewModel: AdvanceNavVM,
-  tag: 'advance-nav',
-
-  helpers: {
-  }
+  tag: 'advance-nav'
 })
