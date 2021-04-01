@@ -2,15 +2,22 @@
 <div id="viewer-var-form">
 
   <div class="varvalpanel">
-    <div>
-      Advance Nav
-      <ol>
+    <table class="A2JVars table-condensed">
+      <thead>
+        <tr valign="top">
+          <th>Steps</th>
+        </tr>
+      </thead>
+      
+      <tbody>
         {{#for(page of navPages)}}
-          <li>
-            <a href="#" on:click="navToPage(page.name)">Step: {{page.step.number}} {{stripHTMLTags(scope.helpers.parseText(page.text))}}</a>
-          </li>
+          <tr valign="top">
+            <td tabindex="0" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)"> <a role="button" on:click="navToPage(page.name)">
+              Step: {{page.step.number}} {{scope.helpers.truncateText(stripHTMLTags(scope.helpers.parseText(page.text)), null, null)}}</a>
+            </td>
+          </tr>
         {{/for}}
-      </ol>
-    </div>
+      </tbody>
+    </table>
   </div>
 </div>
