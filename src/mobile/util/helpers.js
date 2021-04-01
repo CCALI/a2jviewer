@@ -2,6 +2,7 @@ import stache from 'can-stache'
 import route from 'can-route'
 import $ from 'jquery'
 import _isFunction from 'lodash/isFunction'
+import _truncate from 'lodash/truncate'
 import normalizePath from '~/src/util/normalize-path'
 
 export const normalizePathHelper = function (fileDataUrl, path) {
@@ -19,11 +20,23 @@ export const insertExternalLinkIconHelper = function (html) {
   return output
 }
 
-export const keydownFireClickHandlerHelper = function (ev, clickHandler) {
+export const keydownFireClickHandlerHelper = function (ev, clickHandler, params) {
   // activated by keyboard navigation, only allow Enter(13)/Space(32) to trigger
   if (ev && (ev.keyCode === 13 || ev.keyCode === 32)) {
-    clickHandler()
+    clickHandler(params)
   }
+}
+
+export const truncateTextHelper = function (text, maxChars, overflowText) {
+  maxChars = maxChars || 50
+  overflowText = overflowText || '...'
+
+  let returnValue = _truncate(text, {
+    length: maxChars,
+    separator: ' ',
+    omission: overflowText
+  })
+  return returnValue
 }
 
 stache.registerHelper('normalizePath', normalizePathHelper)
@@ -31,6 +44,8 @@ stache.registerHelper('normalizePath', normalizePathHelper)
 stache.registerHelper('insertExternalLinkIcon', insertExternalLinkIconHelper)
 
 stache.registerHelper('keydownFireClickHandler', keydownFireClickHandlerHelper)
+
+stache.registerHelper('truncateText', truncateTextHelper)
 
 // override for setURL issue
 route.bindings.hashchange.setURL = function (path) {
