@@ -1,4 +1,4 @@
-<can-import from="~/src/debug-panel/advance-nav/advance-nav.less" />
+<can-import from="./advance-nav.less" />
 <div id="viewer-var-form">
 
   <div class="varvalpanel">
