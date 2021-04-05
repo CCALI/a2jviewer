@@ -1,0 +1,14 @@
+<can-import from="./advance-panel.less" />
+<can-import from="~/src/debug-panel/" />
+<can-import from="~/src/advance-nav/"/>
+
+<div>
+  {{#if(appState.showAdvanceNav)}}
+    <advance-nav appState:from="appState"></advance-nav>
+  {{else}}
+    <debug-panel
+      appState:from="appState"
+      interview:from="interview"
+      traceMessage:from="appState.traceMessage" />
+  {{/if}}
+</div>

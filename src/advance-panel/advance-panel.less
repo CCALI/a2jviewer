@@ -1,0 +1,50 @@
+@import (reference) '../../styles';
+
+@panel-width: 400px;
+
+advance-panel {
+  display: block;
+
+  .debug-panel {
+    position: fixed;
+    width: 400px;
+  }
+
+  #uploadAnswerFileInput {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    height: @input-height-small + @grid-gutter-width/2;
+    position: absolute;
+    cursor: pointer;
+    width: 85px;
+  }
+
+  #viewer-logic-form {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    bottom: 0;
+    width: @panel-width;
+    padding: @grid-gutter-width/4;
+  }
+
+  #viewer-var-form {
+    top: 0;
+    left: 0;
+    bottom: 50%;
+    width: @panel-width;
+    position: fixed;
+    padding: @grid-gutter-width/4;
+    border-bottom: 1px solid @gray-lighter;
+    button {
+      margin-right: 0;
+    }
+
+    #viewer-var-filter {
+      display: inline;
+      min-height: initial; // clear collision from viewer styles
+      width: 140px;
+    }
+  }
+}
