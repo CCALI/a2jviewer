@@ -20,14 +20,14 @@
     {{#if(showDebugPanel)}}
       <input type="checkbox"
         on:click="appState.toggleAdvancePanelDisplay()" />
-      <div class="advance-panel">
+      <div class="advanced-panel">
         <advance-panel 
           appState:from="appState" 
           interview:from="interview"
           traceMessage:from="appState.traceMessage" />
       </div>
     {{/if}}
-    <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-advance-panel"{{/if}}>
+    <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-advanced-panel"{{/if}}>
       {{ let remainingSteps = null, maxDisplayedSteps = null }}
       <a2j-desktop-viewer
         remainingSteps:to="remainingSteps"

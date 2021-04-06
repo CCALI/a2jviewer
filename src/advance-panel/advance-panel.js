@@ -6,9 +6,9 @@ import template from './advance-panel.stache'
 
 /**
  * @property {DefineMap} debugPanel.ViewModel
- * @parent <advance-nav>
+ * @parent <advance-panel>
  *
- * `<advance-nav>`'s viewModel.
+ * `<advance-panel>`'s viewModel.
  */
 export let AdvancePanelVM = DefineMap.extend('AdvancePanelVM', {
   appState: {}

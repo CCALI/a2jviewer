@@ -1,7 +1,7 @@
 <can-import from="./advance-nav.less" />
 <div id="viewer-var-form">
 
-  <div class="varvalpanel">
+  <div class="advancenavpanel">
     <table class="A2JVars table-condensed">
       <thead>
         <tr valign="top">
