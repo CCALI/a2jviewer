@@ -1,0 +1,23 @@
+@import (reference) '../../styles';
+
+@panel-width: 400px;
+
+advance-panel {
+  display: block;
+
+  .debug-panel {
+    position: fixed;
+    width: 400px;
+  }
+
+  #viewer-advance-nav-form {
+    top: 0;
+    left: 0;
+    width: @panel-width;
+    position: fixed;
+    padding: @grid-gutter-width/4;
+    button {
+      margin-right: 0;
+    }
+  }
+}
