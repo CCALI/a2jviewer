@@ -1,5 +1,5 @@
 <can-import from="./advance-nav.less" />
-<div id="viewer-var-form">
+<div id="viewer-advance-nav-form">
 
   <div class="advancenavpanel">
     <table class="A2JVars table-condensed">
@@ -12,8 +12,10 @@
       <tbody>
         {{#for(page of navPages)}}
           <tr valign="top">
-            <td tabindex="0" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)"> <a role="button" on:click="navToPage(page.name)">
-              Step: {{page.step.number}} {{scope.helpers.truncateText(stripHTMLTags(scope.helpers.parseText(page.text)), null, null)}}</a>
+            <td tabindex="0" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)"> <a role="button" on:click="navToPage(page.name)" 
+              {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="activeStep"{{/eq}}>
+              Step {{page.step.number}} Q{{page.questionNumber}}: {{scope.helpers.truncateText(stripHTMLTags(scope.helpers.parseText(page.text)), null, null)}}</a>
+              </a>
             </td>
           </tr>
         {{/for}}
