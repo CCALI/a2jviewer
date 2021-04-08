@@ -2,20 +2,20 @@ import DefineMap from 'can-define/map/map'
 // import CanList from 'can-list'
 // import DefineList from 'can-define/list/list'
 import Component from 'can-component'
-import template from './advance-panel.stache'
+import template from './slideout-content.stache'
 
 /**
  * @property {DefineMap} debugPanel.ViewModel
- * @parent <advance-panel>
+ * @parent <slideout-content>
  *
- * `<advance-panel>`'s viewModel.
+ * `<slideout-content>`'s viewModel.
  */
-export let AdvancePanelVM = DefineMap.extend('AdvancePanelVM', {
+export let SlideoutContentVM = DefineMap.extend('SlideoutContentVM', {
   appState: {}
 })
 
 export default Component.extend({
   view: template,
-  ViewModel: AdvancePanelVM,
-  tag: 'advance-panel'
+  ViewModel: SlideoutContentVM,
+  tag: 'slideout-content'
 })

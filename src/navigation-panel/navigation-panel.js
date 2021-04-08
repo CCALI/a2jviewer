@@ -2,15 +2,15 @@ import DefineMap from 'can-define/map/map'
 // import CanList from 'can-list'
 // import DefineList from 'can-define/list/list'
 import Component from 'can-component'
-import template from './advance-nav.stache'
+import template from './navigation-panel.stache'
 
 /**
  * @property {DefineMap} debugPanel.ViewModel
- * @parent <advance-nav>
+ * @parent <navigation-panel>
  *
- * `<advance-nav>`'s viewModel.
+ * `<navigation-panel>`'s viewModel.
  */
-export let AdvanceNavVM = DefineMap.extend('AdvanceNavVM', {
+export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   // passed in view debug-panel.stache
   appState: {},
 
@@ -48,6 +48,6 @@ export let AdvanceNavVM = DefineMap.extend('AdvanceNavVM', {
 
 export default Component.extend({
   view: template,
-  ViewModel: AdvanceNavVM,
-  tag: 'advance-nav'
+  ViewModel: NavigationPanelVM,
+  tag: 'navigation-panel'
 })

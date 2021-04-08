@@ -1,10 +1,10 @@
-<can-import from="./advance-panel.less" />
+<can-import from="./slideout-content.less" />
 <can-import from="~/src/debug-panel/" />
-<can-import from="~/src/advance-nav/"/>
+<can-import from="~/src/navigation-panel/"/>
 
 <div>
   {{#if(appState.showAdvanceNav)}}
-    <advance-nav appState:from="appState"></advance-nav>
+    <navigation-panel appState:from="appState"></navigation-panel>
   {{else}}
     <debug-panel
       appState:from="appState"

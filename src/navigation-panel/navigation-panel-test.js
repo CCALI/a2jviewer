@@ -1,10 +1,10 @@
-import { AdvanceNavVM } from './advance-nav'
+import { NavigationPanelVM } from './navigation-panel'
 import { assert } from 'chai'
 // import app-state model
 import AppState from '~/src/models/app-state'
 import 'steal-mocha'
 
-describe('<author-debug-panel>', () => {
+describe('<navigation-panel>', () => {
   describe('viewModel', () => {
     let vm
     let appState
@@ -16,7 +16,7 @@ describe('<author-debug-panel>', () => {
     beforeEach(() => {
       // setup new appState because appState:from="appState" in the stache/view
       appState = new AppState({ visitedPages })
-      vm = new AdvanceNavVM({ appState })
+      vm = new NavigationPanelVM({ appState })
     })
 
     it('navPages', () => {
