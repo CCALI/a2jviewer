@@ -3,6 +3,9 @@
 <can-import from="~/src/navigation-panel/"/>
 
 <div>
+  <input type="checkbox"
+        class="toggle-panel"
+        on:click="appState.toggleAdvancePanelDisplay()" />
   {{#if(appState.showAdvanceNav)}}
     <navigation-panel appState:from="appState"></navigation-panel>
   {{else}}

@@ -3,18 +3,12 @@
 
   <div class="navigationpanel">
     <table class="A2JVars table-condensed">
-      <thead>
-        <tr valign="top">
-          <th>Steps</th>
-        </tr>
-      </thead>
-      
       <tbody>
         {{#for(page of navPages)}}
-          <tr valign="top">
-            <td tabindex="0" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)"> <a role="button" on:click="navToPage(page.name)" 
-              {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="activeStep"{{/eq}}>
-              Step {{page.step.number}} Q{{page.questionNumber}}: {{scope.helpers.truncateText(stripHTMLTags(scope.helpers.parseText(page.text)), null, null)}}</a>
+          <tr valign="top" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)" on:click="navToPage(page.name)">
+            <td tabindex="0" {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="activeStep"{{/eq}}> 
+              <a role="button" on:click="navToPage(page.name)">
+                Step {{page.step.number}} Q{{page.questionNumber}}: {{scope.helpers.truncateText(stripHTMLTags(scope.helpers.parseText(page.text)), null, null)}}
               </a>
             </td>
           </tr>

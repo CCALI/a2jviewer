@@ -18,8 +18,6 @@
     class="bootstrap-styles" />
 {{else}}
     {{#if(showDebugPanel)}}
-      <input type="checkbox"
-        on:click="appState.toggleAdvancePanelDisplay()" />
       <div class="slideout-content">
         <slideout-content
           appState:from="appState" 
