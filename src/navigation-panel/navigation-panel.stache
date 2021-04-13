@@ -1,6 +1,8 @@
 <can-import from="./navigation-panel.less" />
 <div id="viewer-navigation-panel-form">
 
+  <span>NAVIGATION PANEL</span>
+
   <div class="navigationpanel">
     <table class="A2JVars table-condensed">
       <tbody>
