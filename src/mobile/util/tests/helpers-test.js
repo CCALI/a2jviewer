@@ -24,16 +24,19 @@ describe('helpers module', function () {
 
     it('handles all text decorations', () => {
       const underlinedQuestionHTML = '<a href="http://google.com"><u>link</u></a>'
-      const italicQuestionHTML = '<a href="http://google.com"><em>link</em></a>'
-      const boldQuestionHTML = '<a href="http://google.com"><strong>link</strong></a>'
-      const decoratedQuestionHTML = '<a href="http://google.com"><u><strong><em>link</em></strong></u></a>'
       const outputHTMLunderlined = insertExternalLinkIconHelper(underlinedQuestionHTML)
-      const outputHTMLitalic = insertExternalLinkIconHelper(italicQuestionHTML)
-      const outputHTMLbold = insertExternalLinkIconHelper(boldQuestionHTML)
-      const outputHTMLtextDecorations = insertExternalLinkIconHelper(decoratedQuestionHTML)
       assert.equal(outputHTMLunderlined, '<a href="http://google.com"><u>link</u> <span class="glyphicon-link-ext" aria-hidden="true"/></a>', 'should work with underline style links')
+
+      const italicQuestionHTML = '<a href="http://google.com"><em>link</em></a>'
+      const outputHTMLitalic = insertExternalLinkIconHelper(italicQuestionHTML)
       assert.equal(outputHTMLitalic, '<a href="http://google.com"><em>link</em> <span class="glyphicon-link-ext" aria-hidden="true"/></a>', 'should work with italic style links')
+
+      const boldQuestionHTML = '<a href="http://google.com"><strong>link</strong></a>'
+      const outputHTMLbold = insertExternalLinkIconHelper(boldQuestionHTML)
       assert.equal(outputHTMLbold, '<a href="http://google.com"><strong>link</strong> <span class="glyphicon-link-ext" aria-hidden="true"/></a>', 'should work with bold style links')
+
+      const decoratedQuestionHTML = '<a href="http://google.com"><u><strong><em>link</em></strong></u></a>'
+      const outputHTMLtextDecorations = insertExternalLinkIconHelper(decoratedQuestionHTML)
       assert.equal(outputHTMLtextDecorations, '<a href="http://google.com"><u><strong><em>link</em></strong></u> <span class="glyphicon-link-ext" aria-hidden="true"/></a>', 'should work with all text decorations added to the links')
     })
 
