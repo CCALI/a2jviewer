@@ -437,22 +437,25 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     if (answerName) {
       const title = field.label
       const textlongValue = field._answerVm.values
+      const availableLength = this.availableLength
       const textlongVM = this
       this.appState.modalContent = {
         title,
         textlongValue,
         answerName,
         field,
-        textlongVM
+        textlongVM,
+        availableLength
       }
     }
   },
 
-  fireModalClose (field, newValue, textlongVM) {
+  fireModalClose (field, newValue, textlongVM, availableLength) {
     field._answerVm.values = newValue
     const selector = "[name='" + field.name + "']"
     const longtextEl = $(selector)[0]
     textlongVM.validateField(textlongVM, longtextEl)
+    this.availableLength = availableLength
   },
 
   /**

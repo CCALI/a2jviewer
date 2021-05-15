@@ -36,7 +36,32 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     }
   },
 
+  availableLength: {
+    type: 'number',
+    value ({ lastSet, listenTo, resolve }) {
+      listenTo(lastSet, (index) => {
+        resolve(index)
+      })
+    }
+  },
+
+  overCharacterLimit: {
+    get () {
+      return this.availableLength < 0
+    }
+  },
+
   showTranscript: { default: false },
+
+  calcAvailableLength (ev) {
+    let maxChars = this.modalContent.textlongVM.field.maxChars
+    let availableLengthValue
+    if (maxChars) {
+      availableLengthValue = (maxChars - ev.target.value.length)
+      this.availableLength = availableLengthValue
+    }
+    return availableLengthValue
+  },
 
   toggleShowTranscript () {
     this.showTranscript = !this.showTranscript
@@ -57,7 +82,8 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
       const newValue = this.modalContent.textlongValue
       const field = this.modalContent.field
       const textlongVM = this.modalContent.textlongVM
-      textlongVM.fireModalClose(field, newValue, textlongVM)
+      const availableLength = this.availableLength
+      textlongVM.fireModalClose(field, newValue, textlongVM, availableLength)
     }
 
     $('body').removeClass('bootstrap-styles')
@@ -77,7 +103,9 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   },
 
   connectedCallback (el) {
+    const vm = this
     const showModalHandler = () => {
+      vm.availableLength = vm.appState.modalContent && vm.appState.modalContent.availableLength
       // modal-backdrop blocks when debug-panel is open in Author previewMode
       // TODO: should be easier to manage when debug-panel is moved to viewer
       if (this.previewActive) {

@@ -30,11 +30,13 @@
         <div class="modal-body {{#if(modalContent.answerName)}}has-textarea{{/if}}" tabindex="1">
           {{#if(modalContent.answerName)}}
             <textarea autofocus
-              tabindex="1"
               id="textlong-input"
               class="form-control expanded-textarea"
-              value:bind="modalContent.textlongValue">
-            </textarea>
+              on:input="calcAvailableLength(scope.event)"
+              value:bind="modalContent.textlongValue"></textarea>
+            {{#if(modalContent.textlongVM.field.maxChars)}}
+              {{> exceeded-maxchars-tpl}}
+            {{/if}}
           {{else}}
             {{{insertExternalLinkIcon(parseText(modalContent.text))}}}
 

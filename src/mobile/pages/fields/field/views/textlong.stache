@@ -24,7 +24,6 @@
         aui-action="expand">
           <span class="icon resize-btn-icon glyphicon-resize" aria-hidden="true"></span>
       </button>
-
       {{#if(field.maxChars)}}
         {{> exceeded-maxchars-tpl }}
       {{/if}}
