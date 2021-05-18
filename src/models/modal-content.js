@@ -27,6 +27,6 @@ export default DefineMap.extend('ModalContent', {
 
   // only used for textlong `zoom` modals
   textlongValue: { default: '' },
-  textlongVM: { Default: DefineMap },
+  textlongFieldVM: { Default: DefineMap },
   field: { Default: DefineMap }
 })

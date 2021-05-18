@@ -37,31 +37,18 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   },
 
   availableLength: {
-    type: 'number',
-    value ({ lastSet, listenTo, resolve }) {
-      listenTo(lastSet, (index) => {
-        resolve(index)
-      })
+    get () {
+      return this.modalContent.textlongFieldVM.availableLength
     }
   },
 
   overCharacterLimit: {
     get () {
-      return this.availableLength < 0
+      return this.modalContent.textlongFieldVM.overCharacterLimit
     }
   },
 
   showTranscript: { default: false },
-
-  calcAvailableLength (ev) {
-    let maxChars = this.modalContent.textlongVM.field.maxChars
-    let availableLengthValue
-    if (maxChars) {
-      availableLengthValue = (maxChars - ev.target.value.length)
-      this.availableLength = availableLengthValue
-    }
-    return availableLengthValue
-  },
 
   toggleShowTranscript () {
     this.showTranscript = !this.showTranscript
@@ -76,16 +63,6 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   },
 
   closeModalHandler () {
-    // answer names are always lowercase versions in the answers map
-    const answerName = this.modalContent.answerName && this.modalContent.answerName.toLowerCase()
-    if (answerName) {
-      const newValue = this.modalContent.textlongValue
-      const field = this.modalContent.field
-      const textlongVM = this.modalContent.textlongVM
-      const availableLength = this.availableLength
-      textlongVM.fireModalClose(field, newValue, textlongVM, availableLength)
-    }
-
     $('body').removeClass('bootstrap-styles')
   },
 
@@ -103,9 +80,7 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   },
 
   connectedCallback (el) {
-    const vm = this
     const showModalHandler = () => {
-      vm.availableLength = vm.appState.modalContent && vm.appState.modalContent.availableLength
       // modal-backdrop blocks when debug-panel is open in Author previewMode
       // TODO: should be easier to manage when debug-panel is moved to viewer
       if (this.previewActive) {
@@ -160,7 +135,6 @@ export default Component.extend({
     '#pageModal keydown': function (el, ev) {
       // esc key closing modal
       if (ev.keyCode === 27) {
-        this.viewModel.modalContent.textlongValue = ev.target.value
         this.viewModel.closeModalHandler()
       }
     },
