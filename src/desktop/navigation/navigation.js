@@ -159,7 +159,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   resumeInterview () {
     const answers = this.interview.answers
     const resumeTargetPageName = this.appState.lastPageBeforeExit
-    this.appState.lastPageBeforeExit = null
+    // this.appState.lastPageBeforeExit = null
 
     // Special Exit page should only show in My Progress while on that page
     this.appState.visitedPages.shift()
@@ -379,7 +379,6 @@ export let ViewerNavigationVM = DefineMap.extend({
 
   connectedCallback () {
     const vm = this
-
     // update the selectedPageIndex
     const myProgressSelect = document.getElementById('myProgressSelect')
     const updateAppStateSelectedPageIndex = (ev) => {

@@ -49,9 +49,6 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // used in Viewer App during previewMode
     appState.previewActive = true
 
-    // if previewInterview.answers exist here, they are restored from Author app-state binding
-    const previewAnswers = vm.attr('previewInterview.answers')
-
     // Set fileDataURL to window.gGuidePath, so the viewer can locate the
     // interview assets (images, sounds, etc).
     mState.attr('fileDataURL', vm.attr('guidePath'))
@@ -63,9 +60,15 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     const answers = pState.attr('answers')
 
+    // if previewInterview.answers exist here, they are restored from Author app-state binding
+    const previewAnswers = vm.attr('previewInterview.answers')
+
+    const previewVisitedPages = previewAnswers && previewAnswers.vistedPages
+
     if (previewAnswers) { // restore previous answers
       // TODO: allow answers.varSet to take maps/lists
       answers.assign(previewAnswers.serialize())
+      appState.visitedPages = previewVisitedPages
     } else { // just set the interview vars
       answers.assign(interview.serialize().vars)
     }
@@ -108,7 +111,6 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     } else {
       appState.set('page', interview.attr('firstPage'))
     }
-
     vm.attr({
       appState,
       pState,
@@ -122,6 +124,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     $(el).html(template(vm))
 
     // trigger update of previewInterview to author app-state
+    interview.attr('answers').vistedPages = appState.visitedPages
     vm.attr('previewInterview', interview)
     vm.attr('traceMessage', appState.traceMessage)
 
