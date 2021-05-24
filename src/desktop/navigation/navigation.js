@@ -136,6 +136,14 @@ export let ViewerNavigationVM = DefineMap.extend({
     const exitPage = this.interview.attr('exitPage')
     const pageName = this.appState.selectedPageName
 
+    // Save current page to answers.anx to restore last visited page
+    if (answers.varExists('resumePage')) {
+      answers.varSet('resumePage', pageName)
+    } else {
+      answers.varCreate('resumePage')
+      answers.varSet('resumePage', pageName)
+    }
+
     this.appState.lastPageBeforeExit = pageName
 
     if (window._paq) {
@@ -159,7 +167,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   resumeInterview () {
     const answers = this.interview.answers
     const resumeTargetPageName = this.appState.lastPageBeforeExit
-    // this.appState.lastPageBeforeExit = null
+    this.appState.lastPageBeforeExit = null
 
     // Special Exit page should only show in My Progress while on that page
     this.appState.visitedPages.shift()

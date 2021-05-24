@@ -109,7 +109,13 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     if (vm.attr('previewPageName')) {
       appState.set('page', vm.attr('previewPageName'))
     } else {
-      appState.set('page', interview.attr('firstPage'))
+      // check for the 'resumePage' for testing
+      if (interview.attr('answers').resumepage) {
+        let pageName = interview.attr('answers').resumepage.values[1]
+        appState.set('page', pageName)
+      } else {
+        appState.set('page', interview.attr('firstPage'))
+      }
     }
     vm.attr({
       appState,
