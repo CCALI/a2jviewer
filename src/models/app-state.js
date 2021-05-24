@@ -79,14 +79,6 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     value ({ lastSet, listenTo, resolve }) {
       // this.page = foo
       listenTo(lastSet, (pageName) => {
-        // set last visited page when exiting
-
-        // if (this.lastPageBeforeExit) {
-        //   console.log(this.visitedPages[0].name, pageName, 'currentPage')
-        //   resolve(this.visitedPages[0].name)
-        // } else {
-        //   resolve(pageName)
-        // }
         resolve(pageName)
         this.dispatch('pageSet')
       })
