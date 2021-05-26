@@ -1,34 +1,39 @@
 import { assert } from 'chai'
 import { ViewerPreviewVM } from './preview'
 import 'steal-mocha'
+import Interview from '~/src/models/interview'
+import Answers from '~/src/models/answers'
 
 describe('<a2j-viewer-preview>', function () {
   describe('viewModel', function () {
     let vm = null
 
     describe('connectedCallback()', function () {
+      let oldGuide
+
       beforeEach(function () {
+        // save global
+        oldGuide = window.gGuide
         // this is parsed to get vars
         window.gGuide = {
           vars: {
             someVar: { name: 'someVar', type: 'Text', values: [null] }
           }
         }
+
+        const previewAnswers = new Answers()
+        const previewInterview = new Interview({ steps: [] })
+        const interview = new Interview({ steps: [] })
+
         vm = new ViewerPreviewVM({
-          previewInterview: {
-            answers: {
-              someAnswer: {
-                name: 'someAnswer',
-                values: [null, 'foo']
-              }
-            }
-          },
-          interview: {
-            answers: {},
-            steps: [],
-            sendfeedback: {}
-          }
+          previewInterview,
+          interview
         })
+      })
+
+      afterEach(function () {
+        // restore global
+        window.gGuide = oldGuide
       })
 
       it('generates new answers from vars if no previewInterview', () => {
@@ -45,6 +50,7 @@ describe('<a2j-viewer-preview>', function () {
       })
 
       it('restores answers from previewInterview', () => {
+        const testAnswer = vm.attr('previewAnswers').varCreate('someAnswer')
         const el = []
         const expectedAnswerKeys = [ 'someAnswer' ]
         const previewCleanup = vm.connectedCallback(el)
