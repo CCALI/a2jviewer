@@ -137,11 +137,11 @@ export let ViewerNavigationVM = DefineMap.extend({
     const pageName = this.appState.selectedPageName
 
     // Save current page to answers.anx to restore last visited page
-    if (answers.varExists('resumePage')) {
-      answers.varSet('resumePage', pageName)
+    if (answers.varExists('A2J Resume Page')) {
+      answers.varSet('A2J Resume Page', pageName)
     } else {
-      answers.varCreate('resumePage')
-      answers.varSet('resumePage', pageName)
+      answers.varCreate('A2J Resume Page')
+      answers.varSet('A2J Resume Page', pageName)
     }
 
     this.appState.lastPageBeforeExit = pageName

@@ -106,16 +106,14 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // loads that specific page (covers the case when user clicks
     // `preview` from the edit page popup).
     appState.view = 'pages'
+    const resumePageName = answers.varGet('A2J Resume Page')
     if (vm.attr('previewPageName')) {
-      appState.set('page', vm.attr('previewPageName'))
+      appState.page = vm.attr('previewPageName')
+    } else if (resumePageName) {
+      // check for the 'A2J Resume Page' for testing
+      appState.page = resumePageName
     } else {
-      // check for the 'resumePage' for testing
-      if (interview.attr('answers').resumepage) {
-        let pageName = interview.attr('answers').resumepage.values[1]
-        appState.set('page', pageName)
-      } else {
-        appState.set('page', interview.attr('firstPage'))
-      }
+      appState.page = interview.attr('firstPage')
     }
     vm.attr({
       appState,
