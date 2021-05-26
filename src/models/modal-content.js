@@ -2,7 +2,6 @@ import DefineMap from 'can-define/map/map'
 
 export default DefineMap.extend('ModalContent', {
   // variable name
-  answerName: { default: '' },
 
   // shows glyphicon-lifebuoy if emptry
   title: { default: '' },

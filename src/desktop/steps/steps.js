@@ -535,7 +535,6 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
 
       this.appState.modalContent = {
         // name undefined prevents stache warnings
-        answerName: undefined,
         title: page.learn,
         text: page.help,
         imageURL: page.helpImageURL,
