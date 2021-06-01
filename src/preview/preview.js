@@ -39,8 +39,8 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     isMobile: {}
   },
 
-  getStartPage (answers, interview) {
-    const resumePageName = answers.varGet('A2J Resume Page')
+  getStartPage (interview) {
+    const resumePageName = interview.answers.varGet('A2J Resume Page')
     if (this.attr('previewPageName')) {
       return this.attr('previewPageName')
     } else if (resumePageName) {
@@ -61,10 +61,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     appState.interview = interview
     appState.resumeEdit = resumeEdit
     appState.showDebugPanel = showDebugPanel
-    if (this.attr('traceMessage')) {
-      const authorTraceMessageLog = this.attr('traceMessage').messageLog
-      appState.traceMessage.messageLog = authorTraceMessageLog
-    }
+    return appState
   },
 
   setAnswers (pState, appState, interview) {
@@ -74,8 +71,8 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     if (previewAnswers) { // restore previous answers
       // TODO: allow answers.varSet to take maps/lists
-      answers.assign(previewAnswers.serialize())
       appState.visitedPages = previewVisitedPages
+      answers.assign(previewAnswers.serialize())
     } else { // just set the interview vars
       answers.assign(interview.serialize().vars)
     }
@@ -96,17 +93,22 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // interview assets (images, sounds, etc).
     mState.attr('fileDataURL', vm.attr('guidePath'))
 
-    const interview = this.setupInterview()
+    const interview = vm.setupInterview()
 
     const lang = new Lang(interview.attr('language'))
 
-    const answers = this.setAnswers(pState, appState, interview)
+    const answers = vm.setAnswers(pState, appState, interview)
 
     answers['lang'] = lang
 
     interview.attr('answers', answers)
 
-    this.setupAppState(appState, interview, this.resumeEdit)
+    vm.setupAppState(appState, interview, vm.resumeEdit)
+
+    if (this.attr('traceMessage')) {
+      const authorTraceMessageLog = this.attr('traceMessage').messageLog
+      appState.traceMessage.messageLog = authorTraceMessageLog
+    }
 
     const showDebugPanelHandler = (ev, showDebugPanel) => {
       vm.attr('showDebugPanel', showDebugPanel)
@@ -129,7 +131,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // `preview` from the edit page popup).
     appState.view = 'pages'
 
-    appState.page = this.getStartPage(answers, interview)
+    appState.page = vm.getStartPage(interview)
 
     vm.attr({
       appState,
