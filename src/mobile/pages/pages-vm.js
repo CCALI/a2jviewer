@@ -486,6 +486,8 @@ export default DefineMap.extend('PagesVM', {
 
       queues.batch.start()
 
+      this.setFieldAnswers(currentPage.fields)
+
       this.mState.attr('header', currentPage.step.text)
       this.mState.attr('step', currentPage.step.number)
 
