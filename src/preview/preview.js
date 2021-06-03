@@ -39,12 +39,13 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     isMobile: {}
   },
 
-  getStartPage (interview) {
+  getStartPage (interview, appState) {
     const resumePageName = interview.answers.varGet('A2J Resume Page')
     if (this.attr('previewPageName')) {
       return this.attr('previewPageName')
     } else if (resumePageName) {
       // check for the 'A2J Resume Page' for testing
+      appState.visitedPages.shift()
       return resumePageName
     } else {
       return interview.attr('firstPage')
@@ -131,7 +132,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // `preview` from the edit page popup).
     appState.view = 'pages'
 
-    appState.page = vm.getStartPage(interview)
+    appState.page = vm.getStartPage(interview, appState)
 
     vm.attr({
       appState,
