@@ -61,11 +61,12 @@ describe('<a2j-viewer-preview>', function () {
 
       it('renders the last page saved before exiting', () => {
         const answers = new Answers()
+        const appState = new AppState()
         answers.varCreate('A2J Resume Page')
         answers.varSet('A2J Resume Page', 'resumePageName')
         vm.interview.attr('answers', answers)
         const expectedPage = 'resumePageName'
-        assert.equal(expectedPage, vm.getStartPage(vm.interview), 'should render the first page')
+        assert.equal(expectedPage, vm.getStartPage(vm.interview, appState), 'should render the first page')
       })
     })
   })
