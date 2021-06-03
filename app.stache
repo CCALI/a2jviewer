@@ -1,6 +1,7 @@
 <can-import from="~/src/mobile/" />
 <can-import from="~/src/debug-alerts/"/>
 <can-import from="~/src/debug-menu/"/>
+<can-import from="~/src/slideout-content/"/>
 <can-import from="~/src/debug-panel/" />
 <can-import from="~/src/desktop/" />
 <can-import from="~/src/modal/" />
@@ -17,13 +18,14 @@
     class="bootstrap-styles" />
 {{else}}
     {{#if(showDebugPanel)}}
-      <div class="debug-panel">
-        <debug-panel
+      <div class="slideout-content">
+        <slideout-content
+          appState:from="appState" 
           interview:from="interview"
           traceMessage:from="appState.traceMessage" />
       </div>
     {{/if}}
-    <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-debug-panel"{{/if}}>
+    <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-slideout-content"{{/if}}>
       {{ let remainingSteps = null, maxDisplayedSteps = null }}
       <a2j-desktop-viewer
         remainingSteps:to="remainingSteps"

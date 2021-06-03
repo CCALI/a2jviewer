@@ -90,7 +90,7 @@
           <span
             id="step-{{currentStep.number}}-display-text"
             title="{{scope.helpers.parseText(scope.vm.getTextForStep(currentStep))}}">
-              {{scope.vm.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(currentStep)))}}
+              {{scope.helpers.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(currentStep)), null, null)}}
           </span>
         </div> <!-- sign content -->
       </div> <!-- sign outer -->
@@ -116,7 +116,7 @@
               <span
                 id="step-{{step.number}}-display-text"
                 title="{{scope.helpers.parseText(scope.vm.getTextForStep(step))}}">
-                  {{scope.vm.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(step)))}}
+                  {{scope.helpers.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(step)), null, null)}}
               </span>
             </div> <!-- sign content -->
           </div> <!-- sign outer -->

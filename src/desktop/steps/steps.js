@@ -273,7 +273,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
       return Math.sqrt(Math.pow(sidewalkHeight, 2) + Math.pow(sidewalkWidth, 2))
     }
   },
-
+  
   /**
    * @property {Number} steps.ViewModel.prototype.sidewalkAngleA sidewalkAngleA
    * @parent steps.ViewModel
@@ -405,23 +405,6 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
       variableText = variable.values[1]
     }
     return variableText || defaultText
-  },
-
-  /**
-   * @property {String} steps.ViewModel.prototype.truncateText truncateText
-   * @parent steps.ViewModel
-   *
-   * final text to be displayed on step sign in viewer, truncated as needed
-   */
-  truncateText (text, maxChars, overflowText) {
-    maxChars = maxChars || 50
-    overflowText = overflowText || '...'
-
-    return _truncate(text, {
-      length: maxChars + overflowText.length,
-      separator: ' ',
-      omission: overflowText
-    })
   },
 
   /**
