@@ -45,7 +45,9 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
       return this.attr('previewPageName')
     } else if (resumePageName) {
       // check for the 'A2J Resume Page' for testing
-      appState.visitedPages.shift()
+      if (appState.visitedPages && (appState.visitedPages[0].name === interview.exitPage)) {
+        appState.visitedPages.shift()
+      }
       return resumePageName
     } else {
       return interview.attr('firstPage')
@@ -104,7 +106,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     interview.attr('answers', answers)
 
-    vm.setupAppState(appState, interview, vm.resumeEdit)
+    vm.setupAppState(appState, interview, vm.resumeEdit, this.showDebugPanel)
 
     if (this.attr('traceMessage')) {
       const authorTraceMessageLog = this.attr('traceMessage').messageLog
