@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import DefineMap from 'can-define/map/map'
+// import DefineList from 'can-define/list/list'
 import Component from 'can-component'
 import template from './variables.stache'
 import parser from '@caliorg/a2jdeps/utils/parser'
@@ -8,6 +9,7 @@ let VariablesTableVM = DefineMap.extend('VariablesTableVM', {
   // passed in from debug-panel.stache
   interview: {},
   variables: {},
+  appState: {},
 
   clearAnswers () {
     if (this.interview) {
@@ -27,9 +29,13 @@ export default Component.extend({
     '#downloadAnswer click': function () {
       const interview = this.viewModel.interview
       const pages = interview.attr('_pages').serialize()
-      const answers = interview.attr('answers').serialize()
+      const answers = interview.attr('answers')
+      const visitedPages = JSON.stringify(interview.attr('answers').visitedPages)
+      answers.varSet('visitedpages', visitedPages)
 
-      const hotDocsXML = parser.parseANX(answers, pages)
+      const serializedAnswers = answers.serialize()
+
+      const hotDocsXML = parser.parseANX(serializedAnswers, pages)
       window.downloadTextFile(hotDocsXML, 'answer.anx')
     },
 
@@ -54,15 +60,37 @@ export default Component.extend({
       let file = $fileInput.get(0).files[0]
       let vars = interview.attr('vars').attr()
 
+      let appState = this.viewModel.appState
+
       if (file && (file.type === '' || file.type.match(textTypeRegex))) {
         let reader = new window.FileReader()
 
-        reader.onload = () => {
-          const answers = parser.parseJSON(reader.result, vars)
-          interview.attr('answers').assign(answers)
-        }
+        Promise.resolve(reader.onload = () => {
+          let parsedAnswers = parser.parseJSON(reader.result, vars)
+          const visitedPages = JSON.parse(parsedAnswers.visitedpages.values[1])
 
-        reader.readAsText(file)
+          // const visitedPagesToSave = new DefineList(visitedPages)
+          appState.visitedPages.update(visitedPages)
+          delete parsedAnswers.visitedpages
+          appState.visitedPages.shift()
+          console.log({parsedAnswers, appState}, 'parsedAnswers')
+          interview.attr('answers').assign(parsedAnswers)
+
+          let resumePage = interview.attr('answers').varGet('A2J Resume Page')
+          if (resumePage) {
+            let selectedIndex
+            appState.visitedPages.forEach((pageObj, index) => {
+              if (pageObj.name === resumePage) {
+                selectedIndex = index
+              }
+            })
+            appState.selectedPageIndex = selectedIndex
+            // for testing purposes
+            return selectedIndex
+          }
+        }).then(
+          reader.readAsText(file)
+        )
       }
     }
   }
