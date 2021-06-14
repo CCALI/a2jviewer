@@ -72,22 +72,22 @@ export default Component.extend({
           // const visitedPagesToSave = new DefineList(visitedPages)
           appState.visitedPages.update(visitedPages)
           delete parsedAnswers.visitedpages
-          appState.visitedPages.shift()
-          console.log({parsedAnswers, appState}, 'parsedAnswers')
           interview.attr('answers').assign(parsedAnswers)
 
           let resumePage = interview.attr('answers').varGet('A2J Resume Page')
+          let selectedIndex = appState.visitedPages.length - 1
           if (resumePage) {
-            let selectedIndex
+            // remove last page; EXIT PAGE
+            appState.visitedPages.shift()
             appState.visitedPages.forEach((pageObj, index) => {
               if (pageObj.name === resumePage) {
                 selectedIndex = index
               }
             })
-            appState.selectedPageIndex = selectedIndex
-            // for testing purposes
-            return selectedIndex
           }
+          appState.selectedPageIndex = selectedIndex
+          // for testing purposes
+          return selectedIndex
         }).then(
           reader.readAsText(file)
         )
