@@ -60,12 +60,18 @@ describe('<a2j-viewer-preview>', function () {
       })
 
       it('renders the last page saved before exiting', () => {
+        const visitedPages = [
+          { text: 'Welcome to the interview', step: { number: '0' }, questionNumber: 1, repeatVarValue: undefined },
+          { text: 'Enter your info, as this is a very long question text', step: { number: '0' }, questionNumber: 2, repeatVarValue: 1 }
+        ]
         const answers = new Answers()
+        const appState = new AppState()
+        appState.visitedPages = visitedPages
         answers.varCreate('A2J Resume Page')
         answers.varSet('A2J Resume Page', 'resumePageName')
         vm.interview.attr('answers', answers)
         const expectedPage = 'resumePageName'
-        assert.equal(expectedPage, vm.getStartPage(vm.interview), 'should render the first page')
+        assert.equal(expectedPage, vm.getStartPage(vm.interview, appState), 'should render the page set in A2J Resume Page variable')
       })
     })
   })
