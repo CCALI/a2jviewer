@@ -5,11 +5,40 @@ import Component from 'can-component'
 import template from './variables.stache'
 import parser from '@caliorg/a2jdeps/utils/parser'
 
-let VariablesTableVM = DefineMap.extend('VariablesTableVM', {
+export const VariablesTableVM = DefineMap.extend('VariablesTableVM', {
   // passed in from debug-panel.stache
   interview: {},
   variables: {},
   appState: {},
+
+  downloadTextFile (fileTextContent, filename) {
+    const safeFilename = this.safeWindowsFilename(filename)
+    // 05/08/2014 Download generic text file directly from client to desktop.
+    // Create an anchor, set its url to the data, use type application/octet-stream to force download rather than view in browser.
+    if (window.navigator.msSaveBlob) {
+      const blob = new window.Blob([fileTextContent], {type: 'application/octet-stream'})
+      window.navigator.msSaveBlob(blob, safeFilename)
+    } else {
+      const a = window.document.createElement('a')
+      a.href = window.URL.createObjectURL(new window.Blob([fileTextContent], {type: 'application/octet-stream'}))
+      a.download = safeFilename
+      // Append anchor to body.
+      document.body.appendChild(a)
+      a.click()
+      // Remove anchor from body
+      document.body.removeChild(a)
+    }
+  },
+
+  // Write test for this, string to contain all the invalid file names.
+  safeWindowsFilename (filename) {
+    if (typeof filename === 'string') {
+      // forward slashes become hypens for dates
+      // all others removed
+      const dateSafeFileName = filename.replace(/\//g, '-')
+      return dateSafeFileName.replace(/[<>:"\\|?*]+/g, '')
+    }
+  },
 
   clearAnswers () {
     if (this.interview) {
@@ -36,7 +65,7 @@ export default Component.extend({
       const serializedAnswers = answers.serialize()
 
       const hotDocsXML = parser.parseANX(serializedAnswers, pages)
-      window.downloadTextFile(hotDocsXML, 'answer.anx')
+      this.viewModel.downloadTextFile(hotDocsXML, 'answer.anx')
     },
 
     '#viewer-var-filter keyup': function () {
