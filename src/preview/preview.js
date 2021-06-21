@@ -19,7 +19,8 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // passed in via viewer-preview-layout.stache bindings
     resumeEdit: {},
     guidePath: {},
-    showDebugPanel: {},
+    showSlideoutContent: {},
+    showAdvanceNav: {},
     previewPageName: {},
     // passed up to Author app-state via viewer-preview-layout.stache bindings
     traceMessage: {},
@@ -60,10 +61,10 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     return new Interview(parsedData)
   },
 
-  setupAppState (appState, interview, resumeEdit, showDebugPanel) {
+  setupAppState (appState, interview, resumeEdit, showSlideoutContent) {
     appState.interview = interview
     appState.resumeEdit = resumeEdit
-    appState.showDebugPanel = showDebugPanel
+    appState.showSlideoutContent = showSlideoutContent
     return appState
   },
 
@@ -106,17 +107,17 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     interview.attr('answers', answers)
 
-    vm.setupAppState(appState, interview, vm.resumeEdit, this.showDebugPanel)
+    vm.setupAppState(appState, interview, vm.resumeEdit, this.showSlideoutContent)
 
     if (this.attr('traceMessage')) {
       const authorTraceMessageLog = this.attr('traceMessage').messageLog
       appState.traceMessage.messageLog = authorTraceMessageLog
     }
 
-    const showDebugPanelHandler = (ev, showDebugPanel) => {
-      vm.attr('showDebugPanel', showDebugPanel)
+    const showDebugPanelHandler = (ev, showSlideoutContent) => {
+      vm.attr('showSlideoutContent', showSlideoutContent)
     }
-    appState.listenTo('showDebugPanel', showDebugPanelHandler)
+    appState.listenTo('showSlideoutContent', showDebugPanelHandler)
 
     // needs to be created after answers are set
     const logic = new Logic({ interview })
@@ -155,7 +156,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     return function () {
       tLogic.stopListening('traceMessage', tLogicMessageHandler)
-      appState.stopListening('showDebugPanel', showDebugPanelHandler)
+      appState.stopListening('showSlideoutContent', showDebugPanelHandler)
       tearDownAppState()
     }
   }

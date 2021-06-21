@@ -17,7 +17,7 @@
     traceMessage:to="traceMessage"
     class="bootstrap-styles" />
 {{else}}
-    {{#if(showDebugPanel)}}
+    {{#if(appState.showSlideoutContent)}}
       <div class="slideout-content">
         <slideout-content
           appState:from="appState" 
@@ -25,12 +25,12 @@
           traceMessage:from="appState.traceMessage" />
       </div>
     {{/if}}
-    <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-slideout-content"{{/if}}>
+    <div id="viewer-app" {{#if(appState.showSlideoutContent)}}class="with-slideout-content"{{/if}}>
       {{ let remainingSteps = null, maxDisplayedSteps = null }}
       <a2j-desktop-viewer
         remainingSteps:to="remainingSteps"
         maxDisplayedSteps:to="maxDisplayedSteps"
-        showDebugPanel:from="showDebugPanel"
+        showSlideoutContent:from="appState.showSlideoutContent"
         lang:from="lang"
         logic:from="logic"
         appState:from="appState"

@@ -5,7 +5,9 @@
 <div>
   <input type="checkbox"
         class="toggle-panel"
-        on:click="appState.toggleAdvancePanelDisplay()" />
+        on:click="appState.toggleAdvancePanelDisplay()"
+        checked:bind="appState.showAdvanceNav"
+        />
   {{#if(appState.showAdvanceNav)}}
     <navigation-panel appState:from="appState"></navigation-panel>
   {{else}}

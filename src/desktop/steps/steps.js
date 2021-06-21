@@ -24,7 +24,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   appState: {},
   mState: {},
   pState: {},
-  showDebugPanel: {},
+  showSlideoutContent: {},
   lang: {},
   logic: {},
   interview: {},
@@ -574,7 +574,7 @@ export default Component.extend({
       this.viewModel.updateDomProperties()
     },
 
-    '{viewModel} showDebugPanel': function (vm) {
+    '{viewModel} showSlideoutContent': function (vm) {
       vm.afterAvatarLoaded(() => vm.updateDomProperties())
     },
 
