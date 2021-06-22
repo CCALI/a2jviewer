@@ -122,7 +122,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   // set when launched via preview.js during Author Preview
   previewActive: {
-    serialize: true
+    serialize: false
   },
 
   saveAndExitActive: {

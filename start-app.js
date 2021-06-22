@@ -44,6 +44,8 @@ export default function ({ interview, pState, mState, appState }) {
 
   appState.logic = logic
 
+  appState.slideoutContent = 'nav'
+
   // set initial page route
   appState.view = 'pages'
   appState.page = resumePageName || appState.interview.attr('firstPage')
