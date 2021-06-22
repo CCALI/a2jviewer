@@ -20,7 +20,11 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     resumeEdit: {},
     guidePath: {},
     showSlideoutContent: {},
-    showAdvanceNav: {},
+    slideoutContent: {
+      set (slideoutContent) {
+        return slideoutContent
+      }
+    },
     previewPageName: {},
     // passed up to Author app-state via viewer-preview-layout.stache bindings
     traceMessage: {},
@@ -61,10 +65,11 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     return new Interview(parsedData)
   },
 
-  setupAppState (appState, interview, resumeEdit, showSlideoutContent) {
+  setupAppState (appState, interview, resumeEdit, showSlideoutContent, slideoutContent) {
     appState.interview = interview
     appState.resumeEdit = resumeEdit
     appState.showSlideoutContent = showSlideoutContent
+    appState.slideoutContent = slideoutContent
     return appState
   },
 
@@ -107,17 +112,23 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
 
     interview.attr('answers', answers)
 
-    vm.setupAppState(appState, interview, vm.resumeEdit, this.showSlideoutContent)
+    vm.setupAppState(appState, interview, vm.resumeEdit, this.showSlideoutContent, this.slideoutContent)
 
     if (this.attr('traceMessage')) {
       const authorTraceMessageLog = this.attr('traceMessage').messageLog
       appState.traceMessage.messageLog = authorTraceMessageLog
     }
 
+    // listen to viewer and update author for later restore
     const showDebugPanelHandler = (ev, showSlideoutContent) => {
       vm.attr('showSlideoutContent', showSlideoutContent)
     }
     appState.listenTo('showSlideoutContent', showDebugPanelHandler)
+
+    const slideoutContentHandler = (ev, slideoutContent) => {
+      vm.attr('slideoutContent', slideoutContent)
+    }
+    appState.listenTo('slideoutContent', slideoutContentHandler)
 
     // needs to be created after answers are set
     const logic = new Logic({ interview })
@@ -157,6 +168,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     return function () {
       tLogic.stopListening('traceMessage', tLogicMessageHandler)
       appState.stopListening('showSlideoutContent', showDebugPanelHandler)
+      appState.stopListening('slideoutContent', slideoutContentHandler)
       tearDownAppState()
     }
   }

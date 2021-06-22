@@ -24,7 +24,11 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   appState: {},
   mState: {},
   pState: {},
-  showSlideoutContent: {},
+  showSlideoutContent: {
+    get () {
+      return this.appState.showSlideoutContent
+    }
+  },
   lang: {},
   logic: {},
   interview: {},
@@ -532,6 +536,9 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
 
   connectedCallback () {
     const vm = this
+    const handleUpdateDomProperties = function () {
+      vm.afterAvatarLoaded(() => vm.updateDomProperties())
+    }
     const restoreUserAvatar = (ev, show) => {
       if (show) {
         const answers = vm.interview.answers
@@ -541,12 +548,21 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
           vm.appState.userAvatar.update(JSON.parse(previousUserAvatar))
         }
       }
+      handleUpdateDomProperties()
     }
     // if saved answer exists, restoreUserAvatar when shown
+
+    vm.appState.listenTo('showSlideoutContent', handleUpdateDomProperties)
+
     vm.listenTo('showUserAvatar', restoreUserAvatar)
 
+    vm.listenTo('currentPage', handleUpdateDomProperties)
     // cleanup
-    return () => { this.stopListening('showUserAvatar', restoreUserAvatar) }
+    return () => {
+      vm.stopListening('showUserAvatar', restoreUserAvatar)
+      vm.appState.stopListening('showSlideoutContent', handleUpdateDomProperties)
+      vm.stopListening('currentPage', handleUpdateDomProperties)
+    }
   }
 })
 
@@ -572,18 +588,6 @@ export default Component.extend({
   events: {
     '{window} resize': function () {
       this.viewModel.updateDomProperties()
-    },
-
-    '{viewModel} showSlideoutContent': function (vm) {
-      vm.afterAvatarLoaded(() => vm.updateDomProperties())
-    },
-
-    '{viewModel} showUserAvatar': function (vm) {
-      vm.afterAvatarLoaded(() => vm.updateDomProperties())
-    },
-
-    '{viewModel} currentPage': function (vm) {
-      vm.afterAvatarLoaded(() => vm.updateDomProperties())
     }
   },
 

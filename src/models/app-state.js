@@ -40,11 +40,9 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: null
   },
 
-  showAdvanceNav: {
+  slideoutContent: {
     serialize: false,
-    get () {
-      return this.advanceNavToggleTrigger
-    }
+    default: 'debug'
   },
 
   advanceNavToggleTrigger: {
@@ -182,7 +180,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   toggleAdvancePanelDisplay () {
-    this.advanceNavToggleTrigger = !this.advanceNavToggleTrigger
+    this.slideoutContent = this.slideoutContent === 'debug' ? 'nav' : 'debug'
   },
 
   getVisitedPageIndex (visitedPage) {
