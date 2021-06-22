@@ -30,7 +30,6 @@
       <a2j-desktop-viewer
         remainingSteps:to="remainingSteps"
         maxDisplayedSteps:to="maxDisplayedSteps"
-        showSlideoutContent:from="appState.showSlideoutContent"
         lang:from="lang"
         logic:from="logic"
         appState:from="appState"
