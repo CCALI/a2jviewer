@@ -1,6 +1,6 @@
 {
   "name": "@caliorg/a2jviewer",
-  "version": "7.1.1",
+  "version": "7.0.23",
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
   "scripts": {
@@ -69,7 +69,7 @@
     }
   },
   "dependencies": {
-    "@caliorg/a2jdeps": "^7.0.17",
+    "@caliorg/a2jdeps": "^7.0.18",
     "bit-tabs": "^2.0.0",
     "blueimp-file-upload": "^9.10.1",
     "bootstrap": "^3.4.1",
