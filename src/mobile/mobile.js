@@ -16,6 +16,10 @@ const MobileViewerVM = DefineMap.extend('MobileViewerVM', {
     }
   },
 
+  navPanelToggle: {
+    serialize: false,
+    default: false
+  },
   hideCredits: function () {
     this.mState.attr('showCredits', false)
   },

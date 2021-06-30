@@ -48,6 +48,12 @@ const HeaderVM = DefineMap.extend({
     }
   },
 
+  navPanelToggle: {},
+
+  showNavPanel () {
+    this.navPanelToggle = !this.navPanelToggle
+  },
+
   toggleCredits () {
     const currentVal = this.mState.attr('showCredits')
     this.mState.showCredits = !currentVal

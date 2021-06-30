@@ -13,6 +13,7 @@ import template from './navigation-panel.stache'
 export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   // passed in view debug-panel.stache
   appState: {},
+  navPanelToggle: {},
 
   navPages: {
     get () {
@@ -36,6 +37,7 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
       }
     })
     this.appState.selectedPageIndex = selectedIndex
+    this.navPanelToggle = !this.navPanelToggle
     // for testing purposes
     return selectedIndex
   },

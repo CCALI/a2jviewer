@@ -1,6 +1,11 @@
 <br/>
 <div class="row">
-  <div class="col-xs-3 text-center">
+  <div class="col-xs-1 text-center">
+    <a role="button" class="nav-link mobile-nav" tabindex="0" aui-action="save" aria-label="SHOW ADVANCED NAVIGATION">
+      <span class="glyphicon-list-bullet" aria-hidden="true" on:click="showNavPanel()"></span>
+    </a>
+  </div>  
+  <div class="col-xs-2 text-center">
     <a on:el:click="toggleCredits()" href="javascript://" aria-label="toggle-author-credits">
       <img src="{{joinBase 'images/a2j-circle-300.png'}}" class="logo-viewer-mobile" alt="Access to Justice Logo"/>
     </a>
