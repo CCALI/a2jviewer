@@ -40,6 +40,8 @@ export default function ({ interview, pState, mState, appState }) {
   const logic = new Logic({ interview })
 
   appState.interview = interview
+  const forceMobileViewer = interview.attr('forceMobileViewer')
+  if (forceMobileViewer) isMobile(true)
   setMobileDesktopClass(isMobile, $('body'))
 
   appState.logic = logic

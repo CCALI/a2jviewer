@@ -16,11 +16,13 @@
     interview:from="interview"
     traceMessage:to="traceMessage"
     class="bootstrap-styles" />
+
+    <debug-menu appState:from="appState" />
 {{else}}
     {{#if(appState.showSlideoutContent)}}
       <div class="slideout-content">
         <slideout-content
-          appState:from="appState" 
+          appState:from="appState"
           interview:from="interview"
           traceMessage:from="appState.traceMessage" />
       </div>

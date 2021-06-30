@@ -147,6 +147,8 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     appState.view = 'pages'
 
     appState.page = vm.getStartPage(interview, appState)
+    const forceMobileViewer = interview.attr('forceMobileViewer')
+    isMobile({forceMobileViewer})
 
     vm.attr({
       appState,
