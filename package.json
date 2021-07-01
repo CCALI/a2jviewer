@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "standard --fix --env mocha",
     "test": "npm run lint && testee --reporter Spec --browsers firefox tests/index.html",
-    "build": "grunt build --gruntfile=Gruntfile.js",
+    "build": "node ./bin/auto-version-update && grunt build --gruntfile=Gruntfile.js",
     "deploy": "npm i && npm run build && mv index.html index.dev.html && mv index.production.html index.html",
     "build-docs": "grunt documentjs",
     "serve-docs": "grunt documentjs-lite && http-server docs",

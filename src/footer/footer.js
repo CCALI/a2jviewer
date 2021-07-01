@@ -2,6 +2,7 @@ import Component from 'can-component'
 import template from './footer.stache'
 import DefineMap from 'can-define/map/map'
 import constants from '~/src/models/constants'
+import version from './footerVersion'
 import moment from 'moment'
 
 import 'can-map-define'
@@ -12,7 +13,7 @@ export const FooterVM = DefineMap.extend('FooterVM', {
 
   viewerVersion: {
     get () {
-      return 'A2J ' + constants.A2JVersionNum + '-' + constants.A2JVersionDate
+      return 'A2J ' + version.number + '-' + constants.A2JVersionDate
     }
   },
   currentYear: {
