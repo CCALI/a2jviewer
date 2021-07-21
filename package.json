@@ -6,12 +6,13 @@
   "scripts": {
     "lint": "standard --fix --env mocha",
     "test": "npm run lint && testee --reporter Spec --browsers firefox tests/index.html",
-    "build": "node ./bin/auto-version-update && grunt build --gruntfile=Gruntfile.js",
+    "build": "grunt build --gruntfile=Gruntfile.js",
     "deploy": "npm i && npm run build && mv index.html index.dev.html && mv index.production.html index.html",
     "build-docs": "grunt documentjs",
     "serve-docs": "grunt documentjs-lite && http-server docs",
     "build:viewer-zip": "node ./bin/make-viewer-package",
-    "preversion": "npm test",
+    "update-version": "node ./bin/auto-version-update",
+    "preversion": "npm test && update-version",
     "release:pre": "npm version prerelease && npm publish --tag=pre",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
@@ -29,12 +30,7 @@
     "url": "https://github.com/CCALI/a2jviewer"
   },
   "standard": {
-    "globals": [
-      "$",
-      "jQuery",
-      "can",
-      "mocha"
-    ],
+    "globals": ["$", "jQuery", "can", "mocha"],
     "ignore": [
       "src/calculator/",
       "models/fixtures/**",
@@ -43,21 +39,11 @@
       "styles/documentjs-theme/**",
       "models/tests/fixtures/**"
     ],
-    "env": [
-      "mocha"
-    ]
+    "env": ["mocha"]
   },
   "steal": {
-    "plugins": [
-      "done-css",
-      "steal-less",
-      "steal-stache"
-    ],
-    "npmIgnore": [
-      "testee",
-      "documentjs",
-      "grunt-contrib-less"
-    ],
+    "plugins": ["done-css", "steal-less", "steal-stache"],
+    "npmIgnore": ["testee", "documentjs", "grunt-contrib-less"],
     "map": {
       "cuid": "cuid/dist/cuid",
       "jquery-ui/widget": "jquery-ui/ui/widget",
