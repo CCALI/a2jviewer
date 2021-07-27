@@ -1,6 +1,6 @@
 {
   "name": "@caliorg/a2jviewer",
-  "version": "7.0.24-2",
+  "version": "7.0.24-3",
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
   "scripts": {
@@ -31,7 +31,12 @@
     "url": "https://github.com/CCALI/a2jviewer"
   },
   "standard": {
-    "globals": ["$", "jQuery", "can", "mocha"],
+    "globals": [
+      "$",
+      "jQuery",
+      "can",
+      "mocha"
+    ],
     "ignore": [
       "src/calculator/",
       "models/fixtures/**",
@@ -40,11 +45,21 @@
       "styles/documentjs-theme/**",
       "models/tests/fixtures/**"
     ],
-    "env": ["mocha"]
+    "env": [
+      "mocha"
+    ]
   },
   "steal": {
-    "plugins": ["done-css", "steal-less", "steal-stache"],
-    "npmIgnore": ["testee", "documentjs", "grunt-contrib-less"],
+    "plugins": [
+      "done-css",
+      "steal-less",
+      "steal-stache"
+    ],
+    "npmIgnore": [
+      "testee",
+      "documentjs",
+      "grunt-contrib-less"
+    ],
     "map": {
       "cuid": "cuid/dist/cuid",
       "jquery-ui/widget": "jquery-ui/ui/widget",
