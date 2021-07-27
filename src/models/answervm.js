@@ -52,7 +52,7 @@ export default DefineMap.extend('AnswerVM', {
         this.answer.set('values', [null])
       }
 
-      this.answer.values.set(index, val)
+      this.answer.values[index] = val
 
       return val
     }
@@ -95,13 +95,22 @@ export default DefineMap.extend('AnswerVM', {
         break
       case 'number':
       case 'numberdollar':
-        invalid = validations.isNumber() || validations.required() || validations.min() || validations.max()
+        invalid =
+          validations.isNumber() ||
+          validations.required() ||
+          validations.min() ||
+          validations.max()
         break
       case 'numberpick':
-        invalid = validations.required() || validations.min() || validations.max()
+        invalid =
+          validations.required() || validations.min() || validations.max()
         break
       case 'datemdy':
-        invalid = validations.isDate() || validations.required() || validations.min() || validations.max()
+        invalid =
+          validations.isDate() ||
+          validations.required() ||
+          validations.min() ||
+          validations.max()
         break
       case 'gender':
       case 'useravatar':
