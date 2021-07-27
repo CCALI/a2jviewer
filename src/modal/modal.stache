@@ -10,7 +10,7 @@
     aria-labelledby="pageModalLbl"
   >
 
-    <div class="modal-dialog {{#if(modalContent.answerName)}}modal-lg{{/if}}">
+    <div class="modal-dialog {{#if(modalContent.textlongFieldVM.field.name)}}modal-lg{{/if}}">
       <div class="modal-content">
         {{#if(modalContent)}}
         <div class="modal-header">
@@ -27,14 +27,16 @@
           </h4>
         </div>
 
-        <div class="modal-body {{#if(modalContent.answerName)}}has-textarea{{/if}}" tabindex="1">
-          {{#if(modalContent.answerName)}}
+        <div class="modal-body {{#if(modalContent.textlongFieldVM.field.name)}}has-textarea{{/if}}" tabindex="1">
+          {{#if(modalContent.textlongFieldVM.field.name)}}
             <textarea autofocus
-              tabindex="1"
               id="textlong-input"
               class="form-control expanded-textarea"
-              value:bind="modalContent.textlongValue">
-            </textarea>
+              on:input="modalContent.textlongFieldVM.calcAvailableLength(scope.event)"
+              value:bind="modalContent.textlongFieldVM.field._answerVm.values" />
+            {{#if(modalContent.textlongFieldVM.field.maxChars)}}
+              {{> exceeded-maxchars-tpl}}
+            {{/if}}
           {{else}}
             {{{insertExternalLinkIcon(parseText(modalContent.text))}}}
 

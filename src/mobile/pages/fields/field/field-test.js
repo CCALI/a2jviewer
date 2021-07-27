@@ -196,19 +196,6 @@ describe('<a2j-field>', () => {
       assert.equal(vm.overCharacterLimit, true, 'did not detect exceeding answer limit')
     })
 
-    it('passes textlong answer to modal', function () {
-      const field = vm.field
-      field.assign({
-        'type': 'textlong',
-        'label': 'BigText'
-      })
-      field._answerVm.values = 'cash money'
-
-      vm.expandTextlong(field)
-      const textlongValue = vm.modalContent.textlongValue
-      assert.equal(textlongValue, 'cash money', 'should copy field answer value to modal')
-    })
-
     it('date validation normalizes the input value', () => {
       const field = vm.field
       field.assign({ type: 'datemdy', label: 'enter birthday' })
