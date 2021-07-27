@@ -112,27 +112,6 @@ describe('<a2j-viewer-steps>', function () {
       assert.equal(vm.getStepIndex(step), 2, 'it did not return the correct index for the step')
     })
 
-    it('truncateText', () => {
-      const step = vm.interview.attr('steps.0')
-      assert.equal(vm.truncateText(step.text), 'Foo Test', 'should not change short text')
-
-      step.attr('text', 'slightly longer text with a space as the 51st char that gets truncated')
-
-      assert.equal(
-        vm.truncateText(step.text),
-        'slightly longer text with a space as the 51st char...',
-        'should truncate to 50 chars and add an ellipsis'
-      )
-
-      step.attr('text', 'long text with a space as the 50th character in the middle of a word')
-
-      assert.equal(
-        vm.truncateText(step.text),
-        'long text with a space as the 50th character in...',
-        'should truncate to last full word before 50th char and add an ellipsis'
-      )
-    })
-
     it('computes nextSteps & remainingSteps based on current step', function () {
       const expectedNextSteps = [
         { number: '3', text: 'Graphic Test' },

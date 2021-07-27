@@ -169,13 +169,6 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
-  connectedCallback () {
-    const vm = this
-    vm.setCurrentPage()
-
-    return () => { vm.stopListening() }
-  },
-
   returnHome () {
     this.appState.update({})
   },
@@ -494,6 +487,7 @@ export default DefineMap.extend('PagesVM', {
       queues.batch.start()
 
       this.setFieldAnswers(currentPage.fields)
+
       this.mState.attr('header', currentPage.step.text)
       this.mState.attr('step', currentPage.step.number)
 
@@ -598,5 +592,19 @@ export default DefineMap.extend('PagesVM', {
         { format: 'val', msg: answerValue }
       ]
     })
+  },
+
+  connectedCallback () {
+    const vm = this
+    vm.setCurrentPage()
+
+    const appState = vm.appState
+
+    appState.listenTo('selectedPageName', (ev, newVal, oldVal) => {
+      const currentPage = vm.currentPage
+      vm.setFieldAnswers(currentPage.fields)
+    })
+
+    return () => { vm.stopListening() }
   }
 })

@@ -136,6 +136,14 @@ export let ViewerNavigationVM = DefineMap.extend({
     const exitPage = this.interview.attr('exitPage')
     const pageName = this.appState.selectedPageName
 
+    // Save current page to answers.anx to restore last visited page
+    if (answers.varExists('A2J Resume Page')) {
+      answers.varSet('A2J Resume Page', pageName)
+    } else {
+      answers.varCreate('A2J Resume Page')
+      answers.varSet('A2J Resume Page', pageName)
+    }
+
     this.appState.lastPageBeforeExit = pageName
 
     if (window._paq) {
@@ -379,7 +387,6 @@ export let ViewerNavigationVM = DefineMap.extend({
 
   connectedCallback () {
     const vm = this
-
     // update the selectedPageIndex
     const myProgressSelect = document.getElementById('myProgressSelect')
     const updateAppStateSelectedPageIndex = (ev) => {

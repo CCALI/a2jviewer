@@ -19,7 +19,12 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // passed in via viewer-preview-layout.stache bindings
     resumeEdit: {},
     guidePath: {},
-    showDebugPanel: {},
+    showSlideoutContent: {},
+    slideoutContent: {
+      set (slideoutContent) {
+        return slideoutContent
+      }
+    },
     previewPageName: {},
     // passed up to Author app-state via viewer-preview-layout.stache bindings
     traceMessage: {},
@@ -39,6 +44,50 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     isMobile: {}
   },
 
+  getStartPage (interview, appState) {
+    const resumePageName = interview.answers.varGet('A2J Resume Page')
+    if (this.attr('previewPageName')) {
+      return this.attr('previewPageName')
+    } else if (resumePageName) {
+      // check for the 'A2J Resume Page' for testing
+      if (appState.visitedPages && (appState.visitedPages[0].name === interview.exitPage)) {
+        appState.visitedPages.shift()
+      }
+      return resumePageName
+    } else {
+      return interview.attr('firstPage')
+    }
+  },
+
+  setupInterview () {
+    const mobileData = parseGuideToMobile(_assign({}, window.gGuide))
+    const parsedData = Interview.parseModel(mobileData)
+    return new Interview(parsedData)
+  },
+
+  setupAppState (appState, interview, resumeEdit, showSlideoutContent, slideoutContent) {
+    appState.interview = interview
+    appState.resumeEdit = resumeEdit
+    appState.showSlideoutContent = showSlideoutContent
+    appState.slideoutContent = slideoutContent
+    return appState
+  },
+
+  setAnswers (pState, appState, interview) {
+    const answers = pState.attr('answers')
+    const previewAnswers = this.attr('previewInterview.answers')
+    const previewVisitedPages = previewAnswers && previewAnswers.visitedPages
+
+    if (previewAnswers) { // restore previous answers
+      // TODO: allow answers.varSet to take maps/lists
+      appState.visitedPages = previewVisitedPages
+      answers.assign(previewAnswers.serialize())
+    } else { // just set the interview vars
+      answers.assign(interview.serialize().vars)
+    }
+    return answers
+  },
+
   connectedCallback (el) {
     const vm = this
     const appState = new AppState()
@@ -49,44 +98,37 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // used in Viewer App during previewMode
     appState.previewActive = true
 
-    // if previewInterview.answers exist here, they are restored from Author app-state binding
-    const previewAnswers = vm.attr('previewInterview.answers')
-
     // Set fileDataURL to window.gGuidePath, so the viewer can locate the
     // interview assets (images, sounds, etc).
     mState.attr('fileDataURL', vm.attr('guidePath'))
 
-    const mobileData = parseGuideToMobile(_assign({}, window.gGuide))
-    const parsedData = Interview.parseModel(mobileData)
-    const interview = new Interview(parsedData)
+    const interview = vm.setupInterview()
+
     const lang = new Lang(interview.attr('language'))
 
-    const answers = pState.attr('answers')
-
-    if (previewAnswers) { // restore previous answers
-      // TODO: allow answers.varSet to take maps/lists
-      answers.assign(previewAnswers.serialize())
-    } else { // just set the interview vars
-      answers.assign(interview.serialize().vars)
-    }
+    const answers = vm.setAnswers(pState, appState, interview)
 
     answers['lang'] = lang
+
     interview.attr('answers', answers)
 
-    appState.interview = interview
-    appState.resumeEdit = vm.resumeEdit
-    appState.showDebugPanel = vm.showDebugPanel
+    vm.setupAppState(appState, interview, vm.resumeEdit, this.showSlideoutContent, this.slideoutContent)
 
-    // restore Author messageLog
-    if (vm.attr('traceMessage')) {
-      const authorTraceMessageLog = vm.attr('traceMessage').messageLog
+    if (this.attr('traceMessage')) {
+      const authorTraceMessageLog = this.attr('traceMessage').messageLog
       appState.traceMessage.messageLog = authorTraceMessageLog
     }
 
-    const showDebugPanelHandler = (ev, showDebugPanel) => {
-      vm.attr('showDebugPanel', showDebugPanel)
+    // listen to viewer and update author for later restore
+    const showDebugPanelHandler = (ev, showSlideoutContent) => {
+      vm.attr('showSlideoutContent', showSlideoutContent)
     }
-    appState.listenTo('showDebugPanel', showDebugPanelHandler)
+    appState.listenTo('showSlideoutContent', showDebugPanelHandler)
+
+    const slideoutContentHandler = (ev, slideoutContent) => {
+      vm.attr('slideoutContent', slideoutContent)
+    }
+    appState.listenTo('slideoutContent', slideoutContentHandler)
 
     // needs to be created after answers are set
     const logic = new Logic({ interview })
@@ -103,11 +145,10 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     // loads that specific page (covers the case when user clicks
     // `preview` from the edit page popup).
     appState.view = 'pages'
-    if (vm.attr('previewPageName')) {
-      appState.set('page', vm.attr('previewPageName'))
-    } else {
-      appState.set('page', interview.attr('firstPage'))
-    }
+
+    appState.page = vm.getStartPage(interview, appState)
+    const forceMobileViewer = interview.attr('forceMobileViewer')
+    isMobile({forceMobileViewer})
 
     vm.attr({
       appState,
@@ -122,12 +163,14 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
     $(el).html(template(vm))
 
     // trigger update of previewInterview to author app-state
+    interview.attr('answers').visitedPages = appState.visitedPages
     vm.attr('previewInterview', interview)
     vm.attr('traceMessage', appState.traceMessage)
 
     return function () {
       tLogic.stopListening('traceMessage', tLogicMessageHandler)
-      appState.stopListening('showDebugPanel', showDebugPanelHandler)
+      appState.stopListening('showSlideoutContent', showDebugPanelHandler)
+      appState.stopListening('slideoutContent', slideoutContentHandler)
       tearDownAppState()
     }
   }

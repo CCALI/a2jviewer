@@ -6,7 +6,6 @@ import _some from 'lodash/some'
 import Component from 'can-component'
 import template from './steps.stache'
 import _findIndex from 'lodash/findIndex'
-import _truncate from 'lodash/truncate'
 import learnMoreTemplate from './learn-more.stache'
 import { analytics } from '~/src/util/analytics'
 import stache from 'can-stache'
@@ -25,7 +24,11 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   appState: {},
   mState: {},
   pState: {},
-  showDebugPanel: {},
+  showSlideoutContent: {
+    get () {
+      return this.appState.showSlideoutContent
+    }
+  },
   lang: {},
   logic: {},
   interview: {},
@@ -408,23 +411,6 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   },
 
   /**
-   * @property {String} steps.ViewModel.prototype.truncateText truncateText
-   * @parent steps.ViewModel
-   *
-   * final text to be displayed on step sign in viewer, truncated as needed
-   */
-  truncateText (text, maxChars, overflowText) {
-    maxChars = maxChars || 50
-    overflowText = overflowText || '...'
-
-    return _truncate(text, {
-      length: maxChars + overflowText.length,
-      separator: ' ',
-      omission: overflowText
-    })
-  },
-
-  /**
    * @property {Number} steps.ViewModel.prototype.getStepWidth getStepWidth
    * @parent steps.ViewModel
    *
@@ -549,6 +535,9 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
 
   connectedCallback () {
     const vm = this
+    const handleUpdateDomProperties = function () {
+      vm.afterAvatarLoaded(() => vm.updateDomProperties())
+    }
     const restoreUserAvatar = (ev, show) => {
       if (show) {
         const answers = vm.interview.answers
@@ -558,12 +547,21 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
           vm.appState.userAvatar.update(JSON.parse(previousUserAvatar))
         }
       }
+      handleUpdateDomProperties()
     }
     // if saved answer exists, restoreUserAvatar when shown
+
+    vm.appState.listenTo('showSlideoutContent', handleUpdateDomProperties)
+
     vm.listenTo('showUserAvatar', restoreUserAvatar)
 
+    vm.listenTo('currentPage', handleUpdateDomProperties)
     // cleanup
-    return () => { this.stopListening('showUserAvatar', restoreUserAvatar) }
+    return () => {
+      vm.stopListening('showUserAvatar', restoreUserAvatar)
+      vm.appState.stopListening('showSlideoutContent', handleUpdateDomProperties)
+      vm.stopListening('currentPage', handleUpdateDomProperties)
+    }
   }
 })
 
@@ -589,18 +587,6 @@ export default Component.extend({
   events: {
     '{window} resize': function () {
       this.viewModel.updateDomProperties()
-    },
-
-    '{viewModel} showDebugPanel': function (vm) {
-      vm.afterAvatarLoaded(() => vm.updateDomProperties())
-    },
-
-    '{viewModel} showUserAvatar': function (vm) {
-      vm.afterAvatarLoaded(() => vm.updateDomProperties())
-    },
-
-    '{viewModel} currentPage': function (vm) {
-      vm.afterAvatarLoaded(() => vm.updateDomProperties())
     }
   },
 

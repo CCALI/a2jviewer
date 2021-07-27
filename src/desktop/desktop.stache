@@ -27,7 +27,6 @@
         <a2j-viewer-steps
           remainingSteps:to="remainingSteps"
           maxDisplayedSteps:to="maxDisplayedSteps"
-          showDebugPanel:from="showDebugPanel"
           resumeInterview:from="scope.resumeInterview"
           lang:from="lang"
           logic:from="logic"

@@ -35,9 +35,19 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     Default: TraceMessage
   },
 
-  showDebugPanel: {
+  showSlideoutContent: {
     serialize: false,
     default: null
+  },
+
+  slideoutContent: {
+    serialize: false,
+    default: 'debug'
+  },
+
+  advanceNavToggleTrigger: {
+    serialize: false,
+    default: false
   },
 
   infinite: {
@@ -165,8 +175,12 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: () => new DefineList()
   },
 
-  toggleDebugPanel () {
-    this.showDebugPanel = !this.showDebugPanel
+  toggleSlideoutContent () {
+    this.showSlideoutContent = !this.showSlideoutContent
+  },
+
+  toggleAdvancePanelDisplay () {
+    this.slideoutContent = this.slideoutContent === 'debug' ? 'nav' : 'debug'
   },
 
   getVisitedPageIndex (visitedPage) {
@@ -232,14 +246,14 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
     const body = document.querySelector('body')
     // toggle lawn background color
-    const toggleLawnHandler = (ev, showDebugPanel) => {
-      if (showDebugPanel) {
+    const toggleLawnHandler = (ev, showSlideoutContent) => {
+      if (showSlideoutContent) {
         body.classList.remove('with-lawn')
       } else {
         body.classList.add('with-lawn')
       }
     }
-    vm.listenTo('showDebugPanel', toggleLawnHandler)
+    vm.listenTo('showSlideoutContent', toggleLawnHandler)
 
     // TODO: move this to helpers util and handle vm reference?
     // depends on html, answers, and logic.eval

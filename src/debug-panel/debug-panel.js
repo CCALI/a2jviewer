@@ -14,6 +14,7 @@ export let DebugPanelVM = DefineMap.extend('DebugPanelVM', {
   interview: {},
   traceMessage: {},
   previewPageName: {},
+  appState: {},
   currentPageName: {
     get () {
       return this.traceMessage.currentPageName

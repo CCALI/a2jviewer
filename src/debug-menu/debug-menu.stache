@@ -2,7 +2,7 @@
 
 {{#if (appState.previewActive)}}
   <div class="debugmenu">
-    <button on:click="appState.toggleDebugPanel()" type="button" class="btn btn-default btn-warning btn-variables-panel btn-wide-md">
+    <button on:click="appState.toggleSlideoutContent()" type="button" class="btn btn-default btn-warning btn-variables-panel btn-wide-md">
       Debug Panel
     </button>
       <button on:click="fillPageSample()" type="button" class="btn btn-default btn-warning btn-fill-sample btn-wide-md">
@@ -16,5 +16,11 @@
       <button on:click="appState.resumeEdit(this.currentPageName)" type="button" class="btn btn-default btn-warning btn-edit-this btn-wide-md">
         Edit this
       </button>
+  </div>
+{{else}} 
+  <div class="debugmenu">
+    <button on:click="appState.toggleSlideoutContent()" type="button" class="btn btn-default btn-warning btn-variables-panel btn-wide-md">
+      Advanced Nav Panel
+    </button>
   </div>
 {{/if}}

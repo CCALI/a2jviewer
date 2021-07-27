@@ -3,10 +3,14 @@
 <can-import from="~/src/mobile/filler/"/>
 <can-import from="./mobile.less"/>
 <can-import from="~/src/desktop/navigation/"/>
+<can-import from="~/src/navigation-panel/"/>
 
 <div>
+  {{#if(navPanelToggle)}}
+    <navigation-panel appState:from="appState" navPanelToggle:bind="navPanelToggle"></navigation-panel>
+  {{#else}}
   {{#not(tocOrCreditsShown())}}
-    <a2j-header pState:from="pState" mState:from="mState" interview:from="interview" />
+    <a2j-header pState:from="pState" mState:from="mState" interview:from="interview" navPanelToggle:bind="navPanelToggle"/>
   {{/not}}
 
   {{#if(mState.showCredits)}}
@@ -51,4 +55,5 @@
         interview:from="interview" />
     {{/eq}}
   {{/not}}
+  {{/if}}
 </div>

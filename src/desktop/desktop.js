@@ -8,7 +8,6 @@ let DesktopViewerVM = DefineMap.extend('DesktopViewerVM', {
   // passed in via viewer app.stache bindings
   remainingSteps: {},
   maxDisplayedSteps: {},
-  showDebugPanel: {},
   lang: {},
   logic: {},
   appState: {},

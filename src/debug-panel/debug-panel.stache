@@ -3,7 +3,7 @@
 <can-import from="~/src/debug-panel/debug-panel.less"/>
 
 {{#if(variables.length)}}
-  <author-variables-table interview:from="interview" variables:from="variables"/>
+  <author-variables-table appState:from="appState" interview:from="interview" variables:from="variables"/>
 {{/if}}
 
 <div id="viewer-logic-form">

@@ -1,0 +1,20 @@
+<can-import from="./slideout-content.less" />
+<can-import from="~/src/debug-panel/" />
+<can-import from="~/src/navigation-panel/"/>
+<can-import from="can-stache-converters"/>
+
+<div>
+  <input type="checkbox"
+        class="toggle-panel"
+        on:click="appState.toggleAdvancePanelDisplay()"
+        checked:bind="either-or(appState.slideoutContent, 'nav', 'debug')"
+        />
+  {{#eq(appState.slideoutContent, 'debug')}}
+    <debug-panel
+      appState:from="appState"
+      interview:from="interview"
+      traceMessage:from="appState.traceMessage" />
+  {{else}}
+    <navigation-panel appState:from="appState"></navigation-panel>
+  {{/eq}}
+</div>

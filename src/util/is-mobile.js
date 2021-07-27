@@ -1,13 +1,18 @@
 import compute from 'can-compute'
 
-let mql = window.matchMedia('only screen and (max-width: 768px)')
+const mql = window.matchMedia('only screen and (max-width: 768px)')
+let forceMobile = false
 
 export default compute(mql.matches, {
   get: function () {
+    if (forceMobile) return forceMobile
     return mql.matches
   },
 
-  set: function () {},
+  set: function ({forceMobileViewer}) {
+    forceMobile = forceMobileViewer
+    return forceMobileViewer
+  },
 
   on: function (updated) {
     mql.addListener(updated)

@@ -1,0 +1,41 @@
+@import (reference) '../../styles';
+
+@panel-width: 400px;
+
+navigation-panel {
+  display: block;
+
+  .navigationpanel {
+    left: 0;
+    right: 0;
+    top: @input-height-small + @grid-gutter-width/2;
+    bottom: 0;
+    height: 750px;
+    position: absolute;
+    overflow-y: scroll;
+    padding: @grid-gutter-width/4;
+    background-color: lighten(@state-info-bg,2%);
+
+    table {
+      width: 100%;
+      font-size: @font-size-small;
+
+      tr {
+        cursor: pointer;
+        height: 44px;
+        &:nth-child(odd) {
+          background-color:rgba(255, 255, 255, 0.5);
+        }
+      }
+
+      tr:hover {
+        border: 2px solid black;
+      }
+
+    }
+  }
+
+  .activeStep {
+    font-weight: bolder;
+  }
+}

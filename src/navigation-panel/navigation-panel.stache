@@ -1,0 +1,21 @@
+<can-import from="./navigation-panel.less" />
+<div id="viewer-navigation-panel-form">
+
+  <span>NAVIGATION PANEL</span>
+
+  <div class="navigationpanel">
+    <table class="A2JVars table-condensed">
+      <tbody>
+        {{#for(page of navPages)}}
+          <tr valign="top" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)" on:click="navToPage(page.name)">
+            <td tabindex="0" {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="activeStep"{{/eq}}> 
+              <a role="button" on:click="navToPage(page.name)">
+                Step {{page.step.number}} Q{{page.questionNumber}}: {{scope.helpers.truncateText(stripHTMLTags(scope.helpers.parseText(page.text)), null, null)}}
+              </a>
+            </td>
+          </tr>
+        {{/for}}
+      </tbody>
+    </table>
+  </div>
+</div>
