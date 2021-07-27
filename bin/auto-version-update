@@ -11,4 +11,8 @@ const version = {
 export default version
 `
 
-fs.writeFileSync(path.join(__dirname, '../src/footer/footerVersion.js'), js, 'utf-8')
+fs.writeFileSync(
+  path.join(__dirname, '../src/footer/footerVersion.js'),
+  js,
+  'utf-8'
+)
