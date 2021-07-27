@@ -92,12 +92,8 @@ export default Component.extend({
           vm.appState.modalContent = {
             title: '',
             text: page.text,
-            imageURL: undefined,
             altText: page.helpAltText,
-            mediaLabel: undefined,
-            audioURL: page.textAudioURL,
-            videoURL: undefined,
-            helpReader: undefined
+            audioURL: page.textAudioURL
           }
         }
       } else { // external link

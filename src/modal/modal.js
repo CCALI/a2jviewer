@@ -36,6 +36,18 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     }
   },
 
+  availableLength: {
+    get () {
+      return this.modalContent.textlongFieldVM.availableLength
+    }
+  },
+
+  overCharacterLimit: {
+    get () {
+      return this.modalContent.textlongFieldVM.overCharacterLimit
+    }
+  },
+
   showTranscript: { default: false },
 
   toggleShowTranscript () {
@@ -51,15 +63,6 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   },
 
   closeModalHandler () {
-    // answer names are always lowercase versions in the answers map
-    const answerName = this.modalContent.answerName && this.modalContent.answerName.toLowerCase()
-    if (answerName) {
-      const newValue = this.modalContent.textlongValue
-      const field = this.modalContent.field
-      const textlongVM = this.modalContent.textlongVM
-      textlongVM.fireModalClose(field, newValue, textlongVM)
-    }
-
     $('body').removeClass('bootstrap-styles')
   },
 
@@ -132,7 +135,6 @@ export default Component.extend({
     '#pageModal keydown': function (el, ev) {
       // esc key closing modal
       if (ev.keyCode === 27) {
-        this.viewModel.modalContent.textlongValue = ev.target.value
         this.viewModel.closeModalHandler()
       }
     },

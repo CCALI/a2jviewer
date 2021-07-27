@@ -430,29 +430,27 @@ export const FieldVM = DefineMap.extend('FieldVM', {
   expandTextlong (field) {
     const answerName = field.name
     const previewActive = this.appState.previewActive
-    // warning modal only in Author
+    // warning modal only in Author for missing variable assignment
     if (!answerName && previewActive) {
       this.assign('modalContent', { title: 'Author Warning', text: 'Text(long) fields require an assigned variable to expand' })
     }
     if (answerName) {
       const title = field.label
-      const textlongValue = field._answerVm.values
-      const textlongVM = this
+      const textlongFieldVM = this
       this.appState.modalContent = {
         title,
-        textlongValue,
-        answerName,
         field,
-        textlongVM
+        textlongFieldVM
       }
     }
   },
 
-  fireModalClose (field, newValue, textlongVM) {
+  fireModalClose (field, newValue, textlongFieldVM, availableLength) {
     field._answerVm.values = newValue
     const selector = "[name='" + field.name + "']"
     const longtextEl = $(selector)[0]
-    textlongVM.validateField(textlongVM, longtextEl)
+    textlongFieldVM.validateField(textlongFieldVM, longtextEl)
+    this.availableLength = availableLength
   },
 
   /**

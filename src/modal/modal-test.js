@@ -115,7 +115,13 @@ describe('<a2j-modal> ', function () {
     })
 
     it('renders an expanded text area if page includes answerName (a2j variable name)', function (done) {
-      vm.appState.modalContent = { answerName: 'longAnswerTE', textlongValue: 'some really long text' }
+      vm.appState.modalContent = {
+        textlongFieldVM: {
+          field: {
+            name: 'TextLongName'
+          }
+        }
+      }
       F('textarea.expanded-textarea').exists()
 
       F(done)
