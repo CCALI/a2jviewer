@@ -12,12 +12,13 @@
     "serve-docs": "grunt documentjs-lite && http-server docs",
     "build:viewer-zip": "node ./bin/make-viewer-package",
     "update-pjson-version": "node ./bin/auto-version-update",
+    "commit-pjson-version": "git commit -am `Update A2J-Viewer display version to $npm_package_version`",
     "preversion": "npm run test",
-    "release:pre": "npm version prerelease -m 'Upgrade to %s for reasons' && npm publish --tag=pre",
+    "release:pre": "npm version prerelease && npm publish --tag=pre",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
-    "postpublish": "npm run update-pjson-version && git push --tags && git push"
+    "postpublish": "npm run update-pjson-version && npm run commit-pjson-version && git push --tags && git push"
   },
   "author": {
     "name": "Center for Computer-Assisted Legal Instruction (CALI)",
@@ -30,12 +31,7 @@
     "url": "https://github.com/CCALI/a2jviewer"
   },
   "standard": {
-    "globals": [
-      "$",
-      "jQuery",
-      "can",
-      "mocha"
-    ],
+    "globals": ["$", "jQuery", "can", "mocha"],
     "ignore": [
       "src/calculator/",
       "models/fixtures/**",
@@ -44,21 +40,11 @@
       "styles/documentjs-theme/**",
       "models/tests/fixtures/**"
     ],
-    "env": [
-      "mocha"
-    ]
+    "env": ["mocha"]
   },
   "steal": {
-    "plugins": [
-      "done-css",
-      "steal-less",
-      "steal-stache"
-    ],
-    "npmIgnore": [
-      "testee",
-      "documentjs",
-      "grunt-contrib-less"
-    ],
+    "plugins": ["done-css", "steal-less", "steal-stache"],
+    "npmIgnore": ["testee", "documentjs", "grunt-contrib-less"],
     "map": {
       "cuid": "cuid/dist/cuid",
       "jquery-ui/widget": "jquery-ui/ui/widget",
