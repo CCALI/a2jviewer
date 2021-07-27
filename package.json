@@ -11,13 +11,13 @@
     "build-docs": "grunt documentjs",
     "serve-docs": "grunt documentjs-lite && http-server docs",
     "build:viewer-zip": "node ./bin/make-viewer-package",
-    "update-version": "node ./bin/auto-version-update",
-    "preversion": "npm test && update-version",
-    "release:pre": "npm version prerelease && npm publish --tag=pre",
+    "update-pjson-version": "node ./bin/auto-version-update",
+    "preversion": "npm run test",
+    "release:pre": "npm version prerelease -m 'Upgrade to %s for reasons' && npm publish --tag=pre",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
-    "postpublish": "git push --tags && git push"
+    "postpublish": "npm run update-version && git push --tags && git push"
   },
   "author": {
     "name": "Center for Computer-Assisted Legal Instruction (CALI)",
