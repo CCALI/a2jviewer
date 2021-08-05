@@ -1,5 +1,5 @@
 import DefineMap from 'can-define/map/map'
-import canReflect from "can-reflect";
+import canReflect from 'can-reflect'
 import Answer from '~/src/models/answer'
 import _some from 'lodash/some'
 import _filter from 'lodash/filter'
