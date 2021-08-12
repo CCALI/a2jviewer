@@ -67,7 +67,7 @@ export default DefineMap.extend('AnswerVM', {
 
   separatorCheck (date) {
     const hasSeparator = date.match(/\/|-/g)
-    if (!hasSeparator && date.length > 8) {
+    if (!hasSeparator && date.length > 6) {
       return true
     }
     return false
