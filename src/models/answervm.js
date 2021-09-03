@@ -65,6 +65,14 @@ export default DefineMap.extend('AnswerVM', {
     }
   },
 
+  separatorCheck (date) {
+    const hasSeparator = date.match(/\/|-/g)
+    if (!hasSeparator && date.length > 6) {
+      return true
+    }
+    return false
+  },
+
   validateAnswer (val) {
     const field = this.field
 
@@ -101,7 +109,7 @@ export default DefineMap.extend('AnswerVM', {
         invalid = validations.required() || validations.min() || validations.max()
         break
       case 'datemdy':
-        invalid = validations.isDate() || validations.required() || validations.min() || validations.max()
+        invalid = validations.isDate() || validations.required() || validations.min() || validations.max() || this.separatorCheck(val)
         break
       case 'gender':
       case 'useravatar':
