@@ -10,9 +10,16 @@
           <tr valign="top" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)" on:click="navToPage(page.name)">
             <td tabindex="0" {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="activeStep"{{/eq}}> 
               <a role="button" on:click="navToPage(page.name)">
-                Step {{page.step.number}} Q{{page.questionNumber}}: {{scope.helpers.truncateText(stripHTMLTags(scope.helpers.parseText(page.text)), null, null)}}
+                {{page.text}}
               </a>
             </td>
+          </tr>
+        {{/for}}
+        {{#for(page of futurePages)}}
+          <tr valign="top" >
+              <a role="button" style="color:dimgray">
+                {{page.text}}
+              </a>
           </tr>
         {{/for}}
       </tbody>

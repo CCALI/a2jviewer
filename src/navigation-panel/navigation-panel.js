@@ -1,8 +1,7 @@
 import DefineMap from 'can-define/map/map'
-// import CanList from 'can-list'
-// import DefineList from 'can-define/list/list'
 import Component from 'can-component'
 import template from './navigation-panel.stache'
+import buildOptions from '../util/build-options-steps'
 
 /**
  * @property {DefineMap} debugPanel.ViewModel
@@ -17,13 +16,15 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   navPages: {
     get () {
       let navPages = this.appState.visitedPages.serialize()
-      return navPages.reverse()
+      return buildOptions(navPages.reverse())
     }
   },
 
-  stripHTMLTags (text) {
-    // strip html tags
-    return text.replace(/(<([^>]+)>)/ig, '').trim()
+  futurePages: {
+    get () {
+      let futurePages = this.appState.futurePages.serialize()
+      return buildOptions(futurePages)
+    }
   },
 
   navToPage (pageName) {
@@ -41,6 +42,12 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   },
 
   connectedCallback (el) {
+    // could be interview.firstPage || interview.restorePage || the firest page in the pages list
+    // use the first visited page for the next target.
+    if (this.appState.futurePageBreak === '') {
+      const interviewPage = this.appState.interview.pages.find(this.appState.page)
+      this.appState.handleFuturePages(interviewPage)
+    }
     return () => {
     }
   }
