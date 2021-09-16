@@ -1,10 +1,12 @@
 import stache from 'can-stache'
 import _findIndex from 'lodash/findIndex'
+import _find from 'lodash/find'
 import Infinite from '~/src/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '~/src/models/trace-message'
+import {hasGoToLogic, isFieldRequired, isSpecialButton} from '~/src/util/future-pages-setup'
 
 const UserAvatar = DefineMap.extend('UserAvatar', {
   gender: { default: 'female' },
@@ -120,6 +122,21 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   visitedPages: {
     serialize: false,
     default: () => new DefineList()
+  },
+
+  futurePages: {
+    serialize: false,
+    default: () => new DefineList()
+  },
+
+  futurePageBreak: {
+    type: 'string',
+    default: ''
+  },
+
+  hasStopper: {
+    type: 'boolean',
+    default: false
   },
 
   // set when launched via preview.js during Author Preview
@@ -241,6 +258,44 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   resetInfiniteLoop () {
     this.infinite.reset()
+  },
+
+  // checks if page is already present in visitedPages
+  checkVisitedPages (pageName) {
+    return _find(this.visitedPages, (page) => page.name === pageName)
+  },
+
+  handleFuturePages (page) {
+    const isRequired = isFieldRequired(page.fields)
+    const hasGotoLogic = hasGoToLogic(page)
+    const hasMultipleButtons = page.buttons.length > 1
+
+    this.hasStopper = isRequired || hasGotoLogic || hasMultipleButtons
+
+    const alreadyVisited = this.checkVisitedPages(page.name)
+
+    // to prevents the update of futurePages from navigation-panel.js
+    if (isSpecialButton(page.buttons[0])) {
+      this.futurePageBreak = 'END'
+      this.hasStopper = true
+      return
+    }
+
+    this.futurePageBreak = page.buttons[0].next
+    const nextPage = this.interview.pages.find(this.futurePageBreak)
+
+    if (alreadyVisited) {
+      this.handleFuturePages(nextPage)
+      return
+    }
+
+    this.futurePages.push(page)
+
+    if (this.hasStopper) {
+      return
+    }
+
+    this.handleFuturePages(nextPage)
   },
 
   connectedCallback () {
