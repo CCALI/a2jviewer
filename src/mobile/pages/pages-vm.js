@@ -257,6 +257,19 @@ export default DefineMap.extend('PagesVM', {
       }
 
       appState.page = vm.getNextPage(button, logic) // check for GOTO logic redirect, nav to next page
+      vm.appState.futurePages.shift() // remove the first entry in future pages array
+
+      // The secons condition prevents the 'handleFuturePages' call when the current page
+      // has a stopper.
+      if (vm.appState.futurePages.length === 0 && !vm.appState.hasStopper) {
+        const pageBreak = appState.interview.pages.find(appState.page)
+        appState.handleFuturePages(pageBreak)
+      }
+
+      // continuation of logic from line 264. we want next iteration to call 'handleFuturePages'
+      if (vm.appState.futurePages.length === 0) {
+        vm.appState.hasStopper = false
+      }
       return appState.page // return destination page for testing
     }
   },
