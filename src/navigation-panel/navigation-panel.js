@@ -42,12 +42,10 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   },
 
   connectedCallback (el) {
-    // could be interview.firstPage || interview.restorePage || the firest page in the pages list
+    // could be interview.firstPage || interview.restorePage || the first page in the pages list
     // use the first visited page for the next target.
-    if (this.appState.futurePageBreak === '') {
-      const interviewPage = this.appState.interview.pages.find(this.appState.page)
-      this.appState.handleFuturePages(interviewPage)
-    }
+    const interviewPage = this.appState.interview.pages.find(this.appState.page)
+    this.appState.handleFuturePages(interviewPage)
     return () => {
     }
   }

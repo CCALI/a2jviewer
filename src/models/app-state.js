@@ -272,64 +272,38 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     if (hasGotoLogic) return true
     const hasMultipleButtons = page.buttons.length > 1
     if (hasMultipleButtons) return true
-
-    if (isSpecialButton(page.buttons[0])) {
-      this.futurePageBreak = 'END'
-      return true
-    }
-
     return false
   },
 
-  // handleFuturePages (page) {
-  //   // future pages already built here
-  //   if (this.futurePages.length !== 0) return
-
-  //   const hasStopper = this.hasStopperCheck(page)
-  //   const alreadyVisited = this.checkVisitedPages(page.name)
-
-  //   // to prevents the update of futurePages from navigation-panel.js
-
-  //   // Why? special button here?
-
-  //   if (hasStopper && !alreadyVisited) {
-  //     this.futurePages.push(page)
-  //     return
-  //   }
-
-  //   if (hasStopper) return
-
-  //   this.futurePageBreak = page.buttons[0].next
-  //   const nextPage = this.interview.pages.find(this.futurePageBreak)
-
-  //   if (alreadyVisited) {
-  //     this.handleFuturePages(nextPage)
-  //     return
-  //   }
-
-  //   this.futurePages.push(page)
-
-  //   this.handleFuturePages(nextPage)
-  // },
-
   handleFuturePages (page) {
-    // future pages already built here
-    if (this.futurePages.length !== 0) return
+    if (this.futurePageBreak) return // To prevent recalculation after last page
+    let startPage
+    // no page passed at start of interview and on navigation
+    // so rebuild the future from last visited page always
+    if (!page) {
+      this.futurePages = new DefineList()
+      startPage = this.visitedPages[0]
+    } else { // we are recursing to build the list up, so we passed a page in
+      startPage = page
+    }
 
     // testing current page target, stop recursion if has stopper
-    const hasStopper = this.hasStopperCheck(page)
+    const hasStopper = this.hasStopperCheck(startPage)
     if (hasStopper) { return }
-    // nav back with arrows or dropdown, and revisting an already vistited page,
-    // but not the zeroth page
-    const alreadyVisitedButNotCurrentPage = this.checkVisitedPages(page.name)
-    if (alreadyVisitedButNotCurrentPage) { return }
 
-    this.futurePages.push(page)
+    const nextPageName = startPage.buttons[0].next
+    if (nextPageName) {
+      const nextPage = this.interview.pages.find(nextPageName)
 
-    this.futurePageBreak = page.buttons[0].next
-    const nextPage = this.interview.pages.find(this.futurePageBreak)
-
-    this.handleFuturePages(nextPage)
+      // return before adding last page to future pages again
+      const specialButton = nextPage && isSpecialButton(nextPage.buttons[0])
+      if (specialButton) {
+        this.futurePageBreak = true
+        return true
+      }
+      this.futurePages.push(nextPage)
+      this.handleFuturePages(nextPage)
+    }
   },
 
   connectedCallback () {
