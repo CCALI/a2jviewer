@@ -43,7 +43,45 @@ describe('<a2j-pages>', () => {
     })
 
     interview = new Interview({
-      pages: [{nextPageStub, priorPageStub}]
+      pages: [
+        {nextPageStub, priorPageStub},
+        {
+          name: 'foo',
+          fields: [
+            { name: 'firstname', type: 'text', required: true },
+            { name: 'lastname', type: 'text' }
+          ],
+          step: { number: '1', text: 'Step 1' },
+          buttons: [{
+            label: 'Continue',
+            next: '3-Gender'
+          }]
+        },
+        {
+          name: 'priorPage',
+          fields: [
+            { name: 'firstname', type: 'text', required: true },
+            { name: 'lastname', type: 'text' }
+          ],
+          step: { number: '1', text: 'Step 1' },
+          buttons: [{
+            label: 'Continue',
+            next: '3-Gender'
+          }]
+        },
+        {
+          name: 'Next',
+          fields: [
+            { name: 'firstname', type: 'text', required: true },
+            { name: 'lastname', type: 'text' }
+          ],
+          step: { number: '1', text: 'Step 1' },
+          buttons: [{
+            label: 'Continue',
+            next: '3-Gender'
+          }]
+        }
+      ]
     })
 
     logic = new Logic({interview})

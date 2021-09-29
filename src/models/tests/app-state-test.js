@@ -4,6 +4,7 @@ import Interview from '~/src/models/interview'
 import Logic from '~/src/mobile/util/logic'
 import TraceMessage from '~/src/models/trace-message'
 import Answers from '~/src/models/answers'
+import Page from '~/src/models/page'
 import stache from 'can-stache'
 import sinon from 'sinon'
 import '~/src/models/tests/fixtures/'
@@ -227,5 +228,85 @@ describe('AppState', function () {
     assert.equal(appState.visitedPages[2].questionNumber, 1, 'should assign question number 1 to first visitedPage of a Step (0)')
     assert.equal(appState.visitedPages[1].questionNumber, 1, 'should reset count to 1 when visitedPage is a new Step (1)')
     assert.equal(appState.visitedPages[0].questionNumber, 2, 'should increment to next question number to a visitedPage of same Step (1)')
+  })
+
+  it('handles future pages for the navigation panel', () => {
+    // unable to find page from interview.json that doesn't have a stopper
+    // this is not in the pages of the interview model
+    const startingPage = new Page({
+      name: 'fooPage',
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '02-Your name'
+      }]
+    })
+
+    appState.handleFuturePages(startingPage)
+    const futurePages = appState.interview.pages.find('02-Your name')
+    assert.deepEqual(futurePages, appState.futurePages[0], 'should have the same first page')
+  })
+
+  // hasStopper test cases
+  it('returns true if page has a required field', () => {
+    // for GOTO Logic
+    const startingPage = new Page({
+      name: 'fooPage',
+      codeBefore: 'Goto logic here',
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '3-Gender'
+      }]
+    })
+    const hasStopperResult = appState.hasStopperCheck(startingPage)
+    const expectedResult = true
+    assert.equal(hasStopperResult, expectedResult, 'should return true if there is a Goto Logic')
+  })
+
+  it('returns true if page has a goto logic', () => {
+    // for multiple buttons
+    const startingPage = new Page({
+      name: 'fooPage',
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '3-Gender'
+      },
+      {
+        label: 'Exit',
+        next: 'EXIT PAGE'
+      }]
+    })
+    const hasStopperResult = appState.hasStopperCheck(startingPage)
+    const expectedResult = true
+    assert.equal(hasStopperResult, expectedResult, 'should return true if page has multiple buttons')
+  })
+
+  it('returns true if page has a multiple buttons', () => {
+    // for required field
+    const startingPage = new Page({
+      name: 'fooPage',
+      fields: [
+        { name: 'firstname', type: 'text', required: true },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '3-Gender'
+      }]
+    })
+    const hasStopperResult = appState.hasStopperCheck(startingPage)
+    const expectedResult = true
+    assert.equal(hasStopperResult, expectedResult, 'should return true if there is a required field present')
   })
 })

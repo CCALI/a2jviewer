@@ -12,7 +12,7 @@ export function isFieldRequired (fields) {
 
 export function hasGoToLogic (page) {
   let containsGOTO = false
-  if (page.codeBefore && page.codeAfter) {
+  if (page.codeBefore || page.codeAfter) {
     containsGOTO = true
   }
   return containsGOTO
