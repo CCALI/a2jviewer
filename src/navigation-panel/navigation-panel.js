@@ -39,15 +39,6 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
     this.appState.selectedPageIndex = selectedIndex
     // for testing purposes
     return selectedIndex
-  },
-
-  connectedCallback (el) {
-    // could be interview.firstPage || interview.restorePage || the first page in the pages list
-    // use the first visited page for the next target.
-    const interviewPage = this.appState.interview.pages.find(this.appState.page)
-    this.appState.handleFuturePages(interviewPage)
-    return () => {
-    }
   }
 })
 

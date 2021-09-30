@@ -258,9 +258,6 @@ export default DefineMap.extend('PagesVM', {
 
       appState.page = vm.getNextPage(button, logic) // check for GOTO logic redirect, nav to next page
 
-      const pageBreak = appState.interview.pages.find(appState.page)
-      appState.handleFuturePages(pageBreak)
-
       return appState.page // return destination page for testing
     }
   },

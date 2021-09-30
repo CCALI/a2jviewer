@@ -1,6 +1,7 @@
 import stache from 'can-stache'
 import _findIndex from 'lodash/findIndex'
 import _find from 'lodash/find'
+import _some from 'lodash/some'
 import Infinite from '~/src/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
@@ -129,16 +130,6 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: () => new DefineList()
   },
 
-  futurePageBreak: {
-    type: 'string',
-    default: ''
-  },
-
-  hasStopper: {
-    type: 'boolean',
-    default: false
-  },
-
   // set when launched via preview.js during Author Preview
   previewActive: {
     serialize: false
@@ -265,43 +256,32 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     return !!_find(this.visitedPages, (page) => page.name === pageName)
   },
 
-  hasStopperCheck (page) {
+  hasStopper (page) {
     const isRequired = isFieldRequired(page.fields)
-    if (isRequired) return true
     const hasGotoLogic = hasGoToLogic(page)
-    if (hasGotoLogic) return true
     const hasMultipleButtons = page.buttons.length > 1
-    if (hasMultipleButtons) return true
-    return false
+    const hasSpecialButton = _some(page.buttons, (button) => isSpecialButton(button))
+
+    if (isRequired || hasGotoLogic || hasMultipleButtons || hasSpecialButton) {
+      return true
+    } else {
+      return false
+    }
   },
 
   handleFuturePages (page) {
-    if (this.futurePageBreak) return // To prevent recalculation after last page
-    let startPage
-    // no page passed at start of interview and on navigation
-    // so rebuild the future from last visited page always
-    if (!page) {
-      this.futurePages = new DefineList()
-      startPage = this.visitedPages[0]
-    } else { // we are recursing to build the list up, so we passed a page in
-      startPage = page
-    }
-
     // testing current page target, stop recursion if has stopper
-    const hasStopper = this.hasStopperCheck(startPage)
+    const hasStopper = this.hasStopper(page)
     if (hasStopper) { return }
 
-    const nextPageName = startPage.buttons[0].next
+    const nextPageName = page.buttons[0].next
     if (nextPageName) {
       const nextPage = this.interview.pages.find(nextPageName)
 
-      // return before adding last page to future pages again
-      const specialButton = nextPage && isSpecialButton(nextPage.buttons[0])
-      if (specialButton) {
-        this.futurePageBreak = true
-        return true
-      }
+      // if no stopper on current page, then safe to add next page to futurePages
       this.futurePages.push(nextPage)
+
+      // recurse
       this.handleFuturePages(nextPage)
     }
   },
@@ -370,9 +350,12 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
         this.outerLoopVarValue = outerLoopVarValue
         this.visitedPages.unshift(newVisitedPage)
         this.lastVisitedPageName = newVisitedPage.name
-        this.futurePages.shift()
         // make sure newly visited page is selected
         this.selectedPageIndex = 0
+
+        // generate new futurePages list every new visitedPage
+        this.futurePages = new DefineList()
+        this.handleFuturePages(newVisitedPage)
       } else {
         this.selectedPageIndex = revisitedPageIndex
       }
