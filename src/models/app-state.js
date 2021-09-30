@@ -258,9 +258,9 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   hasStopper (page) {
     return hasMultipleButtons(page.buttons) ||
     hasSpecialButton(page.buttons) ||
+    hasNoNextPageTarget(page.buttons) ||
     hasRequiredField(page.fields) ||
-    hasPageLogic(page) ||
-    hasNoNextPageTarget(page.buttons)
+    hasPageLogic(page)
   },
 
   handleFuturePages (page) {
