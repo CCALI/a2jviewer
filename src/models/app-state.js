@@ -259,8 +259,8 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   hasStopper (page) {
     const isRequired = isFieldRequired(page.fields)
     const hasGotoLogic = hasGoToLogic(page)
-    const hasMultipleButtons = page.buttons.length > 1
-    const hasSpecialButton = _some(page.buttons, (button) => isSpecialButton(button))
+    const hasMultipleButtons = !!page.buttons && page.buttons.length > 1
+    const hasSpecialButton = !!page.buttons && _some(page.buttons, (button) => isSpecialButton(button))
 
     if (isRequired || hasGotoLogic || hasMultipleButtons || hasSpecialButton) {
       return true
@@ -274,7 +274,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     const hasStopper = this.hasStopper(page)
     if (hasStopper) { return }
 
-    const nextPageName = page.buttons[0].next
+    const nextPageName = page.buttons && page.buttons[0].next
     if (nextPageName) {
       const nextPage = this.interview.pages.find(nextPageName)
 

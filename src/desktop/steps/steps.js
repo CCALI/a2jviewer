@@ -6,7 +6,6 @@ import _some from 'lodash/some'
 import Component from 'can-component'
 import template from './steps.stache'
 import _findIndex from 'lodash/findIndex'
-import _truncate from 'lodash/truncate'
 import learnMoreTemplate from './learn-more.stache'
 import { analytics } from '~/src/util/analytics'
 import stache from 'can-stache'
@@ -273,7 +272,6 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
       return Math.sqrt(Math.pow(sidewalkHeight, 2) + Math.pow(sidewalkWidth, 2))
     }
   },
-  
 
   /**
    * @property {Number} steps.ViewModel.prototype.sidewalkAngleA sidewalkAngleA

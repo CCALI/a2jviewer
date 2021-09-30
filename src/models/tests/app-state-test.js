@@ -265,7 +265,7 @@ describe('AppState', function () {
         next: '3-Gender'
       }]
     })
-    const hasStopperResult = appState.hasStopperCheck(startingPage)
+    const hasStopperResult = appState.hasStopper(startingPage)
     const expectedResult = true
     assert.equal(hasStopperResult, expectedResult, 'should return true if there is a Goto Logic')
   })
@@ -287,7 +287,7 @@ describe('AppState', function () {
         next: 'EXIT PAGE'
       }]
     })
-    const hasStopperResult = appState.hasStopperCheck(startingPage)
+    const hasStopperResult = appState.hasStopper(startingPage)
     const expectedResult = true
     assert.equal(hasStopperResult, expectedResult, 'should return true if page has multiple buttons')
   })
@@ -305,7 +305,7 @@ describe('AppState', function () {
         next: '3-Gender'
       }]
     })
-    const hasStopperResult = appState.hasStopperCheck(startingPage)
+    const hasStopperResult = appState.hasStopper(startingPage)
     const expectedResult = true
     assert.equal(hasStopperResult, expectedResult, 'should return true if there is a required field present')
   })
