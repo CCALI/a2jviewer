@@ -1,13 +1,12 @@
 import stache from 'can-stache'
 import _findIndex from 'lodash/findIndex'
 import _find from 'lodash/find'
-import _some from 'lodash/some'
 import Infinite from '~/src/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '~/src/models/trace-message'
-import {hasGoToLogic, isFieldRequired, isSpecialButton} from '~/src/util/future-pages-setup'
+import { hasPageLogic, hasMultipleButtons, hasRequiredField, hasSpecialButton, hasNoNextPageTarget } from '~/src/util/future-pages-setup'
 
 const UserAvatar = DefineMap.extend('UserAvatar', {
   gender: { default: 'female' },
@@ -257,16 +256,11 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   },
 
   hasStopper (page) {
-    const isRequired = isFieldRequired(page.fields)
-    const hasGotoLogic = hasGoToLogic(page)
-    const hasMultipleButtons = !!page.buttons && page.buttons.length > 1
-    const hasSpecialButton = !!page.buttons && _some(page.buttons, (button) => isSpecialButton(button))
-
-    if (isRequired || hasGotoLogic || hasMultipleButtons || hasSpecialButton) {
-      return true
-    } else {
-      return false
-    }
+    return hasMultipleButtons(page.buttons) ||
+    hasSpecialButton(page.buttons) ||
+    hasRequiredField(page.fields) ||
+    hasPageLogic(page) ||
+    hasNoNextPageTarget(page.buttons)
   },
 
   handleFuturePages (page) {

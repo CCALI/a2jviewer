@@ -5,6 +5,7 @@ import Logic from '~/src/mobile/util/logic'
 import TraceMessage from '~/src/models/trace-message'
 import Answers from '~/src/models/answers'
 import Page from '~/src/models/page'
+import constants from '~/src/models/constants'
 import stache from 'can-stache'
 import sinon from 'sinon'
 import '~/src/models/tests/fixtures/'
@@ -236,77 +237,99 @@ describe('AppState', function () {
     const startingPage = new Page({
       name: 'fooPage',
       fields: [
-        { name: 'firstname', type: 'text' },
-        { name: 'lastname', type: 'text' }
+        { name: 'firstname', type: 'text', required: false },
+        { name: 'lastname', type: 'text', required: false }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: 'barPage'
+      }]
+    })
+
+    const secondPage = new Page({
+      name: 'barPage',
+      fields: [
+        { name: 'someCoolField', type: 'text', required: false }
       ],
       buttons: [{
         label: 'Continue',
         next: '02-Your name'
       }]
     })
+    // add another non-blocking page to the interview
+    appState.interview.pages.push(secondPage)
 
     appState.handleFuturePages(startingPage)
-    const futurePages = appState.interview.pages.find('02-Your name')
-    assert.deepEqual(futurePages, appState.futurePages[0], 'should have the same first page')
+    const futurePages = appState.futurePages
+    assert.equal(futurePages.length, 2, 'should grab 2 future pages until it hits a stopper')
+
+    const lastFuturePage = appState.interview.pages.find('02-Your name')
+    assert.deepEqual(lastFuturePage, appState.futurePages[1], 'should have the same first page')
   })
 
-  // hasStopper test cases
-  it('returns true if page has a required field', () => {
-    // for GOTO Logic
-    const startingPage = new Page({
-      name: 'fooPage',
-      codeBefore: 'Goto logic here',
-      fields: [
-        { name: 'firstname', type: 'text' },
-        { name: 'lastname', type: 'text' }
-      ],
-      buttons: [{
-        label: 'Continue',
-        next: '3-Gender'
-      }]
+  describe('hasStopper()', () => {
+    let startingPage
+    beforeEach(() => {
+      startingPage = new Page({
+        name: 'fooPage',
+        codeBefore: '',
+        codeAfter: '',
+        fields: [
+          { name: 'firstname', type: 'text', required: false },
+          { name: 'lastname', type: 'text', required: false }
+        ],
+        buttons: [{
+          label: 'Continue',
+          next: '3-Gender'
+        }]
+      })
     })
-    const hasStopperResult = appState.hasStopper(startingPage)
-    const expectedResult = true
-    assert.equal(hasStopperResult, expectedResult, 'should return true if there is a Goto Logic')
-  })
 
-  it('returns true if page has a goto logic', () => {
-    // for multiple buttons
-    const startingPage = new Page({
-      name: 'fooPage',
-      fields: [
-        { name: 'firstname', type: 'text' },
-        { name: 'lastname', type: 'text' }
-      ],
-      buttons: [{
-        label: 'Continue',
-        next: '3-Gender'
-      },
-      {
+    it('hasStopper handles the happy path of one Continue button', () => {
+      assert.equal(appState.hasStopper(startingPage), false, 'should return false if single button with a next target')
+    })
+
+    it('hasStopper handles codeBefore or codeAfter logic', () => {
+      startingPage.codeBefore = 'some logic here'
+      assert.equal(appState.hasStopper(startingPage), true, 'should return true if there is a codeBefore Logic')
+
+      startingPage.codeBefore = ''
+      startingPage.codeAfter = 'Now we have after logic'
+
+      assert.equal(appState.hasStopper(startingPage), true, 'should return true if there is a codeAfter Logic')
+    })
+
+    it('hasStopper handles more than one button', () => {
+      // add second button
+      startingPage.buttons.push({
         label: 'Exit',
         next: 'EXIT PAGE'
-      }]
-    })
-    const hasStopperResult = appState.hasStopper(startingPage)
-    const expectedResult = true
-    assert.equal(hasStopperResult, expectedResult, 'should return true if page has multiple buttons')
-  })
+      })
 
-  it('returns true if page has a multiple buttons', () => {
-    // for required field
-    const startingPage = new Page({
-      name: 'fooPage',
-      fields: [
-        { name: 'firstname', type: 'text', required: true },
-        { name: 'lastname', type: 'text' }
-      ],
-      buttons: [{
-        label: 'Continue',
-        next: '3-Gender'
-      }]
+      assert.equal(appState.hasStopper(startingPage), true, 'should return true if page has multiple buttons')
     })
-    const hasStopperResult = appState.hasStopper(startingPage)
-    const expectedResult = true
-    assert.equal(hasStopperResult, expectedResult, 'should return true if there is a required field present')
+
+    it('hasStopper handles required fields', () => {
+      startingPage.fields[0].required = true
+
+      assert.equal(appState.hasStopper(startingPage), true, 'should return true if there is a required field present')
+    })
+    it('hasStopper handles special button type', () => {
+      startingPage.buttons[0].next = constants.qIDSUCCESS
+
+      assert.equal(appState.hasStopper(startingPage), true, 'should return true if there is a special button')
+    })
+
+    it('hasStopper handles no next target', () => {
+      startingPage.buttons[0].next = ''
+
+      assert.equal(appState.hasStopper(startingPage), true, 'should return true button on page has no next target')
+    })
+
+    it('hasStopper handles no buttons', () => {
+      startingPage.buttons = []
+
+      assert.equal(appState.hasStopper(startingPage), true, 'should return true if page has no buttons')
+    })
   })
 })
