@@ -184,8 +184,11 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: () => new DefineList()
   },
 
-  toggleDebugPanel () {
+  toggleDebugPanel (setNav) {
     this.showDebugPanel = !this.showDebugPanel
+    if (setNav) {
+      this.advanceNavToggleTrigger = true
+    }
   },
 
   toggleAdvancePanelDisplay () {

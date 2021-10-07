@@ -17,4 +17,10 @@
         Edit this
       </button>
   </div>
+  {{else}}
+  <div class="debugmenu">
+    <button on:click="appState.toggleDebugPanel(true)" type="button" class="btn btn-default btn-warning btn-variables-panel btn-wide-md">
+      Navigation Panel
+    </button>
+  </div>
 {{/if}}
