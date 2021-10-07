@@ -6,15 +6,15 @@ navigation-panel {
   display: block;
 
   .navigationpanel {
-    left: 0;
+    left: 10px;
     right: 0;
     top: @input-height-small + @grid-gutter-width/2;
     bottom: 0;
-    height: 750px;
+    height: 100vh;
     position: absolute;
     overflow-y: scroll;
     padding: @grid-gutter-width/4;
-    background-color: lighten(@state-info-bg,2%);
+    background-color: #e7f5fc;
 
     table {
       width: 100%;
@@ -23,8 +23,22 @@ navigation-panel {
       tr {
         cursor: pointer;
         height: 44px;
-        &:nth-child(odd) {
-          background-color:rgba(255, 255, 255, 0.5);
+
+        li {
+          list-style-type: circle;
+        }
+
+        li::marker {
+          font-size: initial;
+          color: #0b0c0c;
+        }
+
+        td {
+          padding: 20px;
+
+          a {
+            color: #000000
+          }
         }
       }
 
@@ -35,7 +49,20 @@ navigation-panel {
     }
   }
 
-  .activeStep {
+  .active-step {
     font-weight: bolder;
+  }
+
+  .future-pages {
+    color: #333;
+    font-style: italic;
+  }
+
+  .navHeader {
+    position: absolute;
+    left: 101px;
+    font-weight: 300;
+    font-size: 22px;
+    font-style: inherit;
   }
 }

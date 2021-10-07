@@ -13,18 +13,31 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   // passed in view debug-panel.stache
   appState: {},
 
+  logic: {
+    get () {
+      return this.appState.logic
+    }
+  },
+
   navPages: {
     get () {
       let navPages = this.appState.visitedPages.serialize()
-      return buildOptions(navPages.reverse())
+      return buildOptions(navPages.reverse(), this.logic)
     }
   },
 
   futurePages: {
     get () {
       let futurePages = this.appState.futurePages.serialize()
-      return buildOptions(futurePages)
+      return buildOptions(futurePages, this.logic)
     }
+  },
+
+  isPageActive (pageName) {
+    if (this.appState.visitedPages[this.appState.selectedPageIndex].name === pageName) {
+      return true
+    }
+    return false
   },
 
   navToPage (pageName) {

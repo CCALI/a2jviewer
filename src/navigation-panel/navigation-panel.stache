@@ -1,27 +1,35 @@
 <can-import from="./navigation-panel.less" />
 <div id="viewer-navigation-panel-form">
 
-  <span>NAVIGATION PANEL</span>
+  <span class="navHeader">NAVIGATION PANEL</span>
 
   <div class="navigationpanel">
     <table class="A2JVars table-condensed">
       <tbody>
-        {{#for(page of navPages)}}
-          <tr valign="top" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)" on:click="navToPage(page.name)">
-            <td tabindex="0" {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="activeStep"{{/eq}}> 
-              <a role="button" on:click="navToPage(page.name)">
-                {{page.text}}
-              </a>
-            </td>
-          </tr>
-        {{/for}}
-        {{#for(page of futurePages)}}
-          <tr valign="top" >
-              <a role="button" style="color:dimgray">
-                {{page.text}}
-              </a>
-          </tr>
-        {{/for}}
+          {{#for(page of navPages)}}
+            <tr valign="top" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)" on:click="navToPage(page.name)">
+              <td tabindex="0" {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="active-step"{{/eq}}>
+                {{#if (isPageActive(page.name))}} 
+                  <span class="glyphicon-circle" aria-hidden="true"></span>
+                {{else}}
+                  <span class="glyphicon-circle-empty" aria-hidden="true"></span>
+                {{/if}}
+                <a role="button" on:click="navToPage(page.name)">
+                  {{page.text}}
+                </a>
+              </td>
+            </tr>
+          {{/for}}
+          {{#for(page of futurePages)}}
+            <tr valign="top" >
+              <td>
+                <span class="glyphicon-circle-thin" aria-hidden="true"></span>
+                <a role="button" class="future-pages">
+                  {{page.text}}
+                </a>
+              </td>
+            </tr>
+          {{/for}}
       </tbody>
     </table>
   </div>
