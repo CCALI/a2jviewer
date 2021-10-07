@@ -76,5 +76,10 @@
 .glyphicon-info-circled-1:before { content: '\e84a'; } /* '' */
 .glyphicon-attention-circled:before { content: '\e84b'; } /* '' */
 .glyphicon-login:before { content: '\e84c'; } /* '' */
+.glyphicon-arrows-ccw:before { content: '\e84d'; } /* '' */
 .glyphicon-link-ext:before { content: '\f08e'; } /* '' */
+.glyphicon-exchange:before { content: '\f0ec'; } /* '' */
+.glyphicon-circle-empty:before { content: '\f10c'; } /* '' */
+.glyphicon-circle:before { content: '\f111'; } /* '' */
+.glyphicon-circle-thin:before { content: '\f1db'; } /* '' */
 .glyphicon-calc:before { content: '\f1ec'; } /* '' */

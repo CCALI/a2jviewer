@@ -3,9 +3,11 @@
 <can-import from="~/src/navigation-panel/"/>
 
 <div>
-  <input type="checkbox"
-        class="toggle-panel"
-        on:click="appState.toggleAdvancePanelDisplay()" />
+  {{#if(appState.previewActive)}}
+    <div class="toggle-panel">
+      <span class="glyphicon-exchange" aria-hidden="true" on:click="appState.toggleAdvancePanelDisplay()"></span> 
+    </div>
+  {{/if}}
   {{#if(appState.showAdvanceNav)}}
     <navigation-panel appState:from="appState"></navigation-panel>
   {{else}}
