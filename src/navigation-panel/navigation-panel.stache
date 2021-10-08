@@ -3,7 +3,7 @@
 
   <span class="navHeader">NAVIGATION PANEL</span>
 
-  <div class="navigationpanel">
+  <div id="logic-trace-panel" class="navigationpanel">
     <table class="A2JVars table-condensed">
       <tbody>
           {{#for(page of navPages)}}
@@ -14,7 +14,7 @@
                 {{else}}
                   <span class="glyphicon-circle-empty" aria-hidden="true"></span>
                 {{/if}}
-                <a role="button" on:click="navToPage(page.name)">
+                <a role="button" class="nav-page-item" on:click="navToPage(page.name)">
                   {{page.text}}
                 </a>
               </td>
@@ -24,7 +24,7 @@
             <tr valign="top" >
               <td>
                 <span class="glyphicon-circle-thin" aria-hidden="true"></span>
-                <a role="button" class="future-pages">
+                <a role="button" class="future-page-item">
                   {{page.text}}
                 </a>
               </td>
