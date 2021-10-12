@@ -9,7 +9,7 @@
           {{#for(page of navPages)}}
             <tr valign="top" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)" on:click="navToPage(page.name)">
               <td tabindex="0" {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="active-step"{{/eq}}>
-                {{#if (isPageActive(page.name))}} 
+                {{#if (isPageActive(page.name))}}
                   <span class="glyphicon-circle" aria-hidden="true"></span>
                 {{else}}
                   <span class="glyphicon-circle-empty" aria-hidden="true"></span>
@@ -23,7 +23,7 @@
           {{#for(page of futurePages)}}
             <tr valign="top" >
               <td>
-                <span class="glyphicon-circle-thin" aria-hidden="true"></span>
+                <span class="glyphicon-eye" aria-hidden="true"></span>
                 <a role="button" class="future-page-item">
                   {{page.text}}
                 </a>
