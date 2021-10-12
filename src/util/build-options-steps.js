@@ -60,7 +60,7 @@ function sortMacros (foundMacros) {
 // 3rd -> resolve sortedMacros, and return a tuple of a replacement target, and string resolved displayValue
 // param: [{ type: 'variable', replaceText: '%%[some name TE]%%', resolveText: '[some name TE]' }]
 // return: [{replaceText: '%%[some name TE]%%', displayValue: 'JessBob'}]
-function resolveMacros (sortedMacros, visitedPageRepeatVarValue, logic) {
+function resolveMacros (sortedMacros, logic, visitedPageRepeatVarValue) {
   const resolvedMacros = []
 
   sortedMacros.forEach(macro => {
