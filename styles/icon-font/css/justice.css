@@ -1,11 +1,11 @@
 @font-face {
-  font-family: 'list';
-  src: url('../font/list.eot?39753805');
-  src: url('../font/list.eot?39753805#iefix') format('embedded-opentype'),
-       url('../font/list.woff2?39753805') format('woff2'),
-       url('../font/list.woff?39753805') format('woff'),
-       url('../font/list.ttf?39753805') format('truetype'),
-       url('../font/list.svg?39753805#list') format('svg');
+  font-family: 'justice';
+  src: url('../font/justice.eot?19369703');
+  src: url('../font/justice.eot?19369703#iefix') format('embedded-opentype'),
+       url('../font/justice.woff2?19369703') format('woff2'),
+       url('../font/justice.woff?19369703') format('woff'),
+       url('../font/justice.ttf?19369703') format('truetype'),
+       url('../font/justice.svg?19369703#justice') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,13 +14,13 @@
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
-    font-family: 'list';
-    src: url('../font/list.svg?39753805#list') format('svg');
+    font-family: 'justice';
+    src: url('../font/justice.svg?19369703#justice') format('svg');
   }
 }
 */
 [class^="glyphicon-"]:before, [class*=" glyphicon-"]:before {
-  font-family: "list";
+  font-family: "justice";
   font-style: normal;
   font-weight: normal;
   speak: never;
@@ -66,6 +66,7 @@
 .glyphicon-doc:before { content: '\e809'; } /* '' */
 .glyphicon-doc-text:before { content: '\e80a'; } /* '' */
 .glyphicon-list-bullet:before { content: '\e80b'; } /* '' */
+.glyphicon-arrows-ccw:before { content: '\e80b'; } /* '' */
 .glyphicon-folder-download:before { content: '\e80c'; } /* '' */
 .glyphicon-down-open:before { content: '\e80d'; } /* '' */
 .glyphicon-left-open:before { content: '\e80e'; } /* '' */
@@ -131,7 +132,7 @@
 .glyphicon-info-circled-1:before { content: '\e84a'; } /* '' */
 .glyphicon-attention-circled:before { content: '\e84b'; } /* '' */
 .glyphicon-login:before { content: '\e84c'; } /* '' */
-.glyphicon-arrows-ccw:before { content: '\e84d'; } /* '' */
+.glyphicon-chart-bar:before { content: '\e84d'; } /* '' */
 .glyphicon-link-ext:before { content: '\f08e'; } /* '' */
 .glyphicon-exchange:before { content: '\f0ec'; } /* '' */
 .glyphicon-circle-empty:before { content: '\f10c'; } /* '' */
