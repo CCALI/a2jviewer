@@ -17,10 +17,10 @@
     traceMessage:to="traceMessage"
     class="bootstrap-styles" />
 {{else}}
-    {{#if(showDebugPanel)}}
+    {{#if(appState.showDebugPanel)}}
       <div class="slideout-content">
         <slideout-content
-          appState:from="appState" 
+          appState:from="appState"
           interview:from="interview"
           traceMessage:from="appState.traceMessage" />
       </div>
@@ -30,7 +30,7 @@
       <a2j-desktop-viewer
         remainingSteps:to="remainingSteps"
         maxDisplayedSteps:to="maxDisplayedSteps"
-        showDebugPanel:from="showDebugPanel"
+        showDebugPanel:from="appState.showDebugPanel"
         lang:from="lang"
         logic:from="logic"
         appState:from="appState"
