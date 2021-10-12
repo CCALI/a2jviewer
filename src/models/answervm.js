@@ -73,6 +73,14 @@ export default DefineMap.extend('AnswerVM', {
     return false
   },
 
+  separatorCheck (date) {
+    const hasSeparator = date.match(/\/|-/g)
+    if (!hasSeparator && date.length > 6) {
+      return true
+    }
+    return false
+  },
+
   validateAnswer (val) {
     const field = this.field
 
