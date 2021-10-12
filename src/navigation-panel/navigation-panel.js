@@ -54,33 +54,33 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
     return selectedIndex
   },
 
-  connectedCallback (el) {
-    const vm = this
-    vm.appState.listenTo('currentPage', (ev, currentPageModel) => {
-      console.log(currentPageModel, '-------')
-      const currentPageName = currentPageModel.name
-      let indexMatch
-      vm.navPages.forEach((page, index) => {
-        if (page.name === currentPageName) {
-          indexMatch = index
-        }
-      })
-      const selectorTarget = vm.navPages[indexMatch].text.split(':')[0]
-      const $currentPageElement = $(`a.nav-page-item:contains(${selectorTarget})`)
-      console.log($currentPageElement)
-      // const pageNameTop = $pageName[0].offsetTop
-      // const $debugPanel = $('#logic-trace-panel')
-      // const modifier = 5
+  // connectedCallback (el) {
+  //   const vm = this
+  //   vm.appState.listenTo('currentPage', (ev, currentPageModel) => {
+  //     console.log(currentPageModel, '-------')
+  //     const currentPageName = currentPageModel.name
+  //     let indexMatch
+  //     vm.navPages.forEach((page, index) => {
+  //       if (page.name === currentPageName) {
+  //         indexMatch = index
+  //       }
+  //     })
+  //     const selectorTarget = vm.navPages[indexMatch].text.split(':')[0]
+  //     const $currentPageElement = $(`a.nav-page-item:contains(${selectorTarget})`)
+  //     console.log($currentPageElement)
+  //     // const pageNameTop = $pageName[0].offsetTop
+  //     // const $debugPanel = $('#logic-trace-panel')
+  //     // const modifier = 5
 
-      // setTimeout(() => {
-      //   $debugPanel.animate({ scrollTop: (pageNameTop - modifier) }, 100)
-      // }, 0)
-    })
+  //     // setTimeout(() => {
+  //     //   $debugPanel.animate({ scrollTop: (pageNameTop - modifier) }, 100)
+  //     // }, 0)
+  //   })
 
-    return () => {
-      this.stopListening()
-    }
-  }
+  //   return () => {
+  //     this.stopListening()
+  //   }
+  // }
 })
 
 export default Component.extend({
