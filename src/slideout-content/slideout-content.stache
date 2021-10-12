@@ -5,10 +5,10 @@
 <div>
   {{#if(appState.previewActive)}}
     <div class="toggle-panel">
-      <span class="glyphicon-exchange" aria-hidden="true" on:click="appState.toggleAdvancePanelDisplay()"></span>
+      <span class="glyphicon-exchange" aria-hidden="true" on:click="appState.toggleNavPanel()"></span>
     </div>
   {{/if}}
-  {{#if(appState.showAdvanceNav)}}
+  {{#if(appState.showNavPanel)}}
     <navigation-panel appState:from="appState"></navigation-panel>
   {{else}}
     <debug-panel

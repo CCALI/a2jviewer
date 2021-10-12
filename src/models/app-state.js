@@ -42,14 +42,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: null
   },
 
-  showAdvanceNav: {
-    serialize: false,
-    get () {
-      return this.advanceNavToggleTrigger
-    }
-  },
-
-  advanceNavToggleTrigger: {
+  showNavPanel: {
     serialize: false,
     default: false
   },
@@ -184,15 +177,15 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: () => new DefineList()
   },
 
-  toggleDebugPanel (setNav) {
+  toggleDebugPanel (showNav) {
     this.showDebugPanel = !this.showDebugPanel
-    if (setNav) {
-      this.advanceNavToggleTrigger = true
+    if (showNav) {
+      this.showNavPanel = true
     }
   },
 
-  toggleAdvancePanelDisplay () {
-    this.advanceNavToggleTrigger = !this.advanceNavToggleTrigger
+  toggleNavPanel () {
+    this.showNavPanel = !this.showNavPanel
   },
 
   getVisitedPageIndex (visitedPage) {
