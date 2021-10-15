@@ -1,4 +1,23 @@
 <can-import from="./navigation-panel.less" />
+{{< navPanelItem }}
+  <tr
+    valign="top"
+    on:keydown="keydownFireClickHandler(scope.event, ./vm.navToPage, scope.index)"
+    on:click="./vm.navToPage(scope.index)"
+  >
+    <td tabindex="0" {{#eq(./vm.appState.page, ./page.name)}}class="active-step"{{/eq}}>
+      {{#eq(./vm.appState.page, ./page.name)}}
+        <span class="glyphicon-circle" aria-hidden="true"></span>
+      {{else}}
+        <span class="glyphicon-circle-empty" aria-hidden="true"></span>
+      {{/eq}}
+      <a role="button" class="nav-page-item" on:click="./vm.navToPage(scope.index)">
+        {{./page.displayText}}
+      </a>
+    </td>
+  </tr>
+{{/navPanelItem}}
+
 <div id="viewer-navigation-panel-form">
 
   <span class="navHeader">NAVIGATION PANEL</span>
@@ -6,19 +25,8 @@
   <div id="logic-trace-panel" class="navigationpanel">
     <table class="A2JVars table-condensed">
       <tbody>
-          {{#for(page of navPages)}}
-            <tr valign="top" on:keydown="keydownFireClickHandler(scope.event, navToPage, page.name)" on:click="navToPage(page.name)">
-              <td tabindex="0" {{#eq(appState.visitedPages[appState.selectedPageIndex].name, page.name)}}class="active-step"{{/eq}}>
-                {{#if (isPageActive(page.name))}}
-                  <span class="glyphicon-circle" aria-hidden="true"></span>
-                {{else}}
-                  <span class="glyphicon-circle-empty" aria-hidden="true"></span>
-                {{/if}}
-                <a role="button" class="nav-page-item" on:click="navToPage(page.name)">
-                  {{page.text}}
-                </a>
-              </td>
-            </tr>
+          {{#for(appState.visitedPages)}}
+            {{> navPanelItem getNavPanelPage(scope.index)}}
           {{/for}}
           {{#for(page of futurePages)}}
             <tr valign="top" >

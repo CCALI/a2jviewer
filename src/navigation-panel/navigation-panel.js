@@ -19,38 +19,29 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
     }
   },
 
-  navPages: {
-    get () {
-      let navPages = this.appState.visitedPages.serialize()
-      return buildOptions(navPages.reverse(), this.logic)
-    }
-  },
-
   futurePages: {
     get () {
-      let futurePages = this.appState.futurePages.serialize()
-      return buildOptions(futurePages, this.logic)
+      return buildOptions(this.appState.futurePages, this.logic)
     }
   },
 
-  isPageActive (pageName) {
-    if (this.appState.visitedPages[this.appState.selectedPageIndex].name === pageName) {
-      return true
-    }
-    return false
+  getInverseIndex (index) {
+    const offset = this.appState.visitedPages.length - 1
+    return offset - index
   },
 
-  navToPage (pageName) {
-    // a click should nav to the selected page,
-    // it should also match the MyProgress state.
-    let selectedIndex
-    this.appState.visitedPages.forEach((pageObj, index) => {
-      if (pageObj.name === pageName) {
-        selectedIndex = index
-      }
-    })
+  // this effectively reverses the page order from MyProgress
+  getNavPanelPage (index) {
+    const inverseIndex = this.getInverseIndex(index)
+    const page = this.appState.visitedPages[inverseIndex]
+    return { page, vm: this }
+  },
+
+  navToPage (clickedIndex) {
+    // nav pages are in reverse order, handle that
+    const selectedIndex = this.getInverseIndex(clickedIndex)
     this.appState.selectedPageIndex = selectedIndex
-    // for testing purposes
+
     return selectedIndex
   },
 
