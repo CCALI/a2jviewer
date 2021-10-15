@@ -41,9 +41,9 @@
             id="myProgressSelect"
             class="form-control"
             value:from="this.appState.selectedPageIndex">
-            {{#for(option of myProgressOptions)}}
+            {{#for(visitedPage of appState.visitedPages)}}
               <option value:from="scope.index" disabled:from="this.disableOption(scope.index)">
-                {{{option}}}
+                {{{visitedPage.displayText}}}
               </option>
             {{/for}}
           </select>
