@@ -7,6 +7,7 @@ import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '~/src/models/trace-message'
 import { hasPageLogic, hasMultipleButtons, hasRequiredField, hasSpecialButton, hasNoNextPageTarget } from '~/src/util/future-pages-setup'
+import formatDisplayText from '~/src/util/format-display-text'
 
 const UserAvatar = DefineMap.extend('UserAvatar', {
   gender: { default: 'female' },
@@ -16,6 +17,30 @@ const UserAvatar = DefineMap.extend('UserAvatar', {
   skinTone: { default: 'medium' }
 })
 const defaultUserAvatar = new UserAvatar()
+
+const VisitedPage = DefineMap.extend('VisitedPage', {
+  displayText: {
+    get () {
+      // re-eval if answer values have updated via beforeCode
+      const answersChanged = this.answers && this.answers.serialize() // eslint-disable-line
+      const questionText = this.text || ''
+      const resolvedText = this.logic && this.logic.eval(questionText)
+
+      return formatDisplayText({
+        name: this.name,
+        text: resolvedText || questionText,
+        repeatVarValue: this.repeatVarValue,
+        stepNumber: this.step.number,
+        questionNumber: this.questionNumber
+      })
+    }
+  },
+  repeatVarValue: {},
+  outerLoopVarValue: {},
+  questionNumber: {},
+  logic: {},
+  answers: {}
+})
 
 export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   // set in preview.js
@@ -151,6 +176,12 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     }
   },
 
+  answers: {
+    get () {
+      return this.interview && this.interview.attr('answers')
+    }
+  },
+
   // used for internal page routing in preview.js
   view: {},
 
@@ -269,7 +300,10 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
       const nextPage = this.interview.pages.find(nextPageName)
 
       // if no stopper on current page, then safe to add next page to futurePages
-      this.futurePages.push(nextPage)
+      const futurePage = new VisitedPage(nextPage)
+      futurePage.answers = this.answers
+      futurePage.logic = this.logic
+      this.futurePages.push(futurePage)
 
       // recurse
       this.handleFuturePages(nextPage)
@@ -294,7 +328,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     // depends on html, answers, and logic.eval
     const parseTextHelper = (html) => {
       // re-eval if answer values have updated via beforeCode'
-      const answersChanged = vm.interview && vm.interview.attr('answers').serialize() // eslint-disable-line
+      const answersChanged = vm.answers.serialize() // eslint-disable-line
       return (html && vm.logic) && vm.logic.eval(html)
     }
     stache.registerHelper('parseText', parseTextHelper)
@@ -324,7 +358,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
       const repeatVarValue = repeatVar ? this.logic.varGet(repeatVar) : undefined
       const outerLoopVarValue = outerLoopVar ? this.logic.varGet(outerLoopVar) : undefined
 
-      const newVisitedPage = new DefineMap(this.currentPage)
+      const newVisitedPage = new VisitedPage(this.currentPage)
 
       const stepNumber = parseInt(newVisitedPage.step.number)
       let questionNumber = parseInt(questionCountPerStep[stepNumber])
@@ -336,16 +370,22 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
       const revisitedPageIndex = this.getVisitedPageIndex(newVisitedPage)
 
       if (revisitedPageIndex === -1) {
+        newVisitedPage.answers = this.answers
+        newVisitedPage.logic = this.logic
         this.repeatVarValue = repeatVarValue
         this.outerLoopVarValue = outerLoopVarValue
         this.visitedPages.unshift(newVisitedPage)
         this.lastVisitedPageName = newVisitedPage.name
+
         // make sure newly visited page is selected
         this.selectedPageIndex = 0
 
-        // generate new futurePages list every new visitedPage
-        this.futurePages = new DefineList()
-        this.handleFuturePages(newVisitedPage)
+        if (!this.futurePages.length) {
+          // generate new futurePages when it empties out
+          this.handleFuturePages(newVisitedPage)
+        } else {
+          this.futurePages.shift()
+        }
       } else {
         this.selectedPageIndex = revisitedPageIndex
       }

@@ -1,4 +1,5 @@
 <can-import from="./navigation-panel.less" />
+
 {{< navPanelItem }}
   <tr
     valign="top"
@@ -19,21 +20,19 @@
 {{/navPanelItem}}
 
 <div id="viewer-navigation-panel-form">
-
   <span class="navHeader">NAVIGATION PANEL</span>
-
   <div id="logic-trace-panel" class="navigationpanel">
     <table class="A2JVars table-condensed">
       <tbody>
           {{#for(appState.visitedPages)}}
             {{> navPanelItem getNavPanelPage(scope.index)}}
           {{/for}}
-          {{#for(page of futurePages)}}
+          {{#for(page of appState.futurePages)}}
             <tr valign="top" >
               <td>
                 <span class="glyphicon-eye" aria-hidden="true"></span>
                 <a role="button" class="future-page-item">
-                  {{page.text}}
+                  {{page.displayText}}
                 </a>
               </td>
             </tr>

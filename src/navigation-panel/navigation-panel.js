@@ -1,7 +1,6 @@
 import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './navigation-panel.stache'
-import buildOptions from '../util/build-options-steps'
 
 /**
  * @property {DefineMap} debugPanel.ViewModel
@@ -13,24 +12,12 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   // passed in view debug-panel.stache
   appState: {},
 
-  logic: {
-    get () {
-      return this.appState.logic
-    }
-  },
-
-  futurePages: {
-    get () {
-      return buildOptions(this.appState.futurePages, this.logic)
-    }
-  },
-
   getInverseIndex (index) {
     const offset = this.appState.visitedPages.length - 1
     return offset - index
   },
 
-  // this effectively reverses the page order from MyProgress
+  // this reverses the page order from MyProgress
   getNavPanelPage (index) {
     const inverseIndex = this.getInverseIndex(index)
     const page = this.appState.visitedPages[inverseIndex]
@@ -38,7 +25,7 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   },
 
   navToPage (clickedIndex) {
-    // nav pages are in reverse order, handle that
+    // nav panel pages are in reverse order, handle that
     const selectedIndex = this.getInverseIndex(clickedIndex)
     this.appState.selectedPageIndex = selectedIndex
 
