@@ -264,7 +264,8 @@ describe('AppState', function () {
     assert.equal(futurePages.length, 2, 'should grab 2 future pages until it hits a stopper')
 
     const lastFuturePage = appState.interview.pages.find('02-Your name')
-    assert.deepEqual(lastFuturePage, appState.futurePages[1], 'should have the same final futurePages page')
+    // interview pages and futurePages are different Types, check the name val
+    assert.deepEqual(lastFuturePage.name, appState.futurePages[1].name, 'should have the same final futurePages page')
   })
 
   describe('hasStopper()', () => {
