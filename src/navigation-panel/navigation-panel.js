@@ -12,6 +12,12 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   // passed in view debug-panel.stache
   appState: {},
 
+  visitedPages: {
+    get () {
+      return this.appState.visitedPages
+    }
+  },
+
   getInverseIndex (index) {
     const offset = this.appState.visitedPages.length - 1
     return offset - index
@@ -32,33 +38,20 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
     return selectedIndex
   },
 
-  // connectedCallback (el) {
-  //   const vm = this
-  //   vm.appState.listenTo('currentPage', (ev, currentPageModel) => {
-  //     console.log(currentPageModel, '-------')
-  //     const currentPageName = currentPageModel.name
-  //     let indexMatch
-  //     vm.navPages.forEach((page, index) => {
-  //       if (page.name === currentPageName) {
-  //         indexMatch = index
-  //       }
-  //     })
-  //     const selectorTarget = vm.navPages[indexMatch].text.split(':')[0]
-  //     const $currentPageElement = $(`a.nav-page-item:contains(${selectorTarget})`)
-  //     console.log($currentPageElement)
-  //     // const pageNameTop = $pageName[0].offsetTop
-  //     // const $debugPanel = $('#logic-trace-panel')
-  //     // const modifier = 5
+  connectedCallback (el) {
+    const visitedPages = this.appState.visitedPages
+    visitedPages.listenTo('length', (ev, val) => {
+      const currentNavPage = document.querySelector('.active-nav-page-item')
+      const currentNavPageTop = currentNavPage.offsetTop
+      const $navPanelParent = $('#nav-panel-parent')
+      // shows past 2 pages at top of list
+      const modifier = 84
 
-  //     // setTimeout(() => {
-  //     //   $debugPanel.animate({ scrollTop: (pageNameTop - modifier) }, 100)
-  //     // }, 0)
-  //   })
-
-  //   return () => {
-  //     this.stopListening()
-  //   }
-  // }
+      setTimeout(() => {
+        $navPanelParent.animate({ scrollTop: (currentNavPageTop - modifier) }, 100)
+      }, 0)
+    })
+  }
 })
 
 export default Component.extend({

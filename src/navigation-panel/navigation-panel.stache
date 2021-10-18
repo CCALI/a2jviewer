@@ -6,7 +6,7 @@
     on:keydown="keydownFireClickHandler(scope.event, ./vm.navToPage, scope.index)"
     on:click="./vm.navToPage(scope.index)"
   >
-    <td tabindex="0" {{#eq(./vm.appState.page, ./page.name)}}class="active-step"{{/eq}}>
+    <td tabindex="0" {{#eq(./vm.appState.page, ./page.name)}}class="active-nav-page-item"{{/eq}}>
       {{#eq(./vm.appState.page, ./page.name)}}
         <span class="glyphicon-circle" aria-hidden="true"></span>
       {{else}}
@@ -20,9 +20,9 @@
 {{/navPanelItem}}
 
 <div id="viewer-navigation-panel-form">
-  <span class="navHeader">NAVIGATION PANEL</span>
-  <div id="logic-trace-panel" class="navigationpanel">
-    <table class="A2JVars table-condensed">
+  <span class="nav-header">NAVIGATION PANEL</span>
+  <div id="nav-panel-parent" class="nav-panel">
+    <table class="table-condensed">
       <tbody>
           {{#for(appState.visitedPages)}}
             {{> navPanelItem getNavPanelPage(scope.index)}}
