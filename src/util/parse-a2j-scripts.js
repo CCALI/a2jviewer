@@ -3,31 +3,40 @@ import _truncate from 'lodash/truncate'
 // Create and re-create options list to update based on changed user input
 // but still preserve the state of the current myProgress options.
 // Specifically this handles the challenge of mapping multi-value variables
-// to their specific loop count/state.
+// to their specific loop count/state.å
+export function getSingleOptionText (visitedPage, logic) {
+  const questionText = visitedPage.text
+  let result
+
+  const foundMacros = findMacros(questionText)
+  if (foundMacros) {
+    const sortedMacros = sortMacros(foundMacros)
+
+    const resolvedMacros = resolveMacros(
+      sortedMacros,
+      logic,
+      visitedPage.repeatVarValue
+    )
+    result = replaceMacros(resolvedMacros, questionText)
+  }
+
+  const resolvedText = result && result.resolvedText
+  const varNames = result ? result.varNames : []
+
+  const formatResult = formatDisplayText({
+    name: visitedPage.name,
+    text: resolvedText || questionText,
+    repeatVarValue: visitedPage.repeatVarValue,
+    stepNumber: visitedPage.step.number,
+    questionNumber: visitedPage.questionNumber
+  })
+
+  return { displayText: formatResult.text, varNames }
+}
 
 export default function buildOptions (visitedPages, logic) {
-  return visitedPages.map(visitedPage => {
-    const questionText = visitedPage.text
-    let resolvedText
-
-    const foundMacros = findMacros(questionText)
-    if (foundMacros) {
-      const sortedMacros = sortMacros(foundMacros)
-      const resolvedMacros = resolveMacros(
-        sortedMacros,
-        logic,
-        visitedPage.repeatVarValue
-      )
-      resolvedText = replaceMacros(resolvedMacros, questionText)
-    }
-
-    return formatOptionData({
-      name: visitedPage.name,
-      text: resolvedText || questionText,
-      repeatVarValue: visitedPage.repeatVarValue,
-      stepNumber: visitedPage.step.number,
-      questionNumber: visitedPage.questionNumber
-    })
+  return visitedPages.map((visitedPage) => {
+    return getSingleOptionText(visitedPage, logic)
   })
 }
 
@@ -65,22 +74,28 @@ function resolveMacros (sortedMacros, logic, visitedPageRepeatVarValue) {
 
   sortedMacros.forEach(macro => {
     if (macro.type === 'function') {
+      const { displayValue, varName } = getFunctionMacro(
+        macro.resolveText,
+        visitedPageRepeatVarValue,
+        logic
+      )
+
       resolvedMacros.push({
         replaceText: macro.replaceText,
-        displayValue: getFunctionMacro(
-          logic,
-          macro.resolveText,
-          visitedPageRepeatVarValue
-        )
+        displayValue,
+        varName
       })
     } else {
+      const { displayValue, varName } = getVariableMacro(
+        macro.resolveText,
+        visitedPageRepeatVarValue,
+        logic
+      )
+
       resolvedMacros.push({
         replaceText: macro.replaceText,
-        displayValue: getVariableMacro(
-          macro.resolveText,
-          visitedPageRepeatVarValue,
-          logic
-        )
+        displayValue,
+        varName
       })
     }
   })
@@ -92,20 +107,22 @@ function resolveMacros (sortedMacros, logic, visitedPageRepeatVarValue) {
 // Hello %%[First name TE]%%! -> Hello JessBob!
 function replaceMacros (resolvedMacros, questionText) {
   let displayText = questionText
+  const varNames = []
 
   if (resolvedMacros && resolvedMacros.length) {
     resolvedMacros.forEach(macro => {
       displayText = displayText.replace(macro.replaceText, macro.displayValue)
+      varNames.push(macro.varName)
     })
   }
 
-  return displayText
+  return { displayText, varNames }
 }
 
-function formatOptionData (optionData) {
-  const repeatVarValue = optionData.repeatVarValue
-  const stepQuestionText = `Step ${optionData.stepNumber} Q${optionData.questionNumber}: `
-  let text = optionData.questionNumber ? (stepQuestionText + optionData.text) : optionData.text
+function formatDisplayText (pageData) {
+  const repeatVarValue = pageData.repeatVarValue
+  const stepQuestionText = `Step ${pageData.stepNumber} Q${pageData.questionNumber}: `
+  let text = pageData.questionNumber ? (stepQuestionText + pageData.text) : pageData.text
   // strip html tags
   text = text.replace(/(<([^>]+)>)/gi, '').trim()
 
@@ -114,7 +131,8 @@ function formatOptionData (optionData) {
   text =
     typeof repeatVarValue === 'number' ? text + ' #' + repeatVarValue : text
 
-  return {name: optionData.name, text}
+  // return {name: pageData.name, text}
+  return text
 }
 
 // call Macro Functions to resolve display values
@@ -123,11 +141,13 @@ function getFunctionMacro (resolveText, visitedPageRepeatVarValue, logic) {
   const { funcName, funcArgs } = parseFunctionMacro(resolveText)
   const func =
     funcName && userFunctions[funcName] && userFunctions[funcName].func
-  const varValue = getVariableMacro(funcArgs[0], visitedPageRepeatVarValue)
+  const varName = funcArgs[0]
+  const varValue = getVariableMacro(varName, visitedPageRepeatVarValue, logic)
   // edge case, CONTAINS macro is only one that takes second param
   const compareStringForContains = funcArgs[1]
+  const displayValue = func(varValue, compareStringForContains)
 
-  return func(varValue, compareStringForContains)
+  return { displayValue, varName }
 }
 
 function getVariableMacro (resolveText, visitedPageRepeatVarValue, logic) {
@@ -140,7 +160,8 @@ function getVariableMacro (resolveText, visitedPageRepeatVarValue, logic) {
     visitedPageRepeatVarValue,
     logic
   )
-  return displayValue
+
+  return { displayValue, varName }
 }
 
 // answerIndex uses explicit counting var (someVar#3), visitedPage.repeatVarValue,
