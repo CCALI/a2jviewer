@@ -3,6 +3,7 @@
 <can-import from="~/src/mobile/filler/"/>
 <can-import from="./mobile.less"/>
 <can-import from="~/src/desktop/navigation/"/>
+<can-import from="~/src/navigation-panel/"/>
 
 <div>
   {{#not(tocOrCreditsShown())}}
@@ -31,6 +32,7 @@
     {{/eq}}
 
     {{#eq(appState.view, 'pages')}}
+      <navigation-panel appState:from="appState"></navigation-panel>
       <a2j-viewer-navigation
         repeatVarValue:from="appState.repeatVarValue"
         selectedPageName:from="appState.selectedPageName"

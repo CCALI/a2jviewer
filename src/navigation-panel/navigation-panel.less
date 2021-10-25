@@ -75,4 +75,32 @@ navigation-panel {
     font-size: 22px;
     font-style: inherit;
   }
+
+  .mobile-close,
+  .mobile-toggle {
+    display: none;
+  }
+
+  @media (max-width: @screen-sm) {
+    .mobile-toggle  {
+      position: absolute;
+      z-index: 999;
+      top: 20px;
+      right: 20px;
+      display: inline-block;
+    }
+    .mobile-open {
+      position: absolute;
+      top: 0;
+      left: 0px;
+      right: 0px;
+      bottom: 0;
+      background: white;
+      z-index: 99;
+      padding-right: 10px;
+      .nav-panel {
+        right: 10px;
+      }
+    }
+  }
 }

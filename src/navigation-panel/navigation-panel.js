@@ -1,6 +1,7 @@
 import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './navigation-panel.stache'
+import isMobile from '~/src/util/is-mobile'
 
 /**
  * @property {DefineMap} debugPanel.ViewModel
@@ -11,6 +12,23 @@ import template from './navigation-panel.stache'
 export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   // passed in view debug-panel.stache
   appState: {},
+
+  isMobile: {
+    get () {
+      return isMobile()
+    }
+  },
+
+  mobileOpenToggle: {
+    type: 'boolean',
+    default: false
+  },
+
+  mobileAndOpen: {
+    get () {
+      return this.isMobile && this.mobileOpenToggle
+    }
+  },
 
   visitedPages: {
     get () {

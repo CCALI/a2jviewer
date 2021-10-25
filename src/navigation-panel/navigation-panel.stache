@@ -19,7 +19,15 @@
   </tr>
 {{/navPanelItem}}
 
-<div id="viewer-navigation-panel-form">
+{{#if(isMobile)}}
+  {{#if(mobileOpenToggle)}}
+    <a role="button" class="mobile-toggle glyphicon-down-open" on:click="mobileOpenToggle = false" title="close navigation">Close</a>
+  {{else}}
+    <a role="button" class="mobile-toggle glyphicon-list-bullet" on:click="mobileOpenToggle = true" title="open navigation">Open</a>
+  {{/if}}
+{{/if}}
+
+<div id="viewer-navigation-panel-form" class="{{#if(mobileAndOpen)}}mobile-open{{else}}{{#if(isMobile)}}mobile-close{{/if}}{{/if}}">
   <span class="nav-header">NAVIGATION PANEL</span>
   <div id="nav-panel-parent" class="nav-panel">
     <table class="table-condensed">
