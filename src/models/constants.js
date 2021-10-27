@@ -88,6 +88,9 @@ export default {
   RepeatVarSetOne: '=1',
   RepeatVarSetPlusOne: '+=1',
 
+  // Navigation/Page History for fast-forwarding back to the last viewed page if answers are loaded
+  PAGEHISTORY: 'A2J Visited Pages',
+
   // HotDocs ANX
   // 4/8/04 This is the DTD for the HotDocs ANX file format.
   // It's prepended to the answer set for upload.

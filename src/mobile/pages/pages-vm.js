@@ -169,9 +169,30 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
+  // visited pages history is restored by automatically navigate(btn) through the interview using the page history pulled from answers.
+  // while this is true, new navigation won't set history. while it's false, navigation pushes to the built-in/constant history answer.
+  historyReplay: {
+    type: 'boolean',
+    default: false
+  },
+
   connectedCallback () {
     const vm = this
     vm.setCurrentPage()
+
+    const ans = this.answers
+    const history = ans && JSON.parse(ans.varGet(constants.PAGEHISTORY.toLowerCase(), 1) || '[]')
+
+    vm.historyReplay = true // don't modify history while we restore/replay the navigation automatically
+
+    history && history.forEach(next => {
+      const currentPage = vm.currentPage
+      const nextPageButtons = currentPage.buttons && currentPage.buttons.filter(b => b.next === next)
+      // currentPage.buttons && console.log(currentPage.name, next, currentPage.buttons.serialize())
+      nextPageButtons && nextPageButtons[0] && vm.navigate(nextPageButtons[0])
+    })
+
+    vm.historyReplay = false // resume normal navigation history tracking
 
     return () => { vm.stopListening() }
   },
@@ -215,6 +236,13 @@ export default DefineMap.extend('PagesVM', {
     })
   },
 
+  pushPageHistory (newNext) {
+    // more of a what-button-clicked history than a pages visited history because logic can forward you elsewhere after clicking it
+    const history = JSON.parse(this.answers.varGet(constants.PAGEHISTORY.toLowerCase(), 1) || '[]')
+    history.push(newNext)
+    this.answers.varSet(constants.PAGEHISTORY.toLowerCase(), JSON.stringify(history), 1)
+  },
+
   navigate (button, el, ev) {
     const vm = this // preserve navigate context for post/assemble stache forms
     const anyFieldHasError = vm.validateAllFields()
@@ -225,6 +253,7 @@ export default DefineMap.extend('PagesVM', {
       ev && ev.preventDefault()
       return false
     } else { // no errors/normal navigation
+      button.next && !this.historyReplay && this.pushPageHistory(button.next)
       const appState = vm.appState
       const page = vm.currentPage
       const logic = vm.logic
