@@ -52,6 +52,7 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
     // nav panel pages are in reverse order, handle that
     const selectedIndex = this.getInverseIndex(clickedIndex)
     this.appState.selectedPageIndex = selectedIndex
+    this.mobileOpenToggle = false // close the mobile nav panel once an item was clicked
 
     return selectedIndex
   },

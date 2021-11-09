@@ -4,6 +4,9 @@ import _find from 'lodash/find'
 import Field from '~/src/models/field'
 
 const Page = DefineMap.extend('Page Model', {
+  foobar: {
+    default: "whatatest"
+  },
   step: {
     // forces the conversion of TStep objects when converting
     // `window.gGuide` to an Interview model instance.

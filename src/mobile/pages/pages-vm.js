@@ -20,7 +20,12 @@ import 'bootstrap/js/modal'
  */
 export default DefineMap.extend('PagesVM', {
   // passed in via steps.stache or mobile.stache
-  currentPage: {},
+  currentPage: {
+    set (p) {
+      p.fields && this.setFieldAnswers(p.fields)
+      return p
+    }
+  },
   resumeInterview: {},
   lang: {},
   logic: {},
@@ -167,13 +172,6 @@ export default DefineMap.extend('PagesVM', {
     get () {
       return this.interview.attr('answers')
     }
-  },
-
-  connectedCallback () {
-    const vm = this
-    vm.setCurrentPage()
-
-    return () => { vm.stopListening() }
   },
 
   returnHome () {
@@ -483,6 +481,11 @@ export default DefineMap.extend('PagesVM', {
     answers.varSet(interviewCompleteKey, false, 0)
   },
 
+  reloadingHistory: {
+    type: 'boolean',
+    default: false
+  },
+
   setCurrentPage () {
     const currentPage = this.currentPage
 
@@ -499,7 +502,27 @@ export default DefineMap.extend('PagesVM', {
       this.mState.attr('step', currentPage.step.number)
 
       queues.batch.stop()
+
+      if (!this.reloadingHistory) {
+        this.answers.varSet(constants.PAGEHISTORY.toLowerCase(), JSON.stringify(this.appState.serializeVisitedPages()), 1)
+      }
     }
+  },
+
+  connectedCallback () {
+    const vm = this
+    const ans = vm.answers
+    const history = ans && JSON.parse(ans.varGet(constants.PAGEHISTORY.toLowerCase(), 1) || '[]')
+    if (history && history.length) {
+      this.reloadingHistory = true
+      vm.appState.hydrateVisitedPages(history)
+      vm.setCurrentPage()
+      this.reloadingHistory = false
+    } else {
+      vm.setCurrentPage()
+    }
+
+    return () => { vm.stopListening() }
   },
 
   /**

@@ -1,11 +1,12 @@
+@charset "UTF-8";
 @font-face {
   font-family: 'justice';
-  src: url('../font/justice.eot?19369703');
-  src: url('../font/justice.eot?19369703#iefix') format('embedded-opentype'),
-       url('../font/justice.woff2?19369703') format('woff2'),
-       url('../font/justice.woff?19369703') format('woff'),
-       url('../font/justice.ttf?19369703') format('truetype'),
-       url('../font/justice.svg?19369703#justice') format('svg');
+  src: url('../font/justice.eot?49463041');
+  src: url('../font/justice.eot?49463041#iefix') format('embedded-opentype'),
+       url('../font/justice.woff2?49463041') format('woff2'),
+       url('../font/justice.woff?49463041') format('woff'),
+       url('../font/justice.ttf?49463041') format('truetype'),
+       url('../font/justice.svg?49463041#justice') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -15,7 +16,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'justice';
-    src: url('../font/justice.svg?19369703#justice') format('svg');
+    src: url('../font/justice.svg?49463041#justice') format('svg');
   }
 }
 */
@@ -65,7 +66,6 @@
 .glyphicon-docs:before { content: '\e808'; } /* '' */
 .glyphicon-doc:before { content: '\e809'; } /* '' */
 .glyphicon-doc-text:before { content: '\e80a'; } /* '' */
-.glyphicon-list-bullet:before { content: '\e80b'; } /* '' */
 .glyphicon-arrows-ccw:before { content: '\e80b'; } /* '' */
 .glyphicon-folder-download:before { content: '\e80c'; } /* '' */
 .glyphicon-down-open:before { content: '\e80d'; } /* '' */
@@ -133,9 +133,12 @@
 .glyphicon-attention-circled:before { content: '\e84b'; } /* '' */
 .glyphicon-login:before { content: '\e84c'; } /* '' */
 .glyphicon-chart-bar:before { content: '\e84d'; } /* '' */
+.glyphicon-ok-circled:before { content: '\e84e'; } /* '' */
 .glyphicon-link-ext:before { content: '\f08e'; } /* '' */
 .glyphicon-exchange:before { content: '\f0ec'; } /* '' */
 .glyphicon-circle-empty:before { content: '\f10c'; } /* '' */
 .glyphicon-circle:before { content: '\f111'; } /* '' */
+.glyphicon-dot-circled:before { content: '\f192'; } /* '' */
 .glyphicon-circle-thin:before { content: '\f1db'; } /* '' */
 .glyphicon-calc:before { content: '\f1ec'; } /* '' */
+.glyphicon-list-bullet:before { content: '🔄'; } /* '\1f504' */

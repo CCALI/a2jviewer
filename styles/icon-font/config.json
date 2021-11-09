@@ -265,7 +265,7 @@
     {
       "uid": "a2a74f5e7b7d9ba054897d8c795a326a",
       "css": "list-bullet",
-      "code": 59403,
+      "code": 128260,
       "src": "fontawesome"
     },
     {
@@ -627,6 +627,18 @@
       "css": "arrows-ccw",
       "code": 59403,
       "src": "entypo"
+    },
+    {
+      "uid": "43ab845088317bd348dee1d975700c48",
+      "css": "ok-circled",
+      "code": 59470,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "81bb68665e8e595505272a746db07c7a",
+      "css": "dot-circled",
+      "code": 61842,
+      "src": "fontawesome"
     }
   ]
 }

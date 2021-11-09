@@ -40,6 +40,7 @@ const guideProperties = [
   'modifydate',
   'notes',
   'sendfeedback',
+  'showNavDefault',
   'subjectarea',
   'title',
   'tool',

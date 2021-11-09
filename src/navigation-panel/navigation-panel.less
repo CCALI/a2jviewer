@@ -14,52 +14,77 @@ navigation-panel {
     position: absolute;
     overflow-y: scroll;
     padding: @grid-gutter-width/4;
-    background-color: #e7f5fc;
+    background-color: #eaf6fd;
+    list-style: none;
 
-    table {
+    .page-item {
+      display: block;
+      position: relative;
+      font-size: @font-size-base;
+    }
+
+    button {
+      cursor: pointer;
+      height: 40px;
+      display: block;
       width: 100%;
-      font-size: @font-size-small;
+      text-align: left;
+      white-space: nowrap;
+      background: transparent;
+      border: 2px solid transparent;
+      padding: 0;
+      color: black;
+      &:hover {
+        text-decoration: underline;
+        border-color: black;
+      }
+    }
 
-      tr {
-        cursor: pointer;
-        height: 44px;
+    .icon {
+      font-size: @font-size-large;
+      color: @gray-light;
 
-        li {
-          list-style-type: circle;
-        }
-
-        li::marker {
-          font-size: initial;
-          color: #0b0c0c;
-        }
-
-        td {
-          padding: initial;
-          padding-top: 20px;
-
-          a {
-            color: #000000
-          }
-        }
+      &::before {
+        z-index: 5;
+        position: relative;
+        background: #eaf6fd;
       }
 
-      tr:hover {
-        border: 2px solid black;
+      &::after {
+        content: "";
+        height: 100%;
+        border-left: 2px solid @gray-light;
+        opacity: 0.33;
+        width: 0px;
+        position: absolute;
+        bottom: 50%;
+        left: 13px;
       }
+    }
 
+    .page-item:first-of-type .icon::after {
+      content: none;
     }
   }
 
   .active-nav-page-item {
     font-weight: bolder;
+
+    .icon {
+      color: @gray-base;
+    }
   }
 
   .future-page-item {
-    color: #333;
+    color: @gray;
     font-style: italic;
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
+
+    .icon::after {
+      border-left-style: dotted;
+    }
   }
 
   .nav-page-item {

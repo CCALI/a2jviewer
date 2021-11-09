@@ -43,7 +43,7 @@
             value:from="this.appState.selectedPageIndex">
             {{#for(visitedPage of appState.visitedPages)}}
               <option value:from="scope.index" disabled:from="this.disableOption(scope.index)">
-                {{visitedPage.displayText}}
+                {{visitedPage.display.textRepeatTruncated}}
               </option>
             {{/for}}
           </select>

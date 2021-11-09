@@ -6,6 +6,7 @@ import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '~/src/models/trace-message'
+import HistTree from '~/src/models/hist-tree'
 import { hasPageLogic, hasMultipleButtons, hasRequiredField, hasSpecialButton, hasNoNextPageTarget } from '~/src/util/future-pages-setup'
 import formatDisplayText from '~/src/util/format-display-text'
 
@@ -19,7 +20,7 @@ const UserAvatar = DefineMap.extend('UserAvatar', {
 const defaultUserAvatar = new UserAvatar()
 
 const VisitedPage = DefineMap.extend('VisitedPage', {
-  displayText: {
+  display: {
     get () {
       // re-eval if answer values have updated via beforeCode
       const answersChanged = this.answers && this.answers.serialize() // eslint-disable-line
@@ -78,6 +79,7 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     serialize: false
   },
 
+  // which visitedPages[] is selected
   selectedPageIndex: {
     serialize: false,
     type: 'number',
@@ -172,6 +174,10 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     serialize: false,
     set (interview) {
       document.title = 'A2J Guided Interview called ' + interview.title
+      if (interview.attr('showNavDefault')) {
+        this.showDebugPanel = true
+        this.showNavPanel = true
+      }
       return interview
     }
   },
@@ -217,14 +223,6 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
   toggleNavPanel () {
     this.showNavPanel = !this.showNavPanel
-  },
-
-  getVisitedPageIndex (visitedPage) {
-    return _findIndex(this.visitedPages, function (page) {
-      return visitedPage.name === page.name &&
-      visitedPage.repeatVarValue == page.repeatVarValue && // eslint-disable-line
-      visitedPage.outerLoopValue == page.outerLoopVarValue // eslint-disable-line
-    })
   },
 
   restoreLoopVars (visitedPage) {
@@ -310,6 +308,46 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     }
   },
 
+  serializeVisitedPages () {
+    const vps = this.visitedPages || []
+    const serializedVisitedPages = []
+    vps.forEach(vp => serializedVisitedPages.push({
+      name: vp.name,
+      repeatVarValue: vp.repeatVarValue,
+      outerLoopVarValue: vp.outerLoopVarValue,
+      questionNumber: vp.questionNumber
+    }))
+    return serializedVisitedPages
+  },
+
+  hydrateVisitedPages (serializedVisitedPages) {
+    const vm = this
+    const pagesList = this.interview.pages
+    const pagesByName = pagesList.reduce((acc, p) => {
+      acc[p.name] = p
+      return acc
+    }, {})
+    const hydratedVisitedPages = serializedVisitedPages.map(svp => {
+      const p = pagesByName[svp.name] // TODO: what if this is missing? Abort restore and start at first page?
+      const vp = new VisitedPage(p)
+
+      vp.set('questionNumber', svp.questionNumber)
+      vp.set('repeatVarValue', svp.repeatVarValue)
+      vp.set('outerLoopVarValue', svp.outerLoopVarValue)
+      vp.answers = vm.answers
+      vp.logic = vm.logic
+      return vp
+    })
+    if (hydratedVisitedPages && hydratedVisitedPages[0]) {
+      this.visitedPages = hydratedVisitedPages
+      this.lastVisitedPageName = hydratedVisitedPages[0].name
+      this.selectedPageIndex = 0
+      this.futurePages.length = 0
+      this.handleFuturePages(hydratedVisitedPages[0])
+    }
+    return hydratedVisitedPages
+  },
+
   connectedCallback () {
     const vm = this
 
@@ -367,7 +405,11 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
 
       newVisitedPage.set('repeatVarValue', repeatVarValue)
       newVisitedPage.set('outerLoopVarValue', outerLoopVarValue)
-      const revisitedPageIndex = this.getVisitedPageIndex(newVisitedPage)
+      const revisitedPageIndex = _findIndex(this.visitedPages, page => (
+        newVisitedPage.name === page.name &&
+        newVisitedPage.repeatVarValue == page.repeatVarValue && // eslint-disable-line
+        newVisitedPage.outerLoopValue == page.outerLoopVarValue // eslint-disable-line
+      ))
 
       if (revisitedPageIndex === -1) {
         newVisitedPage.answers = this.answers

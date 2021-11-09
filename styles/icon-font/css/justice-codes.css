@@ -1,3 +1,4 @@
+@charset "UTF-8";
 
 .glyphicon-mail:before { content: '\e800'; } /* '' */
 .glyphicon-trash:before { content: '\e801'; } /* '' */
@@ -10,7 +11,6 @@
 .glyphicon-docs:before { content: '\e808'; } /* '' */
 .glyphicon-doc:before { content: '\e809'; } /* '' */
 .glyphicon-doc-text:before { content: '\e80a'; } /* '' */
-.glyphicon-list-bullet:before { content: '\e80b'; } /* '' */
 .glyphicon-arrows-ccw:before { content: '\e80b'; } /* '' */
 .glyphicon-folder-download:before { content: '\e80c'; } /* '' */
 .glyphicon-down-open:before { content: '\e80d'; } /* '' */
@@ -78,9 +78,12 @@
 .glyphicon-attention-circled:before { content: '\e84b'; } /* '' */
 .glyphicon-login:before { content: '\e84c'; } /* '' */
 .glyphicon-chart-bar:before { content: '\e84d'; } /* '' */
+.glyphicon-ok-circled:before { content: '\e84e'; } /* '' */
 .glyphicon-link-ext:before { content: '\f08e'; } /* '' */
 .glyphicon-exchange:before { content: '\f0ec'; } /* '' */
 .glyphicon-circle-empty:before { content: '\f10c'; } /* '' */
 .glyphicon-circle:before { content: '\f111'; } /* '' */
+.glyphicon-dot-circled:before { content: '\f192'; } /* '' */
 .glyphicon-circle-thin:before { content: '\f1db'; } /* '' */
 .glyphicon-calc:before { content: '\f1ec'; } /* '' */
+.glyphicon-list-bullet:before { content: '🔄'; } /* '\1f504' */

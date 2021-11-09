@@ -9,8 +9,9 @@ export default function formatDisplayText (pageData) {
   text = cString.stripHtml(text)
 
   // truncate text to avoid https://github.com/CCALI/CAJA/issues/685
-  text = _truncate(text, { length: 50, separator: ' ' })
-  text = typeof repeatVarValue === 'number' ? text + ' #' + repeatVarValue : text
+  const repeatVal = typeof repeatVarValue === 'number' ? '#' + repeatVarValue : ''
+  const truncated = _truncate(text, { length: 50, separator: ' ' })
+  const textRepeatTruncated = repeatVal ? _truncate(text, { length: 49 - repeatVal.length, separator: ' ' }) + ' ' + repeatVal : truncated
 
-  return text
+  return { text, repeatVal, truncated, textRepeatTruncated }
 }
