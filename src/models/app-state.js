@@ -6,7 +6,6 @@ import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import queues from 'can-queues'
 import TraceMessage from '~/src/models/trace-message'
-import HistTree from '~/src/models/hist-tree'
 import { hasPageLogic, hasMultipleButtons, hasRequiredField, hasSpecialButton, hasNoNextPageTarget } from '~/src/util/future-pages-setup'
 import formatDisplayText from '~/src/util/format-display-text'
 
