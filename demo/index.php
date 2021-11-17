@@ -54,20 +54,37 @@
   }
 ?>
 
-<!-- Create a clickable list of all guides, launching the guide/viewer -->
-
 <h3>Current Guide List</h3>
 <ul>
   <?php foreach (glob('guides/*', GLOB_ONLYDIR) as $directoryName) : ?>
     <?php $viewerUrl = '../index.html?templateURL=demo/'. $directoryName .'/Guide.xml&fileDataURL=demo/'. $directoryName .'/'; ?>
     <li>
-      <a href="?delete=<?php echo $directoryName; ?>">[Delete]</a>
       <a target="_blank" href="<?php echo $viewerUrl; ?>">
         <?php echo basename($directoryName); ?>
      </a>
     </li>
   <?php endforeach; ?>
 </ul>
+
+<br/>
+
+<!-- Create a clickable list of all guides, launching the guide/viewer -->
+<h3>Current Guide List</h3>
+<ul>
+  <?php foreach (glob('guides/*', GLOB_ONLYDIR) as $directoryName) : ?>
+    <?php $viewerUrl = '../index.html?templateURL=demo/'. $directoryName .'/Guide.xml&fileDataURL=demo/'. $directoryName .'/'; ?>
+    <li>
+      <form method="POST" action="?delete=<?php echo $directoryName; ?>">
+        <input type="submit" title="[Delete]">
+      <a target="_blank" href="<?php echo $viewerUrl; ?>">
+        <?php echo basename($directoryName); ?>
+      </a>
+      </form>
+    </li>
+  <?php endforeach; ?>
+</ul>
+
+<br/>
 
 <!-- Form for uploading/posting guides -->
 <h3>Upload New Guide</h3>
