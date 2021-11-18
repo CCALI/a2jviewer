@@ -69,20 +69,15 @@
 <br/>
 
 <!-- Create a clickable list of all guides, launching the guide/viewer -->
-<h3>Current Guide List</h3>
-<ul>
-  <?php foreach (glob('guides/*', GLOB_ONLYDIR) as $directoryName) : ?>
-    <?php $viewerUrl = '../index.html?templateURL=demo/'. $directoryName .'/Guide.xml&fileDataURL=demo/'. $directoryName .'/'; ?>
-    <li>
-      <form method="POST" action="?delete=<?php echo $directoryName; ?>">
-        <input type="submit" title="[Delete]">
-      <a target="_blank" href="<?php echo $viewerUrl; ?>">
+<h3>Guide Maintenance: Delete</h3>
+  <?php foreach (glob('../guides/*', GLOB_ONLYDIR) as $directoryName) : ?>
+    <?php $viewerUrl = 'viewer.html?templateURL='. $directoryName .'/Guide.xml&fileDataURL='. $directoryName .'/'; ?>
+<form action="?delete=<?php echo $directoryName; ?>">
+      <button>[Delete]</button>
         <?php echo basename($directoryName); ?>
-      </a>
-      </form>
-    </li>
+</form>
+<br/>
   <?php endforeach; ?>
-</ul>
 
 <br/>
 
