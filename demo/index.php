@@ -27,7 +27,7 @@
   }
 
   // 'routes' based on GET or zip file being present
-  $getSent = isset($_GET['delete']) ? $_GET['delete'] : '';
+  $getSent = isset($_POST['delete']) ? $_POST['delete'] : '';
 
   if ($getSent !== '') {
     // Recommended best practice to protect against code injection
