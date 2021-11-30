@@ -56,7 +56,7 @@ function handleHashChanges () {
     var pageName = pageHash ? pageHash.substr(pageHash.indexOf(searchStr) + 5) : 'unnamed page'
     window._paq.push(['setDocumentTitle', hostName + ': ' + pageName])
 
-    window._paq.push(['setGenerationTimeMs', 0])
+    window._paq.push(['setPagePerformanceTiming', 0])
     window._paq.push(['trackPageView'])
   })
 }
