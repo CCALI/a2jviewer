@@ -67,8 +67,8 @@ let DesktopViewerVM = DefineMap.extend('DesktopViewerVM', {
     }
     this.showDemoNotice = 
       (location.indexOf('.a2jauthor.org') !== -1) || 
-        (watermark == 1) &&
-        (watermark != 0)
+        ((watermark === "1") &&
+        (watermark !== "0"))
 
     this.checkPageExists()
 
