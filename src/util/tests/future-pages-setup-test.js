@@ -4,6 +4,9 @@ import Page from '~/src/models/page'
 
 import 'steal-mocha'
 
+// TODO: NOTE: the implementation for future pages was moved into src/models/future-pages.js and new tests need to be written.
+// These don't run now; Keeping them here for reference until we can port them into new tests (and then remove this file too).
+
 describe('future pages setup', function () {
   it('has a required field', function () {
     const fieldModel = [{

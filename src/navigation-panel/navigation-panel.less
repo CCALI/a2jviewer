@@ -53,8 +53,7 @@ navigation-panel {
       &::after {
         content: "";
         height: 100%;
-        border-left: 2px solid @gray-light;
-        opacity: 0.33;
+        border-left: 2px solid #C3CCD0; /* @gray-light at 0.33 opacity */
         width: 0px;
         position: absolute;
         bottom: 50%;
@@ -64,6 +63,26 @@ navigation-panel {
 
     .page-item:first-of-type .icon::after {
       content: none;
+    }
+
+    .pruned-branch::before {
+      content: "";
+      display: inline-block;
+      border-left: 2px dotted #C3CCD0; /* @gray-light at 0.33 opacity */
+      border-bottom: 2px dotted #C3CCD0; /* @gray-light at 0.33 opacity */
+      border-bottom-left-radius: 500px;
+      width: 1.2em;
+      height: 1.2em;
+      margin-left: 0.1em;
+      margin-right: 0.5em;
+      transform: translate(50%, -0.2em);
+    }
+    .pruned-branch::after {
+      bottom: 0px;
+    }
+    .pruned-info {
+      color: @gray;
+      font-weight: normal;
     }
   }
 
@@ -99,33 +118,65 @@ navigation-panel {
     font-weight: 300;
     font-size: 22px;
     font-style: inherit;
+    background: none;
+    border: none;
+    cursor: auto;
+
+    &:hover::after,
+    &:focus::after {
+      content: attr(aria-label);
+      width: 130%;
+      border-radius: 12px;
+      border: 1px solid #cccccc;
+      background: white;
+      padding: 15px;
+      position: absolute;
+      top: ~"calc(100% + 10px)";
+      left: -15%;
+      box-sizing: border-box;
+      z-index: 98;
+      font-size: @font-size-small;
+      text-align: left;
+      pointer-events: none;
+    }
+    &:hover::before,
+    &:focus::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      z-index: 99;
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      transform: translateX(-50%) rotateZ(-45deg);
+      border-top: 1px solid #cccccc;
+      border-right: 1px solid #cccccc;
+      background: white;
+    }
   }
 
-  .mobile-close,
-  .mobile-toggle {
+  .mobile-close {
     display: none;
   }
 
-  @media (max-width: @screen-sm) {
-    .mobile-toggle  {
-      position: absolute;
-      z-index: 999;
-      top: 20px;
-      right: 20px;
-      display: inline-block;
-    }
-    .mobile-open {
-      position: absolute;
-      top: 0;
-      left: 0px;
-      right: 0px;
-      bottom: 0;
-      background: white;
-      z-index: 99;
-      padding-right: 10px;
-      .nav-panel {
-        right: 10px;
-      }
+  .mobile-toggle  {
+    position: absolute;
+    z-index: 999;
+    top: 20px;
+    right: 20px;
+    display: inline-block;
+  }
+  .mobile-open {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    right: 0px;
+    bottom: 0;
+    background: white;
+    z-index: 99;
+    padding-right: 10px;
+    .nav-panel {
+      right: 10px;
     }
   }
 }

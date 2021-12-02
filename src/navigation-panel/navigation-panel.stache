@@ -1,24 +1,43 @@
 <can-import from="./navigation-panel.less" />
 
 {{< navPanelItem }}
-  {{let thisVPIndex = ./vm.visitedPages.indexOf(page)}}
-  {{let selectedVPIndex = ./vm.appState.selectedPageIndex}}
-  <li class="page-item {{#is(thisVPIndex, selectedVPIndex)}}active-nav-page-item{{/is}}">
+  <li class="page-item {{#is(this, scope.vm.visitedPages.selected)}}active-nav-page-item{{/is}}">
     <button
       type="button"
-      title="{{./page.display.text}} {{./page.display.repeatVal}}"
-      on:keydown="keydownFireClickHandler(scope.event, ./vm.navToPage, scope.index)"
-      on:click="./vm.navToPage(scope.index)"
+      title="{{#if(this.skipped)}}[Attention: This page was skipped.] {{/if}}{{this.display.text}} {{this.display.repeatVal}}"
+      on:keydown="keydownFireClickHandler(scope.event, scope.vm.navToPage, this)"
+      on:click="scope.vm.navToPage(this)"
     >
-      {{#is(thisVPIndex, selectedVPIndex)}}
+      {{#is(this, scope.vm.visitedPages.selected)}}
         <span class="icon glyphicon-dot-circled" aria-hidden="true"></span>
       {{else}}
-        <span class="icon glyphicon-ok-circled" aria-hidden="true"></span>
+        {{#if(this.skipped)}}
+          <span class="icon glyphicon-attention" aria-hidden="true"></span>
+        {{else}}
+          <span class="icon glyphicon-ok-circled" aria-hidden="true"></span>
+        {{/if}}
       {{/is}}
       <span>
-        {{./page.display.textRepeatTruncated}}
+        {{this.display.textRepeatTruncated}}
       </span>
     </button>
+    {{#if(scope.vm.showPrunedBranches)}}
+      {{#for(vp of this.branches)}}
+        {{^is(vp, this.nextVisitedPage)}}
+          <button
+            type="button"
+            title="Answers changed on {{this.display.stepQuestion}}. Restore {{scope.vm.plus1(vp.nextDepth)}} pages? The next question was: {{vp.display.text}}"
+            on:keydown="keydownFireClickHandler(scope.event, scope.vm.restoreAndNavToParentPage, vp)"
+            on:click="scope.vm.restoreAndNavToParentPage(vp)"
+          >
+            <span class="icon pruned-branch" aria-hidden="true"></span>
+            <span class="pruned-info">
+              Answers changed on {{this.display.stepQuestion}}. Restore {{scope.vm.plus1(vp.nextDepth)}} pages?
+            </span>
+          </button>
+        {{/is}}
+      {{/for}}
+    {{/if}}
   </li>
 {{/navPanelItem}}
 
@@ -31,23 +50,41 @@
 {{/if}}
 
 <div id="viewer-navigation-panel-form" class="{{#if(mobileAndOpen)}}mobile-open{{else}}{{#if(isMobile)}}mobile-close{{/if}}{{/if}}">
-  <span class="nav-header">NAVIGATION PANEL</span>
+  <button
+    class="nav-header"
+    aria-label="
+      This is the Navigation Panel.
+      Keyboard users can click this to skip to the main content of the current question.
+      Selecting a question from this panel will take you back to the main content of that
+      question or highlight the previously used button on the question if there is one.
+    "
+    on:click="focusMainContent()"
+  >
+    NAVIGATION PANEL
+  </button>
   <ul id="nav-panel-parent" class="nav-panel">
-    {{#for(appState.visitedPages)}}
-      {{> navPanelItem getNavPanelPage(scope.index)}}
-    {{/for}}
-    {{#for(page of appState.futurePages)}}
-      <li class="page-item future-page-item">
-        <button
-          type="button"
-          title="{{page.display.text}} {{page.display.repeatVal}}"
-        >
-          <span class="icon glyphicon-circle-thin" aria-hidden="true"></span>
-          <span class="future-page-item">
-            {{page.display.textRepeatTruncated}}
-          </span>
-        </button>
-      </li>
-    {{/for}}
+    {{#if(visitedPages.root)}}
+      {{let activeRootToLeaf = visitedPages.activeList.slice().reverse()}}
+      {{#for(vp of activeRootToLeaf)}}
+        {{> navPanelItem vp}}
+      {{/for}}
+    {{/if}}
+    {{#if(visitedPages.selected)}}
+      {{#for(fvp of visitedPages.futureVisitedPages)}}
+        <li class="page-item future-page-item">
+          <button
+            type="button"
+            title="{{fvp.display.text}} {{fvp.display.repeatVal}}"
+            on:keydown="keydownFireClickHandler(scope.event, scope.vm.navToFuture, fvp)"
+            on:click="scope.vm.navToFuture(fvp)"
+          >
+            <span class="icon glyphicon-circle-thin" aria-hidden="true"></span>
+            <span class="future-page-item">
+              {{fvp.display.textRepeatTruncated}}
+            </span>
+          </button>
+        </li>
+      {{/for}}
+    {{/if}}
   </ul>
 </div>

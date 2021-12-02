@@ -58,6 +58,18 @@ export default DefineMap.extend('AnswerVM', {
     }
   },
 
+  // for binding to input values that are strings in dom
+  textValue: {
+    get (ls) {
+      const v = this.values
+      return (v === 0 ? '0' : (v || '')) + ''
+    },
+    set (v) {
+      this.values = v
+      return this.values
+    }
+  },
+
   errors: {
     get () {
       const testValue = this.values

@@ -11,6 +11,26 @@ html, body, #viewer-app {
     position: fixed;
   }
 }
+.prefers-minimal-interface {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+
+  navigation-panel,
+  a2j-viewer-navigation {
+    display: none;
+  }
+  .modal-button {
+    display: block;
+  }
+  audio {
+    display: inline-block;
+  }
+}
+.prefers-minimal-interface.with-slideout-content + debug-menu .debugmenu {
+  left: 410px;
+}
 .slideout-content {
   position: fixed;
   width: 400px;

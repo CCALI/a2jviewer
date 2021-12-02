@@ -6,7 +6,6 @@
   <author-variables-table interview:from="interview" variables:from="variables"/>
 {{/if}}
 
-
 <div id="viewer-logic-form">
   <div id="logic-trace-panel" class="tracepanel">
     <button id="clear-log-button" on:click="scope.vm.clearMessageLog()" class="btn btn-default btn-sm"><span class="glyphicon-trash" aria-hidden="true"></span> Clear Log</button>

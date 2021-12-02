@@ -14,69 +14,71 @@
 
 {{#if(currentPage)}}
   {{ let step = currentPage.step }}
-    <div class="bubble-content">
-      <h3 class="visible-xs-block">
-        {{#is(step.number, '0')}}
-          <span class="glyphicon-right-open" aria-hidden="true">{{step.text}}</span>
-        {{else}}
-          {{step.number}}: {{step.text}}
-        {{/is}}
-      </h3>
+  {{ let focusedButton = previouslySelectedButton() }}
+  <div class="bubble-content">
+    <h3 style="display: block;">
+      {{#is(step.number, '0')}}
+        <span class="glyphicon-right-open" aria-hidden="true">{{step.text}}</span>
+      {{else}}
+        {{step.number}}: {{step.text}}
+      {{/is}}
+    </h3>
 
-      <div class="question-text-container" tabindex="0">
-        <p class="question-text">{{{ insertExternalLinkIcon(parseText(currentPage.text)) }}}</p>
-        {{#if(currentPage.fields.length)}}
-          <a2j-fields
-            lang:from="lang"
-            logic:from="logic"
-            fields:from="currentPage.fields"
-            groupValidationMap:to="groupValidationMap"
-            appState:from="appState" />
-        {{/if}}
-      </div>
-
-
-      {{#if(currentPage.textAudioURL)}}
-        <audio-player
-          sourceUrl:from="normalizePath(mState.fileDataURL, currentPage.textAudioURL)"
-        />
+    <div class="question-text-container" tabindex="0">
+      <p class="question-text">{{{ insertExternalLinkIcon(parseText(currentPage.text)) }}}</p>
+      {{#if(currentPage.fields.length)}}
+        <a2j-fields
+          lang:from="lang"
+          logic:from="logic"
+          fields:from="currentPage.fields"
+          groupValidationMap:to="groupValidationMap"
+          appState:from="appState" />
       {{/if}}
+    </div>
 
-    </div><!-- bubble-content -->
+    {{#if(currentPage.textAudioURL)}}
+      <audio-player
+        sourceUrl:from="normalizePath(mState.fileDataURL, currentPage.textAudioURL)"
+      />
+    {{/if}}
 
-    <p class="text-center modal-button">
-      <a class="learn-more" aria-label="{{{ parseText(currentPage.learn) }}}">{{{ parseText(currentPage.learn) }}}</a>
-    </p>
+  </div><!-- bubble-content -->
 
-    {{#for(button of currentPage.buttons)}}
-      {{#switch(button.next)}}
-        {{#case(saveAnswersButton)}}
-          {{> save-answers-form button}}
-        {{/case}}
+  <p class="text-center modal-button">
+    <a class="learn-more" aria-label="{{{ parseText(currentPage.learn) }}}">{{{ parseText(currentPage.learn) }}}</a>
+  </p>
 
-        {{#case(exitButton)}}
-          {{> save-answers-form button}}
-        {{/case}}
+  {{#for(button of currentPage.buttons)}}
+    {{#switch(button.next)}}
+      {{#case(saveAnswersButton)}}
+        {{> save-answers-form button}}
+      {{/case}}
 
-        {{#case(assembleButton)}}
-          {{> assemble-form button}}
-        {{/case}}
+      {{#case(exitButton)}}
+        {{> save-answers-form button}}
+      {{/case}}
 
-        {{#case(assembleAndSaveButton)}}
-          <div style:raw="display: none;">{{> save-answers-form button}}</div>
-          {{> assemble-form button}}
-        {{/case}}
+      {{#case(assembleButton)}}
+        {{> assemble-form button}}
+      {{/case}}
 
-        {{#default}}
-          <button
-            type="button"
-            on:click="navigate(button)"
-            class="btn btn-default btn-navigate"
-            aui-action="next">
-            {{getButtonLabel(parseText(button.label))}}
-          </button>
-        {{/default}}
-      {{/switch}}
-    {{/for}}
+      {{#case(assembleAndSaveButton)}}
+        <div style:raw="display: none;">{{> save-answers-form button}}</div>
+        {{> assemble-form button}}
+      {{/case}}
+
+      {{#default}}
+        {{ let buttonLabel = getButtonLabel(parseText(button.label)) }}
+        <button
+          type="button"
+          on:click="navigate(button)"
+          class="btn btn-default btn-navigate {{#is(button, focusedButton)}}{{focusedButtonRendering()}}{{/is}}"
+          aui-action="next"
+        >
+          {{buttonLabel}}
+        </button>
+      {{/default}}
+    {{/switch}}
+  {{/for}}
 
 {{/if}}

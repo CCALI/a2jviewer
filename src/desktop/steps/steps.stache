@@ -15,7 +15,7 @@
         class="bubble {{#if(guideBubbleTallerThanAvatar)}}vertical{{else}}top{{/if}} {{#if(hasAvatarPicker)}}has-avatar-picker{{/if}}"
         aria-label="main content">
           <a2j-pages
-            currentPage:from="currentPage"
+            currentVisitedPage:from="appState.currentVisitedPage"
             resumeInterview:from="resumeInterview"
             lang:from="lang"
             logic:from="logic"

@@ -32,19 +32,17 @@
     {{/eq}}
 
     {{#eq(appState.view, 'pages')}}
-      <navigation-panel appState:from="appState"></navigation-panel>
-      <a2j-viewer-navigation
-        repeatVarValue:from="appState.repeatVarValue"
-        selectedPageName:from="appState.selectedPageName"
-        lang:from="lang"
-        logic:from="logic"
-        appState:from="appState"
-        interview:from="interview"
-        selectedPageName:bind="appState.page"
-        selectedPageIndex:bind="appState.selectedPageIndex" />
+      {{^if(appState.useMobileUI)}}
+        <navigation-panel appState:from="appState"></navigation-panel>
+        <a2j-viewer-navigation
+          lang:from="lang"
+          logic:from="logic"
+          appState:from="appState"
+          interview:from="interview" />
+      {{/if}}
 
       <a2j-pages
-        currentPage:from="appState.currentPage"
+        currentVisitedPage:from="appState.currentVisitedPage"
         lang:from="lang"
         logic:from="logic"
         appState:from="appState"

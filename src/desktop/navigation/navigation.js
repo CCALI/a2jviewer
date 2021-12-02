@@ -43,6 +43,14 @@ export let ViewerNavigationVM = DefineMap.extend({
     }
   },
 
+  selectedAVPIndex: {
+    get () {
+      const vps = this.visitedPages || []
+      const avps = vps.activeList || []
+      return avps.indexOf(vps.selected)
+    }
+  },
+
   /**
    * @property {Boolean} viewerNavigation.ViewModel.canSaveAndExit canSaveAndExit
    * @parent viewerNavigation.ViewModel
@@ -65,34 +73,6 @@ export let ViewerNavigationVM = DefineMap.extend({
   canResumeInterview: {
     get () {
       return this.appState.saveAndExitActive
-    }
-  },
-
-  /**
-   * @property {Boolean} viewerNavigation.ViewModel.canNavigateBack canNavigateBack
-   * @parent viewerNavigation.ViewModel
-   *
-   * Whether user can navigate to the previous page.
-   */
-  canNavigateBack: {
-    get () {
-      let totalPages = this.visitedPages.length
-      const canNavigateBack = totalPages > 1 && this.appState.selectedPageIndex < totalPages - 1 && !this.appState.saveAndExitActive
-      return canNavigateBack
-    }
-  },
-
-  /**
-   * @property {Boolean} viewerNavigation.ViewModel.canNavigateForward canNavigateForward
-   * @parent viewerNavigation.ViewModel
-   *
-   * Whether user can navigate to the next page.
-   */
-  canNavigateForward: {
-    get () {
-      let totalPages = this.visitedPages.length
-      const canNavigateForward = totalPages > 1 && this.appState.selectedPageIndex > 0 && !this.appState.saveAndExitActive
-      return canNavigateForward
     }
   },
 
@@ -146,7 +126,6 @@ export let ViewerNavigationVM = DefineMap.extend({
     }
 
     this.appState.page = exitPage
-    this.appState.selectedPageIndex = 0
   },
 
   /**
@@ -176,56 +155,17 @@ export let ViewerNavigationVM = DefineMap.extend({
   },
 
   /**
-   * @property {Function} viewerNavigation.ViewModel.navigateBack navigateBack
-   * @parent viewerNavigation.ViewModel
-   *
-   * Navigates to previous page.
-   */
-  navigateBack () {
-    if (this.canNavigateBack) {
-      this.appState.selectedPageIndex = this.appState.selectedPageIndex + 1
-    }
-  },
-
-  /**
-   * @property {Function} viewerNavigation.ViewModel.navigateForward navigateForward
-   * @parent viewerNavigation.ViewModel
-   *
-   * Navigates to next page.
-   */
-  navigateForward () {
-    if (this.canNavigateForward) {
-      this.appState.selectedPageIndex = this.appState.selectedPageIndex - 1
-    }
-  },
-
-  /**
    * @property {Function} viewerNavigation.ViewModel.disableOption disableOption
    * @parent viewerNavigation.ViewModel
    *
    * Used to disable My Progress options when saveAndExit is active
    */
-  disableOption (index) {
-    if (index !== 0 && this.appState.saveAndExitActive) {
+  disableOption (visitedPage) {
+    const isNotTheLastVisitedPage = !!visitedPage.nextVisitedPage
+    if (isNotTheLastVisitedPage && this.appState.saveAndExitActive) {
       return true
     }
     return false
-  },
-
-  connectedCallback () {
-    const vm = this
-
-    // update the selectedPageIndex
-    const myProgressSelect = document.getElementById('myProgressSelect')
-    const updateAppStateSelectedPageIndex = (ev) => {
-      vm.appState.selectedPageIndex = myProgressSelect.selectedIndex
-    }
-    myProgressSelect.addEventListener('change', updateAppStateSelectedPageIndex)
-
-    // cleanup
-    return () => {
-      myProgressSelect.removeEventListener('change', updateAppStateSelectedPageIndex)
-    }
   }
 })
 /**

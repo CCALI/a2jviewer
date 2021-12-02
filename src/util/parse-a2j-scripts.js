@@ -31,7 +31,7 @@ export function getSingleOptionText (visitedPage, logic) {
     questionNumber: visitedPage.questionNumber
   })
 
-  return { displayText: formatResult.text, varNames }
+  return { displayText: formatResult, varNames }
 }
 
 export default function buildOptions (visitedPages, logic) {

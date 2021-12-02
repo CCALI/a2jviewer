@@ -126,18 +126,9 @@ export default Component.extend({
       }, 500)
     },
 
-    // any navigation from myProgress, check for and re-render page fields for loop values
-    '{appState} selectedPageIndexSet': function () {
-      const vm = this.viewModel
-      // repeatVarValue means we're in a loop
-      if (vm.appState.repeatVarValue) {
-        const fields = vm.currentPage.fields
-        vm.setFieldAnswers(fields)
-      }
-    },
-
-    '{appState} setCurrentPage': function () {
-      this.viewModel.setCurrentPage()
+    // if route page changes, try to switch to that page. (run before logic, check for infinite loops, etc)
+    '{appState} page': function () {
+      this.viewModel.tryToVisitPage()
     }
   }
 })

@@ -1,13 +1,9 @@
 import stache from 'can-stache'
-import _findIndex from 'lodash/findIndex'
-import _find from 'lodash/find'
-import Infinite from '~/src/mobile/util/infinite'
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
-import queues from 'can-queues'
 import TraceMessage from '~/src/models/trace-message'
-import { hasPageLogic, hasMultipleButtons, hasRequiredField, hasSpecialButton, hasNoNextPageTarget } from '~/src/util/future-pages-setup'
-import formatDisplayText from '~/src/util/format-display-text'
+import VisitedPages from '~/src/models/visited-pages'
+import isMobile from '~/src/util/is-mobile'
 
 const UserAvatar = DefineMap.extend('UserAvatar', {
   gender: { default: 'female' },
@@ -17,30 +13,6 @@ const UserAvatar = DefineMap.extend('UserAvatar', {
   skinTone: { default: 'medium' }
 })
 const defaultUserAvatar = new UserAvatar()
-
-const VisitedPage = DefineMap.extend('VisitedPage', {
-  display: {
-    get () {
-      // re-eval if answer values have updated via beforeCode
-      const answersChanged = this.answers && this.answers.serialize() // eslint-disable-line
-      const questionText = this.text || ''
-      const resolvedText = this.logic && this.logic.eval(questionText)
-
-      return formatDisplayText({
-        name: this.name,
-        text: resolvedText || questionText,
-        repeatVarValue: this.repeatVarValue,
-        stepNumber: this.step.number,
-        questionNumber: this.questionNumber
-      })
-    }
-  },
-  repeatVarValue: {},
-  outerLoopVarValue: {},
-  questionNumber: {},
-  logic: {},
-  answers: {}
-})
 
 export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   // set in preview.js
@@ -72,39 +44,6 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     default: false
   },
 
-  infinite: {
-    Type: Infinite,
-    Default: Infinite,
-    serialize: false
-  },
-
-  // which visitedPages[] is selected
-  selectedPageIndex: {
-    serialize: false,
-    type: 'number',
-    value ({ lastSet, listenTo, resolve }) {
-      resolve(0)
-
-      listenTo(lastSet, (index) => {
-        const revisitedPage = this.visitedPages[index]
-        this.restoreLoopVars(revisitedPage)
-        resolve(index)
-        // listenTo is in navigation.js to rebuild options list
-        // handles new pages and revisited pages
-        this.dispatch('selectedPageIndexSet')
-      })
-    }
-  },
-
-  selectedPageName: {
-    serialize: false,
-    get () {
-      if (this.visitedPages.length) {
-        return this.visitedPages[this.selectedPageIndex].name
-      }
-    }
-  },
-
   // TODO: change this to currentPageName (fix viewer app.js routes)
   // to match currentPage which is the Map holding all page info
   page: {
@@ -113,11 +52,9 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
       // this.page = foo
       listenTo(lastSet, (pageName) => {
         resolve(pageName)
-        this.dispatch('pageSet')
       })
-      // page set by drop down navigation
-      listenTo('selectedPageName', (ev, selectedPageName) => {
-        resolve(selectedPageName)
+      listenTo(this.visitedPages, 'selected', (ev, selectedVisitedPage) => {
+        resolve(selectedVisitedPage.interviewPage.name)
       })
     }
   },
@@ -130,43 +67,61 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     }
   },
 
-  repeatVarValue: {
-    type: 'number'
-  },
-
-  outerLoopVarValue: {
-    type: 'number'
-  },
-
   visitedPages: {
     serialize: false,
-    default: () => new DefineList()
-  },
-
-  futurePages: {
-    serialize: false,
-    default: () => new DefineList()
-  },
-
-  // set when launched via preview.js during Author Preview
-  previewActive: {
-    serialize: false
-  },
-
-  saveAndExitActive: {
-    serialize: false,
-    get () {
-      return !!this.lastPageBeforeExit
+    default: function () {
+      const vps = new VisitedPages()
+      vps.assign({ sharedRefs: this })
+      return vps
     }
   },
 
-  lastPageBeforeExit: {
-    serialize: false,
-    default: null
+  get currentVisitedPage () {
+    return (this.visitedPages || []).selected
   },
 
-  lastVisitedPageName: {
-    serialize: false
+  repeatVarValue: {
+    type: 'number',
+    serialize: true,
+    value ({ lastSet, listenTo, resolve }) {
+      listenTo(lastSet, (rvv) => {
+        // only set by routes from app.js when a2j-viewer-preview is used in author. (shouldn't be set directly otherwise.)
+        // setting this via route isn't well defined so there are no expectations yet. For now, just force the value change
+        const cvp = this.currentVisitedPage
+        if (cvp) {
+          cvp.repeatVarValue = rvv
+        }
+        resolve(rvv)
+      })
+      listenTo(this.visitedPages, 'selected', (ev, selectedVisitedPage) => {
+        const v = selectedVisitedPage.interviewPage.repeatVar
+        const vv = selectedVisitedPage.repeatVarValue
+        v && this.logic.varSet(v, vv)
+        resolve(vv)
+      })
+    }
+  },
+
+  outerLoopVarValue: {
+    type: 'number',
+    serialize: true,
+    value ({ lastSet, listenTo, resolve }) {
+      listenTo(lastSet, (olvv) => {
+        resolve(olvv)
+        // only set by routes from app.js when a2j-viewer-preview is used in author. (shouldn't be set directly otherwise.)
+        // setting this via route isn't well defined so there are no expectations yet. For now, just force the value change
+        const cvp = this.currentVisitedPage
+        if (cvp) {
+          cvp.outerLoopVarValue = olvv
+        }
+      })
+      listenTo(this.visitedPages, 'selected', (ev, selectedVisitedPage) => {
+        const v = selectedVisitedPage.interviewPage.outerLoopVar
+        const vv = selectedVisitedPage.outerLoopVarValue
+        v && this.logic.varSet(v, vv)
+        resolve(vv)
+      })
+    }
   },
 
   interview: {
@@ -187,6 +142,35 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     }
   },
 
+  logic: {
+    serialize: false
+  },
+
+  // set when launched via preview.js during Author Preview
+  previewActive: {
+    serialize: false
+  },
+
+  saveAndExitActive: {
+    serialize: false,
+    get () {
+      return !!this.lastPageBeforeExit
+    }
+  },
+
+  lastPageBeforeExit: {
+    serialize: false,
+    default: null
+  },
+
+  useMobileUI: {
+    get () {
+      const notMobile = !isMobile()
+      const useMobileFlag = !!(this.interview && this.interview.attr('useMobileUI'))
+      return notMobile && useMobileFlag
+    }
+  },
+
   // used for internal page routing in preview.js
   view: {},
 
@@ -202,10 +186,6 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   modalContent: {
     serialize: false,
     default: null
-  },
-
-  logic: {
-    serialize: false
   },
 
   viewerAlertMessages: {
@@ -224,136 +204,13 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     this.showNavPanel = !this.showNavPanel
   },
 
-  restoreLoopVars (visitedPage) {
-    const repeatVar = visitedPage.repeatVar
-    if (repeatVar) {
-      this.logic.varSet(repeatVar, visitedPage.repeatVarValue)
-      this.repeatVarValue = visitedPage.repeatVarValue
-    } else {
-      this.repeatVarValue = undefined
-    }
-    const outerLoopVar = visitedPage.outerLoopVar
-    if (outerLoopVar) {
-      this.logic.varSet(outerLoopVar, visitedPage.outerLoopVarValue)
-      this.outerLoopVarValue = visitedPage.outerLoopVarValue
-    } else {
-      this.outerLoopVarValue = undefined
-    }
-  },
-
-  fireCodeBefore (currentPage, logic) {
-    let preGotoPage = this.logic.attr('gotoPage')
-
-    // batching here for performance reasons due to codeBefore string parsing
-    queues.batch.start()
-    logic.exec(currentPage.codeBefore)
-    queues.batch.stop()
-
-    let postGotoPage = this.logic.attr('gotoPage')
-
-    // if preGotoPage does not match postGotoPage, codeBefore fired an A2J GOTO logic
-    return preGotoPage !== postGotoPage ? postGotoPage : false
-  },
-
-  checkInfiniteLoop () {
-    if (this.infinite.outOfRange) {
-      this.traceMessage.addMessage({
-        key: 'infinite loop',
-        fragments: [{
-          format: 'valF',
-          msg: 'INFINITE LOOP: Too many page jumps without user interaction. GOTO target: ' + this.page
-        }]
-      })
-      throw new Error('INFINITE LOOP: Too many page jumps without user interaction. GOTO target: ' + this.page)
-    } else {
-      this.infinite.inc()
-    }
-  },
-
-  resetInfiniteLoop () {
-    this.infinite.reset()
-  },
-
-  // checks if page is already present in visitedPages
-  checkVisitedPages (pageName) {
-    return !!_find(this.visitedPages, (page) => page.name === pageName)
-  },
-
-  hasStopper (page) {
-    return hasMultipleButtons(page.buttons) ||
-    hasSpecialButton(page.buttons) ||
-    hasNoNextPageTarget(page.buttons) ||
-    hasRequiredField(page.fields) ||
-    hasPageLogic(page)
-  },
-
-  handleFuturePages (page) {
-    // testing current page target, stop recursion if has stopper
-    const hasStopper = this.hasStopper(page)
-    if (hasStopper) { return }
-
-    const nextPageName = page.buttons && page.buttons[0].next
-    if (nextPageName) {
-      const nextPage = this.interview.pages.find(nextPageName)
-
-      // if no stopper on current page, then safe to add next page to futurePages
-      const futurePage = new VisitedPage(nextPage)
-      futurePage.answers = this.answers
-      futurePage.logic = this.logic
-      this.futurePages.push(futurePage)
-
-      // recurse
-      this.handleFuturePages(nextPage)
-    }
-  },
-
-  serializeVisitedPages () {
-    const vps = this.visitedPages || []
-    const serializedVisitedPages = []
-    vps.forEach(vp => serializedVisitedPages.push({
-      name: vp.name,
-      repeatVarValue: vp.repeatVarValue,
-      outerLoopVarValue: vp.outerLoopVarValue,
-      questionNumber: vp.questionNumber
-    }))
-    return serializedVisitedPages
-  },
-
-  hydrateVisitedPages (serializedVisitedPages) {
-    const vm = this
-    const pagesList = this.interview.pages
-    const pagesByName = pagesList.reduce((acc, p) => {
-      acc[p.name] = p
-      return acc
-    }, {})
-    const hydratedVisitedPages = serializedVisitedPages.map(svp => {
-      const p = pagesByName[svp.name] // TODO: what if this is missing? Abort restore and start at first page?
-      const vp = new VisitedPage(p)
-
-      vp.set('questionNumber', svp.questionNumber)
-      vp.set('repeatVarValue', svp.repeatVarValue)
-      vp.set('outerLoopVarValue', svp.outerLoopVarValue)
-      vp.answers = vm.answers
-      vp.logic = vm.logic
-      return vp
-    })
-    if (hydratedVisitedPages && hydratedVisitedPages[0]) {
-      this.visitedPages = hydratedVisitedPages
-      this.lastVisitedPageName = hydratedVisitedPages[0].name
-      this.selectedPageIndex = 0
-      this.futurePages.length = 0
-      this.handleFuturePages(hydratedVisitedPages[0])
-    }
-    return hydratedVisitedPages
-  },
-
   connectedCallback () {
     const vm = this
 
     const body = document.querySelector('body')
     // toggle lawn background color
     const toggleLawnHandler = (ev, showDebugPanel) => {
-      if (showDebugPanel) {
+      if (showDebugPanel || vm.useMobileUI) {
         body.classList.remove('with-lawn')
       } else {
         body.classList.add('with-lawn')
@@ -369,74 +226,6 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
       return (html && vm.logic) && vm.logic.eval(html)
     }
     stache.registerHelper('parseText', parseTextHelper)
-
-    const questionCountPerStep = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-
-    const visitedPageHandler = (ev) => {
-      this.checkInfiniteLoop()
-      if (!this.currentPage) { return }
-
-      // handle codeBefore A2J logic
-      if (this.currentPage.codeBefore) {
-        this.traceMessage.addMessage({ key: 'codeBefore', fragments: [{ format: 'info', msg: 'Logic Before Question' }] })
-        const newGotoPage = this.fireCodeBefore(this.currentPage, this.logic)
-        if (newGotoPage) {
-          this.page = newGotoPage
-          return
-        }
-      }
-
-      // safe to reset if past codeBefore logic
-      this.resetInfiniteLoop()
-
-      // handle whether a page is visited or re-visited
-      const repeatVar = this.currentPage.repeatVar
-      const outerLoopVar = this.currentPage.outerLoopVar
-      const repeatVarValue = repeatVar ? this.logic.varGet(repeatVar) : undefined
-      const outerLoopVarValue = outerLoopVar ? this.logic.varGet(outerLoopVar) : undefined
-
-      const newVisitedPage = new VisitedPage(this.currentPage)
-
-      const stepNumber = parseInt(newVisitedPage.step.number)
-      let questionNumber = parseInt(questionCountPerStep[stepNumber])
-      newVisitedPage.set('questionNumber', questionNumber)
-      questionCountPerStep[stepNumber] = questionNumber + 1
-
-      newVisitedPage.set('repeatVarValue', repeatVarValue)
-      newVisitedPage.set('outerLoopVarValue', outerLoopVarValue)
-      const revisitedPageIndex = _findIndex(this.visitedPages, page => (
-        newVisitedPage.name === page.name &&
-        newVisitedPage.repeatVarValue == page.repeatVarValue && // eslint-disable-line
-        newVisitedPage.outerLoopValue == page.outerLoopVarValue // eslint-disable-line
-      ))
-
-      if (revisitedPageIndex === -1) {
-        newVisitedPage.answers = this.answers
-        newVisitedPage.logic = this.logic
-        this.repeatVarValue = repeatVarValue
-        this.outerLoopVarValue = outerLoopVarValue
-        this.visitedPages.unshift(newVisitedPage)
-        this.lastVisitedPageName = newVisitedPage.name
-
-        // make sure newly visited page is selected
-        this.selectedPageIndex = 0
-
-        if (!this.futurePages.length) {
-          // generate new futurePages when it empties out
-          this.handleFuturePages(newVisitedPage)
-        } else {
-          this.futurePages.shift()
-        }
-      } else {
-        this.selectedPageIndex = revisitedPageIndex
-      }
-
-      // listened for in pages.js, fires setCurrentPage() in pages-vm.js
-      this.dispatch('setCurrentPage')
-    }
-
-    // any time one of the loopVars update, check for new visitedPage
-    this.listenTo('pageSet', visitedPageHandler)
 
     // update traceMessage page that messages belong to as page changes
     this.listenTo('page', (ev, currentPageName) => {

@@ -7,10 +7,10 @@
       <li
         tabindex="0"
         aria-labelledby="nav-go-back-button"
-        class="nav-item {{^if(./canNavigateBack)}}navigation-disabled{{/if}}"
-        aria-disabled="{{^if(./canNavigateBack)}}true{{else}}false{{/if}}"
-        on:click="./navigateBack()"
-        on:keydown="keydownFireClickHandler(scope.event, ./navigateBack)"
+        class="nav-item {{^if(./visitedPages.hasParent)}}navigation-disabled{{/if}}"
+        aria-disabled="{{^if(./visitedPages.hasParent)}}true{{else}}false{{/if}}"
+        on:click="./visitedPages.selectParent()"
+        on:keydown="keydownFireClickHandler(scope.event, ./visitedPages.selectParent)"
       >
         <a role="button" class="nav-link" aui-action="previous">
           <span class="glyphicon-left-open" aria-hidden="true" id="nav-go-back-button"></span>{{lang.GoBack}}
@@ -20,10 +20,10 @@
       <li
         tabindex="0"
         aria-labelledby="nav-go-next-button"
-        class="nav-item  {{^if(./canNavigateForward)}}navigation-disabled{{/if}}"
-        aria-disabled="{{^if(./canNavigateForward)}}true{{else}}false{{/if}}"
-        on:click="./navigateForward()"
-        on:keydown="keydownFireClickHandler(scope.event, ./navigateForward)"
+        class="nav-item  {{^if(./visitedPages.hasNext)}}navigation-disabled{{/if}}"
+        aria-disabled="{{^if(./visitedPages.hasNext)}}true{{else}}false{{/if}}"
+        on:click="./visitedPages.selectNext()"
+        on:keydown="keydownFireClickHandler(scope.event, ./visitedPages.selectNext)"
       >
         <a role="button" class="nav-link" aui-action="next" id="nav-go-next-button">
           {{./lang.GoNext}}}<span class="glyphicon-right-open" aria-hidden="true"></span>
@@ -40,9 +40,11 @@
             role="listbox"
             id="myProgressSelect"
             class="form-control"
-            value:from="this.appState.selectedPageIndex">
-            {{#for(visitedPage of appState.visitedPages)}}
-              <option value:from="scope.index" disabled:from="this.disableOption(scope.index)">
+            value:from="selectedAVPIndex"
+            on:change="visitedPages.selected = visitedPages.activeList[scope.element.selectedIndex]"
+          >
+            {{#for(visitedPage of visitedPages.activeList)}}
+              <option value="{{scope.index}}" disabled:from="this.disableOption(visitedPage)">
                 {{visitedPage.display.textRepeatTruncated}}
               </option>
             {{/for}}

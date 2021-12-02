@@ -13,5 +13,5 @@ export default function formatDisplayText (pageData) {
   const truncated = _truncate(text, { length: 50, separator: ' ' })
   const textRepeatTruncated = repeatVal ? _truncate(text, { length: 49 - repeatVal.length, separator: ' ' }) + ' ' + repeatVal : truncated
 
-  return { text, repeatVal, truncated, textRepeatTruncated }
+  return { text, repeatVal, truncated, textRepeatTruncated, stepQuestion: stepQuestionText.replace(/: $/, '') }
 }

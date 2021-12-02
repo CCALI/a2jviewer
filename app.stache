@@ -17,14 +17,28 @@
     traceMessage:to="traceMessage"
     class="bootstrap-styles" />
 {{else}}
-    {{#if(appState.showDebugPanel)}}
-      <div class="slideout-content">
-        <slideout-content
-          appState:from="appState"
-          interview:from="interview"
-          traceMessage:from="appState.traceMessage" />
-      </div>
-    {{/if}}
+  {{#if(appState.showDebugPanel)}}
+    <div class="slideout-content">
+      <slideout-content
+        appState:from="appState"
+        interview:from="interview"
+        traceMessage:from="appState.traceMessage" />
+    </div>
+  {{/if}}
+  {{#if(appState.useMobileUI)}}
+    <div class="prefers-minimal-interface {{#if(appState.showDebugPanel)}}with-slideout-content{{/if}}">
+      <a2j-mobile-viewer
+        lang:from="lang"
+        logic:from="logic"
+        appState:from="appState"
+        pState:from="pState"
+        mState:from="mState"
+        interview:from="interview"
+        traceMessage:to="traceMessage"
+        class="bootstrap-styles" />
+    </div>
+    <debug-menu appState:from="appState" />
+  {{else}}
     <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-slideout-content"{{/if}}>
       {{ let remainingSteps = null, maxDisplayedSteps = null }}
       <a2j-desktop-viewer
@@ -39,12 +53,12 @@
         interview:from="interview"
         class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
 
-
       <debug-menu appState:from="appState" />
       {{#if(appState.viewerAlertMessages.length)}}
         <author-debug-alerts alertMessages:from="appState.viewerAlertMessages" />
       {{/if}}
     </div>
+  {{/if}}
 {{/if}}
 
 <a2j-modal

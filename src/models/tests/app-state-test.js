@@ -151,19 +151,6 @@ describe('AppState', function () {
     assert.equal(appState.page, pageNames[2], 'page name should be set by codeBefore script')
   })
 
-  it('sets the lastVisitedPageName to be used as a Back To Prior Question button target', function () {
-    let lastVisitedPageName = appState.lastVisitedPageName
-    assert.equal(lastVisitedPageName, undefined, 'defaults to undefined')
-
-    appState.page = pageNames[0]
-    lastVisitedPageName = appState.lastVisitedPageName
-    assert.equal(lastVisitedPageName, pageNames[0], 'updates lastVisitedPage when page changes')
-
-    appState.page = pageNames[1]
-    lastVisitedPageName = appState.lastVisitedPageName
-    assert.equal(lastVisitedPageName, pageNames[1], 'lastVisitedPage stays up to date when page changes')
-  })
-
   it('only includes known pages', function () {
     appState.page = 'this-page-does-not-exist'
     assert.equal(appState.visitedPages.length, 0, 'invalid page')
