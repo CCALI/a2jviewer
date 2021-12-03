@@ -57,7 +57,7 @@ function makePackageFolder () {
   fs.copySync(path.join(srcPath, 'README.md'),
     path.join(outputPath, 'README.md'))
   fs.copySync(path.join(srcPath, 'LICENSE.md'),
-    path.join(outputPath, 'License.md'))
+    path.join(outputPath, 'LICENSE.md'))
   fs.copySync(path.join(srcPath, 'Privacy Policy'),
     path.join(outputPath, 'Privacy Policy'))
   fs.copySync(path.join(srcPath, 'A2J Analytics Explanation'),
