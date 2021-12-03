@@ -56,7 +56,7 @@ function makePackageFolder () {
   // copy README.md & Legal Info
   fs.copySync(path.join(srcPath, 'README.md'),
     path.join(outputPath, 'README.md'))
-  fs.copySync(path.join(srcPath, 'License.md'),
+  fs.copySync(path.join(srcPath, 'LICENSE.md'),
     path.join(outputPath, 'License.md'))
   fs.copySync(path.join(srcPath, 'Privacy Policy'),
     path.join(outputPath, 'Privacy Policy'))
