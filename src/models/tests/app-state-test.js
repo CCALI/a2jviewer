@@ -4,8 +4,6 @@ import Interview from '~/src/models/interview'
 import Logic from '~/src/mobile/util/logic'
 import TraceMessage from '~/src/models/trace-message'
 import Answers from '~/src/models/answers'
-import Page from '~/src/models/page'
-import constants from '~/src/models/constants'
 import stache from 'can-stache'
 import sinon from 'sinon'
 import '~/src/models/tests/fixtures/'
@@ -16,6 +14,7 @@ describe('AppState', function () {
   let appState // DefineMap
   let pageNames
   let pages
+  let pagesByName
   let interview
   let answers
   let logic
@@ -34,12 +33,21 @@ describe('AppState', function () {
       logic = new Logic({ interview })
 
       appState = new AppState({ interview, logic, traceMessage })
+      // in live app, pages-vm tryToVisitPage is called when appState.page is set and calls visitedPages.visit with appState's new currentPage
+      appState.listenTo('page', () => appState.currentPage && appState.visitedPages.visit(appState.currentPage))
       // simulate stache bind on visitedPages
-      appStateTeardown = appState.connectedCallback()
+      appStateTeardown = (td => () => {
+        appState.stopListening('page')
+        td()
+      })(appState.connectedCallback())
 
       // collect the actual page names of the interview
       pages = interview.attr('pages')
-      pageNames = pages.map(page => page.name)
+      pagesByName = pages.reduce((acc, page) => {
+        acc[page.name] = page
+        return acc
+      }, {})
+      pageNames = Object.keys(pagesByName)
 
       done()
     })
@@ -100,7 +108,7 @@ describe('AppState', function () {
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'appState.visitedPages should be correct length')
-    assert.equal(appState.visitedPages[0].repeatVar, 'childCount', 'page has repeatVar')
+    assert.equal(appState.visitedPages[0].interviewPage.repeatVar, 'childCount', 'page has repeatVar')
     assert.equal(appState.visitedPages[0].repeatVarValue, '1', 'page has repeatVarValue')
   })
 
@@ -112,12 +120,12 @@ describe('AppState', function () {
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'appState.visitedPages should be correct length')
-    assert.equal(appState.visitedPages[0].repeatVar, 'childCount', 'page has repeatVar')
+    assert.equal(appState.visitedPages[0].interviewPage.repeatVar, 'childCount', 'page has repeatVar')
     assert.equal(appState.visitedPages[0].repeatVarValue, '1', 'page has repeatVarValue')
 
     appState.page = pageNames[2]
     assert.equal(appState.visitedPages.length, 2, 'appState.visitedPages should be correct length')
-    assert.equal(appState.visitedPages[0].repeatVar, '', 'page should not have repeatVar')
+    assert.equal(appState.visitedPages[0].interviewPage.repeatVar, '', 'page should not have repeatVar')
     assert.isTrue(typeof appState.visitedPages[0].repeatVarValue === 'undefined', 'page has no repeatVarValue')
   })
 
@@ -129,26 +137,14 @@ describe('AppState', function () {
     appState.page = pageNames[1]
 
     assert.equal(appState.visitedPages.length, 1, 'first page appState.visitedPages')
-    assert.equal(appState.visitedPages[0].repeatVar, 'childCount', 'first page has repeatVar')
+    assert.equal(appState.visitedPages[0].interviewPage.repeatVar, 'childCount', 'first page has repeatVar')
     assert.equal(appState.visitedPages[0].repeatVarValue, '1', 'first page has repeatVarValue')
 
     answers.varSet('childcount', 2)
     appState.page = pageNames[1]
     assert.equal(appState.visitedPages.length, 2, 'second page appState.visitedPages')
-    assert.equal(appState.visitedPages[0].repeatVar, 'childCount', 'second page has repeatVar')
+    assert.equal(appState.visitedPages[0].interviewPage.repeatVar, 'childCount', 'second page has repeatVar')
     assert.equal(appState.visitedPages[0].repeatVarValue, '2', 'second page has repeatVarValue')
-  })
-
-  it('pages with codeBefore goto logic should only add the target page to visitedPages instead', function () {
-    // simulate logic changing gotoPage based on A2J codeBefore script
-    logic.attr('gotoPage', pageNames[1])
-    logic.exec = function () { logic.attr('gotoPage', pageNames[2]) }
-    interview.attr('pages')[0].codeBefore = 'a2j script is here, fired by logic.exec above to change gotoPage'
-
-    appState.page = pageNames[0]
-
-    assert.equal(appState.visitedPages.length, 1, 'should only have one visited page')
-    assert.equal(appState.page, pageNames[2], 'page name should be set by codeBefore script')
   })
 
   it('only includes known pages', function () {
@@ -163,47 +159,32 @@ describe('AppState', function () {
 
     assert.equal(appState.visitedPages.length, 3, 'three pages visited')
 
-    assert.equal(appState.visitedPages.shift().name, pageNames[2])
-    assert.equal(appState.visitedPages.shift().name, pageNames[1])
-    assert.equal(appState.visitedPages.shift().name, pageNames[0])
+    assert.equal(appState.visitedPages.shift().interviewPage.name, pageNames[2])
+    assert.equal(appState.visitedPages.shift().interviewPage.name, pageNames[1])
+    assert.equal(appState.visitedPages.shift().interviewPage.name, pageNames[0])
   })
 
-  it('changing selectedPageIndex resolves page', () => {
+  it('changing selected visited page resolves page', () => {
     // populate visitedPages
     appState.page = pages[2].name
     appState.page = pages[1].name
     appState.page = pages[0].name
 
-    appState.selectedPageIndex = '1'
+    appState.visitedPages.selected = appState.visitedPages[1]
 
     assert.equal(
       appState.page,
-      pages[appState.selectedPageIndex].name,
-      'should set appState.page to page 1'
+      pages[1].name,
+      'should set appState.page to page[1].name'
     )
 
-    appState.selectedPageIndex = '0'
+    appState.visitedPages.selected = appState.visitedPages[0]
 
     assert.equal(
       appState.page,
-      pages[appState.selectedPageIndex].name,
-      'should set appState.page to page 1'
+      pages[0].name,
+      'should set appState.page to pages[0].name'
     )
-  })
-
-  it('selectedPageName', function () {
-    // navigate to first page
-    appState.page = pages[0].name
-    // navigate to second page
-    appState.page = pages[1].name
-
-    appState.selectedPageIndex = 1
-    assert.equal(appState.selectedPageName, pages[0].name,
-      'should return most recently visited page name')
-
-    appState.selectedPageIndex = 0
-    assert.equal(appState.selectedPageName, pages[1].name,
-      'should return second page name')
   })
 
   it('tracks questionNumber per step for each visitedPage', () => {
@@ -216,108 +197,5 @@ describe('AppState', function () {
     assert.equal(appState.visitedPages[2].questionNumber, 1, 'should assign question number 1 to first visitedPage of a Step (0)')
     assert.equal(appState.visitedPages[1].questionNumber, 1, 'should reset count to 1 when visitedPage is a new Step (1)')
     assert.equal(appState.visitedPages[0].questionNumber, 2, 'should increment to next question number to a visitedPage of same Step (1)')
-  })
-
-  it('handles future pages for the navigation panel', () => {
-    // unable to find page from interview.json that doesn't have a stopper
-    // this is not in the pages of the interview model
-    const startingPage = new Page({
-      name: 'fooPage',
-      fields: [
-        { name: 'firstname', type: 'text', required: false },
-        { name: 'lastname', type: 'text', required: false }
-      ],
-      buttons: [{
-        label: 'Continue',
-        next: 'barPage'
-      }]
-    })
-
-    const secondPage = new Page({
-      name: 'barPage',
-      fields: [
-        { name: 'someCoolField', type: 'text', required: false }
-      ],
-      buttons: [{
-        label: 'Continue',
-        next: '02-Your name'
-      }]
-    })
-    // add another non-blocking page to the interview
-    appState.interview.pages.push(secondPage)
-
-    appState.handleFuturePages(startingPage)
-    const futurePages = appState.futurePages
-    assert.equal(futurePages.length, 2, 'should grab 2 future pages until it hits a stopper')
-
-    const lastFuturePage = appState.interview.pages.find('02-Your name')
-    // interview pages and futurePages are different Types, check the name val
-    assert.deepEqual(lastFuturePage.name, appState.futurePages[1].name, 'should have the same final futurePages page')
-  })
-
-  describe('hasStopper()', () => {
-    let startingPage
-    beforeEach(() => {
-      startingPage = new Page({
-        name: 'fooPage',
-        codeBefore: '',
-        codeAfter: '',
-        fields: [
-          { name: 'firstname', type: 'text', required: false },
-          { name: 'lastname', type: 'text', required: false }
-        ],
-        buttons: [{
-          label: 'Continue',
-          next: '3-Gender'
-        }]
-      })
-    })
-
-    it('hasStopper handles the happy path of one Continue button', () => {
-      assert.equal(appState.hasStopper(startingPage), false, 'should return false if single button with a next target')
-    })
-
-    it('hasStopper handles codeBefore or codeAfter logic', () => {
-      startingPage.codeBefore = 'some logic here'
-      assert.equal(appState.hasStopper(startingPage), true, 'should return true if there is a codeBefore Logic')
-
-      startingPage.codeBefore = ''
-      startingPage.codeAfter = 'Now we have after logic'
-
-      assert.equal(appState.hasStopper(startingPage), true, 'should return true if there is a codeAfter Logic')
-    })
-
-    it('hasStopper handles more than one button', () => {
-      // add second button
-      startingPage.buttons.push({
-        label: 'Exit',
-        next: 'EXIT PAGE'
-      })
-
-      assert.equal(appState.hasStopper(startingPage), true, 'should return true if page has multiple buttons')
-    })
-
-    it('hasStopper handles required fields', () => {
-      startingPage.fields[0].required = true
-
-      assert.equal(appState.hasStopper(startingPage), true, 'should return true if there is a required field present')
-    })
-    it('hasStopper handles special button type', () => {
-      startingPage.buttons[0].next = constants.qIDSUCCESS
-
-      assert.equal(appState.hasStopper(startingPage), true, 'should return true if there is a special button')
-    })
-
-    it('hasStopper handles no next target', () => {
-      startingPage.buttons[0].next = ''
-
-      assert.equal(appState.hasStopper(startingPage), true, 'should return true button on page has no next target')
-    })
-
-    it('hasStopper handles no buttons', () => {
-      startingPage.buttons = []
-
-      assert.equal(appState.hasStopper(startingPage), true, 'should return true if page has no buttons')
-    })
   })
 })

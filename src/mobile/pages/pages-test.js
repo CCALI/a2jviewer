@@ -88,18 +88,23 @@ describe('<a2j-pages>', () => {
     // normally passed in via stache
     traceMessage = new TraceMessage()
 
+    const currentPageName = 'Intro'
+
     defaults = {
-      currentPage: new Page({
-        name: 'Intro',
-        fields: [],
-        repeatVar: '',
-        text: 'welcome! %%[name]%%',
-        textAudioURL: null,
-        learn: '',
-        codeAfter: '',
-        buttons: null,
-        step: { number: '0', text: 'Step 0' } }
-      ),
+      currentVisitedPage: {
+        interviewPage: new Page({
+          name: currentPageName,
+          fields: [],
+          repeatVar: '',
+          text: 'welcome! %%[name]%%',
+          textAudioURL: null,
+          learn: '',
+          codeBefore: '',
+          codeAfter: '',
+          buttons: null,
+          step: { number: '0', text: 'Step 0' }
+        })
+      },
       lang: new Lang(),
       logic: logic,
       appState: new AppState({ interview, logic, traceMessage }),
@@ -109,15 +114,19 @@ describe('<a2j-pages>', () => {
     }
 
     // initialize messages list in traceMessage
-    traceMessage.currentPageName = defaults.currentPage.name
+    traceMessage.currentPageName = currentPageName
   })
 
   describe('viewModel', () => {
     let appStateTeardown
     beforeEach(() => {
       vm = new PagesVM(defaults)
+      defaults.appState.listenTo('page', () => vm.tryToVisitPage()) // in live app, this is bound in page.js events
       vm.connectedCallback()
-      appStateTeardown = vm.appState.connectedCallback()
+      appStateTeardown = (td => () => {
+        defaults.appState.stopListening('page')
+        td()
+      })(vm.appState.connectedCallback())
     })
 
     afterEach(() => {
@@ -169,6 +178,22 @@ describe('<a2j-pages>', () => {
         assert.equal(logicCount, 1, 'should execute codeAfter logic')
       })
 
+      it('pages with codeBefore goto logic should only add the target page to visitedPages instead', function () {
+        // simulate logic changing gotoPage based on A2J codeBefore script
+        vm.logic.attr('gotoPage', 'Intro')
+        vm.logic.exec = function () { vm.logic.attr('gotoPage', 'foo') }
+        interview.pages.push(vm.currentVisitedPage.interviewPage) // put Intro page on the interview
+        vm.currentVisitedPage.interviewPage.codeBefore = 'a2j script is here, fired by logic.exec above to change gotoPage'
+
+        const vpl = vm.appState.visitedPages.length // navigated to the interview's first page
+
+        const button = new DefineMap({ next: 'Intro' })
+        vm.navigate(button)
+
+        assert.equal(vm.appState.visitedPages.length, vpl + 1, 'should only have one more visited page')
+        assert.equal(vm.appState.page, 'foo', 'page name should be set by codeBefore script')
+      })
+
       it('handlePreviewResponses', () => {
         const button = new DefineMap({ next: constants.qIDSUCCESS })
 
@@ -192,8 +217,11 @@ describe('<a2j-pages>', () => {
         const appState = vm.appState
         const visitedPages = appState.visitedPages
         const button = new DefineMap({ next: constants.qIDBACK })
-        visitedPages[0] = defaults.currentPage
-        visitedPages[1] = new Page({ name: 'priorPage' })
+        visitedPages.visit(new Page({ name: 'priorPage' }))
+        visitedPages.visit(defaults.currentVisitedPage.interviewPage)
+
+        // normally this updates automatically because currentVisitedPage is passed in via stache
+        vm.currentVisitedPage = visitedPages.selected
 
         vm.navigate(button)
         assert.equal(appState.page, 'priorPage', 'should navigate to prior page')
@@ -238,7 +266,7 @@ describe('<a2j-pages>', () => {
 
       it('saves answer when button can hold multiple values', () => {
         const answers = defaults.interview.answers
-        const page = defaults.currentPage
+        const page = defaults.currentVisitedPage.interviewPage
 
         answers.varCreate('AgesNU', 'Number', true)
         answers.varSet('AgesNU', 14, 1)
@@ -342,7 +370,7 @@ describe('<a2j-pages>', () => {
       const fields = vm.currentPage.fields
       fields.push({ name: 'salary', type: 'number' })
 
-      vm.setFieldAnswers(fields)
+      vm.setFieldAnswers(fields, vm.currentVisitedPage)
       const field = vm.currentPage.fields[0]
       const answerValues = field._answerVm.answer.values
 
@@ -363,7 +391,7 @@ describe('<a2j-pages>', () => {
         vm.currentPage.fields.push(field)
         vm.appState.page = 'Next' // page find() always returns nextPageStub
 
-        vm.setFieldAnswers(vm.currentPage.fields)
+        vm.setFieldAnswers(vm.currentPage.fields, vm.currentVisitedPage)
 
         assert.equal(vm.answers.varGet('statete', 1), 'Texas', 'Default values override empty answers')
       })
@@ -402,7 +430,7 @@ describe('<a2j-pages>', () => {
         nextPageStub.fields.push(field)
         vm.appState.page = 'Next' // page find() always returns nextPageStub
 
-        vm.setFieldAnswers(vm.currentPage.fields)
+        vm.setFieldAnswers(vm.currentPage.fields, vm.currentVisitedPage)
 
         assert.equal(vm.answers.varGet('statete', 1), 'Illinois', 'Saved answers trump Default Values')
       })
@@ -420,7 +448,7 @@ describe('<a2j-pages>', () => {
         vm.currentPage.fields.push(field)
         vm.appState.page = 'Next' // page find() always returns nextPageStub
 
-        vm.setFieldAnswers(vm.currentPage.fields)
+        vm.setFieldAnswers(vm.currentPage.fields, vm.currentVisitedPage)
 
         assert.strictEqual(vm.answers.varGet('somenum', 1), 0, 'Sets default number values')
       })
@@ -438,7 +466,7 @@ describe('<a2j-pages>', () => {
         vm.currentPage.fields.push(field)
         vm.appState.page = 'Next' // page find() always returns nextPageStub
 
-        vm.setFieldAnswers(vm.currentPage.fields)
+        vm.setFieldAnswers(vm.currentPage.fields, vm.currentVisitedPage)
 
         assert.strictEqual(vm.answers.varGet('salary', 1), 1234.56, 'Sets default number values')
       })

@@ -50,7 +50,8 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     type: 'string',
     value ({ lastSet, listenTo, resolve }) {
       // this.page = foo
-      listenTo(lastSet, (pageName) => {
+      listenTo(lastSet, (pageName, prevPageName) => {
+        (pageName === prevPageName) && this.dispatch('page', [pageName, prevPageName])
         resolve(pageName)
       })
       listenTo(this.visitedPages, 'selected', (ev, selectedVisitedPage) => {

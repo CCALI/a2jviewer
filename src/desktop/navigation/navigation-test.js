@@ -40,7 +40,7 @@ describe('<a2j-viewer-navigation>', function () {
     it('collects feedback form data', function () {
       // simulate user navigates to interview second page.
       let secondPage = pages[1]
-      vm.appState.visitedPages.unshift(secondPage)
+      vm.appState.visitedPages.visit(secondPage)
 
       assert.deepEqual(vm.feedbackData, {
         questionid: secondPage.name,
@@ -80,16 +80,13 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('resumeInterview', function () {
       // navigate to first page
-      visited.unshift(pages[0])
-      vm.appState.selectedPageIndex = 0
+      visited.visit(pages[0])
 
       // navigate to second page
-      visited.unshift(pages[1])
-      vm.appState.selectedPageIndex = 0
+      visited.visit(pages[1])
 
       // navigate to exit page by normal nav (not Author best practice)
-      visited.unshift(pages[2])
-      vm.appState.selectedPageIndex = 0
+      visited.visit(pages[2])
 
       vm.resumeInterview()
       assert.equal(visited.length, 2, 'should remove the normal nav page from visitedPages on Resume')
@@ -98,76 +95,71 @@ describe('<a2j-viewer-navigation>', function () {
     it('canNavigateBack - whether back button should be enabled', function () {
       vm.appState.connectedCallback()
       // navigate to first page
-      visited.unshift(pages[0])
-      vm.appState.selectedPageIndex = 0
-      assert.isFalse(vm.canNavigateBack, 'false if only one page visited')
+      visited.visit(pages[0])
+      assert.isFalse(visited.hasParent, 'false if only one page visited')
 
       // navigate to second page
-      visited.unshift(pages[1])
-      vm.appState.selectedPageIndex = 0
-      assert.isTrue(vm.canNavigateBack, 'true when on last page')
+      visited.visit(pages[1])
+      assert.isTrue(visited.hasParent, 'true when on last page')
 
       // go back to first page
-      vm.appState.selectedPageIndex = 1
-      assert.isFalse(vm.canNavigateBack, 'false when on first page')
+      visited.selected = visited.root
+      assert.isFalse(visited.hasParent, 'false when on first page')
     })
 
     it('canNavigateForward - whether next button should be enabled', function () {
       vm.appState.connectedCallback()
       // navigate to first page
-      visited.unshift(pages[0])
-      vm.appState.selectedPageIndex = 0
-      assert.isFalse(vm.canNavigateForward, 'false if only one page visited')
+      visited.visit(pages[0])
+      assert.isFalse(visited.hasNext, 'false if only one page visited')
 
       // navigate to second page
-      visited.unshift(pages[1])
-      vm.appState.selectedPageIndex = 0
-      assert.isFalse(vm.canNavigateForward, 'false when on the last page')
+      visited.visit(pages[1])
+      assert.isFalse(visited.hasNext, 'false when on the last page')
 
       // go back to first page
-      vm.appState.selectedPageIndex = 1
-      assert.isTrue(vm.canNavigateForward, 'true when on the first page')
+      visited.selected = visited.root
+      assert.isTrue(visited.hasNext, 'true when on the first page')
     })
 
     it('navigateBack', () => {
       vm.appState.connectedCallback()
-      visited.unshift(pages[2])
-      visited.unshift(pages[1])
-      visited.unshift(pages[0])
+      visited.visit(pages[2])
+      visited.visit(pages[1])
+      visited.visit(pages[0])
 
-      // select most recent page
-      vm.appState.selectedPageIndex = 0
+      visited.selectParent()
+      assert.equal(vm.appState.currentPage, pages[1], 'should navigate to middle page')
 
-      vm.navigateBack()
-      assert.equal(vm.appState.selectedPageIndex, 1, 'should navigate to middle page')
-
-      vm.navigateBack()
-      assert.equal(vm.appState.selectedPageIndex, 2, 'should navigate to oldest page')
+      visited.selectParent()
+      assert.equal(vm.appState.currentPage, pages[2], 'should navigate to oldest page')
     })
 
     it('navigateForward', () => {
       vm.appState.connectedCallback()
-      visited.unshift(pages[2])
-      visited.unshift(pages[1])
-      visited.unshift(pages[0])
+      visited.visit(pages[2])
+      visited.visit(pages[1])
+      visited.visit(pages[0])
 
       // select oldest page
-      vm.appState.selectedPageIndex = 2
+      visited.selected = visited.root
 
-      vm.navigateForward()
-      assert.equal(vm.appState.selectedPageIndex, 1, 'should navigate to middle page')
+      visited.selectNext()
+      assert.equal(vm.appState.currentPage, pages[1], 'should navigate to middle page')
 
-      vm.navigateForward()
-      assert.equal(vm.appState.selectedPageIndex, 0, 'should navigate to most recent page')
+      visited.selectNext()
+      assert.equal(vm.appState.currentPage, pages[0], 'should navigate to most recent page')
     })
 
     it('disableOption', () => {
-      assert.equal(vm.disableOption(0), false, 'false by default even with index 0')
+      visited.visit(pages[1])
+      visited.visit(pages[0])
+      assert.equal(vm.disableOption(visited.activeLeaf), false, 'false by default even at activeLeaf')
 
       // saveAndExitActive is derived from vm.appState.lastPageBeforeExit having a value
       vm.appState.lastPageBeforeExit = '2-Name'
-      assert.equal(vm.disableOption(0), false, 'false if index is 0 and saveAndExitActive is true')
-      assert.equal(vm.disableOption(1), true, 'true if index is NOT 0 and saveAndExitActive is true')
+      assert.equal(vm.disableOption(visited.activeLeaf), false, 'false if at activeLeaf and saveAndExitActive is true')
+      assert.equal(vm.disableOption(visited.activeLeaf.parentVisitedPage), true, 'true if NOT at activeLeaf and saveAndExitActive is true')
     })
   })
 
@@ -224,12 +216,9 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('renders pages history dropdown', function (done) {
       // navigate to a couple of pages
-      visited.unshift(pages[0])
-      visited.unshift(pages[1])
-      // connect listeners, specifically for appState.selectedPageIndexSet
-      vm.connectedCallback()
-      // fire appState event
-      vm.appState.dispatch('selectedPageIndexSet')
+      visited.visit(pages[0])
+      visited.visit(pages[1])
+
       setTimeout(() => {
         assert.equal($('select option').length, 2, 'just one page visited')
         done()

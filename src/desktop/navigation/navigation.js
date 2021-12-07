@@ -84,8 +84,7 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   feedbackData: {
     get () {
-      const pages = this.interview.attr('pages')
-      const page = pages.find(this.appState.selectedPageName)
+      const page = (((this.appState || {}).visitedPages || {}).selected || {}).interviewPage
 
       if (!page) return {}
 
@@ -113,7 +112,7 @@ export let ViewerNavigationVM = DefineMap.extend({
   saveAndExit () {
     const answers = this.interview.attr('answers')
     const exitPage = this.interview.attr('exitPage')
-    const pageName = this.appState.selectedPageName
+    const pageName = this.appState.page
 
     this.appState.lastPageBeforeExit = pageName
 
