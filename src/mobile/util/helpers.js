@@ -13,7 +13,7 @@ export const normalizePathHelper = function (fileDataUrl, path) {
 }
 
 export const insertExternalLinkIconHelper = function (html) {
-  const hrefMatch = /<a href="http\b[^>]*>(.*?)(?=<)/gi
+  const hrefMatch = /(<a href="(?!POPUP:))(.*?)(?=<\/a)/gi
   const output = html && html.replace(hrefMatch, (match) => {
     return match + ` <span class="glyphicon-link-ext" aria-hidden="true"/>`
   })

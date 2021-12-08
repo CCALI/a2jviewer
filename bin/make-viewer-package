@@ -62,7 +62,11 @@ function makePackageFolder () {
     path.join(outputPath, 'Privacy Policy'))
   fs.copySync(path.join(srcPath, 'A2J Analytics Explanation'),
     path.join(outputPath, 'A2J Analytics Explanation'))
+  fs.copySync(path.join(srcPath, 'package.json'),
+    path.join(outputPath, 'package.json'))
 
+  fs.copySync(path.join(srcPath, 'package.json'),
+    path.join(outputPath, 'package.json'))
   // copy styles required by the avatar's svg file
   fs.copySync(path.join(srcPath, 'styles', 'viewer-avatars.css'),
     path.join(outputPath, 'styles', 'viewer-avatars.css'))

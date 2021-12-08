@@ -2,7 +2,6 @@ import DefineMap from 'can-define/map/map'
 
 export default DefineMap.extend('ModalContent', {
   // variable name
-  answerName: { default: '' },
 
   // shows glyphicon-lifebuoy if emptry
   title: { default: '' },
@@ -27,6 +26,6 @@ export default DefineMap.extend('ModalContent', {
 
   // only used for textlong `zoom` modals
   textlongValue: { default: '' },
-  textlongVM: { Default: DefineMap },
+  textlongFieldVM: { Default: DefineMap },
   field: { Default: DefineMap }
 })

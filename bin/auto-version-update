@@ -1,0 +1,23 @@
+const pjson = require('../package.json')
+const version = pjson.version
+const fs = require('fs')
+const path = require('path')
+
+// .toISOString() --> "2021-07-27T18:37:54.099Z"
+// .split('T') --> ["2021-07-27", "18:38:10.041Z"]
+const releaseDate = new Date().toISOString().split('T')[0]
+
+const js = `
+const version = {
+  number: '${version}',
+  date: '${releaseDate}'
+}
+
+export default version
+`
+
+fs.writeFileSync(
+  path.join(__dirname, '../src/footer/footerVersion.js'),
+  js,
+  'utf-8'
+)
