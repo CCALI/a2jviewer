@@ -15,7 +15,7 @@
         class="bubble {{#if(guideBubbleTallerThanAvatar)}}vertical{{else}}top{{/if}} {{#if(hasAvatarPicker)}}has-avatar-picker{{/if}}"
         aria-label="main content">
           <a2j-pages
-            currentPage:from="currentPage"
+            currentVisitedPage:from="appState.currentVisitedPage"
             resumeInterview:from="resumeInterview"
             lang:from="lang"
             logic:from="logic"
@@ -90,7 +90,7 @@
           <span
             id="step-{{currentStep.number}}-display-text"
             title="{{scope.helpers.parseText(scope.vm.getTextForStep(currentStep))}}">
-              {{scope.vm.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(currentStep)))}}
+              {{scope.helpers.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(currentStep)), null, null)}}
           </span>
         </div> <!-- sign content -->
       </div> <!-- sign outer -->
@@ -116,7 +116,7 @@
               <span
                 id="step-{{step.number}}-display-text"
                 title="{{scope.helpers.parseText(scope.vm.getTextForStep(step))}}">
-                  {{scope.vm.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(step)))}}
+                  {{scope.helpers.truncateText(scope.helpers.parseText(scope.vm.getTextForStep(step)), null, null)}}
               </span>
             </div> <!-- sign content -->
           </div> <!-- sign outer -->

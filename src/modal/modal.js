@@ -27,7 +27,9 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   },
   lastVisitedPageName: {
     get () {
-      return this.appState.lastVisitedPageName
+      const vps = this.appState.visitedPages
+      const cvp = vps && vps.selected
+      return (cvp && cvp.interviewPage.name) || ''
     }
   },
   previewActive: {

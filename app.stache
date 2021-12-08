@@ -1,6 +1,7 @@
 <can-import from="~/src/mobile/" />
 <can-import from="~/src/debug-alerts/"/>
 <can-import from="~/src/debug-menu/"/>
+<can-import from="~/src/slideout-content/"/>
 <can-import from="~/src/debug-panel/" />
 <can-import from="~/src/desktop/" />
 <can-import from="~/src/modal/" />
@@ -16,19 +17,34 @@
     traceMessage:to="traceMessage"
     class="bootstrap-styles" />
 {{else}}
-    {{#if(showDebugPanel)}}
-      <div class="debug-panel">
-        <debug-panel
-          interview:from="interview"
-          traceMessage:from="appState.traceMessage" />
-      </div>
-    {{/if}}
-    <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-debug-panel"{{/if}}>
+  {{#if(appState.showDebugPanel)}}
+    <div class="slideout-content">
+      <slideout-content
+        appState:from="appState"
+        interview:from="interview"
+        traceMessage:from="appState.traceMessage" />
+    </div>
+  {{/if}}
+  {{#if(appState.useMobileUI)}}
+    <div class="prefers-minimal-interface {{#if(appState.showDebugPanel)}}with-slideout-content{{/if}}">
+      <a2j-mobile-viewer
+        lang:from="lang"
+        logic:from="logic"
+        appState:from="appState"
+        pState:from="pState"
+        mState:from="mState"
+        interview:from="interview"
+        traceMessage:to="traceMessage"
+        class="bootstrap-styles" />
+    </div>
+    <debug-menu appState:from="appState" />
+  {{else}}
+    <div id="viewer-app" {{#if(appState.showDebugPanel)}}class="with-slideout-content"{{/if}}>
       {{ let remainingSteps = null, maxDisplayedSteps = null }}
       <a2j-desktop-viewer
         remainingSteps:to="remainingSteps"
         maxDisplayedSteps:to="maxDisplayedSteps"
-        showDebugPanel:from="showDebugPanel"
+        showDebugPanel:from="appState.showDebugPanel"
         lang:from="lang"
         logic:from="logic"
         appState:from="appState"
@@ -37,12 +53,12 @@
         interview:from="interview"
         class="bootstrap-styles steps-left-{{remainingSteps}} steps-{{maxDisplayedSteps}}" />
 
-
       <debug-menu appState:from="appState" />
       {{#if(appState.viewerAlertMessages.length)}}
         <author-debug-alerts alertMessages:from="appState.viewerAlertMessages" />
       {{/if}}
     </div>
+  {{/if}}
 {{/if}}
 
 <a2j-modal

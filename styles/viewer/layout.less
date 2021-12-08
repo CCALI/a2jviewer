@@ -5,13 +5,33 @@ html, body, #viewer-app {
   height: 100%;
   margin: 0;
   padding: 0;
-  .with-debug-panel {
+  .with-slideout-content {
     right: 0;
     left: 410px;
     position: fixed;
   }
 }
-.debug-panel {
+.prefers-minimal-interface {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+
+  navigation-panel,
+  a2j-viewer-navigation {
+    display: none;
+  }
+  .modal-button {
+    display: block;
+  }
+  audio {
+    display: inline-block;
+  }
+}
+.prefers-minimal-interface.with-slideout-content + debug-menu .debugmenu {
+  left: 410px;
+}
+.slideout-content {
   position: fixed;
   width: 400px;
 }

@@ -6,7 +6,6 @@ import _some from 'lodash/some'
 import Component from 'can-component'
 import template from './steps.stache'
 import _findIndex from 'lodash/findIndex'
-import _truncate from 'lodash/truncate'
 import learnMoreTemplate from './learn-more.stache'
 import { analytics } from '~/src/util/analytics'
 import stache from 'can-stache'
@@ -405,23 +404,6 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
       variableText = variable.values[1]
     }
     return variableText || defaultText
-  },
-
-  /**
-   * @property {String} steps.ViewModel.prototype.truncateText truncateText
-   * @parent steps.ViewModel
-   *
-   * final text to be displayed on step sign in viewer, truncated as needed
-   */
-  truncateText (text, maxChars, overflowText) {
-    maxChars = maxChars || 50
-    overflowText = overflowText || '...'
-
-    return _truncate(text, {
-      length: maxChars + overflowText.length,
-      separator: ' ',
-      omission: overflowText
-    })
   },
 
   /**

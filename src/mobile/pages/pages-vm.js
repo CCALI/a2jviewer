@@ -5,6 +5,7 @@ import _isString from 'lodash/isString'
 import _forEach from 'lodash/forEach'
 import queues from 'can-queues'
 import AnswerVM from '~/src/models/answervm'
+import Infinite from '~/src/mobile/util/infinite'
 import Parser from '@caliorg/a2jdeps/utils/parser'
 import { analytics } from '~/src/util/analytics'
 import constants from '~/src/models/constants'
@@ -19,8 +20,45 @@ import 'bootstrap/js/modal'
  * `<a2j-pages>` viewModel.
  */
 export default DefineMap.extend('PagesVM', {
-  // passed in via steps.stache or mobile.stache
-  currentPage: {},
+  // visited page instance passed in (set) via steps.stache or mobile.stache (currentVisitedPage === visitedPages.selected)
+  currentVisitedPage: {
+    set (currentVisitedPage) {
+      const currentPage = (currentVisitedPage || {}).interviewPage
+      if (currentPage && currentPage.name !== constants.qIDFAIL) {
+        if (!currentPage) {
+          console.warn(`Unknown page: ${currentPage.name}`)
+          return
+        }
+
+        // queues.batch.start()
+        this.setFieldAnswers(currentPage.fields, currentVisitedPage)
+        const mState = this.mState
+        if (mState) {
+          mState.attr('header', currentPage.step.text)
+          mState.attr('step', currentPage.step.number)
+        }
+
+        // queues.batch.stop()
+
+        // TODO: only serialize the answer on "Save & Exit" instead?
+        if (this.appState && !this.reloadingHistory) {
+          const svpStr = JSON.stringify(this.appState.visitedPages.serialize())
+          this.answers.varSet(constants.PAGEHISTORY.toLowerCase(), svpStr)
+        }
+      }
+      return currentVisitedPage
+    }
+  },
+
+  // don't update our local currentPage until it has been actually visited.
+  // on appState, currentPage updates as soon as route {page} does, which kicks off the tryToVisit() before-logic-redirect loop.
+  // we don't need to rerender things until that resolves and sets the current visited page
+  currentPage: {
+    get () {
+      return (this.currentVisitedPage || {}).interviewPage
+    }
+  },
+
   resumeInterview: {},
   lang: {},
   logic: {},
@@ -169,11 +207,77 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
-  connectedCallback () {
-    const vm = this
-    vm.setCurrentPage()
+  infinite: {
+    Type: Infinite,
+    Default: Infinite,
+    serialize: false
+  },
 
-    return () => { vm.stopListening() }
+  buttonUsedIndex: {
+    serialize: false,
+    type: 'number',
+    default: -1
+  },
+
+  checkInfiniteLoop () {
+    if (this.infinite.outOfRange) {
+      const msg = 'INFINITE LOOP: Too many page jumps without user interaction. GOTO target: ' + this.page
+      this.appState.traceMessage.addMessage({
+        key: 'infinite loop',
+        fragments: [{
+          format: 'valF',
+          msg: msg
+        }]
+      })
+      throw new Error(msg)
+    } else {
+      this.infinite.inc()
+    }
+  },
+
+  resetInfiniteLoop () {
+    this.infinite.reset()
+  },
+
+  fireCodeBefore (currentPage, logic) {
+    let preGotoPage = this.logic.attr('gotoPage')
+
+    // batching here for performance reasons due to codeBefore string parsing
+    queues.batch.start()
+    logic.exec(currentPage.codeBefore)
+    queues.batch.stop()
+
+    let postGotoPage = this.logic.attr('gotoPage')
+
+    // if preGotoPage does not match postGotoPage, codeBefore fired an A2J GOTO logic
+    return preGotoPage !== postGotoPage ? postGotoPage : false
+  },
+
+  // when appState.page is set (by route or whatever), this fires
+  tryToVisitPage () {
+    this.checkInfiniteLoop()
+    // current page is a page from the current interview instance, as determined by its getter in the appState route {page}
+    const newInterviewPage = this.appState.currentPage // do NOT use this.currentPage here
+    if (!newInterviewPage) { return }
+
+    // handle codeBefore A2J logic
+    if (newInterviewPage.codeBefore) {
+      this.appState.traceMessage.addMessage({ key: 'codeBefore', fragments: [{ format: 'info', msg: 'Logic Before Question' }] })
+      const newGotoPage = this.fireCodeBefore(newInterviewPage, this.logic)
+      if (newGotoPage) {
+        // calls this same tryToVisitPage fn again
+        this.appState.page = newGotoPage
+        return
+      }
+    }
+    // safe to reset if past codeBefore logic
+    this.resetInfiniteLoop()
+
+    // visitation successful
+    const visitedPages = this.appState.visitedPages
+    // handle whether a page is visited or re-visited
+    visitedPages && visitedPages.visit(newInterviewPage, this.buttonUsedIndex)
+    this.buttonUsedIndex = -1
   },
 
   returnHome () {
@@ -229,11 +333,11 @@ export default DefineMap.extend('PagesVM', {
       const page = vm.currentPage
       const logic = vm.logic
       const previewActive = vm.previewActive
-      const onExitPage = appState.saveAndExitActive && (appState.currentPage.name === vm.interview.attr('exitPage'))
+      const onExitPage = appState.saveAndExitActive && (page.name === vm.interview.attr('exitPage'))
 
       button.next = vm.handleCrossedUseOfResumeOrBack(button, onExitPage)
 
-      vm.saveButtonValue(button, vm, page, logic) // buttons with variables assigned
+      vm.saveButtonValue(button, page, logic) // buttons with variables assigned
 
       if (button.next === constants.qIDFAIL || button.next === constants.qIDRESUME) {
         vm.handleFailOrResumeButton(button, vm, onExitPage)
@@ -256,7 +360,12 @@ export default DefineMap.extend('PagesVM', {
         return // final POST buttons skip rest of navigate
       }
 
+      const buttonUsedIndex = (page.buttons || []).indexOf(button)
+      this.buttonUsedIndex = buttonUsedIndex
+
+      // calls this.tryToVisitPage() (pages.js events listens to appState.page (route) changes, then calls tryToVisitPage)
       appState.page = vm.getNextPage(button, logic) // check for GOTO logic redirect, nav to next page
+
       return appState.page // return destination page for testing
     }
   },
@@ -308,12 +417,10 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
-  saveButtonValue (button, vm, page, logic) {
+  buttonValue (button) {
     if (!button.name) { return } // no variable assigned
 
-    const buttonAnswer = vm.__ensureFieldAnswer(button)
-    const repeatVar = page.repeatVar
-    let buttonAnswerIndex = repeatVar ? logic.varGet(repeatVar) : 1
+    const buttonAnswer = this.__ensureFieldAnswer(button)
     let buttonValue = button.value
 
     // button source values are always text, so do type conversion here
@@ -324,8 +431,60 @@ export default DefineMap.extend('PagesVM', {
       buttonValue = parseFloat(buttonValue)
     }
 
-    vm.logVarMessage(button.name, buttonValue, false, buttonAnswerIndex)
+    return buttonValue
+  },
+
+  saveButtonValue (button, page, logic) {
+    if (!button.name) { return } // no variable assigned
+
+    const repeatVar = page.repeatVar
+    const buttonAnswerIndex = repeatVar ? logic.varGet(repeatVar) : 1
+    const buttonValue = this.buttonValue(button)
+
+    this.logVarMessage(button.name, buttonValue, false, buttonAnswerIndex)
     logic.varSet(button.name, buttonValue, buttonAnswerIndex)
+  },
+
+  // returns the button that leads to the next visited page if there is one.
+  // helps indicate what button was used previously after the user has navigated to a previous page
+  previouslySelectedButton () {
+    const currentVisitedPage = this.currentVisitedPage
+    const nextVP = currentVisitedPage && currentVisitedPage.nextVisitedPage
+    const currentPage = this.currentPage
+    const buttons = (currentPage && currentPage.buttons) || []
+
+    if (nextVP) {
+      const buttonThatTakesUsBackToTheFuture = buttons[nextVP.parentButtonUsedIndex]
+
+      if (buttonThatTakesUsBackToTheFuture) {
+        return buttonThatTakesUsBackToTheFuture
+      }
+    }
+
+    // the rest is a best-guess algorithm to determine which button might have been used.
+    // if an interview is loaded with old answers w/o the visited pages history, this will help guide them back to where they left off
+    const repeatVar = currentPage.repeatVar
+    const buttonAnswerIndex = repeatVar ? this.logic.varGet(repeatVar) : 1
+    const buttonsWithMatchingAnswers = buttons.filter(b => {
+      const buttonValue = this.buttonValue(b)
+      return (buttonValue !== undefined) && (this.answers.varGet(b.name.toLowerCase(), buttonAnswerIndex) === buttonValue)
+    })
+    // TODO: pull nextPageName from ghost-history if it exists (see TODO in connectedCallback below)
+    const nextPageName = nextVP && nextVP.interviewPage.name
+
+    // return the last button that sets an answer to the same value we already have from a previous visit to this page/question
+    // OR, if there isn't one, return the last non-answer-bound button whos .next target is the same name of the next page in the visitedPages history
+    // else no buttons match, so return undefined
+    return buttonsWithMatchingAnswers.pop() || buttons.filter(b => nextPageName && b.next === nextPageName && !b.name).pop()
+  },
+
+  focusedButtonRendering () {
+    const focusedButtonClass = 'previously-used-button'
+    setTimeout(() => {
+      const focusedButton = document.querySelector('.' + focusedButtonClass)
+      focusedButton && focusedButton.focus()
+    })
+    return focusedButtonClass
   },
 
   handleCodeAfter (button, vm, page, logic) {
@@ -347,6 +506,7 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
+  // TODO: this function is copied into navigation-panel.js, need to refactor so this happens differently or move it into a shared spot.
   setRepeatVariable (button) {
     const repeatVar = button.repeatVar
     const repeatVarSet = button.repeatVarSet
@@ -453,8 +613,11 @@ export default DefineMap.extend('PagesVM', {
 
   handleBackButton (button, appState, logic) {
     if (button.next !== constants.qIDBACK) { return }
-    // last visited page always at index 1
-    const priorQuestionName = appState.visitedPages[1].name
+
+    const cvp = this.currentVisitedPage || {}
+    const prevPage = cvp.parentVisitedPage || {}
+    const prevInterviewPage = prevPage.interviewPage || {}
+    const priorQuestionName = prevInterviewPage.name
     // override with new gotoPage
     logic.attr('gotoPage', priorQuestionName)
     button.next = priorQuestionName
@@ -482,23 +645,27 @@ export default DefineMap.extend('PagesVM', {
     answers.varSet(interviewCompleteKey, false, 0)
   },
 
-  setCurrentPage () {
-    const currentPage = this.currentPage
+  reloadingHistory: {
+    type: 'boolean',
+    default: false
+  },
 
-    if (currentPage && currentPage.name !== constants.qIDFAIL) {
-      if (!currentPage) {
-        console.warn(`Unknown page: ${currentPage.name}`)
-        return
-      }
-
-      queues.batch.start()
-
-      this.setFieldAnswers(currentPage.fields)
-      this.mState.attr('header', currentPage.step.text)
-      this.mState.attr('step', currentPage.step.number)
-
-      queues.batch.stop()
+  connectedCallback () {
+    const vm = this
+    const ans = vm.answers
+    const history = ans && JSON.parse(ans.varGet(constants.PAGEHISTORY.toLowerCase()) || '[]')
+    let hydrated = false
+    if (history && history.length) {
+      this.reloadingHistory = true
+      hydrated = !!vm.appState.visitedPages.hydrate(history)
+      this.reloadingHistory = false
     }
+
+    !hydrated && vm.appState.visitedPages.visit(this.appState.currentPage)
+    // TODO: if not hydrated but there was PAGEHISTORY, Mike's idea is to create a
+    // ghost-history next page stack for the previouslySelectedButton fallback alg
+
+    return () => { vm.stopListening() }
   },
 
   /**
@@ -528,12 +695,13 @@ export default DefineMap.extend('PagesVM', {
     return answer
   },
 
-  setFieldAnswers (fields) {
+  setFieldAnswers (fields, cvp) {
     const logic = this.logic
-    if (logic && fields.length) {
-      const appState = this.appState
+    if (logic && fields.length && cvp) {
       const mState = this.mState
-      const answerIndex = appState.answerIndex
+      const answerIndex = cvp.repeatVarValue || 1
+      // This setFieldAnswers fn is called as soon as currentVisitedPage changes
+      // so appState.answerIndex isn't recalculated until the next event loop...
 
       fields.forEach(field => {
         const answer = this.__ensureFieldAnswer(field)

@@ -1,0 +1,19 @@
+<can-import from="./slideout-content.less" />
+<can-import from="~/src/debug-panel/" />
+<can-import from="~/src/navigation-panel/"/>
+
+<div>
+  {{#if(appState.previewActive)}}
+    <div class="toggle-panel">
+      <span class="glyphicon-exchange" aria-hidden="true" on:click="appState.toggleNavPanel()"></span>
+    </div>
+  {{/if}}
+  {{#if(appState.showNavPanel)}}
+    <navigation-panel appState:from="appState"></navigation-panel>
+  {{else}}
+    <debug-panel
+      appState:from="appState"
+      interview:from="interview"
+      traceMessage:from="appState.traceMessage" />
+  {{/if}}
+</div>
