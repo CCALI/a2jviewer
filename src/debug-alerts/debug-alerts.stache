@@ -1,0 +1,14 @@
+<can-import from="@caliorg/a2jdeps/alert/"/>
+<can-import from="~/src/debug-alerts/debug-alerts.less"/>
+
+<div class="debug-alerts-wrapper">
+  <button type="button" class="btn btn-default btn-block btn-dismiss">
+    Dismiss All <span class="badge">{{messagesCount}}</span>
+  </button>
+
+  {{#for(item of alertMessages)}}
+    <app-alert open:raw="true" alert-type:raw="danger" dismissible:raw="true">
+      {{{item.message}}}
+    </app-alert>
+  {{/for}}
+</div>

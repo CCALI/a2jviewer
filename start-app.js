@@ -7,13 +7,11 @@ import constants from '~/src/models/constants'
 import PersistedState from '~/src/models/persisted-state'
 import setMobileDesktopClass from '~/src/util/set-mobile-desktop-class'
 import { analytics } from '~/src/util/analytics'
-import _assign from 'lodash/assign'
-import compute from 'can-compute'
 import route from 'can-route'
 
 import '~/src/util/object-assign-polyfill'
 
-export default function ({ interview, pState, mState, rState }) {
+export default function ({ interview, pState, mState, appState }) {
   route.start()
 
   pState = pState || new PersistedState()
@@ -23,10 +21,11 @@ export default function ({ interview, pState, mState, rState }) {
   const lang = new Lang(interview.attr('language'))
   const answers = pState.attr('answers')
 
-  answers.attr('lang', lang)
-  answers.attr(_assign({}, interview.serialize().vars))
-  answers.attr(constants.vnInterviewIncompleteTF.toLowerCase(), {
-    name: constants.vnInterviewIncompleteTF.toLowerCase(),
+  answers.lang = lang
+  answers.assign(interview.serialize().vars)
+  const incompleteKey = constants.vnInterviewIncompleteTF.toLowerCase()
+  answers.varSet(incompleteKey, {
+    name: incompleteKey,
     type: constants.vtTF,
     values: [null, true]
   })
@@ -39,28 +38,26 @@ export default function ({ interview, pState, mState, rState }) {
 
   pState.backup()
 
-  rState.bind('change', function (ev, attr, how, val) {
+  appState.bind('change', function (ev, attr, how, val) {
     if (attr === 'page' && val) {
       pState.attr('currentPage', val)
     }
   })
 
-  rState.interview = interview
+  appState.interview = interview
   setMobileDesktopClass(isMobile, $('body'))
 
-  rState.logic = logic
+  appState.logic = logic
 
   // set initial page route
-  rState.view = 'pages'
-  rState.page = interview.attr('firstPage')
-
-  const modalContent = compute()
+  appState.view = 'pages'
+  appState.page = interview.attr('firstPage')
 
   // piwik: set author id for filtering/tracking
   const authorId = interview.authorId || 0
   analytics.initialize(authorId)
 
-  $('#viewer-app').append(template({
-    rState, pState, mState, interview, logic, lang, isMobile, modalContent
+  $('#viewer-app-container').append(template({
+    appState, pState, mState, interview, logic, lang, isMobile
   }))
 }

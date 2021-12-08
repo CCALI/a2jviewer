@@ -1,73 +1,63 @@
-import $ from 'jquery'
-import CanMap from 'can-map'
-import Model from 'can-model'
-import _find from 'lodash/find'
+import DefineMap from 'can-define/map/map'
+import Answer from '~/src/models/answer'
+import canReflect from 'can-reflect'
 import CONST from '~/src/models/constants'
 import cString from '@caliorg/a2jdeps/utils/string'
 import cDate from '@caliorg/a2jdeps/utils/date'
 import readableList from '~/src/util/readable-list'
 
-import 'can-map-define'
+export default DefineMap.extend('AnswersModel', { seal: false }, {
+  '*': Answer,
 
-export default Model.extend('AnswersModel', {}, {
-  define: {
-    lang: {
-      serialize: function () {
-
-      }
-    }
+  lang: {
+    Type: DefineMap,
+    serialize: false
   },
 
   varExists: function (prop) {
-    prop = $.trim(prop).toLowerCase()
+    const key = prop.trim().toLowerCase()
+    const hasKey = canReflect.hasOwnKey(this, key)
 
-    let keys = CanMap.keys(this)
-
-    let key = _find(keys, function (k) {
-      return k.toLowerCase() === prop
-    })
-
-    let v
-
-    if (key) {
-      v = this.attr(key)
-
-      if (!v.attr('values')) {
-        v.attr('values', [null])
-      }
+    if (hasKey) {
+      return this[key]
+    } else {
+      return null
     }
-
-    return typeof v === 'undefined' ? null : v
   },
 
   varCreate: function (varName, varType, varRepeat) {
-    this.attr(varName.toLowerCase(), {
+    // TODO: this should handle missing params, possibly wrong order as well
+    const varNameKey = varName.toLowerCase()
+    const newAnswer = new Answer({
       name: varName,
-      repeating: varRepeat,
-      type: varType,
+      type: varType || 'Text',
+      repeating: varRepeat || false,
       values: [null]
     })
 
-    return this.attr(varName.toLowerCase())
+    canReflect.setKeyValue(this, varNameKey, newAnswer)
+
+    return newAnswer
   },
 
   varGet: function (varName, varIndex, opts) {
-    var v = this.varExists(varName)
+    let varAnswerModel = this.varExists(varName)
 
-    if (!v) return undefined
+    if (!varAnswerModel) return undefined
 
     if (typeof varIndex === 'undefined' || varIndex === null || varIndex === '') {
-      if (v.repeating) {
+      // TODO: handle this side effect of a readableList in a better way/different place
+      if (varAnswerModel.repeating) {
         // Repeating variable without an index returns a readable list for display
-        return readableList(v.values, this.attr('lang'))
+        return readableList(varAnswerModel.values, this.lang)
       }
 
       varIndex = 1
     }
 
-    var val = v.values[varIndex]
+    let val = varAnswerModel.values[varIndex]
 
-    switch (v.type) {
+    switch (varAnswerModel.type) {
       case CONST.vtNumber:
         if (opts && opts.num2num === true) {
           // Handle text numbers with commas and decimals
@@ -112,13 +102,13 @@ export default Model.extend('AnswersModel', {}, {
   },
 
   varSet: function (varName, varVal, varIndex) {
-    let v = this.varExists(varName)
+    let varAnswerModel = this.varExists(varName)
 
-    if (v === null) {
+    // TODO: this legacy auto create behavior causes bugs - should throw Author error instead
+    if (varAnswerModel === null) {
       // Create variable at runtime
-      v = this.varCreate(varName, CONST.vtText,
-        !((typeof varIndex === 'undefined') || (varIndex === null) ||
-          (varIndex === '') || (varIndex === 0)), '')
+      const repeating = !((typeof varIndex === 'undefined') || (varIndex === null) || (varIndex === '') || (varIndex === 0))
+      varAnswerModel = this.varCreate(varName, CONST.vtText, repeating, '')
     }
 
     if ((typeof varIndex === 'undefined') || (varIndex === null) || (varIndex === '')) {
@@ -126,7 +116,7 @@ export default Model.extend('AnswersModel', {}, {
     }
 
     // Handle type conversion, like number to date and null to proper `notanswered` values.
-    switch (v.attr('type')) {
+    switch (varAnswerModel.type) {
       case CONST.vtDate:
         if (typeof varVal === 'number') {
           // this can take a second format param. default is 'MM/DD/YYYY' if no second param sent
@@ -147,11 +137,14 @@ export default Model.extend('AnswersModel', {}, {
 
     // Reset all values or set new single value
     if (varIndex === 0 && varVal === null) {
-      v.attr('values', [null])
-    } else if (varIndex === 0) {
-      v.attr('values.1', varVal)
+      canReflect.setKeyValue(varAnswerModel, 'values', [null])
+    } else if (varIndex === 0) { // don't overwrite 0th value of null
+      canReflect.setKeyValue(varAnswerModel.values, 1, varVal)
     } else {
-      v.attr('values.' + varIndex, varVal)
+      canReflect.setKeyValue(varAnswerModel.values, varIndex, varVal)
     }
+
+    // courtesy return for tests
+    return varAnswerModel
   }
 })

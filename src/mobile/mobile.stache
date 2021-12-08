@@ -3,6 +3,7 @@
 <can-import from="~/src/mobile/filler/"/>
 <can-import from="./mobile.less"/>
 <can-import from="~/src/desktop/navigation/"/>
+<can-import from="~/src/navigation-panel/"/>
 
 <div>
   {{#not(tocOrCreditsShown())}}
@@ -23,33 +24,31 @@
   {{/if}}
 
   {{#not(tocOrCreditsShown())}}
-    {{#eq(rState.view, 'complete')}}
+    {{#eq(appState.view, 'complete')}}
       <img src="{{joinBase 'images/logo_big.png'}}" class="img-responsive" alt="author-logo-image"/>
       <div class="btn-group btn-group-justified">
         <a href="{{mState.redirect}}" aria-label="{{lang.Continue}}" class="btn btn-primary" aui-action="next">{{lang.Continue}}</a>
       </div>
     {{/eq}}
 
-    {{#eq(rState.view, 'pages')}}
-      <a2j-viewer-navigation
-        repeatVarValue:from="rState.repeatVarValue"
-        selectedPageName:from="rState.selectedPageName"
-        lang:from="lang"
-        logic:from="logic"
-        rState:from="rState"
-        interview:from="interview"
-        selectedPageName:bind="rState.page"
-        selectedPageIndex:bind="rState.selectedPageIndex" />
+    {{#eq(appState.view, 'pages')}}
+      {{^if(appState.useMobileUI)}}
+        <navigation-panel appState:from="appState"></navigation-panel>
+        <a2j-viewer-navigation
+          lang:from="lang"
+          logic:from="logic"
+          appState:from="appState"
+          interview:from="interview" />
+      {{/if}}
 
       <a2j-pages
-        currentPage:from="rState.currentPage"
+        currentVisitedPage:from="appState.currentVisitedPage"
         lang:from="lang"
         logic:from="logic"
-        rState:from="rState"
+        appState:from="appState"
         pState:from="pState"
         mState:from="mState"
-        interview:from="interview"
-        modalContent:bind="modalContent" />
+        interview:from="interview" />
     {{/eq}}
   {{/not}}
 </div>

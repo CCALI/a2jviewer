@@ -1,0 +1,30 @@
+@import (reference) '../../styles';
+
+@panel-width: 400px;
+
+slideout-content {
+  display: block;
+
+  .debug-panel {
+    position: fixed;
+    width: 400px;
+  }
+
+  .toggle-panel {
+    position: fixed;
+    top: 11px;
+    left: 383px;
+    z-index: 999;
+  }
+
+  #viewer-navigation-panel-form {
+    top: 0;
+    left: 0;
+    width: @panel-width;
+    position: fixed;
+    padding: @grid-gutter-width/4;
+    button {
+      margin-right: 0;
+    }
+  }
+}

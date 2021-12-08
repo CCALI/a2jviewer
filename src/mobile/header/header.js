@@ -1,8 +1,6 @@
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
 import template from './header.stache'
-
-import 'can-map-define'
 
 /**
  * @module {Module} viewer/mobile/header/ <a2j-header>
@@ -13,7 +11,7 @@ import 'can-map-define'
  * ## Use
  *
  * @codestart
- *   <a2j-header {m-state}="mState" {p-state}="pState" />
+ *   <a2j-header pState:from="pState" mState:from="mState" interview:from="interview" />
  * @codeend
  */
 
@@ -23,41 +21,43 @@ import 'can-map-define'
  *
  * `<a2j-header>` viewModel.
  */
-const HeaderVM = CanMap.extend({
-  define: {
-    /**
-     * @property {Booelan} header.ViewModel.prototype.disableSaveButton disableSaveButton
-     * @parent conditional.ViewModel
-     *
-     * Whether the save button should be disabled or not.
-     */
-    disableSaveButton: {
-      value: false
-    },
+const HeaderVM = DefineMap.extend({
+  // passed in from mobile.stache
+  pState: {},
+  mState: {},
+  interview: {},
+  /**
+   * @property {Booelan} header.ViewModel.prototype.disableSaveButton disableSaveButton
+   * @parent conditional.ViewModel
+   *
+   * Whether the save button should be disabled or not.
+   */
+  disableSaveButton: {
+    default: false
+  },
 
-    /**
-     * @property {Booelan} header.ViewModel.prototype.showSaveButton showSaveButton
-     * @parent conditional.ViewModel
-     *
-     * Whether the display the save button.
-     */
-    showSaveButton: {
-      get () {
-        return !!this.attr('mState.autoSetDataURL')
-      }
+  /**
+   * @property {Booelan} header.ViewModel.prototype.showSaveButton showSaveButton
+   * @parent conditional.ViewModel
+   *
+   * Whether the display the save button.
+   */
+  showSaveButton: {
+    get () {
+      return !!this.mState.attr('autoSetDataURL')
     }
   },
 
   toggleCredits () {
-    const currentVal = this.attr('mState.showCredits')
-    this.attr('mState.showCredits', !currentVal)
+    const currentVal = this.mState.attr('showCredits')
+    this.mState.showCredits = !currentVal
   },
 
   save () {
-    this.attr('disableSaveButton', true)
+    this.disableSaveButton = true
 
-    this.attr('pState').save().always(() => {
-      this.attr('disableSaveButton', false)
+    this.pState.save().always(() => {
+      this.disableSaveButton = false
     })
   }
 })

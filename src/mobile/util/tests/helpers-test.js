@@ -1,5 +1,5 @@
 import { assert } from 'chai'
-import { normalizePathHelper, insertExternalLinkIconHelper } from '~/src/mobile/util/helpers'
+import { normalizePathHelper, insertExternalLinkIconHelper, truncateTextHelper } from '~/src/mobile/util/helpers'
 import 'steal-mocha'
 
 describe('helpers module', function () {
@@ -73,6 +73,21 @@ describe('helpers module', function () {
 
       path = '/Users/dev/Sites/file.xml'
       assert.equal(normalizePathHelper(pathToGuide, path), '/userfiles/user/guide/file.xml')
+    })
+  })
+  describe('truncateTextHelper', function () {
+    it('truncates to last complete text', () => {
+      let text = 'slightly longer text with a space as the 51st char that gets truncated'
+      assert.equal(
+        truncateTextHelper(text, null),
+        'slightly longer text with a space as the 51st...',
+        'should truncate to last full word before 50th char and add an ellipsis'
+      )
+    })
+    it('does not change shorter text unless length specified', function () {
+      let text = 'Short text'
+      assert.equal(truncateTextHelper(text, 5), 'Sh...', 'Should truncate to 5 characters')
+      assert.equal(truncateTextHelper(text), 'Short text', 'Should not change the text')
     })
   })
 })

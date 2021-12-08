@@ -1,0 +1,43 @@
+<can-import from="~/src/debug-panel/variables/variables.less"/>
+
+<div id="viewer-var-form">
+  <button id="uploadAnswer" class="btn btn-default btn-sm"><span class="glyphicon-folder-open" aria-hidden="true"></span> Open</button>
+  <input type="file" accept=".anx" id="uploadAnswerFileInput" />
+
+  <button id="downloadAnswer" class="btn btn-default btn-sm">
+    <span class="glyphicon-floppy" aria-hidden="true"></span> Save
+  </button>
+
+  <button id="clearAnswer" class="btn btn-default btn-sm" on:el:click="clearAnswers()">
+    <span class="glyphicon-trash" aria-hidden="true"></span> Clear
+  </button>
+
+  <input
+    type="text"
+    placeholder="Filter"
+    id="viewer-var-filter"
+    class="form-control input-sm"/>
+
+  <div class="varvalpanel">
+    <table class="A2JVars table-condensed">
+      <thead>
+        <tr valign="top">
+          <th>Name1</th>
+          <th>Loop</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#for (variable of variables)}}
+          <tr valign="top">
+            <td>{{variable.name}}</td>
+            <td>{{variable.repeating}}</td>
+            <td>{{variable.value}}</td>
+          </tr>
+        {{/for}}
+      </tbody>
+    </table>
+  </div>
+</div>
+

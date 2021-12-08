@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>&lt;debug-panel&gt;</title>
+  </head>
+
+  <body>
+    <div id="demo-html" style="margin: 20px;">
+      <div  id="demo-area"></div>
+    </div>
+
+    <script src="../../node_modules/steal/steal.js"
+      data-main="@empty">
+    </script>
+
+    <script type="steal-module">
+      import DebugPanel from "~/src/debug-panel/"
+      import Interview from "~/src/models/interview"
+      import TraceMessage from "~/src/models/trace-message"
+      import canViewModel from "can-view-model"
+      import stache from 'can-stache'
+
+      import "~/styles.less"
+
+      const render = (data) => {
+        const tpl = stache('<debug-panel interview:from="interview" traceMessage:from="traceMessage" />')
+        document.querySelector('#demo-area').appendChild(tpl(data))
+        return canViewModel('debug-panel')
+      }
+
+      const interview = new Interview({
+        vars: [
+          {values: [null, "Mardy"], name: "Client first name TE", repeating: null},
+          {values: [null, "Bum"], name: "Client last name TE", repeating: null},
+          {values: [null], name: "Client middle name TE", repeating: null},
+          {values: [null], name: "sansAnswer", repeating: null},
+          {values: [null, '{"gender":"female","isOld":false,"hasWheelchair":false,"hairColor":"red","skinTone":"dark"}'], name: "User Avatar", repeating: null},
+          {values: [null], name: "User Gender", repeating: null}
+        ],
+        pages: [
+          {name: "1-Introduction", type: "A2J", repeatVar: ""},
+          {name: "2-Name", type: "A2J", repeatVar: ""},
+          {name: "3-Avatar", type: "A2J", repeatVar: ""},
+          {name: "1-Question 1", type: "A2J", repeatVar: ""}
+        ]
+      })
+
+      const traceMessage = new TraceMessage({currentPageName: 'demo'})
+
+      traceMessage.addMessage({ key: 'codeBefore', fragments: [{ format: 'info', msg: 'Logic Before Question' }] })
+
+      const vm = render({interview, traceMessage})
+
+    </script>
+  </body>
+</html>

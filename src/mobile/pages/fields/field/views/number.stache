@@ -16,7 +16,7 @@
         class="form-control"
         on:input="preValidateNumber(null, scope.element)"
         on:change="validateField(null, scope.element)"
-        value:bind="field._answerVm.values"/>
+        value:bind="field._answerVm.textValue"/>
         {{#if(field.calculator)}}
           <button
             aria-label="Expand Calculator"

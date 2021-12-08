@@ -1,3 +1,5 @@
+<can-import from="~/src/mobile/pages/fields/field/" />
+
 {{#for(field of fields)}}
   <a2j-field
     field:from="field"
@@ -6,7 +8,5 @@
     groupValidationMap:from="groupValidationMap"
     lang:from="lang"
     logic:from="logic"
-    repeatVarValue:from="rState.repeatVarValue"
-    rState:from="rState"
-    modalContent:bind="modalContent" />
+    appState:from="appState" />
 {{/for}}

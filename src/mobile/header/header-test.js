@@ -14,12 +14,13 @@ describe('a2j-header', function () {
   beforeEach(function () {
     const mState = new CanMap()
     const pState = new CanMap()
+    const interview = new CanMap({ title: 'Awesome GI' })
 
     const frag = stache(
-      '<a2j-header vm:mState:from="mState" vm:pState:from="pState" />'
+      '<a2j-header mState:from="mState" pState:from="pState" interview:from="interview" />'
     )
 
-    $('#test-area').html(frag({ mState, pState }))
+    $('#test-area').html(frag({ mState, pState, interview }))
     vm = $('a2j-header')[0].viewModel
   })
 
@@ -28,22 +29,22 @@ describe('a2j-header', function () {
   })
 
   it('shows save button if autoSetDataURL is set', function () {
-    vm.attr('mState.autoSetDataURL', '/ajax-save.php')
-    assert.equal(vm.attr('mState.autoSetDataURL'), '/ajax-save.php')
+    vm.mState.attr('autoSetDataURL', '/ajax-save.php')
+    assert.equal(vm.mState.attr('autoSetDataURL'), '/ajax-save.php')
     assert($('.btn.save').is(':visible'), 'save button should be visible')
   })
 
   it('does not show save button if autoSetDataURL not set', function () {
-    assert.isUndefined(vm.attr('mState.autoSetDataURL'))
+    assert.isUndefined(vm.mState.attr('autoSetDataURL'))
     assert(!$('.btn.save').length, 'save button should not be in the DOM')
   })
 
-  it('save button is disabled while ajax is pending and succeds', function (done) {
+  it('save button is disabled while ajax is pending and succeeds', function (done) {
     let called = false
     const button = '.btn.save'
     const deferred = $.Deferred()
     setupPromise(deferred)
-    const pState = vm.attr('pState')
+    const pState = vm.pState
 
     // mock the save method
     pState.save = () => {
@@ -52,7 +53,7 @@ describe('a2j-header', function () {
     }
 
     // show save button
-    vm.attr('mState.autoSetDataURL', '/ajax-save.php')
+    vm.mState.attr('autoSetDataURL', '/ajax-save.php')
 
     F(button).visible(true)
     F(button).click()
@@ -77,7 +78,7 @@ describe('a2j-header', function () {
     const button = '.btn.save'
     const deferred = $.Deferred()
     setupPromise(deferred)
-    const pState = vm.attr('pState')
+    const pState = vm.pState
 
     // mock the save method
     pState.save = () => {
@@ -86,7 +87,7 @@ describe('a2j-header', function () {
     }
 
     // show save button
-    vm.attr('mState.autoSetDataURL', '/ajax-save.php')
+    vm.mState.attr('autoSetDataURL', '/ajax-save.php')
 
     F(button).visible(true)
     F(button).click()

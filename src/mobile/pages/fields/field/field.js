@@ -1,7 +1,8 @@
 import $ from 'jquery'
-import CanMap from 'can-map'
+import DefineMap from 'can-define/map/map'
+import DefineList from 'can-define/list/list'
+import FieldModel from '~/src/models/field'
 import moment from 'moment'
-import CanList from 'can-list'
 import views from './views/'
 import _range from 'lodash/range'
 import _isNaN from 'lodash/isNaN'
@@ -19,7 +20,6 @@ import 'jquery-ui/ui/widgets/datepicker'
 import '~/src/calculator/jquery.plugin'
 import '~/src/calculator/jquery.calculator'
 import '~/src/calculator/jquery.calculator.css'
-import 'can-map-define'
 
 function getBaseUrl () {
   return window.System.baseURL
@@ -38,202 +38,205 @@ stache.registerPartial('exceeded-maxchars-tpl', exceededMaxcharsTpl)
  *
  * `<a2j-field>`'s viewModel.
  */
-export const FieldVM = CanMap.extend('FieldVM', {
-  define: {
-    // passed in via fields.stache binding
-    field: {},
-    fieldIndex: {},
-    groupValidationMap: {},
-    lastIndexMap: {},
-    // Type: DefineMap
-    rState: {},
+export const FieldVM = DefineMap.extend('FieldVM', {
+  // passed in via fields.stache binding
+  lang: {},
+  field: {
+    Type: FieldModel
+  },
+  fieldIndex: {},
+  groupValidationMap: {},
+  lastIndexMap: {},
+  appState: {},
+  modalContent: {
+    get () {
+      return this.appState.modalContent
+    }
+  },
 
-    // used in field views/*
-    repeatVarValue: {
-      get () {
-        return this.attr('rState').repeatVarValue
-      }
-    },
+  // used in field views/*
+  repeatVarValue: {
+    get () {
+      return this.appState.repeatVarValue
+    }
+  },
 
-    /**
-     * @property {can.compute} field.ViewModel.prototype.isMobile isMobile
-     *
-     * used to detect mobile viewer loaded
-     *
-     * */
-    isMobile: {
-      get () {
-        return isMobile()
-      }
-    },
+  /**
+   * @property {can.compute} field.ViewModel.prototype.isMobile isMobile
+   *
+   * used to detect mobile viewer loaded
+   *
+   * */
+  isMobile: {
+    get () {
+      return isMobile()
+    }
+  },
 
-    /**
-     * @property {DefineMap} field.ViewModel.prototype.userAvatar userAvatar
-     * @parent field.ViewModel
-     *
-     *  current userAvatar
-     */
-    userAvatar: {
-      get () {
-        return this.attr('rState').userAvatar
-      }
-    },
+  /**
+   * @property {DefineMap} field.ViewModel.prototype.userAvatar userAvatar
+   * @parent field.ViewModel
+   *
+   *  current userAvatar
+   */
+  userAvatar: {
+    get () {
+      return this.appState.userAvatar
+    }
+  },
 
-    /**
-     * @property {Boolean} field.ViewModel.prototype.hasError hasError
-     * @parent field.ViewModel
-     *
-     * Tracks if field has invalid answer based on constraints ie: min, max, required, etc
-     */
-    hasError: {},
+  /**
+   * @property {Boolean} field.ViewModel.prototype.hasError hasError
+   * @parent field.ViewModel
+   *
+   * Tracks if field has invalid answer based on constraints ie: min, max, required, etc
+   */
+  hasError: {},
 
-    /**
-     * @property {List} field.ViewModel.prototype.numberPickOptions numberPickOptions
-     * @parent field.ViewModel
-     *
-     * List of integers used to render the `select` tag options when the field
-     * type is 'numberpick'. e.g, if `field.min` is `1` and and `field.max` is
-     * `5`, this property would return `[1, 2, 3, 4, 5]`.
-     */
-    numberPickOptions: {
-      get () {
-        const min = parseInt(this.attr('field.min'), 10)
-        const max = parseInt(this.attr('field.max'), 10)
-        const options = (_isNaN(min) || _isNaN(max)) ? [] : _range(min, max + 1)
+  /**
+   * @property {List} field.ViewModel.prototype.numberPickOptions numberPickOptions
+   * @parent field.ViewModel
+   *
+   * List of integers used to render the `select` tag options when the field
+   * type is 'numberpick'. e.g, if `field.min` is `1` and and `field.max` is
+   * `5`, this property would return `[1, 2, 3, 4, 5]`.
+   */
+  numberPickOptions: {
+    get () {
+      const min = parseInt(this.field.min, 10)
+      const max = parseInt(this.field.max, 10)
+      const options = (_isNaN(min) || _isNaN(max)) ? [] : _range(min, max + 1)
 
-        return new CanList(options)
-      }
-    },
+      return new DefineList(options)
+    }
+  },
 
-    /**
-     * @property {Boolean} field.ViewModel.prototype.showInvalidPrompt showInvalidPrompt
-     * @parent field.ViewModel
-     *
-     * Whether a prompt should be shown to indicate the field's answer is invalid
-     *
-     */
-    showInvalidPrompt: {
-      get () {
-        const varName = this.attr('field.name')
-        const lastIndex = this.attr('lastIndexMap') && this.attr('lastIndexMap').attr(varName)
-        const isLastIndex = this.attr('fieldIndex') === lastIndex
-        const hasGroupError = this.attr('groupValidationMap') && this.attr('groupValidationMap').attr(varName)
+  /**
+   * @property {Boolean} field.ViewModel.prototype.showInvalidPrompt showInvalidPrompt
+   * @parent field.ViewModel
+   *
+   * Whether a prompt should be shown to indicate the field's answer is invalid
+   *
+   */
+  showInvalidPrompt: {
+    get () {
+      const varName = this.field.name
+      const lastIndex = this.lastIndexMap && this.lastIndexMap[varName]
+      const isLastIndex = this.fieldIndex === lastIndex
+      const hasGroupError = this.groupValidationMap && this.groupValidationMap[varName]
 
-        return hasGroupError && isLastIndex && this.attr('invalidPrompt')
-      }
-    },
+      return hasGroupError && isLastIndex && this.invalidPrompt
+    }
+  },
 
-    /**
-     * @property {String} field.ViewModel.prototype.invalidPrompt invalidPrompt
-     * @parent field.ViewModel
-     *
-     * The prompt that should be shown when a field's answer is invalid
-     *
-     */
-    invalidPrompt: {
-      get () {
-        let field = this.attr('field')
-        let defaultInvalidPrompt = this.attr('lang')['FieldPrompts_' + field.attr('type')]
-        return field.attr('invalidPrompt') || defaultInvalidPrompt
-      }
-    },
+  /**
+   * @property {String} field.ViewModel.prototype.invalidPrompt invalidPrompt
+   * @parent field.ViewModel
+   *
+   * The prompt that should be shown when a field's answer is invalid
+   *
+   */
+  invalidPrompt: {
+    get () {
+      let field = this.field
+      let defaultInvalidPrompt = this.lang['FieldPrompts_' + field.type]
+      return field.invalidPrompt || defaultInvalidPrompt
+    }
+  },
 
-    /**
-     * @property {Boolean} field.ViewModel.prototype.showMinMaxPrompt showMinMaxPrompt
-     * @parent field.ViewModel
-     *
-     * Whether a prompt should be shown to indicate the field's min and max values
-     *
-     */
-    showMinMaxPrompt: {
-      get () {
-        const min = this.attr('field.min')
-        const max = this.attr('field.max')
-        return !!(min || max)
-      }
-    },
+  /**
+   * @property {Boolean} field.ViewModel.prototype.showMinMaxPrompt showMinMaxPrompt
+   * @parent field.ViewModel
+   *
+   * Whether a prompt should be shown to indicate the field's min and max values
+   *
+   */
+  showMinMaxPrompt: {
+    get () {
+      const min = this.field.min
+      const max = this.field.max
+      return !!(min || max)
+    }
+  },
 
-    /**
-     * @property {String} field.ViewModel.prototype.minMaxPrompt minMaxPrompt
-     * @parent field.ViewModel
-     *
-     * The prompt that should be shown when a field's answer is out of min/max range
-     *
-     */
-    minMaxPrompt: {
-      get () {
-        const min = this.attr('field.min') || 'any'
-        const max = this.attr('field.max') || 'any'
-        return `(${min} ~~~ ${max})`
-      }
-    },
+  /**
+   * @property {String} field.ViewModel.prototype.minMaxPrompt minMaxPrompt
+   * @parent field.ViewModel
+   *
+   * The prompt that should be shown when a field's answer is out of min/max range
+   *
+   */
+  minMaxPrompt: {
+    get () {
+      const min = this.field.min || 'any'
+      const max = this.field.max || 'any'
+      return `(${min} ~~~ ${max})`
+    }
+  },
 
-    /**
-     * @property {String} field.ViewModel.prototype.savedGenderValue savedGenderValue
-     * @parent field.ViewModel
-     *
-     * Used to determine if gender radio button should be checked based on saved answer
-     *
-     */
-    savedGenderValue: {
-      get: function () {
-        let name = this.attr('field.name').toLowerCase()
-        let answerIndex = this.attr('rState.answerIndex')
-        let answers = this.attr('logic.interview.answers')
-        if (name && answers) {
-          return answers.attr(name).attr('values.' + answerIndex)
-        }
-      }
-    },
-
-    /**
-     * @property {String} field.ViewModel.prototype.suggestionText suggestionText
-     * @parent field.ViewModel
-     *
-     * Used to suggest input format for text strings
-     *
-     */
-
-    suggestionText: {
-      get: function () {
-        let fieldType = this.attr('field.type')
-        if (fieldType === 'numberssn') {
-          return '999-99-9999'
-        } else if (fieldType === 'numberphone') {
-          return '(555) 555-5555'
-        } else {
-          return ''
-        }
-      }
-    },
-
-    /**
-     * @property {Number} field.ViewModel.prototype.availableLength availableLength
-     * @parent field.ViewModel
-     *
-     * remaining allowed characters before maxChar limit is reached
-     *
-     */
-    availableLength: {
-      value: undefined
-    },
-
-    /**
-     * @property {Boolean} field.ViewModel.prototype.overCharacterLimit overCharacterLimit
-     * @parent field.ViewModel
-     *
-     * used to trigger messages when over the maxChars value
-     *
-     */
-    overCharacterLimit: {
-      get () {
-        return this.attr('availableLength') < 0
+  /**
+   * @property {String} field.ViewModel.prototype.savedGenderValue savedGenderValue
+   * @parent field.ViewModel
+   *
+   * Used to determine if gender radio button should be checked based on saved answer
+   *
+   */
+  savedGenderValue: {
+    get: function () {
+      let name = this.field.name.toLowerCase()
+      let answerIndex = this.appState.answerIndex
+      let answers = this.logic.interview.answers
+      if (name && answers) {
+        return answers.varGet(name, answerIndex)
       }
     }
   },
 
+  /**
+   * @property {String} field.ViewModel.prototype.suggestionText suggestionText
+   * @parent field.ViewModel
+   *
+   * Used to suggest input format for text strings
+   *
+   */
+
+  suggestionText: {
+    get: function () {
+      let fieldType = this.field.type
+      if (fieldType === 'numberssn') {
+        return '999-99-9999'
+      } else if (fieldType === 'numberphone') {
+        return '(555) 555-5555'
+      } else {
+        return ''
+      }
+    }
+  },
+
+  /**
+   * @property {Number} field.ViewModel.prototype.availableLength availableLength
+   * @parent field.ViewModel
+   *
+   * remaining allowed characters before maxChar limit is reached
+   *
+   */
+  availableLength: {},
+
+  /**
+   * @property {Boolean} field.ViewModel.prototype.overCharacterLimit overCharacterLimit
+   * @parent field.ViewModel
+   *
+   * used to trigger messages when over the maxChars value
+   *
+   */
+  overCharacterLimit: {
+    get () {
+      return this.availableLength < 0
+    }
+  },
+
   onUserAvatarChange (selectedAvatar) {
-    const userAvatar = this.attr('userAvatar')
+    const userAvatar = this.userAvatar
 
     userAvatar.gender = selectedAvatar.gender
     userAvatar.isOld = selectedAvatar.isOld
@@ -243,14 +246,14 @@ export const FieldVM = CanMap.extend('FieldVM', {
   },
 
   onUserAvatarSkinToneChange (skinTone) {
-    const userAvatar = this.attr('userAvatar')
+    const userAvatar = this.userAvatar
     userAvatar.skinTone = skinTone
 
     this.validateField()
   },
 
   onUserAvatarHairColorChange (hairColor) {
-    const userAvatar = this.attr('userAvatar')
+    const userAvatar = this.userAvatar
     userAvatar.hairColor = hairColor
 
     this.validateField()
@@ -265,11 +268,11 @@ export const FieldVM = CanMap.extend('FieldVM', {
      */
 
   calcAvailableLength (ev) {
-    let maxChars = this.attr('field.maxChars')
+    let maxChars = this.field.maxChars
     let availableLengthValue
     if (maxChars) {
       availableLengthValue = (maxChars - ev.target.value.length)
-      this.attr('availableLength', availableLengthValue)
+      this.availableLength = availableLengthValue
     }
     return availableLengthValue
   },
@@ -283,8 +286,8 @@ export const FieldVM = CanMap.extend('FieldVM', {
    */
   validateField (ctx, el) {
     const $el = $(el)
-    let field = this.attr('field')
-    let _answerVm = field.attr('_answerVm')
+    let field = this.field
+    let _answerVm = field._answerVm
     let value
 
     // textpick binding fired onChange even on first load
@@ -299,7 +302,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
       value = $el[0].checked
       this.notaCheckboxHandler(field, value)
     } else if (field.type === 'useravatar') { // TODO: validate the JSON string here?
-      value = JSON.stringify(this.attr('userAvatar').serialize())
+      value = JSON.stringify(this.userAvatar.serialize())
     } else if (field.type === 'datemdy') {
       // format date to (mm/dd/yyyy) from acceptable inputs
       value = this.normalizeDateInput($el.val())
@@ -309,13 +312,13 @@ export const FieldVM = CanMap.extend('FieldVM', {
       value = $el.val()
     }
 
-    _answerVm.attr('values', value)
+    _answerVm.values = value
 
-    let errors = _answerVm.attr('errors')
-    field.attr('hasError', errors)
+    let errors = _answerVm.errors
+    field.hasError = errors
     // update group validation for radio buttons
-    const varName = field.attr('name')
-    this.attr('groupValidationMap').attr(varName, !!errors)
+    const varName = field.name
+    this.groupValidationMap[varName] = !!errors
 
     if (!errors) {
       this.debugPanelMessage(field, value)
@@ -325,9 +328,9 @@ export const FieldVM = CanMap.extend('FieldVM', {
   },
 
   debugPanelMessage (field, value) {
-    const answerName = field.attr('name')
-    const answerIndex = field.attr('_answerVm.answerIndex')
-    const isRepeating = field.attr('_answerVm.answer.repeating')
+    const answerName = field.name
+    const answerIndex = field._answerVm.answerIndex
+    const isRepeating = field._answerVm.answer.repeating
     // if repeating true, show var#count in debug-panel
     const displayAnswerIndex = isRepeating ? `#${answerIndex}` : ''
 
@@ -339,7 +342,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
         { format: 'val', msg: value }
       ]
     }
-    this.attr('rState').traceMessage.addMessage(message)
+    this.appState.traceMessage.addMessage(message)
   },
 
   /**
@@ -351,17 +354,17 @@ export const FieldVM = CanMap.extend('FieldVM', {
    */
   preValidateNumber (ctx, el) {
     const $el = $(el)
-    const field = this.attr('field')
-    const varName = field.attr('name')
+    const field = this.field
+    const varName = field.name
     // accept only numbers, commas, periods, and negative sign
     const currentValue = $el.val()
     const scrubbedValue = currentValue.replace(/[^\d.,-]/g, '')
     if (currentValue !== scrubbedValue) {
-      field.attr('hasError', true)
-      this.attr('groupValidationMap').attr(varName, true)
+      field.hasError = true
+      this.groupValidationMap[varName] = true
     } else {
-      field.attr('hasError', false)
-      this.attr('groupValidationMap').attr(varName, false)
+      field.hasError = false
+      this.groupValidationMap[varName] = false
     }
   },
 
@@ -375,7 +378,7 @@ export const FieldVM = CanMap.extend('FieldVM', {
   showCalculator (field) {
     if (field && field.calculator === true) {
       const vm = this
-      const inputId = field.attr('label')
+      const inputId = field.label
       const $inputEl = $("[id='" + inputId + "']")
       $inputEl.calculator({
         showOn: 'operator',
@@ -383,10 +386,10 @@ export const FieldVM = CanMap.extend('FieldVM', {
         onClose: function (calcValue, instance) {
           const $el = instance.elem
           const vm = $el.prop('vm')
-          const field = vm.attr('field')
+          const field = vm.field
 
           // set answer and validate
-          field.attr('_answerVm.values', calcValue)
+          field._answerVm.values = calcValue
           vm.validateField(null, $el)
         },
         useText: 'Enter',
@@ -425,31 +428,29 @@ export const FieldVM = CanMap.extend('FieldVM', {
    *
    */
   expandTextlong (field) {
-    const answerName = field.attr('name')
-    const previewActive = this.attr('rState.previewActive')
-    // warning modal only in Author
+    const answerName = field.name
+    const previewActive = this.appState.previewActive
+    // warning modal only in Author for missing variable assignment
     if (!answerName && previewActive) {
-      this.attr('modalContent', { title: 'Author Warning', text: 'Text(long) fields require an assigned variable to expand' })
+      this.assign('modalContent', { title: 'Author Warning', text: 'Text(long) fields require an assigned variable to expand' })
     }
     if (answerName) {
-      const title = field.attr('label')
-      const textlongValue = field.attr('_answerVm.values')
-      const textlongVM = this
-      this.attr('modalContent', {
+      const title = field.label
+      const textlongFieldVM = this
+      this.appState.modalContent = {
         title,
-        textlongValue,
-        answerName,
         field,
-        textlongVM
-      })
+        textlongFieldVM
+      }
     }
   },
 
-  fireModalClose (field, newValue, textlongVM) {
-    field.attr('_answerVm.values', newValue)
+  fireModalClose (field, newValue, textlongFieldVM, availableLength) {
+    field._answerVm.values = newValue
     const selector = "[name='" + field.name + "']"
     const longtextEl = $(selector)[0]
-    textlongVM.validateField(textlongVM, longtextEl)
+    textlongFieldVM.validateField(textlongFieldVM, longtextEl)
+    this.availableLength = availableLength
   },
 
   /**
@@ -501,12 +502,12 @@ export const FieldVM = CanMap.extend('FieldVM', {
   // other checkbox selections when nota is checked, and vice-versa
   notaCheckboxHandler (field, isChecked) {
     if (isChecked) {
-      const fields = field.attr('_answerVm.fields')
+      const fields = field._answerVm.fields
       if (fields) {
         const toStayChecked = field.type
         fields.forEach(function (field) {
           if (field.type !== toStayChecked && (field.type === 'checkbox' || field.type === 'checkboxNOTA')) {
-            field.attr('_answerVm.values', false)
+            field._answerVm.values = false
           }
         })
       }
@@ -522,11 +523,11 @@ export const FieldVM = CanMap.extend('FieldVM', {
   connectedCallback (el) {
     const vm = this
     // default availableLength
-    vm.attr('availableLength', vm.attr('field.maxChars'))
+    vm.availableLength = vm.field.maxChars
 
     // userAvatar stored as json string and needs manual restore aka not bound in stache
-    if (vm.attr('field.type') === 'useravatar') {
-      const userAvatarJSON = vm.attr('logic').varGet('user avatar')
+    if (vm.field.type === 'useravatar') {
+      const userAvatarJSON = vm.logic.varGet('user avatar')
       if (userAvatarJSON) {
         vm.restoreUserAvatar(userAvatarJSON)
       }
@@ -536,14 +537,14 @@ export const FieldVM = CanMap.extend('FieldVM', {
     // TODO: src url assumes a2jviewer app is sibling of a2jauthor app for preview
     const datepickerButtonSvg = joinBaseUrl('images/datepicker-button.svg')
 
-    if (vm.attr('field.type') === 'datemdy') {
-      const defaultDate = vm.attr('field._answerVm.values')
-        ? vm.normalizeDateInput(vm.attr('field._answerVm.values')) : null
+    if (vm.field.type === 'datemdy') {
+      const defaultDate = vm.field._answerVm.values
+        ? vm.normalizeDateInput(vm.field._answerVm.values) : null
       // TODO: these dates need to be internationalized for output/input format
       // min/max values currently only come in as mm/dd/yyyy, or special value, TODAY, which is handled in convertDate above
-      const minDate = vm.convertDate(vm.attr('field.min'), null, 'MM/DD/YYYY') || null
-      const maxDate = vm.convertDate(vm.attr('field.max'), null, 'MM/DD/YYYY') || null
-      const lang = vm.attr('lang')
+      const minDate = vm.convertDate(vm.field.min, null, 'MM/DD/YYYY') || null
+      const maxDate = vm.convertDate(vm.field.max, null, 'MM/DD/YYYY') || null
+      const lang = vm.lang
 
       $('input.datepicker-input', $(el)).datepicker({
         showOn: 'button',
@@ -581,12 +582,14 @@ export const FieldVM = CanMap.extend('FieldVM', {
  *
  * ## use
  * @codestart
- * <a2j-field
- *    {(field)}="field
- *    {repeat-var-value}="repeatVarValue"
- *    {(logic)}="logic"
- *    {lang}="lang"
- *    {(trace-message)}="traceMessage" />
+  <a2j-field
+    field:from="field"
+    fieldIndex:from="scope.index"
+    lastIndexMap:from="lastIndexMap"
+    groupValidationMap:from="groupValidationMap"
+    lang:from="lang"
+    logic:from="logic"
+    appState:from="appState"/>
  * @codeend
  */
 export default Component.extend('FieldComponent', {
@@ -609,10 +612,10 @@ export default Component.extend('FieldComponent', {
           if (!str) { return }
           str = typeof str === 'function' ? str() : str
           // re-eval if answer values have updated via beforeCode
-          const interview = self.attr('logic.interview')
-          const answersChanged = interview && interview.attr('answers').serialize() // eslint-disable-line
+          const interview = self.logic.interview
+          const answersChanged = interview && interview.answers.serialize() // eslint-disable-line
 
-          return self.attr('logic').eval(str)
+          return self.logic.eval(str)
         },
 
         dateformat (val, format) {
@@ -621,7 +624,7 @@ export default Component.extend('FieldComponent', {
 
         i18n (key) {
           key = typeof key === 'function' ? key() : key
-          return self.attr('lang')[key] || key
+          return self.lang[key] || key
         }
       })
     }

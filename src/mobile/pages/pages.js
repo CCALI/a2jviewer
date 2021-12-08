@@ -39,7 +39,7 @@ export default Component.extend({
 
   helpers: {
     getButtonLabel (label) {
-      return label || this.attr('lang')['Continue']
+      return label || this.lang['Continue']
     }
   },
 
@@ -48,8 +48,8 @@ export default Component.extend({
       ev.preventDefault()
 
       const vm = this.viewModel
-      const pages = vm.attr('interview.pages')
-      const pageName = vm.attr('rState.page')
+      const pages = vm.interview.pages
+      const pageName = vm.appState.page
 
       if (pages && pageName) {
         const page = pages.find(pageName)
@@ -58,9 +58,7 @@ export default Component.extend({
           analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
         }
 
-        vm.attr('modalContent', {
-          // name undefined prevents stache warnings
-          answerName: undefined,
+        vm.appState.modalContent = {
           title: page.learn,
           text: page.help,
           imageURL: page.helpImageURL,
@@ -69,7 +67,7 @@ export default Component.extend({
           audioURL: page.helpAudioURL,
           videoURL: page.helpVideoURL,
           helpReader: page.helpReader
-        })
+        }
       }
     },
 
@@ -77,12 +75,12 @@ export default Component.extend({
       if (el.href && el.href.toLowerCase().indexOf('popup') === 0) {
         ev.preventDefault()
         const vm = this.viewModel
-        const pages = vm.attr('interview.pages')
+        const pages = vm.interview.pages
 
         if (pages) {
           const pageName = el.href.replace('popup://', '').replace('POPUP://', '').replace('/', '') // pathname is not supported in FF and IE.
           const page = pages.find(pageName)
-          const sourcePageName = vm.attr('currentPage.name')
+          const sourcePageName = vm.currentPage.name
 
           // piwik tracking of popups
           if (window._paq) {
@@ -91,18 +89,12 @@ export default Component.extend({
 
           // popups only have text, textAudioURL possible values
           // title (page.name) is more of internal descriptor for popups
-          vm.attr('modalContent', {
-            // undefined values prevent stache warnings
-            answerName: undefined,
+          vm.appState.modalContent = {
             title: '',
             text: page.text,
-            imageURL: undefined,
             altText: page.helpAltText,
-            mediaLabel: undefined,
-            audioURL: page.textAudioURL,
-            videoURL: undefined,
-            helpReader: undefined
-          })
+            audioURL: page.textAudioURL
+          }
         }
       } else { // external link
         const $el = $(el)
@@ -130,18 +122,9 @@ export default Component.extend({
       }, 500)
     },
 
-    // any navigation from myProgress, check for and re-render page fields for loop values
-    '{rState} selectedPageIndexSet': function () {
-      const vm = this.viewModel
-      // repeatVarValue means we're in a loop
-      if (vm.attr('rState.repeatVarValue')) {
-        const fields = vm.attr('currentPage.fields')
-        vm.setFieldAnswers(fields)
-      }
-    },
-
-    '{rState} setCurrentPage': function () {
-      this.viewModel.setCurrentPage()
+    // if route page changes, try to switch to that page. (run before logic, check for infinite loops, etc)
+    '{appState} page': function () {
+      this.viewModel.tryToVisitPage()
     }
   }
 })

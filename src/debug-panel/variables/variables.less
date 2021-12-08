@@ -1,0 +1,70 @@
+@import (reference) '../../../styles';
+
+@panel-width: 400px;
+
+author-variables-table {
+  display: block;
+
+  #uploadAnswerFileInput {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    height: @input-height-small + @grid-gutter-width/2;
+    position: absolute;
+    cursor: pointer;
+    width: 85px;
+  }
+
+  #viewer-logic-form {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    bottom: 0;
+    width: @panel-width;
+    padding: @grid-gutter-width/4;
+  }
+
+  #viewer-var-form {
+    top: 0;
+    left: 0;
+    bottom: 50%;
+    width: @panel-width;
+    position: fixed;
+    padding: @grid-gutter-width/4;
+    border-bottom: 1px solid @gray-lighter;
+    button {
+      margin-right: 0;
+    }
+
+    #viewer-var-filter {
+      display: inline;
+      min-height: initial; // clear collision from viewer styles
+      width: 140px;
+    }
+  }
+
+  .varvalpanel {
+    left: 10px;
+    right: 0;
+    top: @input-height-small + @grid-gutter-width/2;
+    bottom: 0;
+    position: absolute;
+    overflow-y: scroll;
+    padding: @grid-gutter-width/4;
+    background-color: lighten(@state-info-bg,2%);
+
+    table {
+      width: 100%;
+      font-size: @font-size-small;
+
+      tr {
+        cursor: pointer;
+
+        &:nth-child(odd) {
+          background-color:rgba(255, 255, 255, 0.5);
+        }
+      }
+
+    }
+  }
+}

@@ -56,13 +56,17 @@ function makePackageFolder () {
   // copy README.md & Legal Info
   fs.copySync(path.join(srcPath, 'README.md'),
     path.join(outputPath, 'README.md'))
-  fs.copySync(path.join(srcPath, 'License.md'),
-    path.join(outputPath, 'License.md'))
+  fs.copySync(path.join(srcPath, 'LICENSE.md'),
+    path.join(outputPath, 'LICENSE.md'))
   fs.copySync(path.join(srcPath, 'Privacy Policy'),
     path.join(outputPath, 'Privacy Policy'))
   fs.copySync(path.join(srcPath, 'A2J Analytics Explanation'),
     path.join(outputPath, 'A2J Analytics Explanation'))
+  fs.copySync(path.join(srcPath, 'package.json'),
+    path.join(outputPath, 'package.json'))
 
+  fs.copySync(path.join(srcPath, 'package.json'),
+    path.join(outputPath, 'package.json'))
   // copy styles required by the avatar's svg file
   fs.copySync(path.join(srcPath, 'styles', 'viewer-avatars.css'),
     path.join(outputPath, 'styles', 'viewer-avatars.css'))

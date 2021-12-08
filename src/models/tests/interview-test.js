@@ -1,6 +1,10 @@
 import { assert } from 'chai'
 import Interview from '~/src/models/interview'
-import CanMap from 'can-map'
+import Answers from '~/src/models/answers'
+
+import '~/src/models/tests/fixtures/'
+
+import 'steal-mocha'
 
 describe('Interview model', function () {
   it('parseModels', function () {
@@ -78,21 +82,17 @@ describe('Interview model', function () {
     it('computes its value from the answer of the "user gender" variable', function () {
       let answers = interview.attr('answers')
 
-      assert.notProperty(answers.attr(), 'user gender',
-        'interview has no "user gender" variable')
+      assert.notProperty(answers.serialize(), 'user gender', 'interview has no "user gender" variable')
       assert.isUndefined(interview.attr('avatarGender'))
 
-      answers.attr('user gender', {
-        name: 'user gender',
-        values: [null]
-      })
-      assert.property(answers.attr(), 'user gender')
+      answers.varCreate('user gender', 'Text', false)
+      assert.property(answers.serialize(), 'user gender')
       assert.isUndefined(interview.attr('avatarGender'), 'variable has no value')
 
-      answers.attr('user gender').attr('values').push('m')
+      answers.varSet('user gender', 'm')
       assert.equal(interview.attr('avatarGender'), 'male')
 
-      answers.attr('user gender').attr('values').push('female')
+      answers.varSet('user gender', 'female')
       assert.equal(interview.attr('avatarGender'), 'female')
     })
   })
@@ -167,7 +167,7 @@ describe('Interview model', function () {
 
     beforeEach(function () {
       interview = new Interview()
-      let answers = new CanMap({
+      let answers = new Answers({
         name: {
           comment: '',
           name: 'Name',
@@ -203,8 +203,8 @@ describe('Interview model', function () {
       let answers = interview.attr('answers')
       interview.clearAnswers()
 
-      let salary = answers.attr('salary')
-      let values = salary.attr('values')
+      let salary = answers['salary']
+      let values = salary.values
       assert.equal(values.length, 1)
       assert.equal(values[0], null)
     })
@@ -214,7 +214,7 @@ describe('Interview model', function () {
       interview.clearAnswers()
 
       answers.forEach(function (answer) {
-        let values = answer.attr('values')
+        let values = answer.values
         if (values) { // skip answers without values prop
           assert.equal(values.length, 1)
           assert.equal(values[0], null)
@@ -226,7 +226,7 @@ describe('Interview model', function () {
       let answers = interview.attr('answers')
       interview.clearAnswers()
 
-      let lang = answers.attr('lang')
+      let lang = answers['lang']
       assert.notProperty(lang, 'values', 'no values array added to lang')
     })
   })

@@ -1,0 +1,33 @@
+<can-import from="~/src/debug-panel/variables/"/>
+<can-import from="~/src/debug-panel/evaluate/"/>
+<can-import from="~/src/debug-panel/debug-panel.less"/>
+
+{{#if(variables.length)}}
+  <author-variables-table interview:from="interview" variables:from="variables"/>
+{{/if}}
+
+<div id="viewer-logic-form">
+  <div id="logic-trace-panel" class="tracepanel">
+    <button id="clear-log-button" on:click="scope.vm.clearMessageLog()" class="btn btn-default btn-sm"><span class="glyphicon-trash" aria-hidden="true"></span> Clear Log</button>
+    <ol id="tracer" content-editable="true">
+      {{#for(logItem of traceMessage.messageLog)}}
+        <li>Page <span class="page">{{logItem.pageName}}</span></li>
+        {{#for(message of logItem.messages)}}
+          <li>
+          {{#for(fragment of message.fragments)}}
+            {{#if(fragment.format)}}
+              <span class="{{../../../traceMessageFormat(fragment.format, fragment.msg)}}">{{../../../blankValFormat(fragment.format, fragment.msg)}}</span>
+            {{else}}
+              {{fragment.msg}}
+            {{/if}}
+          {{/for}}
+          </li>
+        {{/for}}
+      {{/for}}
+    </ol>
+  </div>
+  <div class="form-inline immediate-panel">
+    <author-evaluate-panel
+      traceMessage:from="traceMessage" />
+  </div>
+</div>

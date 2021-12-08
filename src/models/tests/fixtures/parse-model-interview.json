@@ -5,7 +5,8 @@
       "name": "1-Introduction",
       "fields": [{
         "name": "user gender",
-        "type": "text"
+        "type": "text",
+        "options": ""
       }]
     }
   },

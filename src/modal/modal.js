@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import DefineMap from 'can-define/map/map'
 import Component from 'can-component'
+import ModalContent from '~/src/models/modal-content'
 import template from './modal.stache'
 import { analytics } from '~/src/util/analytics'
 
@@ -10,13 +11,44 @@ import 'lightbox2/dist/js/lightbox'
 import 'lightbox2/dist/css/lightbox.css'
 
 export let ModalVM = DefineMap.extend('ViewerModalVM', {
-  // passed in
-  modalContent: {},
-  repeatVarValue: {},
-  lastVisitedPageName: {},
+  // passed in from app.stache
   logic: {},
   interview: {},
-  previewActive: {},
+  appState: {},
+
+  // set in appState and cleared here on close
+  modalContent: {
+    Type: ModalContent
+  },
+  repeatVarValue: {
+    get () {
+      return this.appState.repeatVarValue
+    }
+  },
+  lastVisitedPageName: {
+    get () {
+      const vps = this.appState.visitedPages
+      const cvp = vps && vps.selected
+      return (cvp && cvp.interviewPage.name) || ''
+    }
+  },
+  previewActive: {
+    get () {
+      return this.appState.previewActive
+    }
+  },
+
+  availableLength: {
+    get () {
+      return this.modalContent.textlongFieldVM.availableLength
+    }
+  },
+
+  overCharacterLimit: {
+    get () {
+      return this.modalContent.textlongFieldVM.overCharacterLimit
+    }
+  },
 
   showTranscript: { default: false },
 
@@ -33,15 +65,6 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   },
 
   closeModalHandler () {
-    // answer names are always lowercase versions in the answers map
-    const answerName = this.modalContent.answerName && this.modalContent.answerName.toLowerCase()
-    if (answerName) {
-      const newValue = this.modalContent.textlongValue
-      const field = this.modalContent.field
-      const textlongVM = this.modalContent.textlongVM
-      textlongVM.fireModalClose(field, newValue, textlongVM)
-    }
-
     $('body').removeClass('bootstrap-styles')
   },
 
@@ -114,7 +137,6 @@ export default Component.extend({
     '#pageModal keydown': function (el, ev) {
       // esc key closing modal
       if (ev.keyCode === 27) {
-        this.viewModel.modalContent.attr('textlongValue', ev.target.value)
         this.viewModel.closeModalHandler()
       }
     },
@@ -144,7 +166,7 @@ export default Component.extend({
 
           // popup content is only title, text, and textAudio
           // but title is internal descriptor so set to empty string
-          vm.modalContent = {
+          vm.modalContent.assign({
             // undefined values prevent stache warnings
             answerName: undefined,
             title: '',
@@ -153,7 +175,7 @@ export default Component.extend({
             mediaLabel: undefined,
             audioURL: page.textAudioURL,
             videoURL: undefined
-          }
+          })
         }
       } else { // external link
         const $el = $(el)
