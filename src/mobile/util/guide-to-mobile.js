@@ -45,7 +45,9 @@ const guideProperties = [
   'title',
   'tool',
   'toolversion',
+  'useMobileUI',
   'version',
+  'publishedVersion',
   'viewer'
 ]
 
