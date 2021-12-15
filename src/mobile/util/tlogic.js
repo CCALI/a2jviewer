@@ -275,8 +275,8 @@ export default function (gGuide,
 
   TLogic.prototype.evalBlock = function (expressionInText) { // Evaluate a block of expression included in a text block.
     // expressionInText = 'ORDINAL(OuterLoopCounter)'
-    if (window._ordinalLoopContext && expressionInText.toUpperCase().indexOf('ORDINAL') === 0) {
-      const varname = expressionInText.replace(/ORDINAL\(|\)$/gi, '')
+    if (window._ordinalLoopContext && expressionInText.toUpperCase().trim().indexOf('ORDINAL') === 0) {
+      const varname = expressionInText.replace(/ORDINAL\(|\)$/gi, '').trim()
       const useValueInstead = varname && window._ordinalLoopContext[varname.toUpperCase()]
       if (typeof useValueInstead !== 'undefined') {
         expressionInText = 'ORDINAL(' + useValueInstead + ')'
