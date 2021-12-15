@@ -64,7 +64,21 @@ export const VisitedPage = DefineMap.extend('VisitedPage', {
       // re-eval if answer values have updated via beforeCode
       const answersChanged = this.answers && this.answers.serialize() // eslint-disable-line
       const questionText = this.interviewPage.text || ''
+      // logic needs to be refactored from the old global into a util module. passing it context for the ORDINAL helper
+      // would require modifying much of the callstack. This is not a proper way to do this but after discussing it, we
+      // decided it's the best option we have without taking on the whole refactor right now to fix it.
+      window._ordinalLoopContext = {}
+      const { repeatVar, outerLoopVar } = this.interviewPage
+      if (repeatVar) {
+        window._ordinalLoopContext[repeatVar.toUpperCase()] = this.repeatVarValue
+      }
+      if (outerLoopVar) {
+        window._ordinalLoopContext[outerLoopVar.toUpperCase()] = this.outerLoopVarValue
+      }
+
       const resolvedText = this.logic && this.logic.eval(questionText)
+
+      window._ordinalLoopContext = undefined
 
       return formatDisplayText({
         name: this.interviewPage.name,

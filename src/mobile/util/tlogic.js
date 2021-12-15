@@ -274,6 +274,14 @@ export default function (gGuide,
   }
 
   TLogic.prototype.evalBlock = function (expressionInText) { // Evaluate a block of expression included in a text block.
+    // expressionInText = 'ORDINAL(OuterLoopCounter)'
+    if (window._ordinalLoopContext && expressionInText.toUpperCase().trim().indexOf('ORDINAL') === 0) {
+      const varname = expressionInText.replace(/ORDINAL\(|\)$/gi, '').trim()
+      const useValueInstead = varname && window._ordinalLoopContext[varname.toUpperCase()]
+      if (typeof useValueInstead !== 'undefined') {
+        expressionInText = 'ORDINAL(' + useValueInstead + ')'
+      }
+    }
     var txt = ''
     var errors = []
     var js = this.translateCAJAtoJSExpression(expressionInText, 1, errors)
@@ -500,7 +508,6 @@ export default function (gGuide,
 
   TLogic.prototype._VG = function (varname, varidx) {
     let returnVal
-
     switch (varname.toUpperCase()) {
       case 'TODAY':
         // today's date as number of days since epoch (01/01/1970)
