@@ -155,6 +155,44 @@ describe('FuturePages Model', function () {
     assert.equal(futurePages.hasPageLogic, true, 'should return true if the page has codeBefore logic')
   })
 
+  it('stops before codeBefore Logic', function () {
+    const page = new Page({
+      name: 'fooPage',
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '02-Your name'
+      }]
+    })
+    const page2 = new Page({
+      name: page.buttons[0].next,
+      codeBefore: 'GO TO',
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '03-Their name'
+      }]
+    })
+    const pagesByName = {
+      [page.name]: page,
+      [page.buttons[0].next]: page2,
+      [page2.buttons[0].next]: {}
+    }
+    const futurePages = new FuturePages({
+      interviewPage: page,
+      interviewPagesByName: pagesByName
+    })
+    assert.equal(futurePages.hasPageLogic, false, 'should return false if the page has no logic')
+    const allFuturePagesFromHere = futurePages.futureInterviewPages
+    assert.equal(allFuturePagesFromHere.length, 0, 'stopped before page with codeBefore logic')
+  })
+
   it('handles codeAfter Logic', function () {
     const page = new Page({
       name: 'fooPage',

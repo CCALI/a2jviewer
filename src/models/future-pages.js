@@ -65,10 +65,12 @@ export const FuturePages = DefineMap.extend('FuturePages', {
 
   get nextFuturePage () {
     const futureInterviewPage = this.nextInterviewPage
-    return futureInterviewPage ? new FuturePages({
+    const nfp = futureInterviewPage ? new FuturePages({
       interviewPage: futureInterviewPage,
       interviewPagesByName: this.interviewPagesByName
     }) : undefined
+    // if the next page has before logic, it must be excluded
+    return nfp && !nfp.interviewPage.codeBefore ? nfp : undefined
   },
 
   get futureInterviewPages () {
