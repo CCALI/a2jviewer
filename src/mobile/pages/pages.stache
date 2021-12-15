@@ -12,7 +12,7 @@
   </div>
 {{/eq}}
 
-{{#if(currentPage)}}
+{{#if(connected)}}
   {{ let step = currentPage.step }}
   {{ let focusedButton = previouslySelectedButton() }}
   <div class="bubble-content">
