@@ -4,6 +4,7 @@ import Component from 'can-component'
 import template from './pages.stache'
 import assembleFormTpl from './assemble-form.stache'
 import saveAnswersFormTpl from './save-answers-form.stache'
+import Preview from '~/src/models/preview'
 import { analytics } from '~/src/util/analytics'
 import stache from 'can-stache'
 import '~/src/mobile/util/helpers'
@@ -100,6 +101,31 @@ export default Component.extend({
         const $el = $(el)
         $el.attr('target', '_blank')
       }
+    },
+
+    'button.open-preview click': function (el, ev) {
+      ev.preventDefault()
+
+      const vm = this.viewModel
+
+      const previewData = {
+        answers: vm.answersString,
+        fileDataUrl: vm.mState.fileDataURL,
+        guideId: vm.guideId,
+        guideTitle: vm.interview.title
+      }
+
+      Preview.findOne(previewData).then(preview => {
+        vm.appState.modalContent = {
+          title: 'Document preview',
+          text: preview.html
+        }
+      }, error => {
+        vm.appState.modalContent = {
+          title: 'Error generating document preview',
+          text: error.toString()
+        }
+      })
     },
 
     // This event is fired when the Exit, Success, or AssembleSuccess button is clicked,

@@ -1,6 +1,7 @@
 import { assert } from 'chai'
 import Page from '~/src/models/page'
 import DefineMap from 'can-define/map/map'
+import constants from '~/src/models/constants'
 import Field from '~/src/models/field'
 
 import 'steal-mocha'
@@ -26,6 +27,39 @@ describe('Page Model', function () {
 
     pages.push(page)
     assert.equal(pages.find('1-Introduction'), page, 'page found by name')
+  })
+
+  describe('canPreview', function () {
+    it('is false when there are neither assemble nor assemble & save buttons', function () {
+      const page = new Page({
+        buttons: [
+          {
+            next: 'saveAnswersButton'
+          }
+        ]
+      })
+      assert.equal(page.canPreview, false)
+    })
+    it('is true when there is an assemble button', function () {
+      const page = new Page({
+        buttons: [
+          {
+            next: constants.qIDASSEMBLE
+          }
+        ]
+      })
+      assert.equal(page.canPreview, true)
+    })
+    it('is true when there is an assemble & save button', function () {
+      const page = new Page({
+        buttons: [
+          {
+            next: constants.qIDASSEMBLESUCCESS
+          }
+        ]
+      })
+      assert.equal(page.canPreview, true)
+    })
   })
 
   it('hasUserGenderOrAvatarField - whether page has an "user gender" field', function () {
