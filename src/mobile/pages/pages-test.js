@@ -1,3 +1,4 @@
+import F from 'funcunit'
 import $ from 'jquery'
 import DefineMap from 'can-define/map/map'
 import CanMap from 'can-map'
@@ -11,6 +12,7 @@ import Page from '~/src/models/page'
 import AppState from '~/src/models/app-state'
 import MemoryState from '~/src/models/memory-state'
 import FieldModel from '~/src/models/field'
+import PersistedState from '~/src/models/persisted-state'
 import TraceMessage from '~/src/models/trace-message'
 import Interview from '~/src/models/interview'
 import Logic from '~/src/mobile/util/logic'
@@ -474,33 +476,112 @@ describe('<a2j-pages>', () => {
   })
 
   describe('Component', () => {
-    let appStateTeardown
-    beforeEach(() => {
-      let frag = stache(
-        '<a2j-pages></a2j-pages>'
-      )
-      $('#test-area').html(frag())
-      vm = $('a2j-pages')[0].viewModel
-      vm.attr(defaults)
-      vm.connectedCallback()
-      appStateTeardown = vm.attr('appState').connectedCallback()
+    describe('setFieldAnswers', () => {
+      let appStateTeardown
+
+      beforeEach(() => {
+        let frag = stache(
+          '<a2j-pages></a2j-pages>'
+        )
+        $('#test-area').html(frag())
+        vm = $('a2j-pages')[0].viewModel
+        vm.set(defaults)
+        vm.connectedCallback()
+        appStateTeardown = vm.appState.connectedCallback()
+      })
+
+      afterEach(() => {
+        appStateTeardown()
+        $('#test-area').empty()
+      })
+
+      it.skip('fires setFieldAnswers to update repeat loops', () => {
+        const setFieldAnswersSpy = sinon.spy()
+        vm.setFieldAnswers = setFieldAnswersSpy
+        const button = new CanMap({ next: 'Next' })
+        vm.navigate(button)
+        assert.equal(setFieldAnswersSpy.calledOnce, true, 'should call setFieldAnswers once if no repeat loop')
+
+        vm.attr('appState.repeatVarValue', 1)
+        vm.navigate(button)
+        assert.equal(setFieldAnswersSpy.callCount, 2, 'should call setFieldAnswers twice with repeat loop')
+      })
     })
 
-    it.skip('fires setFieldAnswers to update repeat loops', () => {
-      const setFieldAnswersSpy = sinon.spy()
-      vm.setFieldAnswers = setFieldAnswersSpy
-      const button = new CanMap({ next: 'Next' })
-      vm.navigate(button)
-      assert.equal(setFieldAnswersSpy.calledOnce, true, 'should call setFieldAnswers once if no repeat loop')
+    describe('preview button', function () {
+      describe('when a preview can be rendered', function () {
+        let appStateTeardown, componentTeardown
 
-      vm.attr('appState.repeatVarValue', 1)
-      vm.navigate(button)
-      assert.equal(setFieldAnswersSpy.callCount, 2, 'should call setFieldAnswers twice with repeat loop')
-    })
+        beforeEach(() => {
+          const frag = stache(`
+            <a2j-pages
+              appState:from="appState"
+              currentVisitedPage:from="appState.currentVisitedPage"
+              interview:from="interview"
+              lang:from="lang"
+              pState:from="pState"
+            />
+          `)
+          const interviewWithAssembleButtons = new Interview({
+            firstPage: 'fooPage',
+            pages: [
+              { nextPageStub, priorPageStub },
+              new Page({
+                buttons: [
+                  {
+                    label: 'Assemble',
+                    next: constants.qIDASSEMBLE
+                  }
+                ],
+                name: 'fooPage',
+                step: { number: '1', text: 'Foo Test' }
+              })
+            ]
+          })
 
-    afterEach(() => {
-      appStateTeardown()
-      $('#test-area').empty()
+          const testLogic = new Logic({ interview: interviewWithAssembleButtons })
+          const vmData = {
+            appState: new AppState({
+              interview: interviewWithAssembleButtons,
+              logic: testLogic
+            }),
+            currentVisitedPage: {
+              interviewPage: interviewWithAssembleButtons.pages[0]
+            },
+            interview: interviewWithAssembleButtons,
+            lang: new Lang(),
+            pState: new PersistedState()
+          }
+
+          // stub app-state parseText helper
+          stache.registerHelper('parseText', (text) => text)
+
+          $('#test-area').html(frag(vmData))
+
+          vmData.appState.page = 'fooPage'
+
+          vm = $('a2j-pages')[0].viewModel
+          componentTeardown = vm.connectedCallback()
+          appStateTeardown = vm.appState.connectedCallback()
+        })
+
+        afterEach(() => {
+          appStateTeardown()
+          componentTeardown()
+          $('#test-area').empty()
+        })
+
+        it('shows when a preview can be rendered ', done => {
+          const buttons = F('a2j-pages button')
+          buttons.visible('should have visible buttons')
+          buttons.size(2, 'should have two buttons')
+          F(() => {
+            assert.strictEqual(buttons[0].innerText, 'Assemble', 'first button should be to assemble')
+            assert.strictEqual(buttons[1].innerText, 'Open document preview', 'second button should be for showing the modal')
+          })
+          F(done)
+        })
+      })
     })
   })
 })
