@@ -274,7 +274,7 @@ describe('<a2j-viewer-steps>', function () {
 
       const traceMessage = new TraceMessage()
       const mState = new CanMap()
-      const appState = new AppState({ traceMessage })
+      const appState = new AppState({ traceMessage, interview })
       appStateTeardown = appState.connectedCallback()
       appState.page = interview.attr('firstPage')
       appState.interview = interview

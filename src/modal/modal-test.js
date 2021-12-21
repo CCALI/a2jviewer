@@ -19,7 +19,7 @@ describe('<a2j-modal> ', function () {
     beforeEach(function () {
       const interview = new Interview()
 
-      const appState = new AppState({ page: 'foo' })
+      const appState = new AppState({ interview })
       const mState = new MemoryState({ fileDataURL: '../../tests/images/' })
       const logic = new Logic({
         interview,

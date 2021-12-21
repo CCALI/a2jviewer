@@ -6,12 +6,19 @@ import _forEach from 'lodash/forEach'
 import queues from 'can-queues'
 import AnswerVM from '~/src/models/answervm'
 import Infinite from '~/src/mobile/util/infinite'
+import GhostHistory from '~/src/models/ghost-history'
 import Parser from '@caliorg/a2jdeps/utils/parser'
 import { analytics } from '~/src/util/analytics'
 import constants from '~/src/models/constants'
 import moment from 'moment'
 
 import 'bootstrap/js/modal'
+
+// only exists in some cases,
+// should be shared if pages-vm reloads (reload happens from author preview and when swapping to mobile),
+// will be intiailized in the connectedCallback() if it's needed
+// (todo: reload isn't working, partially because the visited pages are different objects... Fix Priority: nice to have, for devs only)
+let ghostHistory
 
 /**
  * @property {DefineMap} pages.ViewModel
@@ -445,6 +452,9 @@ export default DefineMap.extend('PagesVM', {
     logic.varSet(button.name, buttonValue, buttonAnswerIndex)
   },
 
+  // document.querySelector("a2j-pages").viewModel.ghostHistory
+  ghostHistory: { get (lsv) { return lsv || ghostHistory } },
+
   // returns the button that leads to the next visited page if there is one.
   // helps indicate what button was used previously after the user has navigated to a previous page
   previouslySelectedButton () {
@@ -453,12 +463,14 @@ export default DefineMap.extend('PagesVM', {
     const currentPage = this.currentPage
     const buttons = (currentPage && currentPage.buttons) || []
 
-    if (nextVP) {
-      const buttonThatTakesUsBackToTheFuture = buttons[nextVP.parentButtonUsedIndex]
-
-      if (buttonThatTakesUsBackToTheFuture) {
-        return buttonThatTakesUsBackToTheFuture
-      }
+    const vpNextButton = nextVP && buttons[nextVP.parentButtonUsedIndex]
+    const ghostNextButton = (!vpNextButton) && ghostHistory && buttons[ghostHistory.suggestNextButtonIndex(currentVisitedPage)]
+    if (ghostHistory && ghostHistory.finished) {
+      this.ghostHistory = ghostHistory = undefined
+    }
+    const buttonThatTakesUsBackToTheFuture = vpNextButton || ghostNextButton
+    if (buttonThatTakesUsBackToTheFuture) {
+      return buttonThatTakesUsBackToTheFuture
     }
 
     // the rest is a best-guess algorithm to determine which button might have been used.
@@ -469,8 +481,7 @@ export default DefineMap.extend('PagesVM', {
       const buttonValue = this.buttonValue(b)
       return (buttonValue !== undefined) && (this.answers.varGet(b.name.toLowerCase(), buttonAnswerIndex) === buttonValue)
     })
-    // TODO: pull nextPageName from ghost-history if it exists (see TODO in connectedCallback below)
-    const nextPageName = nextVP && nextVP.interviewPage.name
+    const nextPageName = (nextVP && nextVP.interviewPage.name) || (ghostHistory && ghostHistory.expectNextPageNameToBe)
 
     // return the last button that sets an answer to the same value we already have from a previous visit to this page/question
     // OR, if there isn't one, return the last non-answer-bound button whos .next target is the same name of the next page in the visitedPages history
@@ -650,6 +661,7 @@ export default DefineMap.extend('PagesVM', {
     default: false
   },
 
+  connected: { type: 'boolean', default: false }, // ghost history needs the page to render after everything is set up
   connectedCallback () {
     const vm = this
     const ans = vm.answers
@@ -662,9 +674,12 @@ export default DefineMap.extend('PagesVM', {
     }
 
     !hydrated && vm.appState.visitedPages.visit(this.appState.currentPage)
-    // TODO: if not hydrated but there was PAGEHISTORY, Mike's idea is to create a
-    // ghost-history next page stack for the previouslySelectedButton fallback alg
 
+    // ghost-history next page stack for the previouslySelectedButton fallback alg
+    if (!hydrated && history && history.length) {
+      ghostHistory = new GhostHistory({ serializedVisitedPages: history })
+    }
+    this.connected = true
     return () => { vm.stopListening() }
   },
 

@@ -12,11 +12,11 @@
   </div>
 {{/eq}}
 
-{{#if(currentPage)}}
+{{#if(connected)}}
   {{ let step = currentPage.step }}
   {{ let focusedButton = previouslySelectedButton() }}
   <div class="bubble-content">
-    <h3 style="display: block;">
+    <h3 {{#if(appState.useMobileUI)}}style="display: block;"{{/if}}>
       {{#is(step.number, '0')}}
         <span class="glyphicon-right-open" aria-hidden="true">{{step.text}}</span>
       {{else}}
@@ -36,7 +36,7 @@
       {{/if}}
     </div>
 
-    {{#if(currentPage.textAudioURL)}}
+    {{#if(trim(currentPage.textAudioURL))}}
       <audio-player
         sourceUrl:from="normalizePath(mState.fileDataURL, currentPage.textAudioURL)"
       />
