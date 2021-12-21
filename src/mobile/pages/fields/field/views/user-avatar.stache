@@ -3,7 +3,7 @@
 <can-import from='@caliorg/a2jdeps/skin-picker/' />
 <can-import from='~/src/mobile/pages/fields/field/views/user-avatar.less' />
 
-{{#not(isMobile)}}
+{{^if(isMobile)}}
   <div>
     <user-avatar-picker
       hair:from="userAvatar.hairColor"
@@ -35,4 +35,4 @@
   <div>
     <label>User Avatar selection not supported in Mobile Viewer</label>
   </div>
-{{/not}}
+{{/if}}

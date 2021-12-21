@@ -48,14 +48,34 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   // to match currentPage which is the Map holding all page info
   page: {
     type: 'string',
-    value ({ lastSet, listenTo, resolve }) {
+    value (props) {
+      const { lastSet, listenTo, resolve } = props
+      props.resolver = props.resolver || (pageName => {
+        if (this.interview) {
+          if (this.interview.getPageByName(pageName)) {
+            props.lastResolved = pageName
+            if (this.modalContent && this.modalContent.title === 'Missing Page') {
+              this.modalContent = null
+            }
+          } else {
+            this.modalContent = new DefineMap({
+              title: 'Missing Page',
+              text: 'The page ' + (pageName || '[nowhere]') + ' does not exist!',
+              textlongFieldVM: { field: { name: '' } } // -_-
+            })
+          }
+        }
+        resolve(props.lastResolved)
+        return props.lastResolved
+      })
       // this.page = foo
-      listenTo(lastSet, (pageName, prevPageName) => {
-        (pageName === prevPageName) && this.dispatch('page', [pageName, prevPageName])
-        resolve(pageName)
+      listenTo(lastSet, (pageName) => {
+        const lastResolved = props.lastResolved
+        this.dispatch('page-setter', [props.resolver(pageName), lastResolved])
       })
       listenTo(this.visitedPages, 'selected', (ev, selectedVisitedPage) => {
-        resolve(selectedVisitedPage.interviewPage.name)
+        const name = selectedVisitedPage && selectedVisitedPage.interviewPage && selectedVisitedPage.interviewPage.name
+        props.resolver(name)
       })
     }
   },

@@ -69,7 +69,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
    * */
   isMobile: {
     get () {
-      return isMobile()
+      return this.appState.useMobileUI || isMobile()
     }
   },
 

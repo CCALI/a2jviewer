@@ -128,7 +128,7 @@ export default Component.extend({
     },
 
     cleanHTML (html) {
-      var stripped = html.replace(/<[^>]*>/g, '')
+      var stripped = (html || '').replace(/<[^>]*>/g, '')
       return stripped
     }
   },
@@ -173,7 +173,7 @@ export default Component.extend({
             text: page.text,
             imageURL: undefined,
             mediaLabel: undefined,
-            audioURL: page.textAudioURL,
+            audioURL: (page.textAudioURL || '').trim(),
             videoURL: undefined
           })
         }

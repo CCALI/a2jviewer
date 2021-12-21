@@ -41,6 +41,9 @@ export default Component.extend({
   helpers: {
     getButtonLabel (label) {
       return label || this.lang['Continue']
+    },
+    trim (str) {
+      return (str || '').trim()
     }
   },
 
@@ -62,11 +65,11 @@ export default Component.extend({
         vm.appState.modalContent = {
           title: page.learn,
           text: page.help,
-          imageURL: page.helpImageURL,
+          imageURL: (page.helpImageURL || '').trim(),
           altText: page.helpAltText,
           mediaLabel: page.helpMediaLabel,
-          audioURL: page.helpAudioURL,
-          videoURL: page.helpVideoURL,
+          audioURL: (page.helpAudioURL || '').trim(),
+          videoURL: (page.helpVideoURL || '').trim(),
           helpReader: page.helpReader
         }
       }
@@ -94,7 +97,7 @@ export default Component.extend({
             title: '',
             text: page.text,
             altText: page.helpAltText,
-            audioURL: page.textAudioURL
+            audioURL: (page.textAudioURL || '').trim()
           }
         }
       } else { // external link
@@ -148,8 +151,12 @@ export default Component.extend({
       }, 500)
     },
 
+    '{appState.visitedPages} selected': function () {
+      this.viewModel.buttonUsedIndex = -1
+    },
+
     // if route page changes, try to switch to that page. (run before logic, check for infinite loops, etc)
-    '{appState} page': function () {
+    '{appState} page-setter': function () {
       this.viewModel.tryToVisitPage()
     }
   }
