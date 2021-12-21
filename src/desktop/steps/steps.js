@@ -519,11 +519,11 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
         // name undefined prevents stache warnings
         title: page.learn,
         text: page.help,
-        imageURL: page.helpImageURL,
+        imageURL: (page.helpImageURL || '').trim(),
         altText: page.helpAltText,
         mediaLabel: page.helpMediaLabel,
-        audioURL: page.helpAudioURL,
-        videoURL: page.helpVideoURL,
+        audioURL: (page.helpAudioURL || '').trim(),
+        videoURL: (page.helpVideoURL || '').trim(),
         helpReader: page.helpReader
       }
     }

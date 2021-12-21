@@ -97,7 +97,7 @@ export default Component.extend({
   },
 
   events: {
-    '{appState} page': function () {
+    '{appState} page-setter': function () {
       this.viewModel.checkPageExists()
     }
   },

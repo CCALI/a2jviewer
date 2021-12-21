@@ -34,10 +34,10 @@ describe('AppState', function () {
 
       appState = new AppState({ interview, logic, traceMessage })
       // in live app, pages-vm tryToVisitPage is called when appState.page is set and calls visitedPages.visit with appState's new currentPage
-      appState.listenTo('page', () => appState.currentPage && appState.visitedPages.visit(appState.currentPage))
+      appState.listenTo('page-setter', () => appState.currentPage && appState.visitedPages.visit(appState.currentPage))
       // simulate stache bind on visitedPages
       appStateTeardown = (td => () => {
-        appState.stopListening('page')
+        appState.stopListening('page-setter')
         td()
       })(appState.connectedCallback())
 

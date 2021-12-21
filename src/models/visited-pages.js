@@ -65,20 +65,20 @@ export const VisitedPage = DefineMap.extend('VisitedPage', {
       const answersChanged = this.answers && this.answers.serialize() // eslint-disable-line
       const questionText = this.interviewPage.text || ''
       // logic needs to be refactored from the old global into a util module. passing it context for the ORDINAL helper
-      // would require modifying much of the callstack. This is not a proper way to do this but after discussing it, we
-      // decided it's the best option we have without taking on the whole refactor right now to fix it.
-      window._ordinalLoopContext = {}
+      // and other macros would require modifying much of the legacy callstack. This is not a proper way to do this but
+      // after discussing it, we've decided it's the best option we have without taking on the whole refactor to fix it
+      window._macrosLoopContext = {}
       const { repeatVar, outerLoopVar } = this.interviewPage
       if (repeatVar) {
-        window._ordinalLoopContext[repeatVar.toUpperCase()] = this.repeatVarValue
+        window._macrosLoopContext[repeatVar.toUpperCase()] = this.repeatVarValue
       }
       if (outerLoopVar) {
-        window._ordinalLoopContext[outerLoopVar.toUpperCase()] = this.outerLoopVarValue
+        window._macrosLoopContext[outerLoopVar.toUpperCase()] = this.outerLoopVarValue
       }
 
       const resolvedText = this.logic && this.logic.eval(questionText)
 
-      window._ordinalLoopContext = undefined
+      window._macrosLoopContext = undefined
 
       return formatDisplayText({
         name: this.interviewPage.name,
@@ -195,6 +195,9 @@ export const VisitedPages = VisitedPage.List = DefineList.extend('VisitedPages',
 
   get futureVisitedPages () {
     let parentLeaf = this.activeLeaf // fake the parent rel into the tree without branching from the tree into the future visited pages
+    if (!parentLeaf) {
+      return []
+    }
     const pagesByName = this.__allInterviewPagesByName
     const futurePages = new FuturePages({
       interviewPage: parentLeaf.interviewPage,
@@ -303,6 +306,12 @@ export const VisitedPages = VisitedPage.List = DefineList.extend('VisitedPages',
       // if it reaches this point without returning, a new visited page will be made
     } else {
       // this visit wasn't from a button; it may be a route change or the initial load.
+      if (this.selected && destinationMatchesVP(this.selected)) {
+        // do not create a new visited page if the path (not from a button use) "changed" to the same current page
+        // if a button caused it, this won't run but it's likely a self-looping page and a new vp will be created.
+        return
+      }
+
       // First, search all of the active branch for a match - routes might point to any page
       const activeList = this.activeList
       const activeIndex = _findIndex(activeList, destinationMatchesVP)
