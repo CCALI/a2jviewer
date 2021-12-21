@@ -51,16 +51,18 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     value (props) {
       const { lastSet, listenTo, resolve } = props
       props.resolver = props.resolver || (pageName => {
-        if (this.interview && this.interview.getPageByName(pageName)) {
-          props.lastResolved = pageName
-          if (this.modalContent && this.modalContent.title === 'Missing Page') {
-            this.modalContent = null
-          }
-        } else {
-          this.modalContent = {
-            title: 'Missing Page',
-            text: 'The page ' + (pageName || '[nowhere]') + ' does not exist!',
-            textlongFieldVM: { field: { name: '' } } // -_-
+        if (this.interview) {
+          if (this.interview.getPageByName(pageName)) {
+            props.lastResolved = pageName
+            if (this.modalContent && this.modalContent.title === 'Missing Page') {
+              this.modalContent = null
+            }
+          } else {
+            this.modalContent = new DefineMap({
+              title: 'Missing Page',
+              text: 'The page ' + (pageName || '[nowhere]') + ' does not exist!',
+              textlongFieldVM: { field: { name: '' } } // -_-
+            })
           }
         }
         resolve(props.lastResolved)
