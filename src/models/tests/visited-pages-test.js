@@ -124,6 +124,16 @@ describe('VisitedPages Model', function () {
     assert.equal(visitedPages.hasParent, true, 'the current visited page has a past where it followed the crowd')
   })
 
+  it('won\'t visit the same page multiple times', function () {
+    visitedPages.visit(page)
+    visitedPages.visit(page)
+    assert.equal(visitedPages.length, 1, 'won\'t visit the same page multiple times')
+    assert.equal(visitedPages.root.interviewPage.name, page.name, 'the first page is always the tree\'s root')
+    assert.equal(visitedPages.activeLeaf, visitedPages.root, 'activeLeaf is also set and === the root')
+    assert.equal(visitedPages.hasNext, false, 'visited pages knows there\'s no future without further action')
+    assert.equal(visitedPages.hasParent, false, 'the current visited page has no past')
+  })
+
   it('can time travel', function () {
     visitedPages.visit(page)
     visitedPages.visit(page2)
@@ -285,5 +295,189 @@ describe('VisitedPages Model', function () {
     interview.attr('publishedVersion', '999999') // key won't match, hydrate won't allow it
     assert.equal(visitedPages.hydrate(expectedSerialization), false)
     assert.equal(visitedPages.length, 0)
+  })
+})
+
+describe('VisitedPages Model with page loops', function () {
+  let visitedPages
+  let interview
+  let answers
+  let logic
+  let page
+  let page2
+  let page3
+
+  beforeEach(function () {
+    page = new Page({
+      name: '01-Loop Walker',
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '02-Strange Loop'
+      }]
+    })
+    page2 = new Page({
+      name: page.buttons[0].next,
+      repeatVar: 'rv',
+      outerLoopVar: 'olv',
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Exit Loop',
+        next: '03-Exit Loop'
+      }, {
+        label: 'Loop Again',
+        next: page.buttons[0].next
+      }]
+    })
+    page3 = new Page({
+      name: page2.buttons[0].next,
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: []
+    })
+    interview = new Interview({
+      pages: [page, page2, page3],
+      firstPage: page.name // hydrate needs this
+    })
+    answers = new Answers()
+    interview.attr('answers', answers)
+    logic = new Logic({ interview })
+
+    const sharedRefs = new DefineMap({ interview, logic, answers })
+    visitedPages = new VisitedPages()
+    visitedPages.assign({ sharedRefs })
+  })
+
+  it('won\'t visit the same page multiple times', function () {
+    visitedPages.visit(page)
+    visitedPages.visit(page2)
+    visitedPages.visit(page2)
+    assert.equal(visitedPages.length, 2, 'won\'t visit the same page multiple times')
+    assert.equal(visitedPages.root.interviewPage.name, page.name, 'the first page is always the tree\'s root')
+    assert.equal(visitedPages.activeLeaf.interviewPage.name, page2.name, 'activeLeaf is also set and !== the root')
+    assert.equal(visitedPages.hasNext, false, 'visited pages knows there\'s no future without further action')
+    assert.equal(visitedPages.hasParent, true, 'the current visited page came after the root')
+  })
+
+  it('will visit the same page multiple times in a loop', function () {
+    visitedPages.visit(page)
+    visitedPages.visit(page2)
+    logic.varSet(page2.repeatVar, 2) // simulate after logic that changed the value of a loop var
+    visitedPages.visit(page2)
+    assert.equal(visitedPages.length, 3, 'will visit the same page multiple times in a loop')
+    assert.equal(visitedPages.root.interviewPage.name, page.name, 'the first page is always the tree\'s root')
+    const visitLoop2 = visitedPages.activeLeaf
+    assert.equal(visitLoop2.interviewPage, page2, 'activeLeaf is an instance of the looped page')
+    const visitLoop1 = visitLoop2.parentVisitedPage
+    assert.equal(visitLoop1.interviewPage, page2, 'activeLeaf parent is also an instance of the looped page')
+    assert.equal(visitedPages.hasNext, false, 'visited pages knows there\'s no future without further action')
+    visitedPages.visit(page3)
+    assert.equal(visitedPages.length, 4, 'can continue past the loop')
+    assert.equal(visitedPages.activeLeaf.interviewPage, page3, 'activeLeaf has passed the looped page')
+    visitedPages.visit(page3)
+    assert.equal(visitedPages.length, 4, 'won\'t visit the same page again')
+    visitedPages.visit(page2)
+    assert.equal(visitedPages.selected, visitLoop2, 'can re-visit the same page without causing a new instance')
+    assert.equal(visitedPages.length, 4, 'can re-visit the same page without causing a new instance')
+    logic.varSet(page2.repeatVar, undefined) // simulate that logic was updated globally (by clicking a visited page in the adv nav panel, etc)
+    visitedPages.visit(page2)
+    assert.equal(visitedPages.selected, visitLoop1, 'can re-visit the same page without causing a new instance')
+    assert.equal(visitedPages.length, 4, 'can re-visit the same page without causing a new instance')
+  })
+})
+
+
+describe('VisitedPages Model with future visited pages', function () {
+  let visitedPages
+  let interview
+  let answers
+  let logic
+  let page
+  let page2
+  let page3
+  let page4
+
+  beforeEach(function () {
+    page = new Page({
+      name: '01-Future Walker',
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '02-Future'
+      }]
+    })
+    page2 = new Page({
+      name: page.buttons[0].next,
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Follow the crowd',
+        next: '03-Future Path'
+      }]
+    })
+    page3 = new Page({
+      name: page2.buttons[0].next,
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: [{
+        label: 'Continue',
+        next: '04-Destiny'
+      }]
+    })
+    page4 = new Page({
+      name: page3.buttons[0].next,
+      fields: [
+        { name: 'firstname', type: 'text' },
+        { name: 'lastname', type: 'text' }
+      ],
+      buttons: []
+    })
+    interview = new Interview({
+      pages: [page, page2, page3, page4],
+      firstPage: page.name // hydrate needs this
+    })
+    answers = new Answers()
+    interview.attr('answers', answers)
+    logic = new Logic({ interview })
+
+    const sharedRefs = new DefineMap({ interview, logic, answers })
+    visitedPages = new VisitedPages()
+    visitedPages.assign({ sharedRefs })
+  })
+
+  it('can predict and visit the future, and flag future pages as skipped', function () {
+    visitedPages.visit(page)
+    assert.equal(visitedPages.length, 1, 'can visit a page')
+    assert.ok(visitedPages.root, 'visiting the first page sets the tree\'s root')
+    const fvp = visitedPages.futureVisitedPages
+    assert.equal(fvp.length, 3, 'knows the next 3 pages')
+
+    visitedPages.visit(fvp[0].interviewPage, 0, false)
+    assert.equal(visitedPages.futureVisitedPages.length, 2, 'knows the next 2 pages')
+    assert.equal(visitedPages.futureVisitedPages[0].interviewPage, fvp[1].interviewPage, 'next page is correct')
+    assert.equal(visitedPages.futureVisitedPages[0].repeatVarValue, fvp[1].repeatVarValue, 'next page is correct')
+    assert.equal(visitedPages.futureVisitedPages[0].outerLoopVarValue, fvp[1].outerLoopVarValue, 'next page is correct')
+
+    visitedPages.visit(fvp[1].interviewPage, 0, true) // 3rd visit param is flag for skipped
+    visitedPages.visit(fvp[2].interviewPage, 0, false)
+    assert.equal(visitedPages.futureVisitedPages.length, 0, 'cannot see any further')
+
+    assert.equal(visitedPages.selected.skipped, false, 'can flag that the visit was not skipped')
+    assert.equal(visitedPages.selected.parentVisitedPage.skipped, true, 'can flag that the visit was skipped')
   })
 })
