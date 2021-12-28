@@ -6,6 +6,12 @@
 <can-import from="~/src/desktop/" />
 <can-import from="~/src/modal/" />
 
+<div style="display: none;">
+  {{! canjs 'value' behavior only respects the 'listenTo' stream when we are actively bound to the property in stache or route }}
+  {{! fixes several edge cases in author's preview where the wrong loop value answer/var is shown }}
+  rvv {{appState.repeatVarValue}} olvv {{appState.outerLoopVarValue}}
+</div>
+
 {{#if(isMobile)}}
   <a2j-mobile-viewer
     lang:from="lang"

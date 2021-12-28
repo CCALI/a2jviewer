@@ -276,6 +276,12 @@ export const VisitedPages = VisitedPage.List = DefineList.extend('VisitedPages',
       vp.outerLoopVarValue == outerLoopVarValue // eslint-disable-line
     )
 
+    if (this.selected && destinationMatchesVP(this.selected)) {
+      // bad buttons (that point to missing pages) might try to visit() the same current selected page.
+      // No matter what called visit() though, if it results in the exact same visited page, ignore it.
+      return
+    }
+
     // NOTE: if the refactor/rewire mentioned in the comments at the top of this file ever happens,
     // new answers stored on this page may cuase branches too, currently they don't so it's
     // artificially collapsed and the final answers may not make sense if history was changed

@@ -193,12 +193,30 @@ describe('GhostHistory Model', function () {
       return { interviewPage: { name: svp.interviewPage, buttons: [{ next: next.interviewPage }] } }
     })
     asl.forEach((svp, i) => {
+      assert.equal(ghostHistory.finished, false)
       assert.equal(ghostHistory.suggestNextButtonIndex(fakeVPs[i]), (i === asllen - 1) ? undefined : 0, i)
     })
     assert.equal(ghostHistory.finished, true, 'moved on; automatically finishes at the end of the ghost history')
   })
 
-  it('finishes early if the user\'s navigation doesn\'t follow the ghost history', function () {
-    // TODO
+  it('finishes early if the user\'s navigation doesn\'t follow the active ghost history', function () {
+    const asl = ghostHistory.activeSerializedList
+    const fakeVPs = asl.map((svp, i) => {
+      const next = asl[i + 1] || {}
+      return { interviewPage: { name: svp.interviewPage, buttons: [{ next: next.interviewPage }] } }
+    })
+    for (let i = 0; i < 13; i++) {
+      assert.equal(ghostHistory.suggestNextButtonIndex(fakeVPs[i]), 0)
+      assert.equal(ghostHistory.finished, false)
+    }
+    assert.equal(ghostHistory.nextActiveIndex, 13)
+    assert.equal(ghostHistory.expectNextPageNameToBe, '2-Name')
+    const lessTraveledVP = {
+      'interviewPage': { name: '6-Answer', buttons: [] },
+      'parentVisitedPage': 12,
+      'parentButtonUsedIndex': 1
+    }
+    assert.equal(ghostHistory.suggestNextButtonIndex(lessTraveledVP), undefined)
+    assert.equal(ghostHistory.finished, true)
   })
 })
