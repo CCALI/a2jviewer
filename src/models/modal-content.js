@@ -27,5 +27,8 @@ export default DefineMap.extend('ModalContent', {
   // only used for textlong `zoom` modals
   textlongValue: { default: '' },
   textlongFieldVM: { Default: DefineMap },
-  field: { Default: DefineMap }
+  field: { Default: DefineMap },
+
+  // if true, shows a fullscreen button in the header
+  allowFullscreen: { default: false, type: 'boolean' }
 })

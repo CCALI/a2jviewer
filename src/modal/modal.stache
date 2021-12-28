@@ -6,7 +6,7 @@
     tabindex="-1"
     role="dialog"
     aria-hidden="true"
-    class="modal fade"
+    class="modal {{#if(fullscreen)}}maximized{{else}}fade in{{/if}}"
     aria-labelledby="pageModalLbl"
   >
 
@@ -14,7 +14,25 @@
       <div class="modal-content">
         {{#if(modalContent)}}
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" aui-action="close" tabindex="1">
+          {{#if(allowFullscreen)}}
+            <button
+              type="button"
+              class="fullscreen"
+              on:click="toggleFullscreen()"
+              {{#if(fullscreen)}}
+                title="restore window"
+                aria-label="restore window"
+              {{else}}
+                title="maximize window"
+                aria-label="maximize window"
+              {{/if}}
+              tabindex="1"
+            >
+              <span class="screen-full icon glyphicon-resize-full" aria-hidden="true"></span>
+              <span class="screen-restore icon glyphicon-resize-small" aria-hidden="true"></span>
+            </button>
+          {{/if}}
+          <button type="button" class="close" data-dismiss="modal" title="Close" aria-label="Close" aui-action="close" tabindex="1" on:click="exitFullscreen()">
             <span class="x-times" aria-hidden="true">&times;</span>
           </button>
 

@@ -50,6 +50,24 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     }
   },
 
+  get allowFullscreen () {
+    return !!this.modalContent.allowFullscreen
+  },
+
+  fullscreen: {
+    type: 'boolean', default: false
+  },
+
+  toggleFullscreen () {
+    this.fullscreen = this.allowFullscreen && !this.fullscreen
+    return this.fullscreen
+  },
+
+  exitFullscreen () {
+    this.fullscreen = false
+    return false
+  },
+
   showTranscript: { default: false },
   triggeringElement: {},
 
