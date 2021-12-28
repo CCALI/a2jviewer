@@ -121,7 +121,8 @@ export default Component.extend({
       Preview.findOne(previewData).then(preview => {
         vm.appState.modalContent = {
           title: 'Document preview',
-          text: preview.html
+          text: preview.html,
+          allowFullscreen: true
         }
       }, error => {
         vm.appState.modalContent = {
