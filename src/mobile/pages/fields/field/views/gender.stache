@@ -11,7 +11,7 @@
         name="gender"
         {{#if(field.required)}}required{{/if}}
         value="Male"
-        {{#is(savedGenderValue,  "Male")}}checked{{/is}}
+        checked:from="{{#is(savedGenderValue, 'Male')}}true{{else}}false{{/is}}"
         on:change="validateField(null, scope.element)"/>
       {{i18n("Male")}}
     </label>
@@ -23,7 +23,7 @@
         name="gender"
         {{#if(field.required)}}required{{/if}}
         value="Female"
-        {{#is(savedGenderValue,  "Female")}}checked{{/is}}
+        checked:from="{{#is(savedGenderValue, 'Female')}}true{{else}}false{{/is}}"
         on:change="validateField(null, scope.element)"/>
       {{i18n("Female")}}
     </label>
