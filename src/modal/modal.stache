@@ -15,12 +15,24 @@
         {{#if(modalContent)}}
         <div class="modal-header">
           {{#if(allowFullscreen)}}
-            <button type="button" class="fullscreen" on:click="toggleFullscreen()" aria-label="Fullscreen" tabindex="1">
+            <button
+              type="button"
+              class="fullscreen"
+              on:click="toggleFullscreen()"
+              {{#if(fullscreen)}}
+                title="restore window"
+                aria-label="restore window"
+              {{else}}
+                title="maximize window"
+                aria-label="maximize window"
+              {{/if}}
+              tabindex="1"
+            >
               <span class="screen-full icon glyphicon-resize-full" aria-hidden="true"></span>
               <span class="screen-restore icon glyphicon-resize-small" aria-hidden="true"></span>
             </button>
           {{/if}}
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" aui-action="close" tabindex="1" on:click="exitFullscreen()">
+          <button type="button" class="close" data-dismiss="modal" title="Close" aria-label="Close" aui-action="close" tabindex="1" on:click="exitFullscreen()">
             <span class="x-times" aria-hidden="true">&times;</span>
           </button>
 
