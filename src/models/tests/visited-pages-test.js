@@ -394,7 +394,6 @@ describe('VisitedPages Model with page loops', function () {
   })
 })
 
-
 describe('VisitedPages Model with future visited pages', function () {
   let visitedPages
   let interview
