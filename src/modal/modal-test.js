@@ -127,6 +127,34 @@ describe('<a2j-modal> ', function () {
       F(done)
     })
 
+    it('renders an iframe if page includes iframeMarkup', function (done) {
+      vm.appState.modalContent = {
+        iframeMarkup: `
+          <!doctype html>
+          <html>
+            <head><title>Example title</title></head>
+            <body>
+              <p class="example">Example paragraph</p>
+            </body>
+          </html>
+        `
+      }
+
+      F(function () {
+        const iframes = document.querySelectorAll('iframe')
+        assert.equal(iframes.length, 1, 'there is only one iframe')
+
+        const titleAttribute = iframes[0].getAttribute('title')
+        assert.equal(titleAttribute, 'Example title', 'the title attribute has the correct text')
+
+        const exampleParagraphs = iframes[0].contentDocument.documentElement.querySelectorAll('p.example')
+        assert.equal(exampleParagraphs.length, 1, 'there is only one example paragraph')
+        assert.equal(exampleParagraphs[0].textContent, 'Example paragraph', 'the paragraph has the correct text')
+      })
+
+      F(done)
+    })
+
     it('targets a new tab (_blank) if question text contains a link', function (done) {
       vm.appState.modalContent = { title: '', text: '<p>My popup text <a href="http://www.google.com">lasercats</a></p>' }
       // prevent the tab from opening

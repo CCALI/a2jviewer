@@ -26,6 +26,9 @@ a2j-modal {
           margin: auto;
           padding: 0;
           max-height: ~"calc(100% - 50px)";
+          &.has-iframe {
+            height: ~"calc(100% - 50px)";
+          }
         }
       }
     }
@@ -36,6 +39,13 @@ a2j-modal {
       }
       max-height: 80vh;
       overflow-y: auto;
+
+      &.has-iframe {
+        // Unfortunately the height needs to be set, otherwise the
+        // iframe will only be the min-height set above.
+        height: 80vh;
+        overflow-y: hidden;
+      }
     }
 
     .modal-body a {
@@ -43,6 +53,12 @@ a2j-modal {
     }
 
     .modal-content {
+      .modal-iframe {
+        border: 0;
+        height: 100%;
+        width: 100%;
+      }
+
       .modal-image {
         width: 100%;
         height: auto;

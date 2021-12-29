@@ -1,3 +1,4 @@
+<can-import from="~/src/util/iframemarkup-attr.js"/>
 <can-import from='~/src/modal/modal.less' />
 <can-import from='~/src/audio-player/' />
 
@@ -45,7 +46,7 @@
           </h4>
         </div>
 
-        <div class="modal-body {{#if(modalContent.textlongFieldVM.field.name)}}has-textarea{{/if}}" tabindex="1">
+        <div class="modal-body {{#if(modalContent.iframeMarkup)}}has-iframe{{/if}} {{#if(modalContent.textlongFieldVM.field.name)}}has-textarea{{/if}}" tabindex="1">
           {{#if(modalContent.textlongFieldVM.field.name)}}
             <textarea autofocus
               id="textlong-input"
@@ -56,7 +57,11 @@
               {{> exceeded-maxchars-tpl}}
             {{/if}}
           {{else}}
-            {{{insertExternalLinkIcon(parseText(modalContent.text))}}}
+            {{#if(modalContent.iframeMarkup)}}
+              <iframe class="modal-iframe" iframemarkup="modalContent.iframeMarkup"></iframe>
+            {{else}}
+              {{{insertExternalLinkIcon(parseText(modalContent.text))}}}
+            {{/if}}
 
             {{#if(modalContent.audioURL)}}
               <div class="modal-audio-wrapper">
