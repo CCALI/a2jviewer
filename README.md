@@ -1,10 +1,10 @@
 # A2JViewer
 
-#####This repo is part of the A2J Author Project which consists of four repos...
-#####1. A2JViewer - https://github.com/CCALI/a2jviewer
-#####2. A2J Author - https://github.com/CCALI/a2jauthor
-#####3. A2J Document Automation Tool - https://github.com/CCALI/a2jdat
-#####4. A2J Dependencies - https://github.com/CCALI/a2jdeps
+##### This repo is part of the A2J Author Project which consists of four repos...
+##### 1. A2JViewer - https://github.com/CCALI/a2jviewer
+##### 2. A2J Author - https://github.com/CCALI/a2jauthor
+##### 3. A2J Document Automation Tool - https://github.com/CCALI/a2jdat
+##### 4. A2J Dependencies - https://github.com/CCALI/a2jdeps
 
 This repo hosts the distributable production version of the A2J Viewer.
 
