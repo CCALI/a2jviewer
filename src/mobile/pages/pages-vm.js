@@ -123,6 +123,17 @@ export default DefineMap.extend('PagesVM', {
   },
 
   /**
+   * @property {String} pages.ViewModel.prototype.messageButton exitButton
+   * @parent pages.ViewModel
+   *
+   * String used to represent the button that displays a message
+   * when the interview is complete.
+   */
+  messageButton: {
+    default: constants.qMESSAGE
+  },
+
+  /**
    * @property {String} pages.ViewModel.prototype.resumeButton resumeButton
    * @parent pages.ViewModel
    *
@@ -568,6 +579,13 @@ export default DefineMap.extend('PagesVM', {
         }
         break
 
+      case constants.qMESSAGE:
+        this.appState.modalContent = {
+          title: 'Author note:',
+          text: button.message || 'You have completed this A2J Guided Interview. Please close your browser window to exit.'
+        }
+        break
+
       case constants.qIDASSEMBLE:
         this.appState.modalContent = {
           title: 'Author note:',
@@ -638,6 +656,7 @@ export default DefineMap.extend('PagesVM', {
   isSpecialButton (button) {
     return button.next === constants.qIDFAIL ||
     button.next === constants.qIDEXIT ||
+    button.next === constants.qMESSAGE ||
     button.next === constants.qIDSUCCESS ||
     button.next === constants.qIDASSEMBLESUCCESS ||
     button.next === constants.qIDASSEMBLE
@@ -697,7 +716,12 @@ export default DefineMap.extend('PagesVM', {
    * ** This is doing too many things, it probably does not belong here either.
    */
   __ensureFieldAnswer (field) {
-    const answerKey = field.name.toLowerCase()
+    let answerKey = field.name.toLowerCase()
+    if (!answerKey) {
+      answerKey = 'missingVarName' + ~~(Math.random() * 1000000)
+      field.name = answerKey
+      console.warn('Field is missing a Variable Name', field)
+    }
     const answers = this.answers
 
     let answer = answers[answerKey]
