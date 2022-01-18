@@ -1,4 +1,4 @@
-import version from '../../footer/footerVersion'
+import version from '../footer/footerVersion'
 
 export default {
   devShowTesting: false,
