@@ -295,6 +295,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     let initialized = domData.get(el, 'initialized')
     if (!initialized && field.type === 'textpick') {
       domData.set(el, 'initialized', true)
+      this.debugPanelMessage(field, $el.val()) // https://github.com/CCALI/a2jauthor/issues/276
       return
     }
 
