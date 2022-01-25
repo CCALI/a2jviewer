@@ -1,6 +1,22 @@
 a2j-modal {
   display: block;
 
+  #pageModal[aria-hidden="false"] {
+    &::after {
+      content: "";
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: #000;
+      opacity: 0.5;
+    }
+    .modal-dialog {
+      z-index: 2;
+    }
+  }
+
   #pageModal {
     position: absolute;
     top: 5vh;

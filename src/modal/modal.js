@@ -115,6 +115,7 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
       if (!this.previewActive) {
         $('body').addClass('bootstrap-styles')
       }
+      $('#pageModal').attr('aria-hidden', false)
     }
     const fireCloseModalHandler = () => {
       // pause audio/video before close
@@ -122,6 +123,7 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
 
       // preserves `this` for handler
       this.closeModalHandler()
+      $('#pageModal').attr('aria-hidden', true)
     }
 
     $('#pageModal').on('shown.bs.modal', showModalHandler)

@@ -6,7 +6,7 @@
     id="pageModal"
     tabindex="-1"
     role="dialog"
-    aria-hidden="{{#if(modalContent)}}false{{else}}true{{/if}}"
+    aria-hidden="true"
     class="modal {{#if(fullscreen)}}maximized{{else}}fade in{{/if}}"
     aria-labelledby="pageModalLbl"
   >
