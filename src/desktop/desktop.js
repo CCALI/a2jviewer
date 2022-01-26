@@ -62,13 +62,10 @@ let DesktopViewerVM = DefineMap.extend('DesktopViewerVM', {
     const location = window.location.toString()
     const params = new URLSearchParams(window.location.search)
     let watermark = ''
-    if (params.has('watermark')){
+    if (params.has('watermark')) {
       watermark = params.get('watermark')
     }
-    this.showDemoNotice = 
-      (location.indexOf('.a2jauthor.org') !== -1) || 
-        ((watermark === "1") &&
-        (watermark !== "0"))
+    this.showDemoNotice = (location.indexOf('.a2jauthor.org') !== -1) || (watermark === '1')
 
     this.checkPageExists()
 
