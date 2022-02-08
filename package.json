@@ -11,13 +11,14 @@
     "build-docs": "grunt documentjs",
     "serve-docs": "grunt documentjs-lite && http-server docs",
     "build:viewer-zip": "node ./bin/make-viewer-package",
+    "update-footer": "npm run update-footer-version && npm run git-commit",
     "update-footer-version": "node ./bin/auto-version-update",
     "git-commit": "git commit -am 'Update footerVersion'",
     "preversion": "npm run test",
-    "release:pre": "npm version prerelease && npm publish --tag=pre",
-    "release:patch": "npm version patch && npm publish",
-    "release:minor": "npm version minor && npm publish",
-    "release:major": "npm version major && npm publish",
+    "release:pre": "npm version prerelease && update-footer && npm publish --tag=pre",
+    "release:patch": "npm version patch && update-footer && npm publish",
+    "release:minor": "npm version minor && update-footer && npm publish",
+    "release:major": "npm version major && update-footer && npm publish",
     "postpublish": "git push --tags && git push"
   },
   "author": {
