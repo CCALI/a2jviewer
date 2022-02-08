@@ -50,7 +50,26 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     }
   },
 
+  get allowFullscreen () {
+    return !!this.modalContent.allowFullscreen
+  },
+
+  fullscreen: {
+    type: 'boolean', default: false
+  },
+
+  toggleFullscreen () {
+    this.fullscreen = this.allowFullscreen && !this.fullscreen
+    return this.fullscreen
+  },
+
+  exitFullscreen () {
+    this.fullscreen = false
+    return false
+  },
+
   showTranscript: { default: false },
+  triggeringElement: {},
 
   toggleShowTranscript () {
     this.showTranscript = !this.showTranscript
@@ -66,6 +85,11 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
 
   closeModalHandler () {
     $('body').removeClass('bootstrap-styles')
+
+    // Return focus to the element that opened this modal
+    if (this.triggeringElement) {
+      this.triggeringElement.focus()
+    }
   },
 
   pauseActivePlayers () {
@@ -143,6 +167,7 @@ export default Component.extend({
 
     '{viewModel} modalContent': function (vm, ev, newVal) {
       if (newVal) {
+        vm.triggeringElement = document.activeElement
         $(this.element).find('#pageModal').modal()
       }
     },

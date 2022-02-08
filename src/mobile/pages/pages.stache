@@ -81,4 +81,13 @@
     {{/switch}}
   {{/for}}
 
+  {{#if(currentPage.canPreview)}}
+    <p>You have documents that can be previewed.</p>
+    <button
+      class="btn btn-default btn-navigate open-preview"
+      type="button"
+    >
+       Open document preview 
+    </button>
+  {{/if}}
 {{/if}}
