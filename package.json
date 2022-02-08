@@ -11,7 +11,7 @@
     "build-docs": "grunt documentjs",
     "serve-docs": "grunt documentjs-lite && http-server docs",
     "build:viewer-zip": "node ./bin/make-viewer-package",
-    "update-footer": "npm run update-footer-version && npm run git-commit",
+    "update-footer": "npm run update-footer-version && npm run git-commit && git push",
     "update-footer-version": "node ./bin/auto-version-update",
     "git-commit": "git commit -am 'Update footerVersion'",
     "preversion": "npm run test",
