@@ -729,6 +729,8 @@ export default DefineMap.extend('PagesVM', {
         // Assign default value if it exists and no previous answer
         if (field.value && !avm.answer.values[answerIndex]) {
           this.setDefaultValue(field, avm, answer, answerIndex)
+          // mirror all default values to the old answers https://github.com/CCALI/a2jauthor/issues/279
+          this.interview.answers.varSet(answer.name.toLowerCase(), avm.answer.values[answerIndex], answerIndex)
         }
 
         field._answerVm = avm
