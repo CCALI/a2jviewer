@@ -14,11 +14,12 @@
     "update-footer-version": "node ./bin/auto-version-update",
     "git-commit": "git commit -am 'Update footerVersion'",
     "preversion": "npm run test",
+    "version": "npm run update-footer-version",
     "release:pre": "npm version prerelease && npm publish --tag=pre",
     "release:patch": "npm version patch && npm publish",
     "release:minor": "npm version minor && npm publish",
     "release:major": "npm version major && npm publish",
-    "postpublish": "npm run update-footer-version && npm run git-commit && git push --tags && git push"
+    "postpublish": "npm run git-commit && git push --tags && git push"
   },
   "author": {
     "name": "Center for Computer-Assisted Legal Instruction (CALI)",
