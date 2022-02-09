@@ -1,7 +1,7 @@
 import DefineMap from 'can-define/map/map'
 import DefineList from 'can-define/list/list'
 import _find from 'lodash/find'
-import constants from '~/src/models/constants'
+// import constants from '~/src/models/constants'
 import Field from '~/src/models/field'
 
 const Page = DefineMap.extend('Page Model', {
@@ -23,11 +23,12 @@ const Page = DefineMap.extend('Page Model', {
     serialize: false,
 
     get () {
-      const buttons = this.buttons
+      return false // disable showing this button until further QA - prod hotfix 02-09-2022
+      // const buttons = this.buttons
 
-      return buttons && buttons.length > 0 ? buttons.some(button => {
-        return button.next === constants.qIDASSEMBLE || button.next === constants.qIDASSEMBLESUCCESS
-      }) : false
+      // return buttons && buttons.length > 0 ? buttons.some(button => {
+      //   return button.next === constants.qIDASSEMBLE || button.next === constants.qIDASSEMBLESUCCESS
+      // }) : false
     }
   },
 
