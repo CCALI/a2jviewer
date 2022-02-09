@@ -29,7 +29,7 @@ describe('Page Model', function () {
     assert.equal(pages.find('1-Introduction'), page, 'page found by name')
   })
 
-  describe('canPreview', function () {
+  describe.skip('canPreview', function () {
     it('is false when there are neither assemble nor assemble & save buttons', function () {
       const page = new Page({
         buttons: [

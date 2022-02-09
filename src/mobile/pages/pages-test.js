@@ -571,7 +571,7 @@ describe('<a2j-pages>', () => {
           $('#test-area').empty()
         })
 
-        it('shows when a preview can be rendered ', done => {
+        it.skip('shows when a preview can be rendered ', done => {
           const buttons = F('a2j-pages button')
           buttons.visible('should have visible buttons')
           buttons.size(2, 'should have two buttons')
