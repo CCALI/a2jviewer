@@ -43,10 +43,42 @@
     $opened = $zip->open($tempZipFilePath);
     if ($opened === TRUE) {
       $extractPath = $guidesPath . '/' . $guideId;
-      // check for proper file structure
+      // check for proper file structure and safety
+      $isSafe = false;
       if($zip->getFromName('Guide.json')) {
+        // check if contained files are in whitelist
+        // don't want to upload executable code
+        $allowed =
+         ['xml', 'jpg', 'png', 'gif', 'mp4',
+          'mp3', 'pdf', 'json', 'zip', 'backup'];
+
+        $i = 0;
+        for (; $i < $zip->numFiles; $i++) {
+             $filename = $zip->getNameIndex($i);
+             $matches =[];
+
+             // find file extension without
+             // leading period and at end of string
+             preg_match('/\.(\w+)$/', $filename, $matches);
+             if (count($matches)){
+               if (!in_array($matches[1], $allowed)){
+                echo $filename . '<br>';
+                break;
+               }
+             }
+        }
+
+        // if all files have been looked at without finding
+        // something unsafe, then it is safe
+        if ($i  === $zip->numFiles){
+             $isSafe = true;
+        }
+      }
+      // all good. extract
+      if ($isSafe){
         $zip->extractTo($extractPath);
       } else {
+        error_log('Attempt to upload bad guide');
         echo '<h4>Badly formatted .zip file, please choose another.</h4>';
       }
       $zip->close();
