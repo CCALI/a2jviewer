@@ -1,7 +1,7 @@
 
 const version = {
-  number: '7.2.1-1',
-  date: '2022-01-18'
+  number: '8.0.0-0',
+  date: '2022-02-23'
 }
 
 export default version
