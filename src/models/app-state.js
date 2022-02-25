@@ -175,18 +175,6 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
     serialize: false
   },
 
-  saveAndExitActive: {
-    serialize: false,
-    get () {
-      return !!this.lastPageBeforeExit
-    }
-  },
-
-  lastPageBeforeExit: {
-    serialize: false,
-    default: null
-  },
-
   useMobileUI: {
     get () {
       const notMobile = !isMobile()

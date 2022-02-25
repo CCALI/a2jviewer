@@ -351,7 +351,7 @@ export default DefineMap.extend('PagesVM', {
       const page = vm.currentPage
       const logic = vm.logic
       const previewActive = vm.previewActive
-      const onExitPage = appState.saveAndExitActive && (page.name === vm.interview.attr('exitPage'))
+      const onExitPage = appState.visitedPages.selectedIsInterviewExitPage && (page.name === vm.interview.attr('exitPage'))
 
       button.next = vm.handleCrossedUseOfResumeOrBack(button, onExitPage)
 
@@ -486,7 +486,7 @@ export default DefineMap.extend('PagesVM', {
 
     // the rest is a best-guess algorithm to determine which button might have been used.
     // if an interview is loaded with old answers w/o the visited pages history, this will help guide them back to where they left off
-    const repeatVar = currentPage.repeatVar
+    const repeatVar = currentPage && currentPage.repeatVar
     const buttonAnswerIndex = repeatVar ? this.logic.varGet(repeatVar) : 1
     const buttonsWithMatchingAnswers = buttons.filter(b => {
       const buttonValue = this.buttonValue(b)
