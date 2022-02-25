@@ -52,33 +52,26 @@ describe('<a2j-viewer-navigation>', function () {
       })
     })
 
-    it('canSaveAndExit', function () {
-      // true only if vm.appState.lastPageBeforeExit has a non falsy value
-      // and interview.attr('exitPage') NOT being constants.qIDNOWHERE
-      vm.appState.lastPageBeforeExit = ''
+    it('hasExitPage and currentVisitedPageIsExitPage', function () {
       interview.attr('exitPage', constants.qIDNOWHERE)
-      assert.isFalse(vm.canSaveAndExit)
+      assert.isFalse(vm.hasExitPage)
 
-      // lastPageBeforeExit having a value means you've already hit Save&Exit button
-      vm.appState.lastPageBeforeExit = '2-Name'
+      let page1 = pages[0]
+      vm.appState.visitedPages.visit(page1)
+      assert.isFalse(vm.hasExitPage)
+      assert.isFalse(vm.currentVisitedPageIsExitPage)
       interview.attr('exitPage', '1-Exit')
-      assert.isFalse(vm.canSaveAndExit)
+      assert.isTrue(vm.hasExitPage)
+      assert.isFalse(vm.currentVisitedPageIsExitPage)
 
-      // exit page assigned, but Save&Exit button not hit
-      vm.appState.lastPageBeforeExit = ''
-      interview.attr('exitPage', '1-Exit')
-      assert.isTrue(vm.canSaveAndExit)
-    })
-
-    it('canResumeInterview - whether Resume button should be enabled', function () {
-      vm.appState.lastPageBeforeExit = ''
-      assert.isFalse(vm.canResumeInterview)
-
-      vm.appState.lastPageBeforeExit = '1-Intro'
-      assert.isTrue(vm.canResumeInterview)
+      interview.attr('exitPage', page1.name)
+      assert.isTrue(vm.hasExitPage)
+      assert.isTrue(vm.currentVisitedPageIsExitPage)
     })
 
     it('resumeInterview', function () {
+      interview.attr('exitPage', pages[2].name)
+
       // navigate to first page
       visited.visit(pages[0])
 
@@ -150,17 +143,6 @@ describe('<a2j-viewer-navigation>', function () {
       visited.selectNext()
       assert.equal(vm.appState.currentPage, pages[0], 'should navigate to most recent page')
     })
-
-    it('disableOption', () => {
-      visited.visit(pages[1])
-      visited.visit(pages[0])
-      assert.equal(vm.disableOption(visited.activeLeaf), false, 'false by default even at activeLeaf')
-
-      // saveAndExitActive is derived from vm.appState.lastPageBeforeExit having a value
-      vm.appState.lastPageBeforeExit = '2-Name'
-      assert.equal(vm.disableOption(visited.activeLeaf), false, 'false if at activeLeaf and saveAndExitActive is true')
-      assert.equal(vm.disableOption(visited.activeLeaf.parentVisitedPage), true, 'true if NOT at activeLeaf and saveAndExitActive is true')
-    })
   })
 
   describe('Component', function () {
@@ -177,7 +159,7 @@ describe('<a2j-viewer-navigation>', function () {
 
       promise.then(function (_interview) {
         interview = _interview
-        appState = new AppState()
+        appState = new AppState({ interview })
         lang = {
           GoNext: 'Next',
           GoBack: 'Back',
@@ -235,8 +217,8 @@ describe('<a2j-viewer-navigation>', function () {
       assert.equal($('.send-feedback').length, 1, 'Feedback button should be rendered')
     })
 
-    it('shows/hides Exit button based on vm.canSaveAndExit', function () {
-      // turn off Exit button following properties result in canSaveAndExit being false
+    it('shows/hides Exit button based on vm.currentVisitedPageIsExitPage', function () {
+      // turn off Exit button following properties result in currentVisitedPageIsExitPage being false
       interview.attr('exitPage', constants.qIDNOWHERE)
       assert.equal($('.can-exit').length, 0, 'Exit button should not be rendered')
 
@@ -245,13 +227,19 @@ describe('<a2j-viewer-navigation>', function () {
       assert.equal($('.can-exit').length, 1, 'Exit button should be rendered')
     })
 
-    it('shows/hides Resume button based on vm.canSaveAndExit', function () {
-      // turn off Resume button when saveAndExitActive is false even when lastPageBeforeExit has a value
-      vm.appState.lastPageBeforeExit = '1-Intro'
-      assert.equal($('.can-exit').length, 0, 'Resume button should not be rendered')
+    it('shows/hides Resume button based on vm.hasExitPage', function () {
+      interview.attr('exitPage', constants.qIDNOWHERE)
+      visited.visit(pages[0])
+      // turn off Resume button when hasExitPage is false
+      assert.equal($('.can-resume').length, 0, 'Resume button should not be rendered')
+
+      interview.attr('exitPage', pages[1].name)
+      assert.equal($('.can-exit').length, 1, 'Exit button should be rendered if there is an exit page (and we\'re not on it)')
+      assert.equal($('.can-resume').length, 0, 'Resume button should not be rendered if not on the exit page')
 
       // turn on Resume button when Exit button has been clicked
-      vm.appState.lastPageBeforeExit = '1-Intro'
+      visited.visit(pages[1])
+
       assert.equal($('.can-resume').length, 1, 'Resume button should be rendered')
     })
 
