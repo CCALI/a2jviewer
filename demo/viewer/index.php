@@ -41,15 +41,65 @@
   if ($tempZipFilePath !== '') {
     $zip = new ZipArchive;
     $opened = $zip->open($tempZipFilePath);
+    
+    $isSafe = false;
+    $extractPath = $guidesPath . '/' . $guideId;
+    
     if ($opened === TRUE) {
-      $extractPath = $guidesPath . '/' . $guideId;
-      // check for proper file structure
+      
+      // check for proper file structure and safety
+      
       if($zip->getFromName('Guide.json')) {
-        $zip->extractTo($extractPath);
-      } else {
-        echo '<h4>Badly formatted .zip file, please choose another.</h4>';
+        // check if contained files are in whitelist
+        // don't want to upload executable code
+        $allowed =
+         ['xml', 'jpg', 'png', 'gif', 'mp4',
+          'mp3', 'pdf', 'json', 'zip', 'backup'];
+
+        $i = 0;
+        for (; $i < $zip->numFiles; $i++) {
+             $filename = $zip->getNameIndex($i);
+             $matches =[];
+
+             // find file extension without
+             // leading period and at end of string
+             preg_match('/\.(\w+)$/', $filename, $matches);
+             if (count($matches)){
+               if (!in_array($matches[1], $allowed)){
+                break;
+               }
+             }
+        }
+
+        // if all files have been looked at without finding
+        // something unsafe, then it is safe
+        if ($i  === $zip->numFiles){
+             $isSafe = true;
+        }
+      }
+    }
+    
+    // all good. zip is safe. extract
+    // This case also should cover
+    // if the zip fails to open
+    // as $isSafe is never set to true
+    if ($isSafe){
+      // if zip was opened, $zip object will be valid
+      $foldername = $zip->getNameIndex(0);
+      $canExtract = $zip->extractTo($extractPath);
+      if (!$canExtract){
+        // Not sure if this error and
+        // the next in the else should be different
+        // But they are distinct cases.
+        // Not sure if it matters but log data
+        // could be interesting
+        echo 'Attempt to upload unextractable guide <br/><br/>';
+        error_log('Attempt to upload unextractable guide');
       }
       $zip->close();
+    } else {
+      echo 'Attempt to upload bad guide <br/><br/>';
+      error_log('Attempt to upload bad guide');
     }
   }
 ?>
