@@ -10,7 +10,7 @@ import 'can-map-define'
 import 'lightbox2/dist/js/lightbox'
 import 'lightbox2/dist/css/lightbox.css'
 
-export let ModalVM = DefineMap.extend('ViewerModalVM', {
+export const ModalVM = DefineMap.extend('ViewerModalVM', {
   // passed in from app.stache
   logic: {},
   interview: {},
@@ -21,49 +21,49 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     Type: ModalContent
   },
   repeatVarValue: {
-    get () {
+    get() {
       return this.appState.repeatVarValue
     }
   },
   lastVisitedPageName: {
-    get () {
+    get() {
       const vps = this.appState.visitedPages
       const cvp = vps && vps.selected
       return (cvp && cvp.interviewPage.name) || ''
     }
   },
   previewActive: {
-    get () {
+    get() {
       return this.appState.previewActive
     }
   },
 
   availableLength: {
-    get () {
-      return this.modalContent.textlongFieldVM.availableLength
+    get() {
+      return this.modalContent && this.modalContent.textlongFieldVM.availableLength
     }
   },
 
   overCharacterLimit: {
-    get () {
-      return this.modalContent.textlongFieldVM.overCharacterLimit
+    get() {
+      return this.modalContent && this.modalContent.textlongFieldVM.overCharacterLimit
     }
   },
 
-  get allowFullscreen () {
-    return !!this.modalContent.allowFullscreen
+  get allowFullscreen() {
+    return this.modalContent && !!this.modalContent.allowFullscreen
   },
 
   fullscreen: {
     type: 'boolean', default: false
   },
 
-  toggleFullscreen () {
+  toggleFullscreen() {
     this.fullscreen = this.allowFullscreen && !this.fullscreen
     return this.fullscreen
   },
 
-  exitFullscreen () {
+  exitFullscreen() {
     this.fullscreen = false
     return false
   },
@@ -71,28 +71,31 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   showTranscript: { default: false },
   triggeringElement: {},
 
-  toggleShowTranscript () {
+  toggleShowTranscript() {
     this.showTranscript = !this.showTranscript
     if (this.showTranscript) {
       this.scrollToVideoTop()
     }
   },
 
-  scrollToVideoTop () {
+  scrollToVideoTop() {
     const modalVideoElement = document.querySelector('video.modal-video')
     $('.modal-body').scrollTop(modalVideoElement.offsetTop)
   },
 
-  closeModalHandler () {
+  closeModalHandler() {
     $('body').removeClass('bootstrap-styles')
 
     // Return focus to the element that opened this modal
     if (this.triggeringElement) {
       this.triggeringElement.focus()
     }
+
+    // clear for next modal use
+    this.modalContent = null
   },
 
-  pauseActivePlayers () {
+  pauseActivePlayers() {
     // stop video player
     const modalVideoPlayer = $('video.modal-video')[0]
     if (modalVideoPlayer) { modalVideoPlayer.pause() }
@@ -105,7 +108,7 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     }
   },
 
-  connectedCallback (el) {
+  connectedCallback(el) {
     const showModalHandler = () => {
       // modal-backdrop blocks when debug-panel is open in Author previewMode
       // TODO: should be easier to manage when debug-panel is moved to viewer
@@ -143,17 +146,17 @@ export default Component.extend({
   ViewModel: ModalVM,
 
   helpers: {
-    isGif (url = '') {
+    isGif(url = '') {
       const ext = url.split('.').pop()
       return ext.toLowerCase() === 'gif'
     },
 
-    eval (str) {
+    eval(str) {
       str = typeof str === 'function' ? str() : str
       return this.logic.eval(str)
     },
 
-    cleanHTML (html) {
+    cleanHTML(html) {
       var stripped = (html || '').replace(/<[^>]*>/g, '')
       return stripped
     }
@@ -174,8 +177,7 @@ export default Component.extend({
       }
     },
 
-    'a click': function (el, ev) {
-      // popup from within a popup
+    'a click': function (el, ev) { // launch popup from within a popup
       if (el.href && el.href.toLowerCase().indexOf('popup') === 0) {
         ev.preventDefault()
         const vm = this.viewModel
@@ -185,23 +187,24 @@ export default Component.extend({
           const pageName = el.href.replace('popup://', '').replace('POPUP://', '').replace('/', '') // pathname is not supported in FF and IE.
           const page = pages.find(pageName)
           const sourcePageName = this.scope.lastVisitedPageName
+          console.log('modal', sourcePageName)
 
           // piwik tracking of popups
           if (window._paq) {
             analytics.trackCustomEvent('Pop-Up', 'from: ' + sourcePageName, pageName)
           }
 
-          // popup content is only title, text, and textAudio
+          // popups now have text, audio, video and their alt-text values
           // but title is internal descriptor so set to empty string
           vm.modalContent.assign({
-            // undefined values prevent stache warnings
-            answerName: undefined,
             title: '',
             text: page.text,
-            imageURL: undefined,
-            mediaLabel: undefined,
-            audioURL: (page.textAudioURL || '').trim(),
-            videoURL: undefined
+            imageURL: (page.helpImageURL || '').trim(),
+            altText: page.helpAltText,
+            mediaLabel: page.helpMediaLabel,
+            audioURL: (page.helpAudioURL || '').trim(),
+            videoURL: (page.helpVideoURL || '').trim(),
+            helpReader: page.helpReader
           })
         }
       } else { // external link

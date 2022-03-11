@@ -30,5 +30,7 @@ export default DefineMap.extend('ModalContent', {
   field: { Default: DefineMap },
 
   // if true, shows a fullscreen button in the header
-  allowFullscreen: { default: false, type: 'boolean' }
+  allowFullscreen: { default: false, type: 'boolean' },
+
+  iframeMarkup: { default: '', type: 'string' }
 })

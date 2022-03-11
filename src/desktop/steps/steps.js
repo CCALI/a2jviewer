@@ -449,7 +449,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
    */
   formatStepStyles (width) {
     return 'margin-right: ' + `-${Math.ceil(width * 0.1)}px;` +
-           'width: ' + `calc(0% + ${Math.ceil(width + (width * 0.3))}px);`
+      'width: ' + `calc(0% + ${Math.ceil(width + (width * 0.3))}px);`
   },
 
   /**
@@ -509,7 +509,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
 
     if (pages && pageName) {
       const page = pages.find(pageName)
-
+      console.log('fireLearnMore', pageName)
       // piwik tracking of learn-more clicks
       if (window._paq) {
         analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)

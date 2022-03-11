@@ -48,33 +48,6 @@ export default Component.extend({
   },
 
   events: {
-    'a.learn-more click': function (el, ev) {
-      ev.preventDefault()
-
-      const vm = this.viewModel
-      const pages = vm.interview.pages
-      const pageName = vm.appState.page
-
-      if (pages && pageName) {
-        const page = pages.find(pageName)
-        // piwik tracking of learn-more clicks
-        if (window._paq) {
-          analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
-        }
-
-        vm.appState.modalContent = {
-          title: page.learn,
-          text: page.help,
-          imageURL: (page.helpImageURL || '').trim(),
-          altText: page.helpAltText,
-          mediaLabel: page.helpMediaLabel,
-          audioURL: (page.helpAudioURL || '').trim(),
-          videoURL: (page.helpVideoURL || '').trim(),
-          helpReader: page.helpReader
-        }
-      }
-    },
-
     'a click': function (el, ev) {
       if (el.href && el.href.toLowerCase().indexOf('popup') === 0) {
         ev.preventDefault()
@@ -85,19 +58,24 @@ export default Component.extend({
           const pageName = el.href.replace('popup://', '').replace('POPUP://', '').replace('/', '') // pathname is not supported in FF and IE.
           const page = pages.find(pageName)
           const sourcePageName = vm.currentPage.name
+          console.log('pages', page)
 
           // piwik tracking of popups
           if (window._paq) {
             analytics.trackCustomEvent('Pop-Up', 'from: ' + sourcePageName, pageName)
           }
 
-          // popups only have text, textAudioURL possible values
+          // popups now have text, audio, video and their alt-text values
           // title (page.name) is more of internal descriptor for popups
           vm.appState.modalContent = {
             title: '',
             text: page.text,
+            imageURL: (page.helpImageURL || '').trim(),
             altText: page.helpAltText,
-            audioURL: (page.textAudioURL || '').trim()
+            mediaLabel: page.helpMediaLabel,
+            audioURL: (page.helpAudioURL || '').trim(),
+            videoURL: (page.helpVideoURL || '').trim(),
+            helpReader: page.helpReader
           }
         }
       } else { // external link
