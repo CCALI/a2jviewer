@@ -38,6 +38,12 @@ export const ModalVM = DefineMap.extend('ViewerModalVM', {
     }
   },
 
+  hasTextlongName: {
+    get () {
+      return this.modalContent && this.modalContent.textlongFieldVM && this.modalContent.textlongFieldVM.field && this.modalContent.textlongFieldVM.field.name
+    }
+  },
+
   availableLength: {
     get () {
       return this.modalContent && this.modalContent.textlongFieldVM.availableLength

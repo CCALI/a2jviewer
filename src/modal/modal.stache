@@ -11,7 +11,7 @@
     aria-labelledby="pageModalLbl"
   >
 
-    <div class="modal-dialog {{#if(modalContent.textlongFieldVM.field.name)}}modal-lg{{/if}}">
+    <div class="modal-dialog {{#if(hasTextlongName)}}modal-lg{{/if}}">
       <div class="modal-content">
         {{#if(modalContent)}}
         <div class="modal-header">
@@ -46,8 +46,8 @@
           </h4>
         </div>
 
-        <div class="modal-body {{#if(modalContent.iframeMarkup)}}has-iframe{{/if}} {{#if(modalContent.textlongFieldVM.field.name)}}has-textarea{{/if}}" tabindex="1">
-          {{#if(modalContent.textlongFieldVM.field.name)}}
+        <div class="modal-body {{#if(modalContent.iframeMarkup)}}has-iframe{{/if}} {{#if(hasTextlongName)}}has-textarea{{/if}}" tabindex="1">
+          {{#if(hasTextlongName)}}
             <textarea autofocus
               id="textlong-input"
               class="form-control expanded-textarea"
