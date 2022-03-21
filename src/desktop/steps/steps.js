@@ -449,7 +449,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
    */
   formatStepStyles (width) {
     return 'margin-right: ' + `-${Math.ceil(width * 0.1)}px;` +
-           'width: ' + `calc(0% + ${Math.ceil(width + (width * 0.3))}px);`
+      'width: ' + `calc(0% + ${Math.ceil(width + (width * 0.3))}px);`
   },
 
   /**
