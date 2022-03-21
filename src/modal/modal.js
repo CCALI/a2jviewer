@@ -10,7 +10,7 @@ import 'can-map-define'
 import 'lightbox2/dist/js/lightbox'
 import 'lightbox2/dist/css/lightbox.css'
 
-export let ModalVM = DefineMap.extend('ViewerModalVM', {
+export const ModalVM = DefineMap.extend('ViewerModalVM', {
   // passed in from app.stache
   logic: {},
   interview: {},
@@ -40,18 +40,18 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
 
   availableLength: {
     get () {
-      return this.modalContent.textlongFieldVM.availableLength
+      return this.modalContent && this.modalContent.textlongFieldVM.availableLength
     }
   },
 
   overCharacterLimit: {
     get () {
-      return this.modalContent.textlongFieldVM.overCharacterLimit
+      return this.modalContent && this.modalContent.textlongFieldVM.overCharacterLimit
     }
   },
 
   get allowFullscreen () {
-    return !!this.modalContent.allowFullscreen
+    return this.modalContent && !!this.modalContent.allowFullscreen
   },
 
   fullscreen: {
@@ -90,6 +90,9 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     if (this.triggeringElement) {
       this.triggeringElement.focus()
     }
+
+    // clear for next modal use
+    this.modalContent = null
   },
 
   pauseActivePlayers () {
@@ -172,8 +175,7 @@ export default Component.extend({
       }
     },
 
-    'a click': function (el, ev) {
-      // popup from within a popup
+    'a click': function (el, ev) { // launch popup from within a popup
       if (el.href && el.href.toLowerCase().indexOf('popup') === 0) {
         ev.preventDefault()
         const vm = this.viewModel
@@ -189,17 +191,17 @@ export default Component.extend({
             analytics.trackCustomEvent('Pop-Up', 'from: ' + sourcePageName, pageName)
           }
 
-          // popup content is only title, text, and textAudio
+          // popups now have text, audio, video and their alt-text values
           // but title is internal descriptor so set to empty string
           vm.modalContent.assign({
-            // undefined values prevent stache warnings
-            answerName: undefined,
             title: '',
             text: page.text,
-            imageURL: undefined,
-            mediaLabel: undefined,
-            audioURL: (page.textAudioURL || '').trim(),
-            videoURL: undefined
+            imageURL: (page.helpImageURL || '').trim(),
+            altText: page.helpAltText,
+            mediaLabel: page.helpMediaLabel,
+            audioURL: (page.helpAudioURL || '').trim(),
+            videoURL: (page.helpVideoURL || '').trim(),
+            helpReader: page.helpReader
           })
         }
       } else { // external link
