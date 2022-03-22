@@ -69,6 +69,7 @@ export default Component.extend({
           vm.appState.modalContent = {
             title: '',
             text: page.text,
+            textAudioURL: page.textAudioURL,
             imageURL: (page.helpImageURL || '').trim(),
             altText: page.helpAltText,
             mediaLabel: page.helpMediaLabel,

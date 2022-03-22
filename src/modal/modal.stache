@@ -61,6 +61,14 @@
               <iframe class="modal-iframe" iframemarkup="modalContent.iframeMarkup"></iframe>
             {{else}}
               {{{insertExternalLinkIcon(parseText(modalContent.text))}}}
+              {{#if(modalContent.textAudioURL)}}
+                <div class="modal-audio-wrapper">
+                  <audio-player
+                    class="modal-audio"
+                    sourceUrl:from="normalizePath(scope/mState.fileDataURL, modalContent.textAudioURL)"
+                  />
+                </div>
+              {{/if}}
             {{/if}}
 
             {{#if(modalContent.audioURL)}}

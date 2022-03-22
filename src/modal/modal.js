@@ -202,6 +202,7 @@ export default Component.extend({
           vm.modalContent.assign({
             title: '',
             text: page.text,
+            textAudioURL: page.textAudioURL,
             imageURL: (page.helpImageURL || '').trim(),
             altText: page.helpAltText,
             mediaLabel: page.helpMediaLabel,
