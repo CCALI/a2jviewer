@@ -155,5 +155,8 @@
     "steal-stache": "^4.1.5",
     "steal-tools": "^1.11.10",
     "testee": "^0.9.1"
+  },
+  "volta": {
+    "node": "16.14.2"
   }
 }
