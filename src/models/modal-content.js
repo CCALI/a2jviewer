@@ -8,22 +8,18 @@ export default DefineMap.extend('ModalContent', {
 
   // question text
   text: { default: '' },
-
   // audio recording of the question/popup text or supplemental audio
   textAudioURL: {default: ''},
 
   // summary or transcription of audio content
   mediaLabel: { default: '' },
-
   audioURL: { default: '' },
 
   imageURL: { default: '' },
-
-  // represents imageURL
+  // represents imageURL for screen readers
   altText: { default: '' },
 
   videoURL: { default: '' },
-
   // text transcript of video content
   helpReader: { default: '' },
 
