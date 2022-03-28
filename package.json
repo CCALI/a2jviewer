@@ -71,7 +71,7 @@
     }
   },
   "dependencies": {
-    "@caliorg/a2jdeps": "^7.1.0",
+    "@caliorg/a2jdeps": "^7.1.2",
     "bit-tabs": "^2.0.0",
     "blueimp-file-upload": "^9.10.1",
     "bootstrap": "^3.4.1",
@@ -157,6 +157,6 @@
     "testee": "^0.9.1"
   },
   "volta": {
-    "node": "16.13.1"
+    "node": "16.14.2"
   }
 }
