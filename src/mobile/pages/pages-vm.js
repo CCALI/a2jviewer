@@ -539,7 +539,7 @@ export default DefineMap.extend('PagesVM', {
       const traceMsg = {}
 
       switch (repeatVarSet) {
-        case constants.RepeatVarSetOne:
+        case constants.RepeatVarSetOne: {
           if (!logic.varExists(repeatVar)) {
             logic.varCreate(repeatVar, 'Number', false, 'Repeat variable index')
           }
@@ -548,14 +548,16 @@ export default DefineMap.extend('PagesVM', {
           traceMsg.key = repeatVar + '-0'
           traceMsg.fragments = [{ format: '', msg: 'Setting [' + repeatVar + '] to 1' }]
           break
+        }
 
-        case constants.RepeatVarSetPlusOne:
+        case constants.RepeatVarSetPlusOne: {
           const value = logic.varGet(repeatVar)
 
           logic.varSet(repeatVar, value + 1)
           traceMsg.key = repeatVar + '-' + value
           traceMsg.fragments = [{ format: '', msg: 'Incrementing [' + repeatVar + '] to ' + (value + 1) }]
           break
+        }
       }
 
       traceMessage.addMessage(traceMsg)

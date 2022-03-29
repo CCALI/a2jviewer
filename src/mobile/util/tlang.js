@@ -69,13 +69,13 @@ export default function (lang, makestr) {
 
       let e
       for (e in region) {
-        if (region.hasOwnProperty(e)) {
+        if (Object.prototype.hasOwnProperty.call(region, e)) {
           lang[e] = String(region[e])
         }
       }
       region = this.regional.en
       for (e in region) {
-        if (region.hasOwnProperty(e)) {
+        if (Object.prototype.hasOwnProperty.call(region, e)) {
           if (makestr(lang[e]) === '') {
             lang[e] = String(region[e])
             // traceAlert('Missing '+e+"="+lang[e]);

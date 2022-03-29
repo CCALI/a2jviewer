@@ -172,7 +172,6 @@ describe('<a2j-viewer-navigation>', function () {
         pages = interview.attr('pages')
         visited = canReflect.getKeyValue(appState, 'visitedPages')
         logic = new Logic({ interview })
-        vm = new ViewerNavigationVM({ appState, interview, lang, logic })
 
         const frag = stache(
           `<a2j-viewer-navigation interview:from="interview"

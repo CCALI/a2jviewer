@@ -130,7 +130,7 @@ export default DefineMap.extend('AnswerVM', {
         break
       case 'checkbox':
       case 'radio':
-      case 'checkboxNOTA':
+      case 'checkboxNOTA': {
         const fields = this.fields
         const index = this.answerIndex
         const varName = this.field.name
@@ -155,6 +155,7 @@ export default DefineMap.extend('AnswerVM', {
 
         invalid = validations.required()
         break
+      }
     }
 
     return invalid

@@ -215,9 +215,7 @@ $.fn.textfill = function (options) {
 
     // 2. Calculate which `font-size` would
     //    be best for the Width
-    let fontSizeWidth
-
-    fontSizeWidth = _sizing(
+    const fontSizeWidth = _sizing(
       'Width', ourText,
       $.fn.width, maxWidth,
       maxHeight, maxWidth,

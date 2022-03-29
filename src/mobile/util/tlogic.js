@@ -78,11 +78,13 @@ export default function (gGuide,
     result.add = false
     const csLines = CAJAScript.split(CONST.ScriptLineBreak)
     let l
+
     for (l = 0; l < csLines.length; l++) {
       const line = jQuery.trim(csLines[l]).split('//')[0]
       // TODO : handle Replacement of a page name inside GOTO.
-      var args
-      if ((args = line.match(REG.LOGIC_GOTO)) !== null) { // Goto named page (not an expression). We 'return' to avoid further processing which is A2J's designed behavior.
+      const args = line.match(REG.LOGIC_GOTO)
+
+      if (args !== null) { // Goto named page (not an expression). We 'return' to avoid further processing which is A2J's designed behavior.
         const pageName = args[1]
         if (pageName === findName) {
           result.add = true
@@ -139,8 +141,9 @@ export default function (gGuide,
     }
     for (l = 0; l < csLines.length; l++) {
       let line = this.removeTrailingComments(csLines[l])
-      var args
-      var js
+      let args
+      let js
+
       if (line !== '') {
         // SET var TO expression
         // SET var[index] TO expression
@@ -359,8 +362,10 @@ export default function (gGuide,
     // Handle items not in quotes
     js = js.split('"')
     let j
+    let jj
+
     for (j = 0; j < js.length; j += 2) {
-      var jj = js[j]
+      jj = js[j]
 
       // Strip out $ from $25,000 and inappropriate %%.
       jj = jj.replace(/\$|\%\%/gi, '') // eslint-disable-line
@@ -386,8 +391,8 @@ export default function (gGuide,
       //  A2J dates bracketed with # like VB
       //  #12/25/2012# converts to convertDate("12/25/2012")
       //  This is a deprecated syntax and will be removed (see _ED function)
-      var date = /#([\d|\/]+)#/gi // eslint-disable-line
-      jj = jj.replace(date, '$$2("$1")')
+      const dateRegEx = /#([\d|\/]+)#/gi // eslint-disable-line
+      jj = jj.replace(dateRegEx, '$$2("$1")')
 
       js[j] = jj
     }
@@ -400,8 +405,9 @@ export default function (gGuide,
 
       // A2J allows commas in numbers for clarity
       //  25,000.25 converts to 25000.25
-      var vn = /(\d[\d|\,]+)/gi // eslint-disable-line
-      jj = jj.replace(vn, removeCommaFunc) // function(s){return s.replace(",","");});
+      const vnRegEx = /(\d[\d|\,]+)/gi // eslint-disable-line
+
+      jj = jj.replace(vnRegEx, removeCommaFunc) // function(s){return s.replace(",","");});
 
       //  A2J uses IS, AND, OR and NOT while JS uses ==, &&, || and !
       jj = jj.replace(/\band\b/gi, '&&')
@@ -442,10 +448,10 @@ export default function (gGuide,
       js[j] = jj
     }
     js = js.join('"')
-    // Build function to find syntax errors
+
     try {
-      var f = (new Function(js)) // eslint-disable-line
-      f = null
+      // Build function to find syntax errors
+      new Function(js) // eslint-disable-line
     } catch (localTCE) { // Attempt to convert JS errors into A2J errors.
       if (localTCE.message === 'missing ; before statement') {
         localTCE.message = 'syntax error'

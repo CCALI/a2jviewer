@@ -109,13 +109,14 @@ export const NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
           traceMsg.fragments = [{ format: '', msg: 'Setting [' + repeatVar + '] to 1' }]
           break
 
-        case constants.RepeatVarSetPlusOne:
+        case constants.RepeatVarSetPlusOne: {
           const value = logic.varGet(repeatVar)
 
           logic.varSet(repeatVar, value + 1)
           traceMsg.key = repeatVar + '-' + value
           traceMsg.fragments = [{ format: '', msg: 'Incrementing [' + repeatVar + '] to ' + (value + 1) }]
           break
+        }
       }
 
       traceMessage.addMessage(traceMsg)
