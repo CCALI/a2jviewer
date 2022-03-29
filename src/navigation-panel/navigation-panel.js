@@ -10,7 +10,7 @@ import constants from '~/src/models/constants'
  *
  * `<navigation-panel>`'s viewModel.
  */
-export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
+export const NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
   // passed in view debug-panel.stache
   appState: {},
 

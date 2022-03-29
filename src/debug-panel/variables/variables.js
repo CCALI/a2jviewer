@@ -4,7 +4,7 @@ import Component from 'can-component'
 import template from './variables.stache'
 import parser from '@caliorg/a2jdeps/utils/parser'
 
-let VariablesTableVM = DefineMap.extend('VariablesTableVM', {
+const VariablesTableVM = DefineMap.extend('VariablesTableVM', {
   // passed in from debug-panel.stache
   interview: {},
   variables: {},
@@ -35,27 +35,27 @@ export default Component.extend({
 
     '#viewer-var-filter keyup': function () {
       const $el = $(this.element)
-      let $input = $el.find('#viewer-var-filter')
-      let filter = $input.val().toLowerCase()
+      const $input = $el.find('#viewer-var-filter')
+      const filter = $input.val().toLowerCase()
 
       $el.find('tbody tr').each(function () {
-        let $row = $(this)
-        let rowText = $row.text().toLowerCase()
+        const $row = $(this)
+        const rowText = $row.text().toLowerCase()
         $row.toggle(rowText.indexOf(filter) !== -1)
       })
     },
 
     // Browse for answer file on local desktop to upload to client (no server).
     '#uploadAnswerFileInput change': function () {
-      let textTypeRegex = /text.*/
-      let interview = this.viewModel.interview
-      let $fileInput = $(this.element).find('#uploadAnswerFileInput')
+      const textTypeRegex = /text.*/
+      const interview = this.viewModel.interview
+      const $fileInput = $(this.element).find('#uploadAnswerFileInput')
 
-      let file = $fileInput.get(0).files[0]
-      let vars = interview.attr('vars').attr()
+      const file = $fileInput.get(0).files[0]
+      const vars = interview.attr('vars').attr()
 
       if (file && (file.type === '' || file.type.match(textTypeRegex))) {
-        let reader = new window.FileReader()
+        const reader = new window.FileReader()
 
         reader.onload = () => {
           const answers = parser.parseJSON(reader.result, vars)

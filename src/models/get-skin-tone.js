@@ -1,8 +1,8 @@
-let dark = 'dark'
-let darker = 'darker'
-let lighter = 'lighter'
+const dark = 'dark'
+const darker = 'darker'
+const lighter = 'lighter'
 
-let tonesMap = {
+const tonesMap = {
   tan: dark,
   tan2: darker,
   blank: lighter,

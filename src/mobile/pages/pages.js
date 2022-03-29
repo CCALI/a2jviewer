@@ -40,7 +40,7 @@ export default Component.extend({
 
   helpers: {
     getButtonLabel (label) {
-      return label || this.lang['Continue']
+      return label || this.lang.Continue
     },
     trim (str) {
       return (str || '').trim()

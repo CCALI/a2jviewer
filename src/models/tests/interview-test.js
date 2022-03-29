@@ -50,7 +50,7 @@ describe('Interview model', function () {
     })
 
     it('is not serialized', function () {
-      let serialized = interview.serialize()
+      const serialized = interview.serialize()
       assert.notProperty(serialized, 'guideAvatarGender')
     })
 
@@ -75,12 +75,12 @@ describe('Interview model', function () {
     })
 
     it('is not serialized', function () {
-      let serialized = interview.serialize()
+      const serialized = interview.serialize()
       assert.notProperty(serialized, 'avatarGender')
     })
 
     it('computes its value from the answer of the "user gender" variable', function () {
-      let answers = interview.attr('answers')
+      const answers = interview.attr('answers')
 
       assert.notProperty(answers.serialize(), 'user gender', 'interview has no "user gender" variable')
       assert.isUndefined(interview.attr('avatarGender'))
@@ -98,7 +98,7 @@ describe('Interview model', function () {
   })
 
   it('filters out steps with no pages', function () {
-    let parsedData = Interview.parseModel({
+    const parsedData = Interview.parseModel({
       pages: {
         'page-1': { step: 0 },
         'page-2': { step: 0 },
@@ -111,8 +111,8 @@ describe('Interview model', function () {
       ]
     })
 
-    let interview = new Interview(parsedData)
-    let steps = interview.attr('steps')
+    const interview = new Interview(parsedData)
+    const steps = interview.attr('steps')
 
     assert.equal(steps.attr('length'), 2,
       '"Step 2" has not pages so it should not be included')
@@ -122,11 +122,11 @@ describe('Interview model', function () {
   })
 
   it('variablesList', () => {
-    let interview = new Interview()
+    const interview = new Interview()
     interview.attr('vars', {
-      'var a': { name: 'var a', repeating: true, values: [ null ] },
-      'var b': { name: 'var b', repeating: true, values: [ null ] },
-      'var c': { name: 'var c', repeating: false, values: [ null ] }
+      'var a': { name: 'var a', repeating: true, values: [null] },
+      'var b': { name: 'var b', repeating: true, values: [null] },
+      'var c': { name: 'var c', repeating: false, values: [null] }
     })
 
     assert.deepEqual(interview.attr('variablesList').attr(), [
@@ -136,9 +136,9 @@ describe('Interview model', function () {
     ], 'should set value to null when values is [ null ]')
 
     interview.attr('vars', {
-      'var a': { name: 'var a', repeating: true, values: [ null, 'foo' ] },
-      'var b': { name: 'var b', repeating: true, values: [ null, 'bar' ] },
-      'var c': { name: 'var c', repeating: false, values: [ null, 'non-repeating' ] }
+      'var a': { name: 'var a', repeating: true, values: [null, 'foo'] },
+      'var b': { name: 'var b', repeating: true, values: [null, 'bar'] },
+      'var c': { name: 'var c', repeating: false, values: [null, 'non-repeating'] }
     })
 
     assert.deepEqual(interview.attr('variablesList').attr(), [
@@ -148,9 +148,9 @@ describe('Interview model', function () {
     ], 'should set value to "foo" when values is [ null, "foo" ]')
 
     interview.attr('vars', {
-      'var a': { name: 'var a', repeating: true, values: [ null, 'foo', 'baz' ] },
-      'var b': { name: 'var b', repeating: true, values: [ null, 'bar', 'zed' ] },
-      'var c': { name: 'var c', repeating: false, values: [ null, 'non-repeating' ] }
+      'var a': { name: 'var a', repeating: true, values: [null, 'foo', 'baz'] },
+      'var b': { name: 'var b', repeating: true, values: [null, 'bar', 'zed'] },
+      'var c': { name: 'var c', repeating: false, values: [null, 'non-repeating'] }
     })
 
     assert.deepEqual(interview.attr('variablesList').attr(), [
@@ -167,7 +167,7 @@ describe('Interview model', function () {
 
     beforeEach(function () {
       interview = new Interview()
-      let answers = new Answers({
+      const answers = new Answers({
         name: {
           comment: '',
           name: 'Name',
@@ -200,21 +200,21 @@ describe('Interview model', function () {
     })
 
     it('clears repeating answers', function () {
-      let answers = interview.attr('answers')
+      const answers = interview.attr('answers')
       interview.clearAnswers()
 
-      let salary = answers['salary']
-      let values = salary.values
+      const salary = answers.salary
+      const values = salary.values
       assert.equal(values.length, 1)
       assert.equal(values[0], null)
     })
 
     it('clears all answers', function () {
-      let answers = interview.attr('answers')
+      const answers = interview.attr('answers')
       interview.clearAnswers()
 
       answers.forEach(function (answer) {
-        let values = answer.values
+        const values = answer.values
         if (values) { // skip answers without values prop
           assert.equal(values.length, 1)
           assert.equal(values[0], null)
@@ -223,10 +223,10 @@ describe('Interview model', function () {
     })
 
     it('does nothing if values array not on answer', function () {
-      let answers = interview.attr('answers')
+      const answers = interview.attr('answers')
       interview.clearAnswers()
 
-      let lang = answers['lang']
+      const lang = answers.lang
       assert.notProperty(lang, 'values', 'no values array added to lang')
     })
   })

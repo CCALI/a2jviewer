@@ -9,7 +9,7 @@ describe('TraceMessage Model', () => {
 
   beforeEach(() => {
     traceMessage = new TraceMessage()
-    testMessage = { key: 'num', fragments: [ {format: 'var', msg: 'num'}, {format: '', msg: ' = '}, {format: 'val', msg: '5'} ] }
+    testMessage = { key: 'num', fragments: [{ format: 'var', msg: 'num' }, { format: '', msg: ' = ' }, { format: 'val', msg: '5' }] }
   })
 
   afterEach(() => {
@@ -21,7 +21,7 @@ describe('TraceMessage Model', () => {
     // emulate page navigation mapping messages to currentPageName
     traceMessage.currentPageName = 'Intro'
 
-    const logItem = traceMessage.messageLog['Intro']
+    const logItem = traceMessage.messageLog.Intro
     assert.equal(logItem instanceof LogItem, true, 'messageLog items should be instance of LogItem Map')
 
     const pageMessages = logItem.messages
@@ -33,8 +33,8 @@ describe('TraceMessage Model', () => {
     traceMessage.currentPageName = 'Intro'
     traceMessage.addMessage(testMessage)
 
-    const pageMessages = traceMessage.messageLog['Intro'].messages
-    const addedMessage = pageMessages['num']
+    const pageMessages = traceMessage.messageLog.Intro.messages
+    const addedMessage = pageMessages.num
 
     // test for nested Types
     assert.equal(addedMessage instanceof Message, true, 'added message should be instance of Message')
@@ -56,8 +56,8 @@ describe('TraceMessage Model', () => {
 
     traceMessage.clearMessageLog()
 
-    assert.equal(traceMessage.messageLog['Intro'], undefined, 'Intro key should be gone/undefined')
-    assert.equal(traceMessage.messageLog['Name'] instanceof LogItem, true, 'Name key should be still there and an instance of LogItem')
+    assert.equal(traceMessage.messageLog.Intro, undefined, 'Intro key should be gone/undefined')
+    assert.equal(traceMessage.messageLog.Name instanceof LogItem, true, 'Name key should be still there and an instance of LogItem')
   })
 
   it('newMessageLog', () => {

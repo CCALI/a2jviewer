@@ -53,7 +53,7 @@ const guideProperties = [
 
 function parseButtons (pageButtons = []) {
   return pageButtons.map(function (button) {
-    let result = _pick(button, buttonProperties)
+    const result = _pick(button, buttonProperties)
 
     return result
   })
@@ -61,7 +61,7 @@ function parseButtons (pageButtons = []) {
 
 function parseFields (pageFields = []) {
   return pageFields.map(function (field) {
-    let result = _pick(field, fieldProperties)
+    const result = _pick(field, fieldProperties)
 
     // make sure `required` and `calculator` are boolean values
     result.required = Boolean(result.required)
@@ -92,13 +92,13 @@ function parseSteps (guideSteps = []) {
 }
 
 function parseVars (guideVars = {}) {
-  let result = {}
+  const result = {}
 
   Object.keys(guideVars).forEach(function (key) {
-    let variable = guideVars[key]
+    const variable = guideVars[key]
 
     // 2015-01-12 mobile needs variaable keys in lowercase
-    let lowerCasedName = variable.name.toLowerCase()
+    const lowerCasedName = variable.name.toLowerCase()
 
     result[lowerCasedName] = {
       name: variable.name,
@@ -112,13 +112,13 @@ function parseVars (guideVars = {}) {
 }
 
 function parsePages (guidePages = {}) {
-  let result = {}
+  const result = {}
 
   // 12/22/2014 Convert native TPage into Mobile JSON format.
   // Include only properties used by viewer, dropping internal pointers/cyclic references.
   Object.keys(guidePages).forEach(function (key) {
-    let page = guidePages[key]
-    let mobilePage = _pick(page, pageProperties)
+    const page = guidePages[key]
+    const mobilePage = _pick(page, pageProperties)
 
     mobilePage.buttons = parseButtons(page.buttons)
     mobilePage.fields = parseFields(page.fields)
@@ -132,7 +132,7 @@ function parsePages (guidePages = {}) {
 // 12/22/2014 Convert internal Guide structure into Mobile JSON format.
 // Drop internal references and cyclic pointers.
 export default function parseGuide (guide) {
-  var mobileGuide = _pick(guide, guideProperties)
+  const mobileGuide = _pick(guide, guideProperties)
 
   mobileGuide.authors = parseAuthors(guide.authors)
   mobileGuide.steps = parseSteps(guide.steps)

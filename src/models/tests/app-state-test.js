@@ -22,7 +22,7 @@ describe('AppState', function () {
   let appStateTeardown
 
   beforeEach(function (done) {
-    let promise = Interview.findOne({ url: '/interview.json' })
+    const promise = Interview.findOne({ url: '/interview.json' })
 
     promise.then(function (_interview) {
       interview = _interview

@@ -25,9 +25,11 @@ const Page = DefineMap.extend('Page Model', {
     get () {
       const buttons = this.buttons
 
-      return buttons && buttons.length > 0 ? buttons.some(button => {
-        return button.next === constants.qIDASSEMBLE || button.next === constants.qIDASSEMBLESUCCESS
-      }) : false
+      return buttons && buttons.length > 0
+        ? buttons.some(button => {
+            return button.next === constants.qIDASSEMBLE || button.next === constants.qIDASSEMBLESUCCESS
+          })
+        : false
     }
   },
 
@@ -36,10 +38,10 @@ const Page = DefineMap.extend('Page Model', {
     serialize: false,
 
     get () {
-      let fields = this.fields
+      const fields = this.fields
 
       return !!_find(fields, function (field) {
-        let fieldName = field.name.toLowerCase()
+        const fieldName = field.name.toLowerCase()
         return fieldName === 'user gender' || fieldName === 'user avatar'
       })
     }

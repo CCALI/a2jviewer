@@ -5,7 +5,7 @@ import 'steal-mocha'
 
 describe('infinite module', function () {
   it('infinite errors', function () {
-    let inf = new Infinite()
+    const inf = new Infinite()
 
     for (let i = 0; i < 101; i += 1) {
       inf.inc()

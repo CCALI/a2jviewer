@@ -14,12 +14,12 @@ describe('normalizePath', function () {
   })
 
   it('keeps urls', function () {
-    let url = 'http://some/folder/file.xxx'
+    const url = 'http://some/folder/file.xxx'
     assert.equal(normalizePath(pathToGuide, url), url)
   })
 
   it('keeps fully qualified guide path', function () {
-    let file = 'buds.jpg'
+    const file = 'buds.jpg'
     assert.equal(normalizePath(fullyQualifiedPathToGuide, file), 'http://www.cali.org/userfiles/user/guide/buds.jpg')
   })
 

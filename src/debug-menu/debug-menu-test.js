@@ -23,14 +23,14 @@ describe('<debug-panel>', () => {
     }
 
     it('fillPageSample', (done) => {
-      const appState = new AppState({page: 'testPage'})
+      const appState = new AppState({ page: 'testPage' })
       const vm = render({ appState })
       appState.traceMessage.currentPageName = 'Test Page'
 
       const fieldModel = new FieldModel({ name: 'someName', type: 'text', sample: 'foo' })
       fieldModel._answerVm = new AnswerVM({ field: fieldModel, answer: fieldModel.emptyAnswer })
 
-      const fields = [ fieldModel ]
+      const fields = [fieldModel]
       const fieldsTpl = stache('<a2j-fields appState:from="appState" fields:from="fields" />')
       document.querySelector('#test-area').appendChild(fieldsTpl({ appState, fields }))
 
@@ -38,7 +38,7 @@ describe('<debug-panel>', () => {
 
       setTimeout(() => {
         vm.fillPageSample()
-        let answerValue = fieldEl.querySelector('input').value
+        const answerValue = fieldEl.querySelector('input').value
         assert.equal(answerValue, 'foo', 'should fill in field with sample value')
         done()
       })
@@ -53,7 +53,7 @@ describe('<debug-panel>', () => {
       const fieldModel = new FieldModel({ name: 'someName', type: 'datemdy', sample: '02/02/1992', label: 'date' })
       fieldModel._answerVm = new AnswerVM({ field: fieldModel, answer: fieldModel.emptyAnswer })
 
-      const fields = [ fieldModel ]
+      const fields = [fieldModel]
       const fieldsTpl = stache('<a2j-fields appState:from="appState" fields:from="fields" />')
       document.querySelector('#test-area').appendChild(fieldsTpl({ appState, fields }))
 

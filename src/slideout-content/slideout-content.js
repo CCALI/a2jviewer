@@ -8,7 +8,7 @@ import template from './slideout-content.stache'
  *
  * `<slideout-content>`'s viewModel.
  */
-export let SlideoutContentVM = DefineMap.extend('SlideoutContentVM', {
+export const SlideoutContentVM = DefineMap.extend('SlideoutContentVM', {
   appState: {}
 })
 

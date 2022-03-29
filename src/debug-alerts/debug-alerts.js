@@ -43,7 +43,7 @@ const DebugAlerts = DefineMap.extend('DebugAlerts', {
    */
   messagesCount: {
     get () {
-      let messages = this.alertMessages
+      const messages = this.alertMessages
 
       return messages
         .filter(m => m.open)
@@ -59,8 +59,8 @@ export default Component.extend({
 
   events: {
     '.btn-dismiss click': function () {
-      let $el = $(this.element)
-      let vm = this.viewModel
+      const $el = $(this.element)
+      const vm = this.viewModel
 
       $el.slideUp('slow', function () {
         vm.alertMessages.update([])

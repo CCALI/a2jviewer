@@ -41,7 +41,7 @@ export default DefineMap.extend('AnswersModel', { seal: false }, {
   },
 
   varGet: function (varName, varIndex, opts) {
-    let varAnswerModel = this.varExists(varName)
+    const varAnswerModel = this.varExists(varName)
 
     if (!varAnswerModel) return undefined
 

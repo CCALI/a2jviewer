@@ -15,7 +15,7 @@ export const normalizePathHelper = function (fileDataUrl, path) {
 export const insertExternalLinkIconHelper = function (html) {
   const hrefMatch = /(<a href="(?!POPUP:))(.*?)(?=<\/a)/gi
   const output = html && html.replace(hrefMatch, (match) => {
-    return match + ` <span class="glyphicon-link-ext" aria-hidden="true"/>`
+    return match + ' <span class="glyphicon-link-ext" aria-hidden="true"/>'
   })
   return output
 }
@@ -31,7 +31,7 @@ export const truncateTextHelper = function (text, maxChars, overflowText) {
   maxChars = maxChars || 50
   overflowText = overflowText || '...'
 
-  let returnValue = _truncate(text, {
+  const returnValue = _truncate(text, {
     length: maxChars,
     separator: ' ',
     omission: overflowText
@@ -56,14 +56,14 @@ route.bindings.hashchange.setURL = function (path) {
 // http://james.padolsey.com/javascript/regex-selector-for-jquery/
 // Used for finding case-insensitive popup:// signatures
 $.expr[':'].regex = function (elem, index, match) {
-  let matchParams = match[3].split(',')
-  let validLabels = /^(data|css):/
-  let attr = {
+  const matchParams = match[3].split(',')
+  const validLabels = /^(data|css):/
+  const attr = {
     method: matchParams[0].match(validLabels) ? matchParams[0].split(':')[0] : 'attr',
     property: matchParams.shift().replace(validLabels, '')
   }
-  let regexFlags = 'ig'
-  let regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g, ''), regexFlags)
+  const regexFlags = 'ig'
+  const regex = new RegExp(matchParams.join('').replace(/^\s+|\s+$/g, ''), regexFlags)
 
   return regex.test($(elem)[attr.method](attr.property))
 }

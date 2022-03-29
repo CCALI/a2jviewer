@@ -7,7 +7,7 @@ export default DefineMap.extend({
 },
 {
   init: function (id) {
-    var o = {}
+    const o = {}
 
     TLang(o, cString.makestr.bind(cString)).set(id)
     return this.assign(o)

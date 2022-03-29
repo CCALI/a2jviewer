@@ -45,15 +45,15 @@ export const analytics = {
 
 function handleHashChanges () {
   // this code is for tracking single page hash changes as page changes
-  var currentUrl = window.location.href
+  let currentUrl = window.location.href
   window.addEventListener('hashchange', function () {
     window._paq.push(['setReferrerUrl', currentUrl])
     currentUrl = window.location.href
     // this can fine tuned with window.location.hash.(indexOf('page/')) + 5 to get the simple page name
-    var hostName = window.location.hostname
-    var pageHash = window.location.hash
-    var searchStr = 'page/'
-    var pageName = pageHash ? pageHash.substr(pageHash.indexOf(searchStr) + 5) : 'unnamed page'
+    const hostName = window.location.hostname
+    const pageHash = window.location.hash
+    const searchStr = 'page/'
+    const pageName = pageHash ? pageHash.substr(pageHash.indexOf(searchStr) + 5) : 'unnamed page'
     window._paq.push(['setDocumentTitle', hostName + ': ' + pageName])
 
     window._paq.push(['setPagePerformanceTiming', 0])
@@ -64,9 +64,9 @@ function handleHashChanges () {
 function generatePiwikScriptTag (dashboardUrl, siteId) {
   window._paq.push(['setTrackerUrl', dashboardUrl + 'piwik.php'])
   window._paq.push(['setSiteId', siteId])
-  var d = document
-  var g = d.createElement('script')
-  var s = d.getElementsByTagName('script')[0]
+  const d = document
+  const g = d.createElement('script')
+  const s = d.getElementsByTagName('script')[0]
   g.type = 'text/javascript'
   g.async = true
   g.defer = true

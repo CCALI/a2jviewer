@@ -5,13 +5,13 @@ import 'steal-mocha'
 describe('helpers module', function () {
   describe('insertExternalLinkIconHelper', function () {
     it('adds span with glyphicon icon to external links', () => {
-      const questionHTML = `text before the link <a href="http:www.bitovi.com>Bitovi.com</a>`
+      const questionHTML = 'text before the link <a href="http:www.bitovi.com>Bitovi.com</a>'
       const outputHTML = insertExternalLinkIconHelper(questionHTML)
       assert.equal(outputHTML, 'text before the link <a href="http:www.bitovi.com>Bitovi.com <span class="glyphicon-link-ext" aria-hidden="true"/></a>', 'should add span for external link icon from fontello')
     })
 
     it('does not add span with internal popup links', () => {
-      const questionHTML = `<a href="POPUP://somePopup">popup text</a>`
+      const questionHTML = '<a href="POPUP://somePopup">popup text</a>'
       const outputHTML = insertExternalLinkIconHelper(questionHTML)
       assert.equal(outputHTML, questionHTML, 'should not add span for internal popup links')
     })
@@ -58,12 +58,12 @@ describe('helpers module', function () {
     })
 
     it('keeps urls', function () {
-      let url = 'http://some/folder/file.xxx'
+      const url = 'http://some/folder/file.xxx'
       assert.equal(normalizePathHelper(pathToGuide, url), url)
     })
 
     it('keeps fully qualified guide path', function () {
-      let file = 'buds.jpg'
+      const file = 'buds.jpg'
       assert.equal(normalizePathHelper(fullyQualifiedPathToGuide, file), 'http://www.cali.org/userfiles/user/guide/buds.jpg')
     })
 
@@ -77,7 +77,7 @@ describe('helpers module', function () {
   })
   describe('truncateTextHelper', function () {
     it('truncates to last complete text', () => {
-      let text = 'slightly longer text with a space as the 51st char that gets truncated'
+      const text = 'slightly longer text with a space as the 51st char that gets truncated'
       assert.equal(
         truncateTextHelper(text, null),
         'slightly longer text with a space as the 51st...',
@@ -85,7 +85,7 @@ describe('helpers module', function () {
       )
     })
     it('does not change shorter text unless length specified', function () {
-      let text = 'Short text'
+      const text = 'Short text'
       assert.equal(truncateTextHelper(text, 5), 'Sh...', 'Should truncate to 5 characters')
       assert.equal(truncateTextHelper(text), 'Short text', 'Should not change the text')
     })

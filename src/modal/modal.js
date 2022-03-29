@@ -10,7 +10,7 @@ import 'can-map-define'
 import 'lightbox2/dist/js/lightbox'
 import 'lightbox2/dist/css/lightbox.css'
 
-export let ModalVM = DefineMap.extend('ViewerModalVM', {
+export const ModalVM = DefineMap.extend('ViewerModalVM', {
   // passed in from app.stache
   logic: {},
   interview: {},

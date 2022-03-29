@@ -70,7 +70,7 @@ export const ViewerPreviewVM = CanMap.extend('ViewerPreviewVM', {
       answers.assign(interview.serialize().vars)
     }
 
-    answers['lang'] = lang
+    answers.lang = lang
     interview.attr('answers', answers)
 
     appState.interview = interview

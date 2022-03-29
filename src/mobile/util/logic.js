@@ -27,12 +27,12 @@ export default CanMap.extend({
   init: function () {
     this.guide = this.attr('interview').createGuide()
 
-    let stringMethods = ['ismdy', 'decodeEntities', 'escapeHtml', 'jquote', 'isNumber']
+    const stringMethods = ['ismdy', 'decodeEntities', 'escapeHtml', 'jquote', 'isNumber']
 
-    let dateMethods = ['swapMonthAndDay', 'dateToString', 'dateToDays', 'daysToDate', 'todaysDate', 'dateDiff']
+    const dateMethods = ['swapMonthAndDay', 'dateToString', 'dateToDays', 'daysToDate', 'todaysDate', 'dateDiff']
 
-    let traceMethods = ['traceTag']
-    let methods = [this.guide, regex, constants]
+    const traceMethods = ['traceTag']
+    const methods = [this.guide, regex, constants]
 
     _forEach(stringMethods, function (fn) {
       methods.push(cString[fn].bind(cString))
@@ -57,12 +57,12 @@ export default CanMap.extend({
     window.gLogic = this._tLogic
 
     // Exposed `lang` is required in mobile/util/tlogic.js
-    var langID = this.attr('interview').language
+    const langID = this.attr('interview').language
     window.lang = new Lang(langID)
   },
 
   eval: function (str) {
-    var output = this._tLogic.evalLogicHTML(str)
+    const output = this._tLogic.evalLogicHTML(str)
 
     return output.html
   },

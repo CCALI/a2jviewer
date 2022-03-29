@@ -37,7 +37,7 @@ import 'can-map-define'
 
 function getInterviewPath (url) {
   if (_isString(url) && url.length) {
-    let parts = url.split('/')
+    const parts = url.split('/')
 
     // drop the interview filename
     parts.pop()
@@ -48,13 +48,13 @@ function getInterviewPath (url) {
 
 const Interview = Model.extend('InterviewModel', {
   findOne (data, success, error) {
-    let dfd = $.Deferred()
+    const dfd = $.Deferred()
     setupPromise(dfd)
-    let resumeDfd = $.Deferred()
+    const resumeDfd = $.Deferred()
     setupPromise(resumeDfd)
-    let interviewPath = getInterviewPath(data.url)
+    const interviewPath = getInterviewPath(data.url)
 
-    let interviewDfd = canAjax({
+    const interviewDfd = canAjax({
       url: data.url
     })
 
@@ -65,7 +65,7 @@ const Interview = Model.extend('InterviewModel', {
           dataType: 'text'
         })
           .then(function (anx) {
-            var vars = parser.parseJSON(anx, interview.vars)
+            const vars = parser.parseJSON(anx, interview.vars)
             interview.vars = vars
 
             resumeDfd.resolve(interview)
@@ -142,7 +142,7 @@ const Interview = Model.extend('InterviewModel', {
       serialize: false,
       value: 'female',
       get () {
-        let gender = this.attr('guideGender') || ''
+        const gender = this.attr('guideGender') || ''
         return gender.toLowerCase() === 'male' ? 'male' : 'female'
       }
     },
@@ -230,15 +230,15 @@ const Interview = Model.extend('InterviewModel', {
       serialize: false,
 
       get () {
-        let list = []
-        let answers = this.attr('answers')
-        let vars = this.attr('vars').attr()
+        const list = []
+        const answers = this.attr('answers')
+        const vars = this.attr('vars').attr()
 
         _keys(vars).forEach(function (key) {
-          let variable = vars[key]
-          let answer = answers[key.toLowerCase()]
+          const variable = vars[key]
+          const answer = answers[key.toLowerCase()]
 
-          let values = answer ? answer.values : variable.values
+          const values = answer ? answer.values : variable.values
 
           if (!variable.repeating) {
             // handle [ null ] or [ null, "foo" ] scenarios
@@ -288,7 +288,7 @@ const Interview = Model.extend('InterviewModel', {
   },
 
   createGuide () {
-    var answers = this.attr('answers')
+    const answers = this.attr('answers')
 
     return {
       pages: this._pages,
@@ -300,7 +300,7 @@ const Interview = Model.extend('InterviewModel', {
   },
 
   getPageByName (name) {
-    let pages = this.attr('pages')
+    const pages = this.attr('pages')
 
     return _find(pages, function (page) {
       return page.name === name

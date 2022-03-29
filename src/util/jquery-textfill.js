@@ -19,7 +19,7 @@ $.fn.textfill = function (options) {
   //
   // Merging user options with the default values
 
-  var defaults = {
+  const defaults = {
     debug: false,
     maxFontPixels: 40,
     minFontPixels: 4,
@@ -34,7 +34,7 @@ $.fn.textfill = function (options) {
     changeLineHeight: false
   }
 
-  var Opts = $.extend(defaults, options)
+  const Opts = $.extend(defaults, options)
 
   // _______ _     _ __   _ _______ _______ _____  _____  __   _ _______
   // |______ |     | | \  | |          |      |   |     | | \  | |______
@@ -66,7 +66,7 @@ $.fn.textfill = function (options) {
   // of the font.
   function _debugSizing (prefix, ourText, maxHeight, maxWidth, minFontPixels, maxFontPixels) {
     function _m (v1, v2) {
-      var marker = ' / '
+      let marker = ' / '
 
       if (v1 > v2) { marker = ' > ' } else if (v1 === v2) { marker = ' = ' }
 
@@ -130,7 +130,7 @@ $.fn.textfill = function (options) {
     //
 
     while (minFontPixels < (maxFontPixels - 1)) {
-      var fontSize = Math.floor((minFontPixels + maxFontPixels) / 2)
+      const fontSize = Math.floor((minFontPixels + maxFontPixels) / 2)
       ourText.css('font-size', fontSize)
 
       if (func.call(ourText) <= max) {
@@ -171,16 +171,16 @@ $.fn.textfill = function (options) {
   this.each(function () {
     // Contains the child element we will resize.
     // $(this) means the parent container
-    var ourText = $(Opts.innerTag + ':visible:first', this)
+    const ourText = $(Opts.innerTag + ':visible:first', this)
 
     // Will resize to this dimensions.
     // Use explicit dimensions when specified
-    var maxHeight = Opts.explicitHeight || $(this).height()
-    var maxWidth = Opts.explicitWidth || $(this).width()
+    const maxHeight = Opts.explicitHeight || $(this).height()
+    const maxWidth = Opts.explicitWidth || $(this).width()
 
-    var oldFontSize = ourText.css('font-size')
+    const oldFontSize = ourText.css('font-size')
 
-    var lineHeight = parseFloat(ourText.css('line-height')) / parseFloat(oldFontSize)
+    const lineHeight = parseFloat(ourText.css('line-height')) / parseFloat(oldFontSize)
 
     _debug('[TextFill] Inner text: ' + ourText.text())
     _debug('[TextFill] All options: ', Opts)
@@ -189,12 +189,12 @@ $.fn.textfill = function (options) {
          'Width: ' + maxWidth + 'px' + ' }'
     )
 
-    var minFontPixels = Opts.minFontPixels
+    const minFontPixels = Opts.minFontPixels
 
     // Remember, if this `maxFontPixels` is negative,
     // the text will resize to as long as the container
     // can accomodate
-    var maxFontPixels = (Opts.maxFontPixels <= 0
+    const maxFontPixels = (Opts.maxFontPixels <= 0
       ? maxHeight
       : Opts.maxFontPixels)
 
@@ -202,7 +202,7 @@ $.fn.textfill = function (options) {
 
     // 1. Calculate which `font-size` would
     //    be best for the Height
-    var fontSizeHeight
+    let fontSizeHeight
 
     if (!Opts.widthOnly) {
       fontSizeHeight = _sizing(
@@ -215,7 +215,7 @@ $.fn.textfill = function (options) {
 
     // 2. Calculate which `font-size` would
     //    be best for the Width
-    var fontSizeWidth
+    let fontSizeWidth
 
     fontSizeWidth = _sizing(
       'Width', ourText,
@@ -239,7 +239,7 @@ $.fn.textfill = function (options) {
         )
       }
     } else {
-      var fontSizeFinal = Math.min(fontSizeHeight, fontSizeWidth)
+      const fontSizeFinal = Math.min(fontSizeHeight, fontSizeWidth)
 
       ourText.css('font-size', fontSizeFinal)
 

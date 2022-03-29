@@ -8,8 +8,8 @@ export default Control.extend({
   },
 
   _calc: function () {
-    let offset = $(this.element).offset()
-    let height = $(window).height() - offset.top
+    const offset = $(this.element).offset()
+    const height = $(window).height() - offset.top
 
     $(this.element).height(height)
   },

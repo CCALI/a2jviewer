@@ -258,14 +258,14 @@ export default DefineMap.extend('PagesVM', {
   },
 
   fireCodeBefore (currentPage, logic) {
-    let preGotoPage = this.logic.attr('gotoPage')
+    const preGotoPage = this.logic.attr('gotoPage')
 
     // batching here for performance reasons due to codeBefore string parsing
     queues.batch.start()
     logic.exec(currentPage.codeBefore)
     queues.batch.stop()
 
-    let postGotoPage = this.logic.attr('gotoPage')
+    const postGotoPage = this.logic.attr('gotoPage')
 
     // if preGotoPage does not match postGotoPage, codeBefore fired an A2J GOTO logic
     return preGotoPage !== postGotoPage ? postGotoPage : false
@@ -419,7 +419,7 @@ export default DefineMap.extend('PagesVM', {
     // Author can provide an external URL to explain why user did not qualify/failed out
     vm.setInterviewAsComplete()
     let failURL = button.url.toLowerCase()
-    let hasProtocol = failURL.indexOf('http') === 0
+    const hasProtocol = failURL.indexOf('http') === 0
     failURL = hasProtocol ? failURL : 'http://' + failURL
     if (failURL === 'http://') { // If Empty, standard message
       vm.appState.modalContent = {

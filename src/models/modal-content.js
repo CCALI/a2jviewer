@@ -9,7 +9,7 @@ export default DefineMap.extend('ModalContent', {
   // question text
   text: { default: '' },
   // audio recording of the question/popup text or supplemental audio
-  textAudioURL: {default: ''},
+  textAudioURL: { default: '' },
 
   audioURL: { default: '' },
   // summary or transcription of audio content

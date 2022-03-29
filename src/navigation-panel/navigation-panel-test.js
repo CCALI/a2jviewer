@@ -9,8 +9,8 @@ describe('<navigation-panel>', () => {
     let vm
     let appState
     const visitedPages = [
-      {text: 'Introduction', name: 'First Page', step: {number: '0'}},
-      {text: 'Tell us more', name: 'Second Page', step: {number: '1'}}
+      { text: 'Introduction', name: 'First Page', step: { number: '0' } },
+      { text: 'Tell us more', name: 'Second Page', step: { number: '1' } }
     ]
 
     beforeEach(() => {
@@ -24,11 +24,11 @@ describe('<navigation-panel>', () => {
       // navPages should be derived from visitedPages but reversed
       // length should be the same, can test that
       // push a new page into visitedPages, test navPages updates with the same new page (reversed of course)
-      vm.appState.visitedPages.push({text: 'Test Page', name: 'Third Page', step: {number: '2'}})
+      vm.appState.visitedPages.push({ text: 'Test Page', name: 'Third Page', step: { number: '2' } })
       const expectedResult = [
-        {text: 'Introduction', name: 'First Page', step: {number: '0'}},
-        {text: 'Tell us more', name: 'Second Page', step: {number: '1'}},
-        {text: 'Test Page', name: 'Third Page', step: {number: '2'}}
+        { text: 'Introduction', name: 'First Page', step: { number: '0' } },
+        { text: 'Tell us more', name: 'Second Page', step: { number: '1' } },
+        { text: 'Test Page', name: 'Third Page', step: { number: '2' } }
       ]
       assert.equal(vm.navPages.length, vm.appState.visitedPages.length, 'should be the same as visitedPages')
       assert.deepEqual(vm.navPages.reverse(), expectedResult, 'should be the same as visitedPages')
@@ -36,7 +36,7 @@ describe('<navigation-panel>', () => {
 
     it('stripHTMLTags', () => {
       const expectedResult = 'some text %%[someVar TE]%% here'
-      let testText = '<p><br>some text %%[someVar TE]%% here</p>'
+      const testText = '<p><br>some text %%[someVar TE]%% here</p>'
       assert.equal(vm.stripHTMLTags(testText), expectedResult, 'should remove only html tags')
 
       // let testText = 'some other text'

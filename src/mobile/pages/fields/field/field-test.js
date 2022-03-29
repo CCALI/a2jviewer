@@ -116,17 +116,17 @@ describe('<a2j-field>', () => {
     })
 
     it('invalidPrompt', () => {
-      vm.field = {name: 'foo'}
-      vm.lastIndexMap = {'foo': 0}
+      vm.field = { name: 'foo' }
+      vm.lastIndexMap = { foo: 0 }
       vm.fieldIndex = 0
 
-      vm.groupValidationMap = {'foo': false}
+      vm.groupValidationMap = { foo: false }
       assert.ok(!vm.showInvalidPrompt, 'showInvalidPrompt should be false when there is no error')
 
-      vm.groupValidationMap = {'foo': true}
+      vm.groupValidationMap = { foo: true }
       assert.ok(!vm.showInvalidPrompt, 'showInvalidPrompt should be false when there is an error but no message')
 
-      vm.groupValidationMap = {'foo': true}
+      vm.groupValidationMap = { foo: true }
       vm.field.type = 'checkbox'
       vm.field.invalidPrompt = ''
       assert.equal(vm.invalidPrompt, vm.lang.FieldPrompts_checkbox, 'checkbox - should show the default error message')
@@ -151,19 +151,19 @@ describe('<a2j-field>', () => {
     it('minMaxPrompt should show or hide based on showMinMaxPrompt', function () {
       const field = vm.field
 
-      field.assign({ 'type': 'number', 'min': null, 'max': null })
+      field.assign({ type: 'number', min: null, max: null })
       assert.equal(vm.showMinMaxPrompt, false, 'if neither min/max has been set, showMinMaxPrompt should be false')
 
       field.min = 5
       assert.equal(vm.showMinMaxPrompt, true, 'if min exists, showMinMaxPrompt should be true')
 
-      field.assign({ 'min': null, 'max': 15 })
+      field.assign({ min: null, max: 15 })
       assert.equal(vm.showMinMaxPrompt, true, 'if max exists, showMinMaxPrompt should be true')
     })
 
     it('minMaxPrompt should show min and max values in range display', function () {
       const field = vm.field
-      field.assign({ 'type': 'number', 'min': 5, 'max': 15 })
+      field.assign({ type: 'number', min: 5, max: 15 })
       assert.equal(vm.minMaxPrompt, '(5 ~~~ 15)', 'should show the range of acceptable values')
 
       field.min = null
@@ -171,9 +171,9 @@ describe('<a2j-field>', () => {
     })
 
     it('calcAvailableLength', function () {
-      let ev = { target: { value: 'this is' } }
-      let field = vm.field
-      field.assign({ 'type': 'text', 'maxChars': undefined })
+      const ev = { target: { value: 'this is' } }
+      const field = vm.field
+      field.assign({ type: 'text', maxChars: undefined })
 
       vm.calcAvailableLength(ev)
       assert.equal(vm.availableLength, null, 'did not return undefined when maxChar not set')
@@ -185,11 +185,11 @@ describe('<a2j-field>', () => {
     })
 
     it('should detect when maxChar value is overCharacterLimit', function () {
-      let ev = { target: { value: 'this is over the limit' } }
-      let field = vm.field
+      const ev = { target: { value: 'this is over the limit' } }
+      const field = vm.field
       field.assign({
-        'type': 'text',
-        'maxChars': 10
+        type: 'text',
+        maxChars: 10
       })
       vm.calcAvailableLength(ev)
 
@@ -246,18 +246,18 @@ describe('<a2j-field>', () => {
       }
 
       const fieldModels = [
-        new FieldModel({name: 'Likes Chocolate TF', type: 'checkbox', label: 'Likes Chocolate TF'}),
-        new FieldModel({name: 'None of the Above', type: 'checkboxNOTA', label: 'None of the Above'}),
-        new FieldModel({name: 'Name', type: 'text', label: 'Name'}),
-        new FieldModel({name: 'Salary', type: 'numberdollar', label: 'Salary', calculator: false}),
-        new FieldModel({name: 'State', type: 'textpick', label: 'State', listData: '<option>Alaska</option><option>Hawaii</option><option>Texas</option>', required: true, calculator: false})
+        new FieldModel({ name: 'Likes Chocolate TF', type: 'checkbox', label: 'Likes Chocolate TF' }),
+        new FieldModel({ name: 'None of the Above', type: 'checkboxNOTA', label: 'None of the Above' }),
+        new FieldModel({ name: 'Name', type: 'text', label: 'Name' }),
+        new FieldModel({ name: 'Salary', type: 'numberdollar', label: 'Salary', calculator: false }),
+        new FieldModel({ name: 'State', type: 'textpick', label: 'State', listData: '<option>Alaska</option><option>Hawaii</option><option>Texas</option>', required: true, calculator: false })
       ]
 
       fieldModels.forEach((fieldModel) => {
         fieldModel._answerVm = new AnswerVM({ field: fieldModel, answer: fieldModel.emptyAnswer, fields: fieldModels })
       })
 
-      let fieldRenderer = stache(
+      const fieldRenderer = stache(
         `<a2j-field
           field:from="field"
           lang:from="lang"
@@ -313,9 +313,9 @@ describe('<a2j-field>', () => {
       })
 
       it('should not affect non checkbox values', () => {
-        let checkbox = checkboxVm.field
+        const checkbox = checkboxVm.field
         checkbox._answerVm.answer.values[1] = false
-        let textField = textVm.field
+        const textField = textVm.field
         textField._answerVm.answer.values[1] = 'Wilhelmina'
 
         document.getElementById('Likes Chocolate TF').click()
@@ -337,18 +337,18 @@ describe('<a2j-field>', () => {
 
     describe('Calculator', () => {
       it('should show the calculator image when selected', () => {
-        let numberDollarField = numberDollarVm.field
+        const numberDollarField = numberDollarVm.field
         numberDollarField.calculator = true
 
-        let $calcFound = $('.calc-icon')
+        const $calcFound = $('.calc-icon')
         assert.equal($calcFound.length, 1, 'should find one .calc-icon element')
       })
 
       it('should not show the calculator image when unselected', () => {
-        let numberDollarField = numberDollarVm.field
+        const numberDollarField = numberDollarVm.field
         numberDollarField.calculator = false
 
-        let $calcFound = $('.calc-icon')
+        const $calcFound = $('.calc-icon')
 
         assert.equal($calcFound.length, 0, 'should find zero .calc-icon element')
       })

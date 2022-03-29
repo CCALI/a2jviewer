@@ -8,7 +8,7 @@ import 'steal-mocha'
 
 describe('Answers Model', function () {
   let answers
-  let lang = new Lang()
+  const lang = new Lang()
   beforeEach(() => {
     answers = new Answers({ lang })
   })
@@ -31,14 +31,14 @@ describe('Answers Model', function () {
 
   it('serialize', () => {
     answers.varCreate('Foo', 'Text', false)
-    let expectedResult = {'foo': { name: 'Foo', type: 'Text', repeating: false, values: [null] }}
+    let expectedResult = { foo: { name: 'Foo', type: 'Text', repeating: false, values: [null] } }
     assert.deepEqual(answers.serialize(), expectedResult, 'should serialize() answers with props ignoring `lang` prop')
 
     answers.varCreate('Bar', 'Text', false)
     answers.varSet('bar', 'baz')
     expectedResult = {
-      'foo': { name: 'Foo', type: 'Text', repeating: false, values: [null] },
-      'bar': { name: 'Bar', type: 'Text', repeating: false, values: [null, 'baz'] }
+      foo: { name: 'Foo', type: 'Text', repeating: false, values: [null] },
+      bar: { name: 'Bar', type: 'Text', repeating: false, values: [null, 'baz'] }
     }
     assert.deepEqual(answers.serialize(), expectedResult, 'should serialize() answers with props and updated values ignoring `lang` prop')
   })

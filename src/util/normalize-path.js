@@ -9,7 +9,7 @@ export default function (pathToGuideFolder, filePath) {
   if (filePath.indexOf('http') === 0) return filePath
 
   // handle paths using either slash or backslash (windows) as a separator
-  let filename = filePath.split('\\').pop().split('/').pop()
+  const filename = filePath.split('\\').pop().split('/').pop()
 
   // GuideFolder can also be fully qualified, assumes trailing slash
   if (pathToGuideFolder.indexOf('http') === 0) {

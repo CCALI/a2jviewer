@@ -10,146 +10,146 @@ describe('GhostHistory Model', function () {
   beforeEach(function () {
     serializedVisitedPages = [
       {
-        'interviewPage': '1-Introduction',
-        'key': 'A Nested Loop with inner multi vars-45-1/30/2017-'
+        interviewPage: '1-Introduction',
+        key: 'A Nested Loop with inner multi vars-45-1/30/2017-'
       },
       {
-        'interviewPage': '2-Name',
-        'repeatVarValue': 1,
-        'parentVisitedPage': 0,
-        'parentButtonUsedIndex': 0
+        interviewPage: '2-Name',
+        repeatVarValue: 1,
+        parentVisitedPage: 0,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '3-Gender',
-        'repeatVarValue': 11,
-        'outerLoopVarValue': 1,
-        'parentVisitedPage': 1,
-        'parentButtonUsedIndex': 0
+        interviewPage: '3-Gender',
+        repeatVarValue: 11,
+        outerLoopVarValue: 1,
+        parentVisitedPage: 1,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '1-Last Name',
-        'repeatVarValue': 11,
-        'outerLoopVarValue': 1,
-        'parentVisitedPage': 2,
-        'parentButtonUsedIndex': 0
+        interviewPage: '1-Last Name',
+        repeatVarValue: 11,
+        outerLoopVarValue: 1,
+        parentVisitedPage: 2,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '2-Date',
-        'repeatVarValue': 11,
-        'outerLoopVarValue': 1,
-        'parentVisitedPage': 3,
-        'parentButtonUsedIndex': 0
+        interviewPage: '2-Date',
+        repeatVarValue: 11,
+        outerLoopVarValue: 1,
+        parentVisitedPage: 3,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '3-TF is the answer',
-        'repeatVarValue': 11,
-        'outerLoopVarValue': 1,
-        'parentVisitedPage': 4,
-        'parentButtonUsedIndex': 0
+        interviewPage: '3-TF is the answer',
+        repeatVarValue: 11,
+        outerLoopVarValue: 1,
+        parentVisitedPage: 4,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '4-Salary',
-        'repeatVarValue': 11,
-        'outerLoopVarValue': 1,
-        'parentVisitedPage': 5,
-        'parentButtonUsedIndex': 0
+        interviewPage: '4-Salary',
+        repeatVarValue: 11,
+        outerLoopVarValue: 1,
+        parentVisitedPage: 5,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '2-Name',
-        'repeatVarValue': 2,
-        'parentVisitedPage': 6,
-        'parentButtonUsedIndex': 0
+        interviewPage: '2-Name',
+        repeatVarValue: 2,
+        parentVisitedPage: 6,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '3-Gender',
-        'repeatVarValue': 21,
-        'outerLoopVarValue': 2,
-        'parentVisitedPage': 7,
-        'parentButtonUsedIndex': 0
+        interviewPage: '3-Gender',
+        repeatVarValue: 21,
+        outerLoopVarValue: 2,
+        parentVisitedPage: 7,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '1-Last Name',
-        'repeatVarValue': 21,
-        'outerLoopVarValue': 2,
-        'parentVisitedPage': 8,
-        'parentButtonUsedIndex': 0
+        interviewPage: '1-Last Name',
+        repeatVarValue: 21,
+        outerLoopVarValue: 2,
+        parentVisitedPage: 8,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '2-Date',
-        'repeatVarValue': 21,
-        'outerLoopVarValue': 2,
-        'parentVisitedPage': 9,
-        'parentButtonUsedIndex': 0,
-        'skipped': true
+        interviewPage: '2-Date',
+        repeatVarValue: 21,
+        outerLoopVarValue: 2,
+        parentVisitedPage: 9,
+        parentButtonUsedIndex: 0,
+        skipped: true
       },
       {
-        'interviewPage': '3-TF is the answer',
-        'repeatVarValue': 21,
-        'outerLoopVarValue': 2,
-        'parentVisitedPage': 10,
-        'parentButtonUsedIndex': 0,
-        'skipped': true
+        interviewPage: '3-TF is the answer',
+        repeatVarValue: 21,
+        outerLoopVarValue: 2,
+        parentVisitedPage: 10,
+        parentButtonUsedIndex: 0,
+        skipped: true
       },
       {
-        'interviewPage': '4-Salary',
-        'repeatVarValue': 21,
-        'outerLoopVarValue': 2,
-        'parentVisitedPage': 11,
-        'parentButtonUsedIndex': 0,
-        'selected': true
+        interviewPage: '4-Salary',
+        repeatVarValue: 21,
+        outerLoopVarValue: 2,
+        parentVisitedPage: 11,
+        parentButtonUsedIndex: 0,
+        selected: true
       },
       {
-        'interviewPage': '6-Answer',
-        'parentVisitedPage': 12,
-        'parentButtonUsedIndex': 1
+        interviewPage: '6-Answer',
+        parentVisitedPage: 12,
+        parentButtonUsedIndex: 1
       },
       {
-        'interviewPage': '2-Name',
-        'repeatVarValue': 3,
-        'parentVisitedPage': 12,
-        'parentButtonUsedIndex': 0
+        interviewPage: '2-Name',
+        repeatVarValue: 3,
+        parentVisitedPage: 12,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '3-Gender',
-        'repeatVarValue': 31,
-        'outerLoopVarValue': 3,
-        'parentVisitedPage': 14,
-        'parentButtonUsedIndex': 0
+        interviewPage: '3-Gender',
+        repeatVarValue: 31,
+        outerLoopVarValue: 3,
+        parentVisitedPage: 14,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '1-Last Name',
-        'repeatVarValue': 31,
-        'outerLoopVarValue': 3,
-        'parentVisitedPage': 15,
-        'parentButtonUsedIndex': 0
+        interviewPage: '1-Last Name',
+        repeatVarValue: 31,
+        outerLoopVarValue: 3,
+        parentVisitedPage: 15,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '2-Date',
-        'repeatVarValue': 31,
-        'outerLoopVarValue': 3,
-        'parentVisitedPage': 16,
-        'parentButtonUsedIndex': 0,
-        'skipped': true
+        interviewPage: '2-Date',
+        repeatVarValue: 31,
+        outerLoopVarValue: 3,
+        parentVisitedPage: 16,
+        parentButtonUsedIndex: 0,
+        skipped: true
       },
       {
-        'interviewPage': '3-TF is the answer',
-        'repeatVarValue': 31,
-        'outerLoopVarValue': 3,
-        'parentVisitedPage': 17,
-        'parentButtonUsedIndex': 0,
-        'skipped': true
+        interviewPage: '3-TF is the answer',
+        repeatVarValue: 31,
+        outerLoopVarValue: 3,
+        parentVisitedPage: 17,
+        parentButtonUsedIndex: 0,
+        skipped: true
       },
       {
-        'interviewPage': '4-Salary',
-        'repeatVarValue': 31,
-        'outerLoopVarValue': 3,
-        'parentVisitedPage': 18,
-        'parentButtonUsedIndex': 0
+        interviewPage: '4-Salary',
+        repeatVarValue: 31,
+        outerLoopVarValue: 3,
+        parentVisitedPage: 18,
+        parentButtonUsedIndex: 0
       },
       {
-        'interviewPage': '6-Answer',
-        'parentVisitedPage': 19,
-        'parentButtonUsedIndex': 1
+        interviewPage: '6-Answer',
+        parentVisitedPage: 19,
+        parentButtonUsedIndex: 1
       }
     ]
     ghostHistory = new GhostHistory({ serializedVisitedPages })
@@ -212,9 +212,9 @@ describe('GhostHistory Model', function () {
     assert.equal(ghostHistory.nextActiveIndex, 13)
     assert.equal(ghostHistory.expectNextPageNameToBe, '2-Name')
     const lessTraveledVP = {
-      'interviewPage': { name: '6-Answer', buttons: [] },
-      'parentVisitedPage': 12,
-      'parentButtonUsedIndex': 1
+      interviewPage: { name: '6-Answer', buttons: [] },
+      parentVisitedPage: 12,
+      parentButtonUsedIndex: 1
     }
     assert.equal(ghostHistory.suggestNextButtonIndex(lessTraveledVP), undefined)
     assert.equal(ghostHistory.finished, true)

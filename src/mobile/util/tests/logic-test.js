@@ -90,14 +90,14 @@ describe('Logic', function () {
   })
 
   it('simple goto', function () {
-    let codeBefore = 'GOTO "1-job loss date"'
+    const codeBefore = 'GOTO "1-job loss date"'
     logic.exec(codeBefore)
 
     assert.equal(logic.attr('gotoPage'), '1-job loss date', 'target page set')
   })
 
   it('conditional goto', function () {
-    let codeBefore =
+    const codeBefore =
       `if firstname = "John"<BR/>
       GOTO "1-job loss date"<BR/>
       end if`
@@ -126,7 +126,7 @@ describe('Logic', function () {
   })
 
   it('conditional set w/ linebreaks', function () {
-    let str =
+    const str =
       `if middlename = ""<BR/>
       set fullname to firstname + " " + lastname<BR/>
       else<BR/>

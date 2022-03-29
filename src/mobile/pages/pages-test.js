@@ -46,7 +46,7 @@ describe('<a2j-pages>', () => {
 
     interview = new Interview({
       pages: [
-        {nextPageStub, priorPageStub},
+        { nextPageStub, priorPageStub },
         {
           name: 'foo',
           fields: [
@@ -86,7 +86,7 @@ describe('<a2j-pages>', () => {
       ]
     })
 
-    logic = new Logic({interview})
+    logic = new Logic({ interview })
     // normally passed in via stache
     traceMessage = new TraceMessage()
 
@@ -161,7 +161,7 @@ describe('<a2j-pages>', () => {
         const normalNavPage = vm.navigate(button)
         assert.equal(normalNavPage, 'foo', 'logic gotoPage should override button "next" value')
 
-        currentPage.codeAfter = `GOTO "Next"`
+        currentPage.codeAfter = 'GOTO "Next"'
         const gotoPage = vm.navigate(button)
         assert.equal(gotoPage, 'Next', 'logic gotoPage should override button "next" value')
       })
@@ -203,7 +203,7 @@ describe('<a2j-pages>', () => {
         vm.navigate(button)
         const modalContent = vm.appState.modalContent
 
-        assert.equal(modalContent.text, `User's data would upload to the server.`, 'modalContent should update to display modal when previewActive')
+        assert.equal(modalContent.text, 'User\'s data would upload to the server.', 'modalContent should update to display modal when previewActive')
       })
 
       it('ignores navigate() logic if fields have errors', () => {
@@ -230,7 +230,7 @@ describe('<a2j-pages>', () => {
       })
 
       it('saves answer when button has a value with special buttons as next target', () => {
-        let answers = defaults.interview.answers
+        const answers = defaults.interview.answers
 
         answers.varCreate('kidstf', 'TF', true)
 
@@ -249,7 +249,7 @@ describe('<a2j-pages>', () => {
       })
 
       it('saves answer when button has a value', () => {
-        let answers = defaults.interview.answers
+        const answers = defaults.interview.answers
 
         answers.varCreate('kidstf', 'TF', false)
 
@@ -310,7 +310,7 @@ describe('<a2j-pages>', () => {
       })
 
       it('handleCrossedUseOfResumeOrBack', () => {
-        const button = new DefineMap({next: constants.qIDBACK})
+        const button = new DefineMap({ next: constants.qIDBACK })
         let buttonNextTarget = vm.handleCrossedUseOfResumeOrBack(button, true)
         assert.equal(buttonNextTarget, constants.qIDRESUME, 'should update BackToPriorQuestion to Resume if on exitPage')
 
@@ -328,17 +328,17 @@ describe('<a2j-pages>', () => {
       let hasErrors = vm.validateAllFields()
       assert.isFalse(hasErrors, 'should return false if there are no fields')
 
-      vm.currentPage.fields = [{name: 'foo', _answerVm: {errors: true}}, {name: 'bar', _answerVm: {errors: false}}]
+      vm.currentPage.fields = [{ name: 'foo', _answerVm: { errors: true } }, { name: 'bar', _answerVm: { errors: false } }]
       hasErrors = vm.validateAllFields()
       assert.isTrue(hasErrors, 'should return true if as at least one field is invalid')
       assert.isTrue(vm.currentPage.fields[0].hasError, 'should set the field model hasError prop to true')
-      assert.isTrue(vm.groupValidationMap['foo'], 'should update the groupValidationMap for the matching field.name to true')
+      assert.isTrue(vm.groupValidationMap.foo, 'should update the groupValidationMap for the matching field.name to true')
 
-      vm.currentPage.fields = [{name: 'foo', _answerVm: {errors: false}}, {name: 'bar', _answerVm: {errors: false}}]
+      vm.currentPage.fields = [{ name: 'foo', _answerVm: { errors: false } }, { name: 'bar', _answerVm: { errors: false } }]
       hasErrors = vm.validateAllFields()
       assert.isFalse(hasErrors, 'should return false if no fields are invalid')
       assert.isFalse(vm.currentPage.fields[0].hasError, 'should set the field model hasError prop to false')
-      assert.isFalse(vm.groupValidationMap['foo'], 'should update the groupValidationMap for the matching field.name to false')
+      assert.isFalse(vm.groupValidationMap.foo, 'should update the groupValidationMap for the matching field.name to false')
     })
 
     it('setRepeatVariable', () => {
@@ -381,7 +381,7 @@ describe('<a2j-pages>', () => {
 
     describe('default values', () => {
       it('sets default value', () => {
-        let field = new FieldModel({
+        const field = new FieldModel({
           name: 'StateTE',
           label: 'Enter State:',
           type: 'Text',
@@ -419,7 +419,7 @@ describe('<a2j-pages>', () => {
       })
 
       it('ignores default value if previous answer exists', () => {
-        let field = new FieldModel({
+        const field = new FieldModel({
           name: 'StateTE',
           label: 'Enter State:',
           type: 'text',
@@ -438,7 +438,7 @@ describe('<a2j-pages>', () => {
       })
 
       it('handles number defaults with zero', () => {
-        let field = new FieldModel({
+        const field = new FieldModel({
           name: 'SomeNum',
           label: 'Enter SomeNum:',
           type: 'number',
@@ -456,7 +456,7 @@ describe('<a2j-pages>', () => {
       })
 
       it('handles numberdollar defaults with decimals', () => {
-        let field = new FieldModel({
+        const field = new FieldModel({
           name: 'Salary',
           label: 'Enter Salary:',
           type: 'numberdollar',
@@ -480,7 +480,7 @@ describe('<a2j-pages>', () => {
       let appStateTeardown
 
       beforeEach(() => {
-        let frag = stache(
+        const frag = stache(
           '<a2j-pages></a2j-pages>'
         )
         $('#test-area').html(frag())

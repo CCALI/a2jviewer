@@ -138,8 +138,8 @@ export const FieldVM = DefineMap.extend('FieldVM', {
    */
   invalidPrompt: {
     get () {
-      let field = this.field
-      let defaultInvalidPrompt = this.lang['FieldPrompts_' + field.type]
+      const field = this.field
+      const defaultInvalidPrompt = this.lang['FieldPrompts_' + field.type]
       return field.invalidPrompt || defaultInvalidPrompt
     }
   },
@@ -183,9 +183,9 @@ export const FieldVM = DefineMap.extend('FieldVM', {
    */
   savedGenderValue: {
     get: function () {
-      let name = this.field.name.toLowerCase()
-      let answerIndex = this.appState.answerIndex
-      let answers = this.logic.interview.answers
+      const name = this.field.name.toLowerCase()
+      const answerIndex = this.appState.answerIndex
+      const answers = this.logic.interview.answers
       if (name && answers) {
         return answers.varGet(name, answerIndex)
       }
@@ -202,7 +202,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
 
   suggestionText: {
     get: function () {
-      let fieldType = this.field.type
+      const fieldType = this.field.type
       if (fieldType === 'numberssn') {
         return '999-99-9999'
       } else if (fieldType === 'numberphone') {
@@ -268,7 +268,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
      */
 
   calcAvailableLength (ev) {
-    let maxChars = this.field.maxChars
+    const maxChars = this.field.maxChars
     let availableLengthValue
     if (maxChars) {
       availableLengthValue = (maxChars - ev.target.value.length)
@@ -286,13 +286,13 @@ export const FieldVM = DefineMap.extend('FieldVM', {
    */
   validateField (ctx, el) {
     const $el = $(el)
-    let field = this.field
-    let _answerVm = field._answerVm
+    const field = this.field
+    const _answerVm = field._answerVm
     let value
 
     // textpick binding fired onChange even on first load
     // this skips the first pass: https://github.com/CCALI/CAJA/issues/2432
-    let initialized = domData.get(el, 'initialized')
+    const initialized = domData.get(el, 'initialized')
     if (!initialized && field.type === 'textpick') {
       domData.set(el, 'initialized', true)
       this.debugPanelMessage(field, $el.val()) // https://github.com/CCALI/a2jauthor/issues/276
@@ -315,7 +315,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
 
     _answerVm.values = value
 
-    let errors = _answerVm.errors
+    const errors = _answerVm.errors
     field.hasError = errors
     // update group validation for radio buttons
     const varName = field.name
@@ -540,7 +540,8 @@ export const FieldVM = DefineMap.extend('FieldVM', {
 
     if (vm.field.type === 'datemdy') {
       const defaultDate = vm.field._answerVm.values
-        ? vm.normalizeDateInput(vm.field._answerVm.values) : null
+        ? vm.normalizeDateInput(vm.field._answerVm.values)
+        : null
       // TODO: these dates need to be internationalized for output/input format
       // min/max values currently only come in as mm/dd/yyyy, or special value, TODAY, which is handled in convertDate above
       const minDate = vm.convertDate(vm.field.min, null, 'MM/DD/YYYY') || null
@@ -603,7 +604,7 @@ export default Component.extend('FieldComponent', {
     selector (type, options) {
       type = typeof type === 'function' ? type() : type
 
-      let self = this
+      const self = this
 
       // TODO: CanJS should allow for passing helpers as well as scope.
       // This below is a copy of screenManager's eval helper.

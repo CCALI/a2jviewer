@@ -249,33 +249,33 @@ describe('VisitedPages Model', function () {
 
   const expectedSerialization = [
     {
-      'interviewPage': '01-Frost Walker',
-      'key': '---'
+      interviewPage: '01-Frost Walker',
+      key: '---'
     },
     {
-      'interviewPage': '02-Roads in the Yellow Wood',
-      'parentVisitedPage': 0
+      interviewPage: '02-Roads in the Yellow Wood',
+      parentVisitedPage: 0
     },
     {
-      'interviewPage': '03-Common Path',
-      'parentVisitedPage': 1,
-      'parentButtonUsedIndex': 0
+      interviewPage: '03-Common Path',
+      parentVisitedPage: 1,
+      parentButtonUsedIndex: 0
     },
     {
-      'interviewPage': '04-Destiny',
-      'parentVisitedPage': 2,
-      'parentButtonUsedIndex': 0
+      interviewPage: '04-Destiny',
+      parentVisitedPage: 2,
+      parentButtonUsedIndex: 0
     },
     {
-      'interviewPage': '03-All the difference',
-      'parentVisitedPage': 1,
-      'parentButtonUsedIndex': 1,
-      'selected': true
+      interviewPage: '03-All the difference',
+      parentVisitedPage: 1,
+      parentButtonUsedIndex: 1,
+      selected: true
     },
     {
-      'interviewPage': '04-Destiny',
-      'parentVisitedPage': 4,
-      'parentButtonUsedIndex': 0
+      interviewPage: '04-Destiny',
+      parentVisitedPage: 4,
+      parentButtonUsedIndex: 0
     }
   ]
   it('correctly serializes', function () {

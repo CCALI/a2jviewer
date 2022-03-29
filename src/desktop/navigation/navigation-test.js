@@ -22,11 +22,11 @@ describe('<a2j-viewer-navigation>', function () {
     let logic
 
     beforeEach(function (done) {
-      let promise = Interview.findOne({ url: '/interview.json' })
+      const promise = Interview.findOne({ url: '/interview.json' })
 
       promise.then(function (_interview) {
         interview = _interview
-        interview.attr('answers', { 'a2j interview incomplete tf': {values: []} })
+        interview.attr('answers', { 'a2j interview incomplete tf': { values: [] } })
         appState = new AppState({ interview })
         pages = interview.attr('pages')
         visited = canReflect.getKeyValue(appState, 'visitedPages')
@@ -39,7 +39,7 @@ describe('<a2j-viewer-navigation>', function () {
 
     it('collects feedback form data', function () {
       // simulate user navigates to interview second page.
-      let secondPage = pages[1]
+      const secondPage = pages[1]
       vm.appState.visitedPages.visit(secondPage)
 
       assert.deepEqual(vm.feedbackData, {
@@ -56,7 +56,7 @@ describe('<a2j-viewer-navigation>', function () {
       interview.attr('exitPage', constants.qIDNOWHERE)
       assert.isFalse(vm.hasExitPage)
 
-      let page1 = pages[0]
+      const page1 = pages[0]
       vm.appState.visitedPages.visit(page1)
       assert.isFalse(vm.hasExitPage)
       assert.isFalse(vm.currentVisitedPageIsExitPage)
@@ -155,7 +155,7 @@ describe('<a2j-viewer-navigation>', function () {
     let logic
 
     beforeEach(function (done) {
-      let promise = Interview.findOne({ url: '/interview.json' })
+      const promise = Interview.findOne({ url: '/interview.json' })
 
       promise.then(function (_interview) {
         interview = _interview
@@ -174,7 +174,7 @@ describe('<a2j-viewer-navigation>', function () {
         logic = new Logic({ interview })
         vm = new ViewerNavigationVM({ appState, interview, lang, logic })
 
-        let frag = stache(
+        const frag = stache(
           `<a2j-viewer-navigation interview:from="interview"
             appState:from="appState" lang:from="lang"
             showDemoNotice:bind="showDemoNotice"
@@ -244,18 +244,18 @@ describe('<a2j-viewer-navigation>', function () {
     })
 
     it('shows custom courthouse image if provided', function () {
-      let vm = $('a2j-viewer-navigation')[0].viewModel
+      const vm = $('a2j-viewer-navigation')[0].viewModel
       vm.courthouseImage = 'my-custom-courthouse.jpg'
 
-      let courthouseSrc = $('img.courthouse').attr('src')
+      const courthouseSrc = $('img.courthouse').attr('src')
       assert.equal(courthouseSrc, 'my-custom-courthouse.jpg')
     })
 
     it('uses default courthouse image when custom not provided', function () {
-      let vm = $('a2j-viewer-navigation')[0].viewModel
+      const vm = $('a2j-viewer-navigation')[0].viewModel
       vm.courthouseImage = null
 
-      let courthouseSrc = $('img.courthouse').attr('src')
+      const courthouseSrc = $('img.courthouse').attr('src')
       assert.isTrue(courthouseSrc.indexOf('A2J5_CourtHouse.svg') !== -1)
     })
   })

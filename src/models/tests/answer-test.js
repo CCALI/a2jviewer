@@ -22,7 +22,7 @@ describe('Answer Model', function () {
     assert.deepEqual(answer.serialize(), expectedResult, 'new Answer() has sane defaults')
 
     // repeating should stay the default
-    answer = new Answer({name: 'foo', type: 'text', values: [null, 'JessBob']})
+    answer = new Answer({ name: 'foo', type: 'text', values: [null, 'JessBob'] })
     expectedResult = {
       name: 'foo',
       repeating: false,
@@ -33,7 +33,7 @@ describe('Answer Model', function () {
   })
 
   it('clearAnswer()', () => {
-    answer = new Answer({values: [null, 'foo', 'bar', 'baz']})
+    answer = new Answer({ values: [null, 'foo', 'bar', 'baz'] })
     expectedResult = {
       name: '',
       repeating: false,

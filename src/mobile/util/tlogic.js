@@ -74,16 +74,16 @@ export default function (gGuide,
   }
 
   TLogic.prototype.pageFindReferences = function (CAJAScript, findName, newName) { // Find/replace all GOTO findName with newName or just return if found.
-    var result = {}
+    const result = {}
     result.add = false
-    var csLines = CAJAScript.split(CONST.ScriptLineBreak)
-    var l
+    const csLines = CAJAScript.split(CONST.ScriptLineBreak)
+    let l
     for (l = 0; l < csLines.length; l++) {
-      var line = jQuery.trim(csLines[l]).split('//')[0]
+      const line = jQuery.trim(csLines[l]).split('//')[0]
       // TODO : handle Replacement of a page name inside GOTO.
       var args
       if ((args = line.match(REG.LOGIC_GOTO)) !== null) { // Goto named page (not an expression). We 'return' to avoid further processing which is A2J's designed behavior.
-        var pageName = args[1]
+        const pageName = args[1]
         if (pageName === findName) {
           result.add = true
         }
@@ -108,26 +108,26 @@ export default function (gGuide,
       IF exp
       END IF
     */
-    var errors = []
-    var jsLines = []
+    const errors = []
+    const jsLines = []
 
     // Replacing IE/Edge line breaks before splitting
-    var csLines = CAJAScriptHTML
+    const csLines = CAJAScriptHTML
       .replace(/<BR \/>/g, CONST.ScriptLineBreak)
       .split(CONST.ScriptLineBreak)
 
-    var ifd = 0 // if depth syntax checker
-    var l
+    let ifd = 0 // if depth syntax checker
+    let l
 
-    var exp // current expression as string
+    let exp // current expression as string
 
     function hackQuote () { // 2014-08-07 If expression has one quote assume it extends multiple lines and collect them.
       // Ideally we don't tokenize by lines.
       // TODO support multi-line expressions too.
       if (exp.indexOf('"') >= 0) {
         if (exp.split('"').length % 2 === 0) { // Warning: need to accept embedded quote?
-          var noquote = true
-          var l2
+          let noquote = true
+          let l2
           for (l2 = l + 1; l2 < csLines.length && noquote; l2++) {
             noquote = csLines[l2].indexOf('"') < 0
             exp += '\\n' + csLines[l2] // embed line break for display
@@ -138,7 +138,7 @@ export default function (gGuide,
       // trace ('exp',exp);
     }
     for (l = 0; l < csLines.length; l++) {
-      var line = this.removeTrailingComments(csLines[l])
+      let line = this.removeTrailingComments(csLines[l])
       var args
       var js
       if (line !== '') {
@@ -146,7 +146,7 @@ export default function (gGuide,
         // SET var[index] TO expression
 
         if ((args = line.match(REG.LOGIC_SETTO)) !== null) { // SET variable name TO expression
-          var jj = args[1]
+          let jj = args[1]
           jj = jj.replace(/\[|\]/gi, '') // strip variable name brackets if present
           jj = jj.split('#') // extract array index
           if (jj.length === 1) {
@@ -168,9 +168,9 @@ export default function (gGuide,
           }
         } else
         if ((args = line.match(REG.LOGIC_GOTO2)) !== null) { // Goto named page (not an expression). We 'return' to avoid further processing which is A2J's designed behavior.
-          var pageNameExp = args[1]
+          const pageNameExp = args[1]
           if (pageNameExp.substr(0, 1) === '"' && pageNameExp.substr(-1, 1) === '"') { // We can statically check of a quoted page name.
-            var pageName = pageNameExp.substr(1, pageNameExp.length - 2)
+            const pageName = pageNameExp.substr(1, pageNameExp.length - 2)
             if (!this.pageExists(pageName)) {
               errors.push(new ParseError(l, '', window.lang.scriptErrorMissingPage.printf(pageName)))
             }
@@ -275,14 +275,14 @@ export default function (gGuide,
 
   TLogic.prototype.evalBlock = function (expressionInText) { // Evaluate a block of expression included in a text block.
     // example expressionInText = 'ORDINAL(OuterLoopCounter)'
-    var txt = ''
-    var errors = []
-    var js = this.translateCAJAtoJSExpression(expressionInText, 1, errors)
+    let txt = ''
+    const errors = []
+    const js = this.translateCAJAtoJSExpression(expressionInText, 1, errors)
     if (errors.length === 0) {
       try {
         // This uses JavaScript EVAL.
         var f = (new Function('with (gLogic) { return (' + js + ')}')) // eslint-disable-line
-        var result = f() // Execute the javascript code.
+        const result = f() // Execute the javascript code.
         txt = escapeHtml(result)
         // Ensure line breaks from user long answer or author's multi-line text set appear.
         txt = txt.replace(/\n|\r\n|\r/g, '<BR>')
@@ -302,15 +302,15 @@ export default function (gGuide,
   }
 
   TLogic.prototype.evalLogicHTML = function (html) { // Parse for %% declarations. Return html block and js block for debugging.
-    var parts = html.split('%%')
-    var js = []
+    const parts = html.split('%%')
+    const js = []
     if (parts.length > 0) {
       html = ''
-      var p
+      let p
       for (p = 0; p < parts.length; p += 2) {
         html += parts[p]
         if (p < parts.length - 1) {
-          var block = this.evalBlock(parts[p + 1])
+          const block = this.evalBlock(parts[p + 1])
           html += block.text
           js.push(block.js)
         }
@@ -335,7 +335,7 @@ export default function (gGuide,
   TLogic.prototype.translateCAJAtoJSExpression = function (CAJAExpression, lineNum, errors) { // Parse a CAJA expression into a JS expression, NOT EVALUATED.
     // Compiled into JS function to check for errors.
     // Any syntax errors are pushed onto the errors array.
-    var js = (' ' + CAJAExpression + ' ')
+    let js = (' ' + CAJAExpression + ' ')
 
     function trackVar (match, p1, offset, string) {
       gLogic.testVar(p1, lineNum, errors)
@@ -358,7 +358,7 @@ export default function (gGuide,
 
     // Handle items not in quotes
     js = js.split('"')
-    var j
+    let j
     for (j = 0; j < js.length; j += 2) {
       var jj = js[j]
 
@@ -392,7 +392,7 @@ export default function (gGuide,
       js[j] = jj
     }
     js = js.join('"').split('"')
-    var removeCommaFunc = function (s) {
+    const removeCommaFunc = function (s) {
       return s.replace(',', '')
     }
     for (j = 0; j < js.length; j += 2) { // handle standalone symbols not in quotes
@@ -548,7 +548,7 @@ export default function (gGuide,
     const args = [].slice.call(arguments)
     const params = args.slice(1)
 
-    var f = this.userFunctions[fName.toLowerCase()]
+    const f = this.userFunctions[fName.toLowerCase()]
     if (!f) {
       return 'Unknown function "' + fName + '"'
     } else {
@@ -581,21 +581,21 @@ export default function (gGuide,
   TLogic.prototype.executeScript = function (CAJAScriptHTML) { // Execute lines of CAJA script. Syntax/runtime errors go into logic tracer, error causes all logic to cease.
     // GOTO's cause immediate break out of script and the caller is responsible for changing page.
     // Script statement lines separated <BR/> tags.
-    var self = this
+    const self = this
     if (typeof CAJAScriptHTML === 'undefined') {
       return true
     }
     this.indent = 0
-    var script = this.translateCAJAtoJS(CAJAScriptHTML)
+    const script = this.translateCAJAtoJS(CAJAScriptHTML)
     if (script.errors.length === 0) {
-      var js = 'with (gLogic) {' + script.js.join('\n') + '}'
+      const js = 'with (gLogic) {' + script.js.join('\n') + '}'
       try {
         // This is an EVAL (but constrained in WITH)
         var f = (new Function(js)) // eslint-disable-line
         f() // Execute the javascript code.
       } catch (e) {
         // Trace runtime errors
-        var message = {}
+        const message = {}
         message.key = 'executeScript.error: ' + e.lineNumber + ': ' + e.message
         message.fragments = [{ format: '', msg: 'executeScript.error: ' + e.lineNumber + ': ' + e.message }]
         self.dispatchMessage('traceMessage', message)
@@ -623,11 +623,11 @@ export default function (gGuide,
   }
 
   TLogic.prototype.stripLogicHTML = function (html) {
-    var parts = window.makestr(html).split('%%')
+    const parts = window.makestr(html).split('%%')
 
     if (parts.length > 0) {
       html = ''
-      var p
+      let p
 
       for (p = 0; p < parts.length; p += 2) {
         html += parts[p]
@@ -650,7 +650,7 @@ export default function (gGuide,
 
   // TODO: Remove eventQueue and make logic/tlogic actual DefineMaps that support events natively
   // the if statement is for the tlogic-test.js that does not require eventQueue
-  var gLogic
+  let gLogic
   if (eventQueue) {
     gLogic = eventQueue(new TLogic())
   } else {
@@ -695,7 +695,7 @@ export default function (gGuide,
   })
 
   gLogic.addUserFunction('Sum', 1, function (readableListString) {
-    var sum = 0
+    let sum = 0
     // multi-value number variables of length one are a number already
     if (typeof readableListString === 'number') {
       return readableListString
@@ -703,8 +703,8 @@ export default function (gGuide,
     // longer lists of multi-value number variables are
     // converted to a readable string, ex: "13 and 5 and 8"
     if (readableListString && typeof readableListString === 'string') {
-      var answerValues = readableListString.replace('and', ',').split(',')
-      for (var i = 0; i < answerValues.length; i++) {
+      const answerValues = readableListString.replace('and', ',').split(',')
+      for (let i = 0; i < answerValues.length; i++) {
         const val = parseFloat(answerValues[i])
         if (!isNaN(val)) {
           sum += val
@@ -717,9 +717,9 @@ export default function (gGuide,
 
   gLogic.addUserFunction('Ordinal', 1, function (ordinal) { // Map number to ordinal: 1 becomes first, 8 becomes eighth.
     ordinal = parseInt(ordinal, 10)
-    var txt = window.lang['Ordinals_' + ordinal]
+    let txt = window.lang['Ordinals_' + ordinal]
     if (!txt) { // If not found in ordinal list, build from scratch in English form.
-      var ending
+      let ending
       switch (ordinal % 10) {
         case 1:
           ending = 'st'
@@ -752,7 +752,7 @@ export default function (gGuide,
     // A2J Date macro gets the value of the source date
     // as number of days since epoch (01/01/1970)
     // Should display nothing if numDays is falsy
-    var displayDate = ''
+    let displayDate = ''
 
     if (numDays) {
       displayDate = dateToString(numDays)

@@ -12,9 +12,9 @@ import $ from 'jquery'
 import CanMap from 'can-map'
 import compute from 'can-compute'
 
-let flatProps = function (a, cur) {
-  var obj = {}
-  for (var prop in a) {
+const flatProps = function (a, cur) {
+  const obj = {}
+  for (const prop in a) {
     if (typeof a[prop] !== 'object' || a[prop] === null || a[prop] instanceof Date) {
       obj[prop] = a[prop]
     } else {
@@ -25,7 +25,7 @@ let flatProps = function (a, cur) {
   return obj
 }
 
-let oldSetup = CanMap.prototype.setup
+const oldSetup = CanMap.prototype.setup
 
 $.extend(CanMap.prototype, {
   setup: function () {
@@ -43,7 +43,7 @@ $.extend(CanMap.prototype, {
   },
 
   restore: function (restoreAssociations) {
-    var props = restoreAssociations ? this._backupStore() : flatProps(this._backupStore(), this)
+    const props = restoreAssociations ? this._backupStore() : flatProps(this._backupStore(), this)
     if (this.isDirty(restoreAssociations)) {
       this.attr(props, true)
     }

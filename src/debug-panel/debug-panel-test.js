@@ -5,7 +5,7 @@ import 'steal-mocha'
 
 describe('<author-debug-panel>', () => {
   describe('viewModel', () => {
-    let vm = new DebugPanelVM()
+    const vm = new DebugPanelVM()
     it('traceFormat', () => {
       assert.equal(vm.traceMessage)
     })

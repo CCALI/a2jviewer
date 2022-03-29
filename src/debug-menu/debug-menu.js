@@ -29,7 +29,7 @@ const canUseSampleValues = [
   constants.ftNumberPick, constants.ftDateMDY
 ]
 
-let DebugMenuVM = DefineMap.extend('DebugMenuVM', {
+const DebugMenuVM = DefineMap.extend('DebugMenuVM', {
   // passed in via stache
   appState: {},
 

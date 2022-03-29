@@ -9,7 +9,7 @@ describe('Validations', function () {
     it('empty', function () {
       validations = new Validations()
 
-      let invalid = validations.required() ||
+      const invalid = validations.required() ||
         validations.maxChars() ||
         validations.min() ||
         validations.max()

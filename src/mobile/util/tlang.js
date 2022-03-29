@@ -36,14 +36,14 @@ export default function (lang, makestr) {
 
   // 2014-09-03 Return comma separated, optional 'and' for array.
   function readableList (list) { // eslint-disable-line
-    var items = []
-    for (var i in list) { // Remove null or blanks.
-      var item = list[i]
+    const items = []
+    for (const i in list) { // Remove null or blanks.
+      const item = list[i]
       if (!window.isBlankOrNull(item)) {
         items.push(item)
       }
     }
-    var text = items.pop()
+    let text = items.pop()
     if (items.length > 0) {
       text = items.join(', ') + ' ' + lang.RepeatAnd + ' ' + text
     }
@@ -63,11 +63,11 @@ export default function (lang, makestr) {
         languageID = 'en'
       }
       // trace("TLanguages.set",languageID);
-      var region
+      let region
 
       region = this.regional[languageID]
 
-      var e
+      let e
       for (e in region) {
         if (region.hasOwnProperty(e)) {
           lang[e] = String(region[e])
@@ -89,7 +89,7 @@ export default function (lang, makestr) {
     return this
   }
 
-  var Languages = new TLanguages()
+  const Languages = new TLanguages()
 
   /* 05/05/2005, 03/11/2010 English language file used with A2J Viewer' */
   Languages.regional.en = {

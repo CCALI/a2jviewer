@@ -9,7 +9,7 @@ import template from './evaluate.stache'
  *
  * `<author-evaluate-panel>`'s viewModel.
  */
-export let EvaluatePanelVM = DefineMap.extend('EvaluatePanelVM', {
+export const EvaluatePanelVM = DefineMap.extend('EvaluatePanelVM', {
   // passed in via pages.stache
   traceMessage: {},
 
@@ -26,8 +26,8 @@ export let EvaluatePanelVM = DefineMap.extend('EvaluatePanelVM', {
      */
   evaluateScript () {
     let evalResults
-    let traceMessage = this.traceMessage
-    let scriptText = $('#evaluate-input').val()
+    const traceMessage = this.traceMessage
+    const scriptText = $('#evaluate-input').val()
     if (scriptText) {
       evalResults = window.gLogic.evalBlock(scriptText)
     }
@@ -36,13 +36,13 @@ export let EvaluatePanelVM = DefineMap.extend('EvaluatePanelVM', {
       evalResults.errors.forEach(function (error) {
         traceMessage.addMessage({
           key: 'expression',
-          fragments: [ { format: 'valF', msg: 'ERROR' }, { format: 'code', msg: error.text } ]
+          fragments: [{ format: 'valF', msg: 'ERROR' }, { format: 'code', msg: error.text }]
         })
       })
     } else if (evalResults.text && traceMessage) {
       traceMessage.addMessage({
         key: 'expression',
-        fragments: [ { format: 'code', msg: scriptText + ' evaluates to: ' }, { format: 'val', msg: evalResults.text } ]
+        fragments: [{ format: 'code', msg: scriptText + ' evaluates to: ' }, { format: 'val', msg: evalResults.text }]
       })
     }
   }

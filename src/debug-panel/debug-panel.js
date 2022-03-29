@@ -9,7 +9,7 @@ import template from './debug-panel.stache'
  *
  * `<debug-panel>`'s viewModel.
  */
-export let DebugPanelVM = DefineMap.extend('DebugPanelVM', {
+export const DebugPanelVM = DefineMap.extend('DebugPanelVM', {
   // passed in via viewer-preview-layout.stache bindings
   interview: {},
   traceMessage: {},
@@ -94,9 +94,11 @@ export default Component.extend({
      */
     traceMessageFormat (format, msg) {
       if (format === 'val') {
-        format = (!msg) ? 'valBlank'
-          : ((msg === true || msg === 'true') ? 'valT'
-            : ((msg === false || msg === 'false') ? 'valF' : format.toLowerCase()))
+        format = (!msg)
+          ? 'valBlank'
+          : ((msg === true || msg === 'true')
+              ? 'valT'
+              : ((msg === false || msg === 'false') ? 'valF' : format.toLowerCase()))
       }
 
       return format

@@ -4,7 +4,7 @@ import template from './desktop.stache'
 import _isUndefined from 'lodash/isUndefined'
 import isMobile from '~/src/util/is-mobile'
 
-let DesktopViewerVM = DefineMap.extend('DesktopViewerVM', {
+const DesktopViewerVM = DefineMap.extend('DesktopViewerVM', {
   // passed in via viewer app.stache bindings
   remainingSteps: {},
   maxDisplayedSteps: {},

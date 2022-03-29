@@ -40,7 +40,7 @@ describe('<a2j-fields>', () => {
         foo: 0,
         bar: 2
       }
-      vm.fields = [{name: 'foo'}, {name: 'bar'}, {name: 'bar'}]
+      vm.fields = [{ name: 'foo' }, { name: 'bar' }, { name: 'bar' }]
       assert.deepEqual(vm.lastIndexMap.serialize(), expectedResults, 'lastIndexMap should update when fields changes')
     })
 
@@ -61,7 +61,7 @@ describe('<a2j-fields>', () => {
         foo: false,
         bar: false
       }
-      vm.fields = [{name: 'foo'}, {name: 'bar'}, {name: 'bar'}]
+      vm.fields = [{ name: 'foo' }, { name: 'bar' }, { name: 'bar' }]
       assert.deepEqual(vm.groupValidationMap.serialize(), expectedResults, 'groupValidationMap should update when fields changes')
     })
   })

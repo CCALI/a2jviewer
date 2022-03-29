@@ -12,7 +12,7 @@ import _isFinite from 'lodash/isFinite'
  *
  * defines the type of each property in the validations Map
  */
-let Config = DefineMap.extend({
+const Config = DefineMap.extend({
   type: {
     type: 'string'
   },
@@ -36,7 +36,7 @@ let Config = DefineMap.extend({
         if (!val) {
           return ''
         }
-        let date = (val.toUpperCase() === 'TODAY') ? moment() : moment(val)
+        const date = (val.toUpperCase() === 'TODAY') ? moment() : moment(val)
         return date.isValid() ? date.format('MM/DD/YYYY') : ''
       }
 
@@ -59,7 +59,7 @@ let Config = DefineMap.extend({
         if (!val) {
           return ''
         }
-        let date = (val.toUpperCase() === 'TODAY') ? moment() : moment(val)
+        const date = (val.toUpperCase() === 'TODAY') ? moment() : moment(val)
         return date.isValid() ? date.format('MM/DD/YYYY') : ''
       }
 

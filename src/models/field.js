@@ -61,10 +61,10 @@ const Field = DefineMap.extend('Field', {
    * folder
    */
   getOptions (guidePath) {
-    let dfd = $.Deferred()
+    const dfd = $.Deferred()
     setupPromise(dfd)
-    let listSrc = this.listSrc
-    let listData = this.listData
+    const listSrc = this.listSrc
+    const listData = this.listData
 
     if (!listData && !listSrc) {
       return dfd.reject(new Error('Missing listData or listSrc values'))
@@ -76,7 +76,7 @@ const Field = DefineMap.extend('Field', {
     }
 
     if (listSrc) {
-      let ajaxOptions = {
+      const ajaxOptions = {
         dataType: 'text',
         url: normalizePath(guidePath, listSrc)
       }
@@ -84,7 +84,7 @@ const Field = DefineMap.extend('Field', {
       $.ajax(ajaxOptions)
         .then(options => {
           // strip anything before or after option tags
-          let formatted = options.replace(/<select>/ig, '').replace(/<\/select/ig, '')
+          const formatted = options.replace(/<select>/ig, '').replace(/<\/select/ig, '')
           this.options = formatted
           dfd.resolve(formatted)
         })

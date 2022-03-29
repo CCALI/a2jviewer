@@ -55,11 +55,11 @@ describe('<a2j-viewer-steps>', function () {
       const interview = new Interview({
         avatarGender: '',
         pages: [
-          new Page({name: 'fooPage', step: { number: '1', text: 'Foo Test' }}),
-          new Page({name: 'audioTest', step: { number: '2', text: 'Audio Test' }}),
-          new Page({name: 'graphicTest', step: { number: '3', text: 'Graphic Test' }}),
-          new Page({name: 'graphicWithAudioTest', step: { number: '4', text: 'Graphic with Audio Test' }}),
-          new Page({name: 'VideoTest', step: { number: '5', text: 'Video' }})
+          new Page({ name: 'fooPage', step: { number: '1', text: 'Foo Test' } }),
+          new Page({ name: 'audioTest', step: { number: '2', text: 'Audio Test' } }),
+          new Page({ name: 'graphicTest', step: { number: '3', text: 'Graphic Test' } }),
+          new Page({ name: 'graphicWithAudioTest', step: { number: '4', text: 'Graphic with Audio Test' } }),
+          new Page({ name: 'VideoTest', step: { number: '5', text: 'Video' } })
         ],
 
         steps: [
@@ -184,7 +184,7 @@ describe('<a2j-viewer-steps>', function () {
       )
 
       vm.interview.attr('answers').varSet('user gender', 'Female')
-      vm.currentPage.fields = [ {name: 'user gender'} ]
+      vm.currentPage.fields = [{ name: 'user gender' }]
       assert.ok(!vm.showUserAvatar, 'should not show user avatar when current page has the user gender field')
       assert.equal(
         vm.guideAvatarFacingDirection,
@@ -192,7 +192,7 @@ describe('<a2j-viewer-steps>', function () {
         'should still show guide avatar facing front'
       )
 
-      vm.currentPage.fields = [ {name: 'foo'} ]
+      vm.currentPage.fields = [{ name: 'foo' }]
       assert.ok(!!vm.showUserAvatar, 'should show user avatar when user has a gender and not on gender field page')
       assert.equal(
         vm.guideAvatarFacingDirection,
@@ -281,7 +281,7 @@ describe('<a2j-viewer-steps>', function () {
 
       const logic = new Logic({ interview })
 
-      let langStub = new DefineMap({
+      const langStub = new DefineMap({
         MonthNamesShort: 'Jan, Feb',
         MonthNamesLong: 'January, February',
         LearnMore: 'Learn More'

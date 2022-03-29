@@ -12,7 +12,7 @@ import isMobile from '~/src/util/is-mobile'
  *
  * `<a2j-viewer-navigation>`'s viewModel.
  */
-export let ViewerNavigationVM = DefineMap.extend({
+export const ViewerNavigationVM = DefineMap.extend({
   // passed in via stache bindings
   appState: {},
   courthouseImage: {},
@@ -164,8 +164,8 @@ export default Component.extend({
 
   helpers: {
     feedbackFormUrl () {
-      let feedbackData = this.feedbackData
-      let baseUrl = 'http://www.a2jauthor.org/A2JFeedbackForm.php?'
+      const feedbackData = this.feedbackData
+      const baseUrl = 'http://www.a2jauthor.org/A2JFeedbackForm.php?'
       return baseUrl + $.param(feedbackData)
     }
   }

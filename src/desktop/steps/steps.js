@@ -19,7 +19,7 @@ stache.registerPartial('learn-more-tpl', learnMoreTemplate)
  *
  * `<a2j-viewer-steps>`'s viewModel.
  */
-export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
+export const ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   // passed in via desktop.stache bindings
   appState: {},
   mState: {},
@@ -147,8 +147,8 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
    */
   maxDisplayedSteps: {
     get () {
-      let sidewalkHeight = this.sidewalkHeight
-      let interviewSteps = this.steps.length
+      const sidewalkHeight = this.sidewalkHeight
+      const interviewSteps = this.steps.length
       let maxSteps
 
       if (sidewalkHeight < 100) {
@@ -176,8 +176,8 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
    */
   a2jStepVars: {
     get () {
-      let a2jStepVars = []
-      let answers = this.interview.attr('answers')
+      const a2jStepVars = []
+      const answers = this.interview.attr('answers')
       if (answers) {
         canReflect.eachKey(answers, function (answer) {
           if (answer && answer.name && answer.name.indexOf('A2J Step') !== -1) {
@@ -267,8 +267,8 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
    */
   sidewalkLength: {
     get () {
-      let sidewalkHeight = this.sidewalkHeight
-      let sidewalkWidth = this.sidewalkWidth
+      const sidewalkHeight = this.sidewalkHeight
+      const sidewalkWidth = this.sidewalkWidth
       return Math.sqrt(Math.pow(sidewalkHeight, 2) + Math.pow(sidewalkWidth, 2))
     }
   },
@@ -336,7 +336,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
    */
   minusHeader: {
     get () {
-      let headerHeight = this.bodyHeight - this.sidewalkHeight
+      const headerHeight = this.bodyHeight - this.sidewalkHeight
       return Math.ceil(headerHeight / 2)
     }
   },
@@ -429,14 +429,14 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
   getStepWidth (isCurrentStep, cssBottom) {
     // for current step, align the bottom of the step with the bottom of the avatar
     // for next steps, align the bottom of the step with the bottom of its parent (set by css)
-    let bottom = isCurrentStep
+    const bottom = isCurrentStep
       ? this.avatarOffsetTop
       : cssBottom
 
     // reverse engineer less equation `calc(~"x% - " minusHeader) = bodyHeight`
     // solve above equation for x, which will be percentBelow
-    let percentBelow = Math.ceil(((bottom + this.minusHeader) / this.bodyHeight) * 100)
-    let percentAbove = (100 - percentBelow) / 100
+    const percentBelow = Math.ceil(((bottom + this.minusHeader) / this.bodyHeight) * 100)
+    const percentAbove = (100 - percentBelow) / 100
 
     return (this.sidewalkHeight * percentAbove) / Math.tan(this.sidewalkAngleA)
   },
@@ -459,26 +459,26 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
    *  updates the dom to keep step elements in proper relation to each other
    */
   updateDomProperties () {
-    let vm = this
+    const vm = this
 
     vm.bodyHeight = $('body').height()
 
-    let $sidewalk = $('#sidewalk')
+    const $sidewalk = $('#sidewalk')
     vm.sidewalkWidth = $sidewalk.width()
     vm.sidewalkHeight = $sidewalk.height()
 
-    let $guideBubble = $('#guideBubble')
+    const $guideBubble = $('#guideBubble')
     vm.guideBubbleHeight = $guideBubble.height()
 
-    let $clientBubble = $('#clientBubble')
+    const $clientBubble = $('#clientBubble')
     vm.clientBubbleHeight = $clientBubble.height()
 
-    let $avatar = $guideBubble.parent()
+    const $avatar = $guideBubble.parent()
     vm.avatarHeight = $avatar.height()
     vm.avatarOffsetTop = $avatar.offset() && $avatar.offset().top
 
     $('.step-next').each((i, el) => {
-      let $el = $(el)
+      const $el = $(el)
       let cssBottom = $el.css('bottom')
       cssBottom = +cssBottom.slice(0, cssBottom.indexOf('px'))
       if (cssBottom) {

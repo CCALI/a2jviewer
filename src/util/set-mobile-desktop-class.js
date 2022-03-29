@@ -1,11 +1,11 @@
 import $ from 'jquery'
 
 export default function setMobileDesktopClass (isMobileCompute, $element) {
-  let isMobile = isMobileCompute()
-  let $el = $element || $('body')
+  const isMobile = isMobileCompute()
+  const $el = $element || $('body')
 
-  let toggleClassName = function (isMobile, $el) {
-    let className = isMobile ? 'mobile' : 'desktop'
+  const toggleClassName = function (isMobile, $el) {
+    const className = isMobile ? 'mobile' : 'desktop'
     $el.removeClass('mobile desktop').addClass(className)
   }
 

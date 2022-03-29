@@ -7,11 +7,11 @@ import 'steal-mocha'
 
 describe('setMobileDesktopClass', function () {
   it('sets "mobile" or "desktop" class to "el" based on compute value', function () {
-    let $el = $('#test-area')
+    const $el = $('#test-area')
 
     // just to make sure the method toggles classes properly
     $el.addClass('mobile desktop')
-    let mobile = compute(true)
+    const mobile = compute(true)
 
     setMobileDesktopClass(mobile, $el)
     assert.isTrue($el.hasClass('mobile'))
