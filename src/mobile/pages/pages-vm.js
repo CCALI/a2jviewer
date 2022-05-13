@@ -615,26 +615,26 @@ export default DefineMap.extend('PagesVM', {
 
     switch (button.next) {
       case constants.qIDFAIL:
-        analytics.trackCustomEvent('FAIL', 'from', page)
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'FAIL/user does not qualify','from:' + page)
         break
 
       case constants.qIDEXIT:
-        analytics.trackCustomEvent('Exit', 'from', page)
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'Exit - Save Incomplete form', 'from:' + page)
         break
 
       case constants.qMESSAGE:
-        analytics.trackCustomEvent('Message', 'from', page)
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'Message/Exit- display message', 'from:' + page)
         break
 
       case constants.qIDASSEMBLE:
-        analytics.trackCustomEvent('Assemble', 'from', page)
+        analytics.trackCustomEvent('Special Branching', 'Assemble', 'Assemble', 'from:' + page)
         break
 
       case constants.qIDSUCCESS:
-        analytics.trackCustomEvent('Success', 'from', page)
+        analytics.trackCustomEvent('Special Branching', 'Success', 'Success', 'from:' + page)
         break
       case constants.qIDASSEMBLESUCCESS:
-        analytics.trackCustomEvent('Assemble+Success', 'from', page)
+        analytics.trackCustomEvent('Special Branching', 'Assemble', 'Assemble+Success', 'from:' + page)
         break
     }
   },
