@@ -59,7 +59,7 @@ export default Component.extend({
         const page = pages.find(pageName)
         // piwik tracking of learn-more clicks
         if (window._paq) {
-          analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
+          analytics.trackCustomEvent('Just In Time Learning', 'Learn-More', 'from: ' + pageName, page.learn)
         }
 
         vm.appState.modalContent = {
@@ -88,7 +88,7 @@ export default Component.extend({
 
           // piwik tracking of popups
           if (window._paq) {
-            analytics.trackCustomEvent('Pop-Up', 'from: ' + sourcePageName, pageName)
+            analytics.trackCustomEvent('Just In Time Learning', 'Pop-Up', 'from: ' + sourcePageName, pageName)
           }
 
           // popups only have text, textAudioURL possible values

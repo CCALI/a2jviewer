@@ -188,7 +188,7 @@ export default Component.extend({
 
           // piwik tracking of popups
           if (window._paq) {
-            analytics.trackCustomEvent('Pop-Up', 'from: ' + sourcePageName, pageName)
+            analytics.trackCustomEvent('Just In Time Learning', 'Pop-Up', 'from: ' + sourcePageName, pageName)
           }
 
           // popup content is only title, text, and textAudio

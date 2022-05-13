@@ -512,7 +512,7 @@ export let ViewerStepsVM = DefineMap.extend('ViewerStepsVM', {
 
       // piwik tracking of learn-more clicks
       if (window._paq) {
-        analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
+        analytics.trackCustomEvent('Just In Time Learning', 'Learn-More', 'from: ' + pageName, page.learn)
       }
 
       this.appState.modalContent = {
