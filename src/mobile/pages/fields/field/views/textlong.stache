@@ -7,15 +7,16 @@
       {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
     </label>
 
-    <textarea
-      id="{{field.label}}"
-      style="resize: none;"
-      class="form-control"
-      name="{{field.name}}"
-      {{#if(field.required)}}required{{/if}}
-      on:change="validateField(null, scope.element)"
-      value:bind="field._answerVm.values"
-      on:input="calcAvailableLength(scope.event)"/>
+    <div class="textlong-field-field">
+      <textarea
+        id="{{field.label}}"
+        style="resize: none;"
+        class="form-control"
+        name="{{field.name}}"
+        {{#if(field.required)}}required{{/if}}
+        on:change="validateField(null, scope.element)"
+        value:bind="field._answerVm.values"
+        on:input="calcAvailableLength(scope.event)"/>
 
       <button
         aria-label="expand textarea"
@@ -27,6 +28,7 @@
       {{#if(field.maxChars)}}
         {{> exceeded-maxchars-tpl }}
       {{/if}}
+    </div>
   </div>
 
   {{> invalid-prompt-tpl }}
