@@ -1,13 +1,19 @@
 # A2JViewer
 
-##### This repo is part of the A2J Author Project which consists of four repos...
-##### 1. A2JViewer - https://github.com/CCALI/a2jviewer
-##### 2. A2J Author - https://github.com/CCALI/a2jauthor
-##### 3. A2J Document Automation Tool - https://github.com/CCALI/a2jdat
-##### 4. A2J Dependencies - https://github.com/CCALI/a2jdeps
-
 This repo hosts the distributable production version of the A2J Viewer. This software is updated frequently and the repo should be monitored as the updates include security and feature improvements. You can subscribe to updates through an atom reader by using this url: https://github.com/CCALI/a2jviewer/releases.atom.
 
+## Project note: sister repos
+This repo is part of the A2J Author Project which consists of four repos...
+
+1.) A2JViewer - https://github.com/CCALI/a2jviewer
+
+2.) A2J Author - https://github.com/CCALI/a2jauthor
+
+3.) A2J Document Automation Tool - https://github.com/CCALI/a2jdat
+
+4.) A2J Dependencies - https://github.com/CCALI/a2jdeps
+
+## What is in this repo: ccali/a2jviewer
 Within it you'll find a `.zip` file containing the minified JavaScript source for the viewer,a basic guide/interview, and a `README.md` file explaining the contents of the `.zip` file in greater detail.
 
 NOTE: By downloading this application, you are agreeing to the terms included in the user license [LICENSE.md](https://github.com/CCALI/a2jviewer/blob/master/LICENSE.md).
