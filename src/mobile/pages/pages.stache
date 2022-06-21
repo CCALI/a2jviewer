@@ -15,79 +15,87 @@
 {{#if(connected)}}
   {{ let step = currentPage.step }}
   {{ let focusedButton = previouslySelectedButton() }}
-  <div class="bubble-content">
-    <h3 {{#if(appState.useMobileUI)}}style="display: block;"{{/if}}>
-      {{#is(step.number, '0')}}
-        <span class="glyphicon-right-open" aria-hidden="true">{{step.text}}</span>
-      {{else}}
-        {{step.number}}: {{step.text}}
-      {{/is}}
-    </h3>
-
-    <div class="question-text-container" tabindex="0">
-      <p class="question-text">{{{ insertExternalLinkIcon(parseText(currentPage.text)) }}}</p>
-      {{#if(currentPage.fields.length)}}
-        <a2j-fields
-          lang:from="lang"
-          logic:from="logic"
-          fields:from="currentPage.fields"
-          groupValidationMap:to="groupValidationMap"
-          appState:from="appState" />
-      {{/if}}
+  {{#if(currentPageIsPopup)}}
+    <div class="bubble-content">
+      <div class="question-text-container" tabindex="0">
+        <p class="question-text">Popup: <a href="POPUP://{{currentPage.name}}">{{currentPage.name}}</a>&nbsp;</p>
+      </div>
     </div>
+  {{else}}
+    <div class="bubble-content">
+      <h3 {{#if(appState.useMobileUI)}}style="display: block;"{{/if}}>
+        {{#is(step.number, '0')}}
+          <span class="glyphicon-right-open" aria-hidden="true">{{step.text}}</span>
+        {{else}}
+          {{step.number}}: {{step.text}}
+        {{/is}}
+      </h3>
 
-    {{#if(trim(currentPage.textAudioURL))}}
-      <audio-player
-        sourceUrl:from="normalizePath(mState.fileDataURL, currentPage.textAudioURL)"
-      />
+      <div class="question-text-container" tabindex="0">
+        <p class="question-text">{{{ insertExternalLinkIcon(parseText(currentPage.text)) }}}</p>
+        {{#if(currentPage.fields.length)}}
+          <a2j-fields
+            lang:from="lang"
+            logic:from="logic"
+            fields:from="currentPage.fields"
+            groupValidationMap:to="groupValidationMap"
+            appState:from="appState" />
+        {{/if}}
+      </div>
+
+      {{#if(trim(currentPage.textAudioURL))}}
+        <audio-player
+          sourceUrl:from="normalizePath(mState.fileDataURL, currentPage.textAudioURL)"
+        />
+      {{/if}}
+
+    </div><!-- bubble-content -->
+
+    <p class="text-center modal-button">
+      <a class="learn-more" aria-label="{{{ parseText(currentPage.learn) }}}">{{{ parseText(currentPage.learn) }}}</a>
+    </p>
+
+    {{#for(button of currentPage.buttons)}}
+      {{#switch(button.next)}}
+        {{#case(saveAnswersButton)}}
+          {{> save-answers-form button}}
+        {{/case}}
+
+        {{#case(exitButton)}}
+          {{> save-answers-form button}}
+        {{/case}}
+
+        {{#case(assembleButton)}}
+          {{> assemble-form button}}
+        {{/case}}
+
+        {{#case(assembleAndSaveButton)}}
+          <div style:raw="display: none;">{{> save-answers-form button}}</div>
+          {{> assemble-form button}}
+        {{/case}}
+
+        {{#default}}
+          {{ let buttonLabel = getButtonLabel(parseText(button.label)) }}
+          <button
+            type="button"
+            on:click="navigate(button)"
+            class="btn btn-default btn-navigate {{#is(button, focusedButton)}}{{focusedButtonRendering()}}{{/is}}"
+            aui-action="next"
+          >
+            {{buttonLabel}}
+          </button>
+        {{/default}}
+      {{/switch}}
+    {{/for}}
+
+    {{#if(currentPage.canPreview)}}
+      <p>You have documents that can be previewed.</p>
+      <button
+        class="btn btn-default btn-navigate open-preview"
+        type="button"
+      >
+        Open document preview 
+      </button>
     {{/if}}
-
-  </div><!-- bubble-content -->
-
-  <p class="text-center modal-button">
-    <a class="learn-more" aria-label="{{{ parseText(currentPage.learn) }}}">{{{ parseText(currentPage.learn) }}}</a>
-  </p>
-
-  {{#for(button of currentPage.buttons)}}
-    {{#switch(button.next)}}
-      {{#case(saveAnswersButton)}}
-        {{> save-answers-form button}}
-      {{/case}}
-
-      {{#case(exitButton)}}
-        {{> save-answers-form button}}
-      {{/case}}
-
-      {{#case(assembleButton)}}
-        {{> assemble-form button}}
-      {{/case}}
-
-      {{#case(assembleAndSaveButton)}}
-        <div style:raw="display: none;">{{> save-answers-form button}}</div>
-        {{> assemble-form button}}
-      {{/case}}
-
-      {{#default}}
-        {{ let buttonLabel = getButtonLabel(parseText(button.label)) }}
-        <button
-          type="button"
-          on:click="navigate(button)"
-          class="btn btn-default btn-navigate {{#is(button, focusedButton)}}{{focusedButtonRendering()}}{{/is}}"
-          aui-action="next"
-        >
-          {{buttonLabel}}
-        </button>
-      {{/default}}
-    {{/switch}}
-  {{/for}}
-
-  {{#if(currentPage.canPreview)}}
-    <p>You have documents that can be previewed.</p>
-    <button
-      class="btn btn-default btn-navigate open-preview"
-      type="button"
-    >
-       Open document preview 
-    </button>
   {{/if}}
 {{/if}}

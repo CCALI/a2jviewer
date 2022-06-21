@@ -55,7 +55,7 @@ export default Component.extend({
         const pages = vm.interview.pages
 
         if (pages) {
-          const pageName = el.href.replace('popup://', '').replace('POPUP://', '').replace('/', '') // pathname is not supported in FF and IE.
+          const pageName = decodeURIComponent(el.href.replace('popup://', '').replace('POPUP://', '').replace('/', ''))
           const page = pages.find(pageName)
           const sourcePageName = vm.currentPage.name
 

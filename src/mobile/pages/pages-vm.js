@@ -66,6 +66,12 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
+  // should only happen if previewing the popup page from author
+  get currentPageIsPopup () {
+    const page = this.currentPage || {}
+    return page.type === constants.ptPopup
+  },
+
   resumeInterview: {},
   lang: {},
   logic: {},
