@@ -621,7 +621,7 @@ export default DefineMap.extend('PagesVM', {
 
     switch (button.next) {
       case constants.qIDFAIL:
-        analytics.trackCustomEvent('Special Branching', 'Exit', 'FAIL/user does not qualify','from:' + page)
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'FAIL/user does not qualify', 'from:' + page)
         break
 
       case constants.qIDEXIT:
