@@ -613,6 +613,37 @@ export default DefineMap.extend('PagesVM', {
         break
     }
   },
+  /** Track special button clicks in Matomo analytics
+   * @param button button id
+  */
+  trackSpecialButton (button) {
+    const page = this.appState.page
+
+    switch (button.next) {
+      case constants.qIDFAIL:
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'FAIL/user does not qualify','from:' + page)
+        break
+
+      case constants.qIDEXIT:
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'Exit - Save Incomplete form', 'from:' + page)
+        break
+
+      case constants.qMESSAGE:
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'Message/Exit- display message', 'from:' + page)
+        break
+
+      case constants.qIDASSEMBLE:
+        analytics.trackCustomEvent('Special Branching', 'Assemble', 'Assemble', 'from:' + page)
+        break
+
+      case constants.qIDSUCCESS:
+        analytics.trackCustomEvent('Special Branching', 'Success', 'Success', 'from:' + page)
+        break
+      case constants.qIDASSEMBLESUCCESS:
+        analytics.trackCustomEvent('Special Branching', 'Assemble', 'Assemble+Success', 'from:' + page)
+        break
+    }
+  },
 
   handleServerPost (button, vm, previewActive, ev) {
     // do nothing if in preview
@@ -620,6 +651,10 @@ export default DefineMap.extend('PagesVM', {
 
     if (button.next !== constants.qIDEXIT) {
       vm.setInterviewAsComplete()
+    }
+
+    if (window._paq) {
+      vm.trackSpecialButton(button)
     }
 
     // This modal and disable is for LHI/HotDocs issue taking too long to process
