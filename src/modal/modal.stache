@@ -6,12 +6,12 @@
     id="pageModal"
     tabindex="-1"
     role="dialog"
-    aria-hidden="{{#if(modalContent)}}false{{else}}true{{/if}}"
+    aria-hidden="true"
     class="modal {{#if(fullscreen)}}maximized{{else}}fade in{{/if}}"
     aria-labelledby="pageModalLbl"
   >
 
-    <div class="modal-dialog {{#if(modalContent.textlongFieldVM.field.name)}}modal-lg{{/if}}">
+    <div class="modal-dialog {{#if(hasTextlongName)}}modal-lg{{/if}}">
       <div class="modal-content">
         {{#if(modalContent)}}
         <div class="modal-header">
@@ -46,8 +46,8 @@
           </h4>
         </div>
 
-        <div class="modal-body {{#if(modalContent.iframeMarkup)}}has-iframe{{/if}} {{#if(modalContent.textlongFieldVM.field.name)}}has-textarea{{/if}}" tabindex="1">
-          {{#if(modalContent.textlongFieldVM.field.name)}}
+        <div class="modal-body {{#if(modalContent.iframeMarkup)}}has-iframe{{/if}} {{#if(hasTextlongName)}}has-textarea{{/if}}" tabindex="1">
+          {{#if(hasTextlongName)}}
             <textarea autofocus
               id="textlong-input"
               class="form-control expanded-textarea"
@@ -61,6 +61,14 @@
               <iframe class="modal-iframe" iframemarkup="modalContent.iframeMarkup"></iframe>
             {{else}}
               {{{insertExternalLinkIcon(parseText(modalContent.text))}}}
+              {{#if(modalContent.textAudioURL)}}
+                <div class="modal-audio-wrapper">
+                  <audio-player
+                    class="modal-audio"
+                    sourceUrl:from="normalizePath(scope/mState.fileDataURL, modalContent.textAudioURL)"
+                  />
+                </div>
+              {{/if}}
             {{/if}}
 
             {{#if(modalContent.audioURL)}}

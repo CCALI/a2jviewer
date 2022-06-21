@@ -62,7 +62,7 @@ module.exports = function (grunt) { // documentjs tasks removed until security u
           },
           buildOptions: {
             minify: true,
-            sourceMaps: true,
+            sourceMaps: false,
             bundleSteal: false
           }
         }

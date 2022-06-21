@@ -4,7 +4,7 @@ import _pick from 'lodash/pick'
 
 const buttonProperties = [
   'url', 'next', 'name', 'value',
-  'repeatVar', 'repeatVarSet', 'label'
+  'repeatVar', 'repeatVarSet', 'message', 'label'
 ]
 
 const fieldProperties = [

@@ -44,7 +44,7 @@
             on:change="visitedPages.selected = visitedPages.activeList[scope.element.selectedIndex]"
           >
             {{#for(visitedPage of visitedPages.activeList)}}
-              <option value="{{scope.index}}" disabled:from="this.disableOption(visitedPage)">
+              <option value="{{scope.index}}">
                 {{visitedPage.display.textRepeatTruncated}}
               </option>
             {{/for}}
@@ -68,57 +68,54 @@
         </a>
       </li>
       {{/if}}
-
-      {{#if(./canSaveAndExit)}}
-      <li class="divider" role="separator"></li>
-        <li class="nav-item can-exit" on:click="./saveAndExit()">
-          <a role="button" class="nav-link" tabindex="0"  aui-action="save" aria-label="{{./lang.SaveAndExit}}">
-            <span class="glyphicon-floppy" aria-hidden="true"></span>
-          </a>
-        </li>
-      {{/if}}
-
-      {{#if(canResumeInterview)}}
-      <li class="divider" role="separator"></li>
-        <li class="nav-item can-resume" on:click="./resumeInterview()">
-          <a role="button" class="nav-link" tabindex="0" aria-labelledby="nav-resume-exit" aui-action="previous">
-            <span class="glyphicon-right-thin" aria-hidden="true" id="nav-resume-exit"></span> {{./lang.ResumeExit}}
-          </a>
-        </li>
+      {{#if(hasExitPage)}}
+        <li class="divider" role="separator"></li>
+        {{#if(currentVisitedPageIsExitPage)}}
+          <li class="nav-item can-resume" on:click="./resumeInterview()">
+            <a role="button" class="nav-link" tabindex="0" aria-labelledby="nav-resume-exit" aui-action="previous">
+              <span class="glyphicon-right-thin" aria-hidden="true" id="nav-resume-exit"></span> {{./lang.ResumeExit}}
+            </a>
+          </li>
+        {{else}}
+          <li class="nav-item can-exit" on:click="./saveAndExit()">
+            <a role="button" class="nav-link" tabindex="0" aui-action="save" aria-label="{{./lang.SaveAndExit}}">
+              <span class="glyphicon-floppy" aria-hidden="true"></span>
+            </a>
+          </li>
+        {{/if}}
       {{/if}}
     </ul><!-- /navbar-right-mobile -->
   {{else}}
     <!-- /navbar-right -->
     <ul class="navbar-mobile nav navbar-nav navbar-right">
       {{#if(interview.sendfeedback)}}
-      <li class="divider" role="separator"></li>
-      <li class="nav-item">
-        <a role="button" target="_blank" href="{{./feedbackFormUrl()}}"
-          aria-labelledby="nav-send-feedback"
-          class="nav-link send-feedback"
-          id="send-feedback-button"
-          aui-action="compose">
-          <span class="glyphicon-mail" aria-hidden="true" id="nav-send-feedback"></span> {{./lang.SendFeedback}}
-        </a>
-      </li>
-      {{/if}}
-
-      {{#if(canSaveAndExit)}}
-      <li class="divider" role="separator"></li>
-        <li class="nav-item can-exit" on:click="./saveAndExit()" on:keydown="keydownFireClickHandler(scope.event, ./saveAndExit)">
-          <a role="button" class="nav-link" aria-labelledby="nav-save-and-exit" tabindex="0" aui-action="save">
-            <span class="glyphicon-floppy" aria-hidden="true" id="nav-save-and-exit"></span> {{./lang.SaveAndExit}}
+        <li class="divider" role="separator"></li>
+        <li class="nav-item">
+          <a role="button" target="_blank" href="{{./feedbackFormUrl()}}"
+            aria-labelledby="nav-send-feedback"
+            class="nav-link send-feedback"
+            id="send-feedback-button"
+            aui-action="compose">
+            <span class="glyphicon-mail" aria-hidden="true" id="nav-send-feedback"></span> {{./lang.SendFeedback}}
           </a>
         </li>
       {{/if}}
 
-      {{#if(canResumeInterview)}}
-      <li class="divider" role="separator"></li>
-        <li class="nav-item can-resume" on:click="./resumeInterview()" on:keydown="keydownFireClickHandler(scope.event, ./resumeInterview)">
-          <a role="button" class="nav-link" aria-labelledby="nav-resume-exit" tabindex="0" aui-action="previous">
-            <span class="glyphicon-right-thin" aria-hidden="true" id="nav-resume-exit"></span> {{./lang.ResumeExit}}
-          </a>
-        </li>
+      {{#if(hasExitPage)}}
+        <li class="divider" role="separator"></li>
+        {{#if(currentVisitedPageIsExitPage)}}
+          <li class="nav-item can-resume" on:click="./resumeInterview()" on:keydown="keydownFireClickHandler(scope.event, ./resumeInterview)">
+            <a role="button" class="nav-link" aria-labelledby="nav-resume-exit" tabindex="0" aui-action="previous">
+              <span class="glyphicon-right-thin" aria-hidden="true" id="nav-resume-exit"></span> {{./lang.ResumeExit}}
+            </a>
+          </li>
+        {{else}}
+          <li class="nav-item can-exit" on:click="./saveAndExit()" on:keydown="keydownFireClickHandler(scope.event, ./saveAndExit)">
+            <a role="button" class="nav-link" aria-labelledby="nav-save-and-exit" tabindex="0" aui-action="save">
+              <span class="glyphicon-floppy" aria-hidden="true" id="nav-save-and-exit"></span> {{./lang.SaveAndExit}}
+            </a>
+          </li>
+        {{/if}}
       {{/if}}
     </ul><!-- /navbar-right -->
   {{/if}}

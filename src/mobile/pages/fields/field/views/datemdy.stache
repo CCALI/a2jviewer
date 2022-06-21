@@ -7,14 +7,16 @@
       {{{ parseText(field.label) }}}
       {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
     </label>
-    <input
-      type="text"
-      id:from="this.trimFieldLabel(field.label)"
-      name="{{field.name}}"
-      value:bind="field._answerVm.textValue"
-      on:change="validateField(null, scope.element)"
-      {{#if(field.required)}}required{{/if}}
-      class="form-control datepicker-input" />
+    <div class="datepicker-field-field">
+      <input
+        type="text"
+        id:from="this.trimFieldLabel(field.label)"
+        name="{{field.name}}"
+        value:bind="field._answerVm.textValue"
+        on:change="validateField(null, scope.element)"
+        {{#if(field.required)}}required{{/if}}
+        class="form-control datepicker-input" />
+    </div>
   </div>
 
   {{> invalid-prompt-tpl }}

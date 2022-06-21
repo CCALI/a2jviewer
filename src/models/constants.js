@@ -1,3 +1,5 @@
+import version from '../footer/footerVersion'
+
 export default {
   devShowTesting: false,
   showXML: 0,
@@ -6,8 +8,8 @@ export default {
   // Spinnner for loading wait
   AJAXLoader: '<span class="loader">&nbsp;</span>',
 
-  A2JVersionNum: '7.0.23', // VersionInfo.verNum
-  A2JVersionDate: '2021-05-04',
+  A2JVersionNum: version.number, // VersionInfo.verNum
+  A2JVersionDate: version.date,
 
   // CAVersionNum:'5.0.0',
   // CAVersionDate:'2013-04-15',
@@ -83,6 +85,7 @@ export default {
   qIDRESUME: 'RESUME', // 8/24/09 3.0.2
   qIDASSEMBLE: 'ASSEMBLE',
   qIDASSEMBLESUCCESS: 'ASSEMBLE-SUCCESS',
+  qMESSAGE: 'MESSAGE', // Exit - Display Message
 
   // 2014-06-04 Button-based repeat options
   RepeatVarSetOne: '=1',

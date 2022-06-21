@@ -112,6 +112,9 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
         resolve(rvv)
       })
       listenTo(this.visitedPages, 'selected', (ev, selectedVisitedPage) => {
+        if (!(selectedVisitedPage && selectedVisitedPage.interviewPage)) {
+          return
+        }
         const v = selectedVisitedPage.interviewPage.repeatVar
         const vv = selectedVisitedPage.repeatVarValue
         v && this.logic.varSet(v, vv)
@@ -134,6 +137,9 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
         }
       })
       listenTo(this.visitedPages, 'selected', (ev, selectedVisitedPage) => {
+        if (!(selectedVisitedPage && selectedVisitedPage.interviewPage)) {
+          return
+        }
         const v = selectedVisitedPage.interviewPage.outerLoopVar
         const vv = selectedVisitedPage.outerLoopVarValue
         v && this.logic.varSet(v, vv)
@@ -167,18 +173,6 @@ export const ViewerAppState = DefineMap.extend('ViewerAppState', {
   // set when launched via preview.js during Author Preview
   previewActive: {
     serialize: false
-  },
-
-  saveAndExitActive: {
-    serialize: false,
-    get () {
-      return !!this.lastPageBeforeExit
-    }
-  },
-
-  lastPageBeforeExit: {
-    serialize: false,
-    default: null
   },
 
   useMobileUI: {

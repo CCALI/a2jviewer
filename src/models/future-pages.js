@@ -8,6 +8,7 @@ import _every from 'lodash/every'
 const specialButtons = {
   [constants.qIDFAIL]: true,
   [constants.qIDEXIT]: true,
+  [constants.qMESSAGE]: true,
   [constants.qIDSUCCESS]: true,
   [constants.qIDASSEMBLESUCCESS]: true,
   [constants.qIDASSEMBLE]: true
