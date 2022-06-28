@@ -2,7 +2,7 @@
 
 <div>
   <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
-    <label class="control-label" for="{{field.label}}">
+    <label class="control-label" for="{{idFromLabelHTML(field.label)}}">
       {{{ parseText(field.label) }}}
       {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
     </label>
@@ -10,7 +10,7 @@
       <input
         type="text"
         inputmode="decimal"
-        id="{{field.label}}"
+        id="{{idFromLabelHTML(field.label)}}"
         name="{{field.name}}"
         {{#if(field.required)}}required{{/if}}
         class="form-control"

@@ -53,6 +53,9 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       return this.appState.modalContent
     }
   },
+  randomIdSuffix: {
+    default: () => Math.random().toString(36).substring(2)
+  },
 
   // used in field views/*
   repeatVarValue: {
@@ -379,7 +382,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
   showCalculator (field) {
     if (field && field.calculator === true) {
       const vm = this
-      const inputId = field.label
+      const inputId = this.idFromLabelHTML(field.label)
       const $inputEl = $("[id='" + inputId + "']")
       $inputEl.calculator({
         showOn: 'operator',
@@ -515,10 +518,8 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     }
   },
 
-  trimFieldLabel (html) {
-    // this fixes first preview edge case of datemdy.stache fields
-    //  https://github.com/CCALI/CAJA/issues/2722
-    return html.trim()
+  idFromLabelHTML (html) {
+    return 'id-' + html.trim() + '-' + this.randomIdSuffix
   },
 
   connectedCallback (el) {
@@ -529,9 +530,8 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     // userAvatar stored as json string and needs manual restore aka not bound in stache
     if (vm.field.type === 'useravatar') {
       const userAvatarJSON = vm.logic.varGet('user avatar')
-      if (userAvatarJSON) {
-        vm.restoreUserAvatar(userAvatarJSON)
-      }
+      const defaultUAJ = `{"gender":"female", "isOld":false, "hasWheelchair":false, "hairColor":"brownDark", "skinTone":"medium"}`
+      vm.restoreUserAvatar(userAvatarJSON || defaultUAJ)
     }
 
     // setup datepicker widget
