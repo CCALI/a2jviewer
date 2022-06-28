@@ -3,14 +3,14 @@
 
 <div class="datepicker-field">
   <div class="form-group {{#if(field.hasError)}}has-error{{/if}}">
-    <label class="control-label" for="{{this.trimFieldLabel(field.label)}}">
+    <label class="control-label" for="{{this.idFromLabelHTML(field.label)}}">
       {{{ parseText(field.label) }}}
       {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
     </label>
     <div class="datepicker-field-field">
       <input
         type="text"
-        id:from="this.trimFieldLabel(field.label)"
+        id:from="this.idFromLabelHTML(field.label)"
         name="{{field.name}}"
         value:bind="field._answerVm.textValue"
         on:change="validateField(null, scope.element)"
