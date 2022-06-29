@@ -1,7 +1,19 @@
 # A2JViewer
 
-This repo hosts the distributable production version of the A2J Viewer.
+This repo hosts the distributable production version of the A2J Viewer. This software is updated frequently and the repo should be monitored as the updates include security and feature improvements. You can subscribe to updates through an atom reader by using this url: https://github.com/CCALI/a2jviewer/releases.atom.
 
+## Project note: sister repos
+This repo is part of the A2J Author Project which consists of four repos...
+
+1.) A2JViewer - https://github.com/CCALI/a2jviewer
+
+2.) A2J Author - https://github.com/CCALI/a2jauthor
+
+3.) A2J Document Automation Tool - https://github.com/CCALI/a2jdat
+
+4.) A2J Dependencies - https://github.com/CCALI/a2jdeps
+
+## What is in this repo: ccali/a2jviewer
 Within it you'll find a `.zip` file containing the minified JavaScript source for the viewer,a basic guide/interview, and a `README.md` file explaining the contents of the `.zip` file in greater detail.
 
 NOTE: By downloading this application, you are agreeing to the terms included in the user license [LICENSE.md](https://github.com/CCALI/a2jviewer/blob/master/LICENSE.md).
@@ -95,7 +107,7 @@ The default viewer.html points the save data endpoint, `setDataURL` to a demo pa
 You can also use a query parameter to force the endpoints to any custom value. For instance,you can point setDataURL to point to your custom save-answers code using relative paths like www.example.org/a2j-viewer/viewer/viewer.html?templateURL=../Guides/someguide&setDataURL=mysaveanswers.php
 
 ## Demo Widget
-There is a basic interview uploader and launcher at the default path of `yourwebroot/path/a2j-viewer/viewer` This allows you to quickly upload and test individual A2J Guided Interviews®, as well as see sample query string parameters used to load and launch those interviews. Click the upload button to select a A2J Guided Interview® saved in .zip format.  This generates a unique name and link to launch the interview in a new tab. Interviews can also be deleted from this list, which removes them from the local `guides` folder.
+There is a basic interview uploader and launcher at the default path of `yourwebroot/path/a2j-viewer/viewer`. **This is for demonstration and testing purposes and should be secured as necessary.** This allows you to quickly upload and test individual A2J Guided Interviews®, as well as see sample query string parameters used to load and launch those interviews. Click the upload button to select a A2J Guided Interview® saved in .zip format.  This generates a unique name and link to launch the interview in a new tab. Interviews can also be deleted from this list, which removes them from the local `guides` folder.
 
 If A2J Guided Interviews® don't successfully upload or delete, make sure the folder permissions allow read and write capability to the `guides` folder, and execute permissions on any php code.
 

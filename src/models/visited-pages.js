@@ -122,7 +122,7 @@ export const VisitedPage = DefineMap.extend('VisitedPage', {
     }
     return this
   },
-  // shortcust to the nextVisitedPage on the active timeline
+  // shortcut to the nextVisitedPage on the active timeline
   get nextVisitedPage () {
     return this.branches[this.branches.length - 1]
   },
@@ -160,6 +160,22 @@ export const VisitedPages = VisitedPage.List = DefineList.extend('VisitedPages',
     return leaf
   },
 
+  // removes the active leaf, used when navigating away from the save & exit page, which should be the active leaf if it exists in VP at all
+  // returns the new active leaf
+  // This feature is only used for exit page currently; it removes the "Save & Exit" page from the visited pages history
+  // WARNING: if active leaf is also selected, we must currently change the selected vp to the parent separately. Changing it here cuases circular logic.
+  removeActiveLeaf () {
+    const al = this.activeLeaf
+    const pvp = al && al.parentVisitedPage
+    if (pvp) {
+      // if (al === this.selected) { this.selected = pvp }
+      pvp.branches.pop() // the active branch of a node is always the last index of its branches
+      const i = this.indexOf(al)
+      i > -1 && this.splice(i, 1)
+    }
+    return pvp || al
+  },
+
   // Flat list of only active branch items; useful for dropdown bindings where selected option index needs to map to a specific vp.
   // Most of the time this will be a copy of visitedPages # items, but if there are branches, this will be a subset of those items.
   // For historical reasons, index 0 is the last active page and index length - 1 is the root. (same order the original list is in)
@@ -192,6 +208,14 @@ export const VisitedPages = VisitedPage.List = DefineList.extend('VisitedPages',
       '-' + (invw.attr('publishedVersion') || '')
     return key
   },
+  __pageNameIsInterviewExitPage (pageName) {
+    const sharedRefs = this.sharedRefs
+    const invw = sharedRefs.interview
+    const exitPage = invw && invw.attr('exitPage')
+
+    const selectedPageIsExit = !!(exitPage && (exitPage === pageName))
+    return selectedPageIsExit
+  },
 
   get futureVisitedPages () {
     let parentLeaf = this.activeLeaf // fake the parent rel into the tree without branching from the tree into the future visited pages
@@ -218,12 +242,23 @@ export const VisitedPages = VisitedPage.List = DefineList.extend('VisitedPages',
   // current visited page. Can be set directly to any VisitedPage that's already in the tree
   selected: {
     set (visitedPage) {
+      if (this.selected !== visitedPage && this.selectedIsInterviewExitPage) {
+        this.removeActiveLeaf()
+      }
       const shouldBeRoot = visitedPage && visitedPage.setActive()
       if (shouldBeRoot === this.root) {
         return visitedPage
       }
       return undefined
     }
+  },
+
+  get selectedIsInterviewExitPage () {
+    const selectedVP = this.selected || {}
+    const currentPage = selectedVP.interviewPage || {}
+    const pageName = currentPage.name || ''
+
+    return this.__pageNameIsInterviewExitPage(pageName)
   },
 
   get hasNext () {
@@ -276,10 +311,15 @@ export const VisitedPages = VisitedPage.List = DefineList.extend('VisitedPages',
       vp.outerLoopVarValue == outerLoopVarValue // eslint-disable-line
     )
 
-    if (this.selected && destinationMatchesVP(this.selected)) {
-      // bad buttons (that point to missing pages) might try to visit() the same current selected page.
-      // No matter what called visit() though, if it results in the exact same visited page, ignore it.
-      return
+    if (this.selected) {
+      if (this.selectedIsInterviewExitPage && this.selected === this.activeLeaf) {
+        this.selected = this.removeActiveLeaf()
+      }
+      if (destinationMatchesVP(this.selected)) {
+        // bad buttons (that point to missing pages) might try to visit() the same current selected page.
+        // No matter what called visit() though, if it results in the exact same visited page, ignore it.
+        return
+      }
     }
 
     // NOTE: if the refactor/rewire mentioned in the comments at the top of this file ever happens,

@@ -26,8 +26,17 @@ div.ui-datepicker {
 }
 
 div.datepicker-field {
-  // account for 44px tall wcag button
-  margin-bottom: 36px;
+  .datepicker-field-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    margin-bottom: 30px;
+  }
+  .ui-datepicker-append {
+    position: absolute;
+    top: 100%;
+  }
 
   button.ui-datepicker-trigger {
     background: #fff;

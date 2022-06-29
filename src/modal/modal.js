@@ -38,20 +38,26 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     }
   },
 
+  hasTextlongName: {
+    get () {
+      return this.modalContent && this.modalContent.textlongFieldVM && this.modalContent.textlongFieldVM.field && this.modalContent.textlongFieldVM.field.name
+    }
+  },
+
   availableLength: {
     get () {
-      return this.modalContent.textlongFieldVM.availableLength
+      return this.modalContent && this.modalContent.textlongFieldVM.availableLength
     }
   },
 
   overCharacterLimit: {
     get () {
-      return this.modalContent.textlongFieldVM.overCharacterLimit
+      return this.modalContent && this.modalContent.textlongFieldVM.overCharacterLimit
     }
   },
 
   get allowFullscreen () {
-    return !!this.modalContent.allowFullscreen
+    return this.modalContent && !!this.modalContent.allowFullscreen
   },
 
   fullscreen: {
@@ -90,6 +96,9 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
     if (this.triggeringElement) {
       this.triggeringElement.focus()
     }
+
+    // clear for next modal use
+    this.modalContent = null
   },
 
   pauseActivePlayers () {
@@ -115,6 +124,7 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
       if (!this.previewActive) {
         $('body').addClass('bootstrap-styles')
       }
+      $('#pageModal').attr('aria-hidden', false)
     }
     const fireCloseModalHandler = () => {
       // pause audio/video before close
@@ -122,6 +132,7 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
 
       // preserves `this` for handler
       this.closeModalHandler()
+      $('#pageModal').attr('aria-hidden', true)
     }
 
     $('#pageModal').on('shown.bs.modal', showModalHandler)
@@ -152,7 +163,7 @@ export default Component.extend({
     },
 
     cleanHTML (html) {
-      var stripped = (html || '').replace(/<[^>]*>/g, '')
+      const stripped = (html || '').replace(/<[^>]*>/g, '')
       return stripped
     }
   },
@@ -189,17 +200,18 @@ export default Component.extend({
             analytics.trackCustomEvent('Pop-Up', 'from: ' + sourcePageName, pageName)
           }
 
-          // popup content is only title, text, and textAudio
+          // popups now have text, audio, video and their alt-text values
           // but title is internal descriptor so set to empty string
           vm.modalContent.assign({
-            // undefined values prevent stache warnings
-            answerName: undefined,
             title: '',
             text: page.text,
-            imageURL: undefined,
-            mediaLabel: undefined,
-            audioURL: (page.textAudioURL || '').trim(),
-            videoURL: undefined
+            textAudioURL: (page.textAudioURL || '').trim(),
+            imageURL: (page.helpImageURL || '').trim(),
+            altText: page.helpAltText,
+            mediaLabel: page.helpMediaLabel,
+            audioURL: (page.helpAudioURL || '').trim(),
+            videoURL: (page.helpVideoURL || '').trim(),
+            helpReader: page.helpReader
           })
         }
       } else { // external link

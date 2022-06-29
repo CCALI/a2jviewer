@@ -327,7 +327,7 @@ describe('<a2j-field>', () => {
           bubbles: true,
           cancelable: true
         })
-        const numberDollarEl = document.getElementById('Salary')
+        const numberDollarEl = document.querySelector('input[id*=Salary]')
         numberDollarEl.value = 'safsd'
         numberDollarEl.dispatchEvent(e)
         const hasError = numberDollarVm.groupValidationMap.Salary

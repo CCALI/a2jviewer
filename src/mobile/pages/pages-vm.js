@@ -66,6 +66,12 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
+  // should only happen if previewing the popup page from author
+  get currentPageIsPopup () {
+    const page = this.currentPage || {}
+    return page.type === constants.ptPopup
+  },
+
   resumeInterview: {},
   lang: {},
   logic: {},
@@ -120,6 +126,17 @@ export default DefineMap.extend('PagesVM', {
    */
   exitButton: {
     default: constants.qIDEXIT
+  },
+
+  /**
+   * @property {String} pages.ViewModel.prototype.messageButton exitButton
+   * @parent pages.ViewModel
+   *
+   * String used to represent the button that displays a message
+   * when the interview is complete.
+   */
+  messageButton: {
+    default: constants.qMESSAGE
   },
 
   /**
@@ -340,7 +357,7 @@ export default DefineMap.extend('PagesVM', {
       const page = vm.currentPage
       const logic = vm.logic
       const previewActive = vm.previewActive
-      const onExitPage = appState.saveAndExitActive && (page.name === vm.interview.attr('exitPage'))
+      const onExitPage = appState.visitedPages.selectedIsInterviewExitPage && (page.name === vm.interview.attr('exitPage'))
 
       button.next = vm.handleCrossedUseOfResumeOrBack(button, onExitPage)
 
@@ -475,7 +492,7 @@ export default DefineMap.extend('PagesVM', {
 
     // the rest is a best-guess algorithm to determine which button might have been used.
     // if an interview is loaded with old answers w/o the visited pages history, this will help guide them back to where they left off
-    const repeatVar = currentPage.repeatVar
+    const repeatVar = currentPage && currentPage.repeatVar
     const buttonAnswerIndex = repeatVar ? this.logic.varGet(repeatVar) : 1
     const buttonsWithMatchingAnswers = buttons.filter(b => {
       const buttonValue = this.buttonValue(b)
@@ -568,6 +585,13 @@ export default DefineMap.extend('PagesVM', {
         }
         break
 
+      case constants.qMESSAGE:
+        this.appState.modalContent = {
+          title: 'Author note:',
+          text: button.message || 'You have completed this A2J Guided Interview. Please close your browser window to exit.'
+        }
+        break
+
       case constants.qIDASSEMBLE:
         this.appState.modalContent = {
           title: 'Author note:',
@@ -589,6 +613,37 @@ export default DefineMap.extend('PagesVM', {
         break
     }
   },
+  /** Track special button clicks in Matomo analytics
+   * @param button button id
+  */
+  trackSpecialButton (button) {
+    const page = this.appState.page
+
+    switch (button.next) {
+      case constants.qIDFAIL:
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'FAIL/user does not qualify', 'from:' + page)
+        break
+
+      case constants.qIDEXIT:
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'Exit - Save Incomplete form', 'from:' + page)
+        break
+
+      case constants.qMESSAGE:
+        analytics.trackCustomEvent('Special Branching', 'Exit', 'Message/Exit- display message', 'from:' + page)
+        break
+
+      case constants.qIDASSEMBLE:
+        analytics.trackCustomEvent('Special Branching', 'Assemble', 'Assemble', 'from:' + page)
+        break
+
+      case constants.qIDSUCCESS:
+        analytics.trackCustomEvent('Special Branching', 'Success', 'Success', 'from:' + page)
+        break
+      case constants.qIDASSEMBLESUCCESS:
+        analytics.trackCustomEvent('Special Branching', 'Assemble', 'Assemble+Success', 'from:' + page)
+        break
+    }
+  },
 
   handleServerPost (button, vm, previewActive, ev) {
     // do nothing if in preview
@@ -596,6 +651,10 @@ export default DefineMap.extend('PagesVM', {
 
     if (button.next !== constants.qIDEXIT) {
       vm.setInterviewAsComplete()
+    }
+
+    if (window._paq) {
+      vm.trackSpecialButton(button)
     }
 
     // This modal and disable is for LHI/HotDocs issue taking too long to process
@@ -638,6 +697,7 @@ export default DefineMap.extend('PagesVM', {
   isSpecialButton (button) {
     return button.next === constants.qIDFAIL ||
     button.next === constants.qIDEXIT ||
+    button.next === constants.qMESSAGE ||
     button.next === constants.qIDSUCCESS ||
     button.next === constants.qIDASSEMBLESUCCESS ||
     button.next === constants.qIDASSEMBLE
@@ -697,7 +757,12 @@ export default DefineMap.extend('PagesVM', {
    * ** This is doing too many things, it probably does not belong here either.
    */
   __ensureFieldAnswer (field) {
-    const answerKey = field.name.toLowerCase()
+    let answerKey = field.name.toLowerCase()
+    if (!answerKey) {
+      answerKey = 'missingVarName' + ~~(Math.random() * 1000000)
+      field.name = answerKey
+      console.warn('Field is missing a Variable Name', field)
+    }
     const answers = this.answers
 
     let answer = answers[answerKey]

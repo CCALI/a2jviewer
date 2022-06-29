@@ -52,28 +52,20 @@ export let ViewerNavigationVM = DefineMap.extend({
   },
 
   /**
-   * @property {Boolean} viewerNavigation.ViewModel.canSaveAndExit canSaveAndExit
+   * @property {Boolean} viewerNavigation.ViewModel.hasExitPage hasExitPage
    * @parent viewerNavigation.ViewModel
    *
-   * Whether user can save and exit interview.
+   * Whether the interview has an exit page
    */
-  canSaveAndExit: {
+  hasExitPage: {
     get () {
-      return !this.appState.saveAndExitActive &&
-      this.interview.attr('exitPage') !== constants.qIDNOWHERE
+      return this.interview.attr('exitPage') !== constants.qIDNOWHERE
     }
   },
 
-  /**
-   * @property {Boolean} viewerNavigation.ViewModel.canResumeInterview canResumeInterview
-   * @parent viewerNavigation.ViewModel
-   *
-   * Whether user can resume interview.
-   */
-  canResumeInterview: {
-    get () {
-      return this.appState.saveAndExitActive
-    }
+  get currentVisitedPageIsExitPage () {
+    const vps = this.visitedPages || {}
+    return vps.selectedIsInterviewExitPage || false
   },
 
   /**
@@ -114,8 +106,6 @@ export let ViewerNavigationVM = DefineMap.extend({
     const exitPage = this.interview.attr('exitPage')
     const pageName = this.appState.page
 
-    this.appState.lastPageBeforeExit = pageName
-
     if (window._paq) {
       analytics.trackCustomEvent('Save&Exit', 'from: ' + pageName)
     }
@@ -135,36 +125,19 @@ export let ViewerNavigationVM = DefineMap.extend({
    */
   resumeInterview () {
     const answers = this.interview.answers
-    const resumeTargetPageName = this.appState.lastPageBeforeExit
-    this.appState.lastPageBeforeExit = null
 
-    // Special Exit page should only show in My Progress while on that page
-    this.appState.visitedPages.shift()
+    this.visitedPages.selectParent() // changing the current visited page automatically removes the exit page from the nav panel, etc
 
     if (answers) {
       // sets answer values prop to default value of [null]
       answers.varSet('a2j interview incomplete tf', null, 0)
     }
     if (window._paq) {
-      analytics.trackCustomEvent('Resume-Interview', 'to: ' + resumeTargetPageName)
+      const selectedVP = this.selected || {}
+      const currentPage = selectedVP.interviewPage || {}
+      const pageName = currentPage.name || ''
+      analytics.trackCustomEvent('Resume-Interview', 'to: ' + pageName)
     }
-    if (resumeTargetPageName) {
-      this.appState.page = resumeTargetPageName
-    }
-  },
-
-  /**
-   * @property {Function} viewerNavigation.ViewModel.disableOption disableOption
-   * @parent viewerNavigation.ViewModel
-   *
-   * Used to disable My Progress options when saveAndExit is active
-   */
-  disableOption (visitedPage) {
-    const isNotTheLastVisitedPage = !!visitedPage.nextVisitedPage
-    if (isNotTheLastVisitedPage && this.appState.saveAndExitActive) {
-      return true
-    }
-    return false
   }
 })
 /**

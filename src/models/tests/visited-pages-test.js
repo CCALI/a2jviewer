@@ -134,6 +134,32 @@ describe('VisitedPages Model', function () {
     assert.equal(visitedPages.hasParent, false, 'the current visited page has no past')
   })
 
+  it('knows if there\'s an exit page and we\'re on it', function () {
+    assert.equal(visitedPages.selectedIsInterviewExitPage, false)
+    interview.attr('exitPage', page3.name)
+    assert.equal(visitedPages.selectedIsInterviewExitPage, false)
+    visitedPages.visit(page3)
+    assert.equal(visitedPages.selectedIsInterviewExitPage, true)
+  })
+
+  it('can safely prune the active leaf', function () {
+    visitedPages.visit(page)
+    visitedPages.visit(page2)
+    visitedPages.visit(page3, 0)
+    assert.equal(visitedPages.length, 3, 'visited 3 pages')
+    assert.equal(visitedPages.activeLeaf.interviewPage.name, page3.name, 'activeLeaf is page3')
+    const vp2 = visitedPages.activeLeaf.parentVisitedPage
+    assert.equal(vp2.interviewPage.name, page2.name, 'activeLeaf parent is page2')
+    assert.equal(visitedPages.activeLeaf.parentVisitedPage.branches.length, 1, 'activeLeaf parent has 1 branch')
+    visitedPages.selectParent()
+    assert.equal(visitedPages.selected, vp2, 'sanity check, 2nd visited page is now selected')
+    assert.equal(visitedPages.removeActiveLeaf(), vp2, 'removing the active leaf returns the new active leaf')
+    assert.equal(visitedPages.length, 2, 'visited 2 pages')
+    assert.equal(visitedPages.activeLeaf.interviewPage.name, page2.name, 'activeLeaf is page2 now')
+    assert.equal(visitedPages.activeLeaf.parentVisitedPage.interviewPage.name, page.name, 'activeLeaf parent is page one')
+    assert.equal(visitedPages.activeLeaf.branches.length, 0, 'activeLeaf has no branches')
+  })
+
   it('can time travel', function () {
     visitedPages.visit(page)
     visitedPages.visit(page2)
