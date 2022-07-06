@@ -1,6 +1,6 @@
 {
   "name": "@caliorg/a2jviewer",
-  "version": "8.1.2",
+  "version": "8.1.4",
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
   "scripts": {
@@ -71,7 +71,7 @@
     }
   },
   "dependencies": {
-    "@caliorg/a2jdeps": "^7.1.2",
+    "@caliorg/a2jdeps": "^7.1.5",
     "bit-tabs": "^2.0.0",
     "blueimp-file-upload": "^9.10.1",
     "bootstrap": "^3.4.1",
@@ -128,7 +128,6 @@
     "pdfjs-dist": "^2.0.466",
     "string-natural-compare": "^2.0.2",
     "text-statistics": "^0.1.1",
-    "typeahead.js": "git://github.com/twitter/typeahead.js.git#v0.11.1",
     "validate.js": "^0.12.0"
   },
   "devDependencies": {
