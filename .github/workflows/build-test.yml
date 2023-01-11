@@ -1,5 +1,5 @@
 name: build-test
-run-name: ${{ github.actor }} is testing the author build
+run-name: ${{ github.actor }} is testing the viewer build
 on: [push]
 jobs:
   test-author-build:
