@@ -1,4 +1,4 @@
-# A2JViewer
+# A2JViewer 
 
 This repo hosts the distributable production version of the A2J Viewer. This software is updated frequently and the repo should be monitored as the updates include security and feature improvements. You can subscribe to updates through an atom reader by using this url: https://github.com/CCALI/a2jviewer/releases.atom.
 
