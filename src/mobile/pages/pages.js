@@ -8,7 +8,7 @@ import Preview from '~/src/models/preview'
 import { analytics } from '~/src/util/analytics'
 import stache from 'can-stache'
 import '~/src/mobile/util/helpers'
-import { ViewerStepsVM.fireLearnMoreModal } from '~/src/desktop/steps/steps'
+import ViewerStepsVM  from '~/src/desktop/steps/steps'
 
 stache.registerPartial('assemble-form', assembleFormTpl)
 stache.registerPartial('save-answers-form', saveAnswersFormTpl)
@@ -48,6 +48,7 @@ export default Component.extend({
     }
   },
 
+  fireLearnMoreModal :  ViewerStepsVM.fireLearnMoreModal,
   events: {
     'a click': function (el, ev) {
       if (el.href && el.href.toLowerCase().indexOf('popup') === 0) {
