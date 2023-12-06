@@ -86,8 +86,9 @@ export default Component.extend({
     },
 
     'a.learn-more click': function fireLearnMoreModal () {
-      const pages = this.interview.pages
-      const pageName = this.appState.page
+      const pages = this.viewModel.interview.pages
+      const pageName = this.viewModel.currentPage.name
+      // this.appState.page
   
       if (pages && pageName) {
         const page = pages.find(pageName)
