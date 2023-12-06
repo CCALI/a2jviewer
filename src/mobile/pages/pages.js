@@ -48,7 +48,6 @@ export default Component.extend({
     }
   },
 
-  fireLearnMoreModal :  ViewerStepsVM.fireLearnMoreModal,
   events: {
     'a click': function (el, ev) {
       if (el.href && el.href.toLowerCase().indexOf('popup') === 0) {
@@ -83,6 +82,32 @@ export default Component.extend({
       } else { // external link
         const $el = $(el)
         $el.attr('target', '_blank')
+      }
+    },
+
+    'a.learn-more click':fireLearnMoreModal () {
+      const pages = this.interview.pages
+      const pageName = this.appState.page
+  
+      if (pages && pageName) {
+        const page = pages.find(pageName)
+  
+        // piwik tracking of learn-more clicks
+        if (window._paq) {
+          analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
+        }
+  
+        this.appState.modalContent = {
+          // name undefined prevents stache warnings
+          title: page.learn,
+          text: page.help,
+          imageURL: (page.helpImageURL || '').trim(),
+          altText: page.helpAltText,
+          mediaLabel: page.helpMediaLabel,
+          audioURL: (page.helpAudioURL || '').trim(),
+          videoURL: (page.helpVideoURL || '').trim(),
+          helpReader: page.helpReader
+        }
       }
     },
 
