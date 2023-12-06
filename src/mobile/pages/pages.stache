@@ -54,7 +54,7 @@
     <p class="text-center modal-button">
       <a tabindex="0"
          on:click="../../../desktop/steps/fireLearnMoreModal()"
-         on:keydown="keydownFireClickHandler(scope.event, ../../../desktop/steps/fireLearnMoreModal)
+         on:keydown="keydownFireClickHandler(scope.event, ../../../desktop/steps/fireLearnMoreModal)"
          class="learn-more" 
          aria-label="{{{ parseText(currentPage.learn) }}}">{{{ parseText(currentPage.learn) }}}
 
