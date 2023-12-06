@@ -86,9 +86,10 @@ export default Component.extend({
     },
 
     'a.learn-more click': function fireLearnMoreModal () {
+      const vm = this.viewModel
       const pages = this.viewModel.interview.pages
       const pageName = this.viewModel.currentPage.name
-      // this.appState.page
+      // vm.appState.page
   
       if (pages && pageName) {
         const page = pages.find(pageName)
@@ -98,7 +99,7 @@ export default Component.extend({
           analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
         }
   
-        this.appState.modalContent = {
+        vm.appState.modalContent = {
           // name undefined prevents stache warnings
           title: page.learn,
           text: page.help,
