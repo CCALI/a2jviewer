@@ -85,7 +85,7 @@ export default Component.extend({
       }
     },
 
-    'a.learn-more click':fireLearnMoreModal () {
+    'a.learn-more click': function fireLearnMoreModal () {
       const pages = this.interview.pages
       const pageName = this.appState.page
   
