@@ -56,8 +56,9 @@
          on:click="fireLearnMoreModal()"
          on:keydown="keydownFireClickHandler(scope.event, ../../../desktop/steps/fireLearnMoreModal)"
          class="learn-more" 
-         aria-label="{{{ parseText(currentPage.learn) }}}">{{{ parseText(currentPage.learn) }}}
-         aui-action="help"
+         aria-label="{{{ parseText(currentPage.learn) }}}"
+         aui-action="help">
+         {{{ parseText(currentPage.learn) }}}
       </a>
     </p>
 
