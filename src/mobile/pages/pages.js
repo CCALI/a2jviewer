@@ -8,7 +8,6 @@ import Preview from '~/src/models/preview'
 import { analytics } from '~/src/util/analytics'
 import stache from 'can-stache'
 import '~/src/mobile/util/helpers'
-import ViewerStepsVM  from '~/src/desktop/steps/steps'
 
 stache.registerPartial('assemble-form', assembleFormTpl)
 stache.registerPartial('save-answers-form', saveAnswersFormTpl)
