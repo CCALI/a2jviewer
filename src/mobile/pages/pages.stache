@@ -53,6 +53,7 @@
 
     <p class="text-center modal-button">
       <a tabindex="0"
+         href="#"
          on:click="fireLearnMoreModal()"
          on:keydown="keydownFireClickHandler(scope.event, ../../../desktop/steps/fireLearnMoreModal)"
          class="learn-more" 
