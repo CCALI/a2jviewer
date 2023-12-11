@@ -86,6 +86,9 @@ export default Component.extend({
     },
 
     'a.learn-more click': function fireLearnMoreModal () {
+      // this is almost a line for line duplicate
+      // of src/desktop/steps.js
+      // should probably refactor
       const vm = this.viewModel
       const pages = this.viewModel.interview.pages
       const pageName = this.viewModel.currentPage.name
