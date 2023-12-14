@@ -162,6 +162,9 @@ export default function (lang, makestr) {
     Ordinals_12: 'twelfth',
     Ordinals_13: '13th',
     RepeatAnd: 'and',
+    Show_Navigation:'Show Navigation',
+    Navigation_Panel:'Navigation Panel',
+    Open:'Open',
 
     // Authoring system, non-translated elements.
     // Tab names
