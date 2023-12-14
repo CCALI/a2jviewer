@@ -1302,7 +1302,7 @@ export default function (lang, makestr) {
   }
 
   Languages.regional.he = {
-    locale: 'en',
+    locale: 'he',
     Language: 'עברית',
     LanguageEN: 'Hebrew',
     AskYesNo_Yes: 'כן',
