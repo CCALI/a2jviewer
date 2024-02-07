@@ -162,9 +162,9 @@ export default function (lang, makestr) {
     Ordinals_12: 'twelfth',
     Ordinals_13: '13th',
     RepeatAnd: 'and',
-    Show_Navigation:'Show Navigation',
-    Navigation_Panel:'Navigation Panel',
-    Open:'Open',
+    Show_Navigation: 'Show Navigation',
+    Navigation_Panel: 'Navigation Panel',
+    Open: 'Open',
 
     // Authoring system, non-translated elements.
     // Tab names
@@ -1338,8 +1338,8 @@ export default function (lang, makestr) {
     CalcClear: 'נקה',
     CalcEnter: 'הכנס',
     MonthNamesShort: "ינו', פבר', מרץ, אפר', מאי, יוני, יולי, אוג', ספט', אוק', נוב', דצמ'",
-    MonthNamesLong: "ינואר, פברואר, מרץ, אפריל, מאי, יוני, יולי, ספטמבר, אוקטובר, נובמבר, דצמבר",
-    FieldPrompts_ResponseRequired: "חובה למלא תשובה בקווים הריקים ליד התיוג האדום לפני שממשיכים.",
+    MonthNamesLong: 'ינואר, פברואר, מרץ, אפריל, מאי, יוני, יולי, ספטמבר, אוקטובר, נובמבר, דצמבר',
+    FieldPrompts_ResponseRequired: 'חובה למלא תשובה בקווים הריקים ליד התיוג האדום לפני שממשיכים.',
     FieldPrompts_SelectionRequired: 'חובה לבצע בחירה לפני שממשיכים.',
     FieldPrompts_text: 'חובה להקליד תשובה במקומות הממורקרים לפני שממשיכים.',
     FieldPrompts_textlong: 'חובה להקליד תשובה במקומות הממורקרים לפני שממשיכים.',
@@ -1370,12 +1370,11 @@ export default function (lang, makestr) {
     Ordinals_13: 'שלושה עשר',
     RepeatAnd: 'וגם',
     Required: 'חובה',
-    Show_Navigation:'הראה ניווט',
-    Navigation_Panel:'לוח ניווט',
-    Open:'לִפְתוֹחַ',
-    
+    Show_Navigation: 'הראה ניווט',
+    Navigation_Panel: 'לוח ניווט',
+    Open: 'לִפְתוֹחַ'
+
   }
-  
 
   return Languages
 }
