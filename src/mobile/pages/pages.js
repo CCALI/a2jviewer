@@ -92,15 +92,15 @@ export default Component.extend({
       const pages = this.viewModel.interview.pages
       const pageName = this.viewModel.currentPage.name
       // vm.appState.page
-  
+
       if (pages && pageName) {
         const page = pages.find(pageName)
-  
+
         // piwik tracking of learn-more clicks
         if (window._paq) {
           analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
         }
-  
+
         vm.appState.modalContent = {
           // name undefined prevents stache warnings
           title: page.learn,
