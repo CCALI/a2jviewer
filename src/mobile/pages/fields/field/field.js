@@ -308,9 +308,19 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     } else if (field.type === 'useravatar') { // TODO: validate the JSON string here?
       value = JSON.stringify(this.userAvatar.serialize())
     } else if (field.type === 'datemdy') {
+
       // format date to (mm/dd/yyyy) from acceptable inputs
       value = this.normalizeDateInput($el.val())
       // render formatted date for end user
+
+      if (Date.parse(value) < Date.parse(field.min)){
+        value = field.min
+      } else if (Date.parse(value) > Date.parse(field.max)){
+        value = field.min
+      }
+
+      
+
       $el.val(value)
     } else {
       value = $el.val()
