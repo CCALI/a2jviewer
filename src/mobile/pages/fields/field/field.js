@@ -313,6 +313,11 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       value = this.normalizeDateInput($el.val())
 
       console.log("changed")
+      console.log(value)
+      console.log(field.min)
+      console.log(field.max)
+      console.log(field)
+
 
 
       if (Date.parse(value) < Date.parse(field.min)){
