@@ -312,14 +312,9 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       // format date to (mm/dd/yyyy) from acceptable inputs
       value = this.normalizeDateInput($el.val())
 
-      console.log("changed")
-      console.log(value)
-      console.log(field.min)
-      console.log(field.max)
-      console.log(field)
 
-
-
+      // date bounds are in 6 or 8 digit texts
+      // need to change to same format as value
       let maxDate = 
         field.max.substr(0,2) + "/" + 
         field.max.substr(2,2) + "/" +
@@ -330,13 +325,9 @@ export const FieldVM = DefineMap.extend('FieldVM', {
         field.min.substr(2,2) + "/" +
         field.min.substr(4)
 
-
-
       if (Date.parse(value) < Date.parse(minDate)){
-        console.log("smaller")
         value = minDate //field.min
       } else if (Date.parse(value) > Date.parse(maxDate)){
-        console.log("bigger")
         value = maxDate //field.max
       }
 
