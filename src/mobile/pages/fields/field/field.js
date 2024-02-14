@@ -320,22 +320,22 @@ export const FieldVM = DefineMap.extend('FieldVM', {
 
 
 
-      let maxDate = Date.parse(
+      let maxDate = 
         field.max.substr(0,2) + "/" + 
         field.max.substr(2,2) + "/" +
-        field.max.substr(4))
+        field.max.substr(4)
       
-      let minDate = Date.parse(
+      let minDate = 
         field.min.substr(0,2) + "/" + 
         field.min.substr(2,2) + "/" +
-        field.min.substr(4))
+        field.min.substr(4)
 
 
 
-      if (Date.parse(value) < minDate){
+      if (Date.parse(value) < Date.parse(minDate)){
         console.log("smaller")
         value = minDate //field.min
-      } else if (Date.parse(value) > maxDate){
+      } else if (Date.parse(value) > Date.parse(maxDate)){
         console.log("bigger")
         value = maxDate //field.max
       }
