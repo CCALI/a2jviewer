@@ -315,6 +315,10 @@ export const FieldVM = DefineMap.extend('FieldVM', {
 
       // date bounds are in 6 or 8 digit texts
       // need to change to same format as value
+      // it would be sensible to keep bounds in this
+      // format but we need to support it to properly
+      // support older released guides without adding
+      // more complex code
       let maxDate = 
         field.max.substr(0,2) + "/" + 
         field.max.substr(2,2) + "/" +
