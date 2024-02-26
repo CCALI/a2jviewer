@@ -310,7 +310,38 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     } else if (field.type === 'datemdy') {
       // format date to (mm/dd/yyyy) from acceptable inputs
       value = this.normalizeDateInput($el.val())
+
+      // date bounds are in 6 or 8 digit texts
+      // need to change to same format as value
+      // it would be sensible to keep bounds in this
+      // format but we need to support it to properly
+      // support older released guides without adding
+      // more complex code
+
+      if (field.hasOwnProperty('max')) {
+        let maxDate =
+          field.max.substr(0, 2) + '/' +
+          field.max.substr(2, 2) + '/' +
+          field.max.substr(4)
+
+        if (Date.parse(value) > Date.parse(maxDate)) {
+          value = maxDate
+        }
+      }
+
+      if (field.hasOwnProperty('min')) {
+        let minDate =
+          field.min.substr(0, 2) + '/' +
+          field.min.substr(2, 2) + '/' +
+          field.min.substr(4)
+
+        if (Date.parse(value) < Date.parse(minDate)) {
+          value = minDate
+        }
+      }
+
       // render formatted date for end user
+
       $el.val(value)
     } else {
       value = $el.val()
