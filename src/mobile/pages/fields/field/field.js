@@ -355,7 +355,10 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       value = $el.val()
     }
 
-    _answerVm.values = value
+    if (((field.type === 'datemdy') && (value.length >= 6)) ||
+        (field.type != 'datemdy') ){
+          _answerVm.values = value
+      }
 
     let errors = _answerVm.errors
     field.hasError = errors
