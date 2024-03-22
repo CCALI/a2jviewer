@@ -308,6 +308,10 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     } else if (field.type === 'useravatar') { // TODO: validate the JSON string here?
       value = JSON.stringify(this.userAvatar.serialize())
     } else if (field.type === 'datemdy') {
+
+      if ($el.val().length < 6){
+        value = ""
+      }
       // format date to (mm/dd/yyyy) from acceptable inputs
       value = this.normalizeDateInput($el.val())
 
@@ -318,25 +322,29 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       // support older released guides without adding
       // more complex code
 
-      if (field.hasOwnProperty('max')) {
-        let maxDate =
-          field.max.substr(0, 2) + '/' +
-          field.max.substr(2, 2) + '/' +
-          field.max.substr(4)
+      if (value.length)
+      {
 
-        if (Date.parse(value) > Date.parse(maxDate)) {
-          value = maxDate
+        if (field.hasOwnProperty('max')) {
+          let maxDate =
+            field.max.substr(0, 2) + '/' +
+            field.max.substr(2, 2) + '/' +
+            field.max.substr(4)
+
+          if (Date.parse(value) > Date.parse(maxDate)) {
+            value = maxDate
+          }
         }
-      }
 
-      if (field.hasOwnProperty('min')) {
-        let minDate =
-          field.min.substr(0, 2) + '/' +
-          field.min.substr(2, 2) + '/' +
-          field.min.substr(4)
+        if (field.hasOwnProperty('min')) {
+          let minDate =
+            field.min.substr(0, 2) + '/' +
+            field.min.substr(2, 2) + '/' +
+            field.min.substr(4)
 
-        if (Date.parse(value) < Date.parse(minDate)) {
-          value = minDate
+          if (Date.parse(value) < Date.parse(minDate)) {
+            value = minDate
+          }
         }
       }
 
