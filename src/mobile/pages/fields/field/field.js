@@ -356,7 +356,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     }
 
     if (((field.type === 'datemdy') && (value.length >= 6)) ||
-        (field.type != 'datemdy') ){
+        (field.type !== 'datemdy') ){
           _answerVm.values = value
       }
 
