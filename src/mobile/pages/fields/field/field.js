@@ -308,9 +308,8 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     } else if (field.type === 'useravatar') { // TODO: validate the JSON string here?
       value = JSON.stringify(this.userAvatar.serialize())
     } else if (field.type === 'datemdy') {
-
-      if ($el.val().length < 6){
-        value = ""
+      if ($el.val().length < 6) {
+        value = ''
       }
       // format date to (mm/dd/yyyy) from acceptable inputs
       value = this.normalizeDateInput($el.val())
@@ -322,9 +321,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       // support older released guides without adding
       // more complex code
 
-      if (value.length)
-      {
-
+      if (value.length) {
         if (field.hasOwnProperty('max')) {
           let maxDate =
             field.max.substr(0, 2) + '/' +
@@ -356,9 +353,9 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     }
 
     if (((field.type === 'datemdy') && (value.length >= 6)) ||
-        (field.type !== 'datemdy') ){
-          _answerVm.values = value
-      }
+        (field.type !== 'datemdy')) {
+      _answerVm.values = value
+    }
 
     let errors = _answerVm.errors
     field.hasError = errors
