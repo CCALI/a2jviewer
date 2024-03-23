@@ -310,9 +310,10 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     } else if (field.type === 'datemdy') {
       if ($el.val().length < 6) {
         value = ''
-      }
+      } else {
       // format date to (mm/dd/yyyy) from acceptable inputs
-      value = this.normalizeDateInput($el.val())
+        value = this.normalizeDateInput($el.val())
+      }
 
       // date bounds are in 6 or 8 digit texts
       // need to change to same format as value
@@ -351,11 +352,18 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     } else {
       value = $el.val()
     }
+    //console.log("value after: " + value)
+    //console.log("answer value before: " + _answerVm.values)
 
-    if (((field.type === 'datemdy') && (value.length >= 6)) ||
-        (field.type !== 'datemdy')) {
+    //if (((field.type === 'datemdy') && (value.length >= 6)) ||
+    //    (field.type !== 'datemdy')) {
       _answerVm.values = value
-    }
+    //} else {
+      // I don't understand why this is necessary but it is
+    //  _answerVm.values = ''
+    //}
+
+    console.log("answer value: " + _answerVm.values)
 
     let errors = _answerVm.errors
     field.hasError = errors
@@ -365,6 +373,10 @@ export const FieldVM = DefineMap.extend('FieldVM', {
 
     if (!errors) {
       this.debugPanelMessage(field, value)
+    }
+
+    if (((field.type === 'datemdy') && (value.length < 6))){
+      _answerVm = undefined
     }
 
     return errors
