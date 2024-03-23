@@ -352,18 +352,10 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     } else {
       value = $el.val()
     }
-    //console.log("value after: " + value)
-    //console.log("answer value before: " + _answerVm.values)
 
-    //if (((field.type === 'datemdy') && (value.length >= 6)) ||
-    //    (field.type !== 'datemdy')) {
-      _answerVm.values = value
-    //} else {
-      // I don't understand why this is necessary but it is
-    //  _answerVm.values = ''
-    //}
+    _answerVm.values = value
 
-    console.log("answer value: " + _answerVm.values)
+    console.log('answer value: ' + _answerVm.values)
 
     let errors = _answerVm.errors
     field.hasError = errors
@@ -375,7 +367,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       this.debugPanelMessage(field, value)
     }
 
-    if (((field.type === 'datemdy') && (value.length < 6))){
+    if (((field.type === 'datemdy') && (value.length < 6))) {
       _answerVm = undefined
     }
 
