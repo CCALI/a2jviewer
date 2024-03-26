@@ -369,7 +369,7 @@ export default DefineMap.extend('PagesVM', {
       }
 
       if (button.next === constants.qMESSAGE) {
-        vm.handleMessage(button, vm)
+        vm.handleMessage(button, ev)
         return
       }
 
