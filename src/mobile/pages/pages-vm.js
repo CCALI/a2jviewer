@@ -368,8 +368,8 @@ export default DefineMap.extend('PagesVM', {
         return // these buttons skip rest of navigate
       }
 
-      if (button.next === constants.qMESSAGE){
-        vm.handleMessage(button,vm)
+      if (button.next === constants.qMESSAGE) {
+        vm.handleMessage(button, vm)
         return
       }
 
@@ -573,7 +573,7 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
-  handleMessage(button, ev){
+  handleMessage (button, ev) {
     ev && ev.preventDefault()
     this.appState.modalContent = {
       title: 'Author note:',
