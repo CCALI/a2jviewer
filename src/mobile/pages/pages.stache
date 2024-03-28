@@ -52,7 +52,15 @@
     </div><!-- bubble-content -->
 
     <p class="text-center modal-button">
-      <a class="learn-more" aria-label="{{{ parseText(currentPage.learn) }}}">{{{ parseText(currentPage.learn) }}}</a>
+      <a tabindex="0"
+         href="#"
+         on:click="fireLearnMoreModal()"
+         on:keydown="keydownFireClickHandler(scope.event, ../../../desktop/steps/fireLearnMoreModal)"
+         class="learn-more" 
+         aria-label="{{{ parseText(currentPage.learn) }}}"
+         aui-action="help">
+         {{{ parseText(currentPage.learn) }}}
+      </a>
     </p>
 
     {{#for(button of currentPage.buttons)}}

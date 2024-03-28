@@ -22,6 +22,7 @@ export default function (lang, makestr) {
       Dutch
       English
       French
+      Hebrew
       Hmong
       Korean
       Mon Khmer
@@ -161,6 +162,9 @@ export default function (lang, makestr) {
     Ordinals_12: 'twelfth',
     Ordinals_13: '13th',
     RepeatAnd: 'and',
+    Show_Navigation: 'Show Navigation',
+    Navigation_Panel: 'Navigation Panel',
+    Open: 'Open',
 
     // Authoring system, non-translated elements.
     // Tab names
@@ -1295,6 +1299,81 @@ export default function (lang, makestr) {
     Ordinals_12: 'ลำดับที่สิบสอง',
     Ordinals_13: 'ลำดับที่สิบสาม',
     RepeatAnd: 'และ'
+  }
+
+  Languages.regional.he = {
+    locale: 'he',
+    Language: 'עברית',
+    LanguageEN: 'Hebrew',
+    AskYesNo_Yes: 'כן',
+    AskYesNo_No: 'לא',
+    Close: 'סגור',
+    Comment: 'הערה',
+    GoBack: 'חזרה',
+    GoNext: 'הבא',
+    LearnMore: 'קריאה נוספת',
+    MyProgress: 'ההתקדמות שלי',
+    ProvideFeedbackOrComment: 'משוב על עמוד זה',
+    SaveAndExit: 'שמור וצא',
+    ResumeExit: 'התחלה מחדש',
+    SendFeedback: 'שלח משוב',
+    SoundIsOff: 'צליל מושתק',
+    SoundIsOn: 'צליל פועל',
+    SoundPlay: 'הפעל',
+    SoundStop: 'עצור',
+    WhatDoYouMean: 'מה הכוונה?',
+    Continue: 'המשך',
+    Exit: 'יציאה ללא שמירה',
+    Male: 'זכר',
+    Female: 'נקבה',
+    ChooseListNumber: 'בחירה: ',
+    ChooseListText: 'בחר מרשימה זו: ',
+    CheckBoxNOTALabel: 'אף אחד מהתשובות',
+    ZoomNormal: 'גודל רגיל',
+    ZoomFull: 'מסך מלא',
+    TextEnlarge: 'הגדל תיבת טקסט',
+    TextShrink: 'הקטן תיבת טקסט',
+    TextSizeLetter: 'א',
+    UploadAnswers: 'יוצא, נא להמתין...',
+    CalcClear: 'נקה',
+    CalcEnter: 'הכנס',
+    MonthNamesShort: "ינו', פבר', מרץ, אפר', מאי, יוני, יולי, אוג', ספט', אוק', נוב', דצמ'",
+    MonthNamesLong: 'ינואר, פברואר, מרץ, אפריל, מאי, יוני, יולי, ספטמבר, אוקטובר, נובמבר, דצמבר',
+    FieldPrompts_ResponseRequired: 'חובה למלא תשובה בקווים הריקים ליד התיוג האדום לפני שממשיכים.',
+    FieldPrompts_SelectionRequired: 'חובה לבצע בחירה לפני שממשיכים.',
+    FieldPrompts_text: 'חובה להקליד תשובה במקומות הממורקרים לפני שממשיכים.',
+    FieldPrompts_textlong: 'חובה להקליד תשובה במקומות הממורקרים לפני שממשיכים.',
+    FieldPrompts_textpick: 'חובה לבחור מתוך המקום הממורקר לפני שממשיכים.',
+    FieldPrompts_number: 'חובה הלקליד מספר במקום הממורקר לפני שממשיכים.',
+    FieldPrompts_numberdollar: 'חובה להכניס סימן דולר במקום הממורקר לפני שממשיכים.',
+    FieldPrompts_numberssn: "חובה להכניס מס' תעודת זהות במקום הממורקר לפני שממשיכים.",
+    FieldPrompts_numberphone: "חובה להקליד מס' טלפון במקום הממורקר לפני שממשיכים.",
+    FieldPrompts_numberzip: 'חובה להקליד מיקוד במקום הממורקר לפני שממשיכים.',
+    FieldPrompts_numberpick: 'חובה לבחור מספר מתוך המקום הממורקר לפני שממשיכים.',
+    FieldPrompts_datemdy: 'חובה להקליד חודש, יום ושנה במקום הממורקר לפני שממשיכים.',
+    FieldPrompts_gender: 'בחרו אוואטר שייצג אותך.',
+    FieldPrompts_radio: 'חובה לבחור תגובה מתוך הבחירה הממורקרת לפני שממשיכים.',
+    FieldPrompts_checkbox: 'חובה לבחור אפשרות אחת או כמה לפני שממשיכים.',
+    FieldPrompts_checkboxNOTA: 'בחרו בבקשה אפשרות אחת או יותר או "אף אחת מהתשובות" לפני שממשיכים.',
+    Ordinals_1: 'ראשון',
+    Ordinals_2: 'שני',
+    Ordinals_3: 'שלישי',
+    Ordinals_4: 'רביעי',
+    Ordinals_5: 'חמישי',
+    Ordinals_6: 'שישי',
+    Ordinals_7: 'שביעי',
+    Ordinals_8: 'שמיני',
+    Ordinals_9: 'תשיעי',
+    Ordinals_10: 'עשירי',
+    Ordinals_11: 'אחד עשר',
+    Ordinals_12: 'שנים עשר',
+    Ordinals_13: 'שלושה עשר',
+    RepeatAnd: 'וגם',
+    Required: 'חובה',
+    Show_Navigation: 'הראה ניווט',
+    Navigation_Panel: 'לוח ניווט',
+    Open: 'לִפְתוֹחַ'
+
   }
 
   return Languages
