@@ -5,13 +5,17 @@ jobs:
   test-viewer-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: browser-actions/setup-chrome@v1
+      - run: chrome --version
+      - uses: browser-actions/setup-firefox@v1
+      - run: firefox --version
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '20'
       - run: npm install -g grunt-cli
       - run: npm run deploy
-      - uses: GabrielBB/xvfb-action@v1
+      - uses: coactions/setup-xvfb@v1
         with:
           run: npm run test
       - uses: "8398a7/action-slack@v3"
