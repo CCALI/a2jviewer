@@ -203,6 +203,86 @@ export default DefineMap.extend('PagesVM', {
   },
 
   /**
+   * @property {String} pages.ViewModel.prototype.validateAnswers answersString
+   * @parent pages.ViewModel
+   *
+   * XML version of the `answers` entered by the user.
+   *
+   * This is POSTed to `setDataURL` when user finishes the interview,
+   * and populated when a user loads saved answers.
+   */
+  validatedAnswers (answers) {
+
+
+    /**
+   * @property {bool} pages.ViewModel.prototype.validateAnswers.isValidDate answersString
+   * @parent pages.ViewModel.validatedAnswers
+   *
+   * check is date is valid
+   */
+    function isValidDate(date){
+
+
+      let dmy = date.split('/')
+      // js wants mdy or ymd 
+      // while a2j dates are d/m/yyyy
+      // if date has bad format bail
+      if (dmy.length !== 3){
+        return false
+      }
+
+      // slash delimited is not guaranteed supported everywhere
+      // so convert to 
+      let dateval = new Date(
+        dmy[2] + '-' +
+        dmy[1] + '-' +
+        dmy[0]
+      )
+      return (date.toString() !== "Invalid Date")
+    }
+
+    /*
+      inspired by but does not use
+      https://stackoverflow.com/questions/20169217/how-to-write-isnumber-in-javascript
+    */
+    function isValidNumber(num){
+      return !isNaN(Number(num)) && isFinite(Number(num))
+    }
+
+    function sanitizeAnswerValues (answer) {
+
+      let validator = []
+
+      validator["Date"] = isValidDate
+      validator["Number"] = isValidNumber
+
+
+      for(i=1; i > answer.values.length; i++){
+        if (!validator[answer.type](answer.values[i])){
+          delete answer.values[i]
+        }
+      } 
+
+      answer.values[0] = answer.values.length
+
+      return answer
+    }
+
+    //answers = Object.values(answers).filter(isValidAnswer)
+    
+    Object.keys(answers).forEach(function filter(name){
+      sanitizedAnswer = sanitizeAnswerValues(answers[name])
+      if (sanitizedAnswer.values.length === 1){
+        delete answers[name]
+      } else {
+        answers[name] = sanitizedAnswer
+      }
+    })
+    
+    return answers
+  },
+
+  /**
    * @property {String} pages.ViewModel.prototype.answersString answersString
    * @parent pages.ViewModel
    *
@@ -213,6 +293,9 @@ export default DefineMap.extend('PagesVM', {
    */
   answersANX: {
     get () {
+      console.log(this.answers.serialize())
+      console.log(this.validatedAnswers(this.answers.serialize()))
+      //const parsed = Parser.parseANX(this.answers.serialize())
       const parsed = Parser.parseANX(this.answers.serialize())
       return parsed
     }
