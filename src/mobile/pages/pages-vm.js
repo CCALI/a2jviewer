@@ -255,22 +255,22 @@ export default DefineMap.extend('PagesVM', {
       if (validator.has(answer.type)){
         for (let i = 1; i < answer.values.length; i++) {
           if (!validator.get(answer.type)(answer.values[i])) {
-            delete answer.values[i]
+            //delete answer.values[i]
+            answer.values[i] = null
           }
         }
       }
 
-      answer.values[0] = answer.values.length
+      //answer.values[0] = answer.values.length
 
       return answer
     }
 
-    // answers = Object.values(answers).filter(isValidAnswer)
-
     Object.keys(answers).forEach(function filter (name) {
       let sanitizedAnswer = sanitizeAnswerValues(answers[name])
       if (sanitizedAnswer.values.length === 1) {
-        delete answers[name]
+        //delete answers[name]
+        answers[name] = null
       } else {
         answers[name] = sanitizedAnswer
       }
@@ -290,8 +290,8 @@ export default DefineMap.extend('PagesVM', {
    */
   answersANX: {
     get () {
-      console.log(this.answers.serialize())
-      console.log(this.validatedAnswers(this.answers.serialize()))
+      //console.log(this.answers.serialize())
+      //console.log(this.validatedAnswers(this.answers.serialize()))
       // const parsed = Parser.parseANX(this.answers.serialize())
       const parsed = Parser.parseANX(this.validatedAnswers(this.answers.serialize()))
       return parsed
