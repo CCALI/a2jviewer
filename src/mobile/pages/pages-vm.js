@@ -219,6 +219,7 @@ export default DefineMap.extend('PagesVM', {
    * check is date is valid
    */
     function isValidDate (date) {
+      console.log("date: " + date)
       let dmy = date.split('/')
       // js wants mdy or ymd
       // while a2j dates are d/m/yyyy
@@ -246,14 +247,16 @@ export default DefineMap.extend('PagesVM', {
     }
 
     function sanitizeAnswerValues (answer) {
-      let validator = []
+      const validator = new Map()
 
-      validator['Date'] = isValidDate
-      validator['Number'] = isValidNumber
-
-      for (let i = 1; i > answer.values.length; i++) {
-        if (!validator[answer.type](answer.values[i])) {
-          delete answer.values[i]
+      validator.set('Date', isValidDate)
+      validator.set('Number', isValidNumber)
+      
+      if (validator.has(answer.type)){
+        for (let i = 1; i < answer.values.length; i++) {
+          if (!validator.get(answer.type)(answer.values[i])) {
+            delete answer.values[i]
+          }
         }
       }
 
