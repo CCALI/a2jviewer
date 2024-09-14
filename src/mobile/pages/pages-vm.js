@@ -219,7 +219,7 @@ export default DefineMap.extend('PagesVM', {
    * check is date is valid
    */
     function isValidDate (date) {
-      console.log("date: " + date)
+      console.log('date: ' + date)
       let dmy = date.split('/')
       // js wants mdy or ymd
       // while a2j dates are d/m/yyyy
@@ -251,18 +251,18 @@ export default DefineMap.extend('PagesVM', {
 
       validator.set('Date', isValidDate)
       validator.set('Number', isValidNumber)
-      
-      if (validator.has(answer.type)){
+
+      if (validator.has(answer.type)) {
         for (let i = 1; i < answer.values.length; i++) {
           if (!validator.get(answer.type)(answer.values[i])) {
-            //delete answer.values[i]
+            // delete answer.values[i]
             answer.values[i] = null
-            Object.defineProperty(answer, "invalid", "true")
+            Object.defineProperty(answer, 'invalid', 'true')
           }
         }
       }
 
-      //answer.values[0] = answer.values.length
+      // answer.values[0] = answer.values.length
 
       return answer
     }
@@ -270,7 +270,7 @@ export default DefineMap.extend('PagesVM', {
     Object.keys(answers).forEach(function filter (name) {
       let sanitizedAnswer = sanitizeAnswerValues(answers[name])
       if (sanitizedAnswer.values.length === 1) {
-        //delete answers[name]
+        // delete answers[name]
         answers[name] = null
       } else {
         answers[name] = sanitizedAnswer
@@ -280,7 +280,7 @@ export default DefineMap.extend('PagesVM', {
     return answers
   },
 
- /**
+  /**
    * @property {String} pages.ViewModel.prototype.answersString answersString
    * @parent pages.ViewModel
    *
@@ -289,18 +289,17 @@ export default DefineMap.extend('PagesVM', {
    * This is POSTed to `setDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
- answersValidated: {
-  get () {
-    //console.log(this.answers.serialize())
-    //console.log(this.validatedAnswers(this.answers.serialize()))
+  answersValidated: {
+    get () {
+    // console.log(this.answers.serialize())
+    // console.log(this.validatedAnswers(this.answers.serialize()))
     // const parsed = Parser.parseANX(this.answers.serialize())
-    const parsed = this.validatedAnswers(this.answers.serialize())
-    return parsed
-  }
-},
+      const parsed = this.validatedAnswers(this.answers.serialize())
+      return parsed
+    }
+  },
 
-
- /**
+  /**
    * @property {String} pages.ViewModel.prototype.answersString answersString
    * @parent pages.ViewModel
    *
@@ -309,22 +308,21 @@ export default DefineMap.extend('PagesVM', {
    * This is POSTed to `setDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
- invalidAnswers: {
-  get () {
-    //console.log(this.answers.serialize())
-    //console.log(this.validatedAnswers(this.answers.serialize()))
+  invalidAnswers: {
+    get () {
+    // console.log(this.answers.serialize())
+    // console.log(this.validatedAnswers(this.answers.serialize()))
     // const parsed = Parser.parseANX(this.answers.serialize())
-    let answers = this.answersValidated
-    Object.keys(answers).forEach(function filter (name) {
-      if (!answers[name].invalid) {
-        delete answers[name]
-      }
+      let answers = this.answersValidated
+      Object.keys(answers).forEach(function filter (name) {
+        if (!answers[name].invalid) {
+          delete answers[name]
+        }
+      })
 
-    })
-
-    return answers
-  }
-},
+      return answers
+    }
+  },
 
   /**
    * @property {String} pages.ViewModel.prototype.answersString answersString
@@ -337,8 +335,8 @@ export default DefineMap.extend('PagesVM', {
    */
   answersANX: {
     get () {
-      //console.log(this.answers.serialize())
-      //console.log(this.validatedAnswers(this.answers.serialize()))
+      // console.log(this.answers.serialize())
+      // console.log(this.validatedAnswers(this.answers.serialize()))
       // const parsed = Parser.parseANX(this.answers.serialize())
       const parsed = Parser.parseANX(this.validatedAnswers(this.answers.serialize()))
       return parsed
