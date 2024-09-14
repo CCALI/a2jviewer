@@ -257,6 +257,7 @@ export default DefineMap.extend('PagesVM', {
           if (!validator.get(answer.type)(answer.values[i])) {
             //delete answer.values[i]
             answer.values[i] = null
+            Object.defineProperty(answer, "invalid", "true")
           }
         }
       }
@@ -278,6 +279,52 @@ export default DefineMap.extend('PagesVM', {
 
     return answers
   },
+
+ /**
+   * @property {String} pages.ViewModel.prototype.answersString answersString
+   * @parent pages.ViewModel
+   *
+   * XML version of the `answers` entered by the user.
+   *
+   * This is POSTed to `setDataURL` when user finishes the interview,
+   * and populated when a user loads saved answers.
+   */
+ answersValidated: {
+  get () {
+    //console.log(this.answers.serialize())
+    //console.log(this.validatedAnswers(this.answers.serialize()))
+    // const parsed = Parser.parseANX(this.answers.serialize())
+    const parsed = this.validatedAnswers(this.answers.serialize())
+    return parsed
+  }
+},
+
+
+ /**
+   * @property {String} pages.ViewModel.prototype.answersString answersString
+   * @parent pages.ViewModel
+   *
+   * XML version of the `answers` entered by the user.
+   *
+   * This is POSTed to `setDataURL` when user finishes the interview,
+   * and populated when a user loads saved answers.
+   */
+ invalidAnswers: {
+  get () {
+    //console.log(this.answers.serialize())
+    //console.log(this.validatedAnswers(this.answers.serialize()))
+    // const parsed = Parser.parseANX(this.answers.serialize())
+    let answers = this.answersValidated
+    Object.keys(answers).forEach(function filter (name) {
+      if (!answers[name].invalid) {
+        delete answers[name]
+      }
+
+    })
+
+    return answers
+  }
+},
 
   /**
    * @property {String} pages.ViewModel.prototype.answersString answersString
