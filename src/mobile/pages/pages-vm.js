@@ -219,7 +219,6 @@ export default DefineMap.extend('PagesVM', {
    * check is date is valid
    */
     function isValidDate (date) {
-      console.log('date: ' + date)
       let dmy = date.split('/')
       // js wants mdy or ymd
       // while a2j dates are d/m/yyyy
@@ -255,26 +254,21 @@ export default DefineMap.extend('PagesVM', {
       if (validator.has(answer.type)) {
         for (let i = 1; i < answer.values.length; i++) {
           if (!validator.get(answer.type)(answer.values[i])) {
-            // delete answer.values[i]
             answer.values[i] = null
-            Object.defineProperty(answer, 'invalid', 'true')
+            Object.defineProperty(answer, 'invalid', 
+              {
+                value: true,
+                writable: true
+              })
           }
         }
       }
-
-      // answer.values[0] = answer.values.length
-
       return answer
     }
 
     Object.keys(answers).forEach(function filter (name) {
       let sanitizedAnswer = sanitizeAnswerValues(answers[name])
-      if (sanitizedAnswer.values.length === 1) {
-        // delete answers[name]
-        answers[name] = null
-      } else {
-        answers[name] = sanitizedAnswer
-      }
+      answers[name] = sanitizedAnswer
     })
 
     return answers
@@ -291,9 +285,7 @@ export default DefineMap.extend('PagesVM', {
    */
   answersValidated: {
     get () {
-    // console.log(this.answers.serialize())
-    // console.log(this.validatedAnswers(this.answers.serialize()))
-    // const parsed = Parser.parseANX(this.answers.serialize())
+
       const parsed = this.validatedAnswers(this.answers.serialize())
       return parsed
     }
@@ -310,17 +302,15 @@ export default DefineMap.extend('PagesVM', {
    */
   invalidAnswers: {
     get () {
-    // console.log(this.answers.serialize())
-    // console.log(this.validatedAnswers(this.answers.serialize()))
-    // const parsed = Parser.parseANX(this.answers.serialize())
       let answers = this.answersValidated
+      let invalidVars = []
       Object.keys(answers).forEach(function filter (name) {
-        if (!answers[name].invalid) {
-          delete answers[name]
+        if (answers[name].invalid) {
+          invalidVars.push(answers[name].name)
         }
       })
 
-      return answers
+      return invalidVars
     }
   },
 
@@ -335,10 +325,9 @@ export default DefineMap.extend('PagesVM', {
    */
   answersANX: {
     get () {
-      // console.log(this.answers.serialize())
-      // console.log(this.validatedAnswers(this.answers.serialize()))
-      // const parsed = Parser.parseANX(this.answers.serialize())
-      const parsed = Parser.parseANX(this.validatedAnswers(this.answers.serialize()))
+
+      //const parsed = Parser.parseANX(this.validatedAnswers(this.answers.serialize()))
+      const parsed = Parser.parseANX(this.answersValidated)
       return parsed
     }
   },
