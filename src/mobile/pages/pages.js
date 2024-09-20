@@ -124,7 +124,9 @@ export default Component.extend({
         authorid: vm.interview.authorId,
         interviewPath: vm.interview.interviewPath,
         guideTitle: vm.interview.title,
-        invalidAnswers: vm.invalidAnswers
+        invalidAnswers: vm.invalidAnswers,
+        url: window.location.href,
+        viewerversion: constants.A2JVersionNum
       }
 
       /***

@@ -1,6 +1,6 @@
 {
   "name": "@caliorg/a2jviewer",
-  "version": "8.1.7-23",
+  "version": "8.1.7-25",
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
   "scripts": {
