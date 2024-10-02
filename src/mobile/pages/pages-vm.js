@@ -255,7 +255,7 @@ export default DefineMap.extend('PagesVM', {
         for (let i = 1; i < answer.values.length; i++) {
           if (!validator.get(answer.type)(answer.values[i])) {
             answer.values[i] = null
-            Object.defineProperty(answer, 'invalid', 
+            Object.defineProperty(answer, 'invalid',
               {
                 value: true,
                 writable: true
@@ -285,7 +285,6 @@ export default DefineMap.extend('PagesVM', {
    */
   answersValidated: {
     get () {
-
       const parsed = this.validatedAnswers(this.answers.serialize())
       return parsed
     }
@@ -325,8 +324,7 @@ export default DefineMap.extend('PagesVM', {
    */
   answersANX: {
     get () {
-
-      //const parsed = Parser.parseANX(this.validatedAnswers(this.answers.serialize()))
+      // const parsed = Parser.parseANX(this.validatedAnswers(this.answers.serialize()))
       const parsed = Parser.parseANX(this.answersValidated)
       return parsed
     }

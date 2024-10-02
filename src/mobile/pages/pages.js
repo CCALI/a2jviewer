@@ -11,7 +11,6 @@ import '~/src/mobile/util/helpers'
 import constants from '~/src/models/constants'
 import DefineMap from 'can-define/map/map'
 
-
 stache.registerPartial('assemble-form', assembleFormTpl)
 stache.registerPartial('save-answers-form', saveAnswersFormTpl)
 
@@ -114,7 +113,7 @@ export default Component.extend({
     },
 
     'button.save-answers click': function (el, ev) {
-      console.log("clicked!")
+      console.log('clicked!')
       ev.preventDefault()
 
       const button = new DefineMap({ next: constants.qIDSUCCESS })
