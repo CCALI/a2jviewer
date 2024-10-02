@@ -8,6 +8,8 @@ import Preview from '~/src/models/preview'
 import { analytics } from '~/src/util/analytics'
 import stache from 'can-stache'
 import '~/src/mobile/util/helpers'
+import constants from '~/src/models/constants'
+import DefineMap from 'can-define/map/map'
 
 stache.registerPartial('assemble-form', assembleFormTpl)
 stache.registerPartial('save-answers-form', saveAnswersFormTpl)
@@ -108,6 +110,38 @@ export default Component.extend({
           text: error.toString()
         }
       })
+    },
+
+    'button.save-answers click': function (el, ev) {
+      console.log('clicked!')
+      ev.preventDefault()
+
+      const button = new DefineMap({ next: constants.qIDSUCCESS })
+
+      const vm = this.viewModel
+      let postBody = {
+        authorid: vm.interview.authorId,
+        interviewPath: vm.interview.interviewPath,
+        guideTitle: vm.interview.title,
+        invalidAnswers: vm.invalidAnswers,
+        url: window.location.href,
+        viewerversion: constants.A2JVersionNum
+      }
+
+      /***
+       *  !!! Change this in pproduction to prod server!!!
+       */
+      // fetch('https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php', {
+      $.ajax({
+        url: 'https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php',
+        type: 'POST',
+        data: JSON.stringify(postBody),
+        dataType: 'json'
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json))
+
+      vm.navigate(button, el, ev)
     },
 
     // This event is fired when the Exit, Success, or AssembleSuccess button is clicked,
