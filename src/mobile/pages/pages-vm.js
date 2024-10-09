@@ -480,6 +480,11 @@ export default DefineMap.extend('PagesVM', {
         return // these buttons skip rest of navigate
       }
 
+      if (button.next === constants.qMESSAGE) {
+        vm.handleMessage(button, ev)
+        return
+      }
+
       vm.handleCodeAfter(button, vm, page, logic) // afterLogic fired, but GOTO resolves later
 
       vm.setRepeatVariable(button) // set counting variables if exist
@@ -680,6 +685,14 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
+  handleMessage (button, ev) {
+    ev && ev.preventDefault()
+    this.appState.modalContent = {
+      title: 'Author note:',
+      text: button.message || 'You have completed this A2J Guided Interview. Please close your browser window to exit.'
+    }
+  },
+
   handlePreviewResponses (button, ev) {
     ev && ev.preventDefault()
     switch (button.next) {
@@ -725,6 +738,7 @@ export default DefineMap.extend('PagesVM', {
         break
     }
   },
+
   /** Track special button clicks in Matomo analytics
    * @param button button id
   */
