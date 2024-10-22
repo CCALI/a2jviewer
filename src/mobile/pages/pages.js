@@ -144,33 +144,36 @@ export default Component.extend({
     },
 
     'button.save-answers click': function (el, ev) {
-      console.log('clicked!')
       ev.preventDefault()
 
       const button = new DefineMap({ next: constants.qIDSUCCESS })
 
       const vm = this.viewModel
-      let postBody = {
-        authorid: vm.interview.authorId,
-        interviewPath: vm.interview.interviewPath,
-        guideTitle: vm.interview.title,
-        invalidAnswers: vm.invalidAnswers,
-        url: window.location.href,
-        viewerversion: constants.A2JVersionNum
-      }
+      
 
       /***
        *  !!! Change this in pproduction to prod server!!!
        */
-      // fetch('https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php', {
-      $.ajax({
-        url: 'https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php',
-        type: 'POST',
-        data: JSON.stringify(postBody),
-        dataType: 'json'
-      })
-        .then((response) => response.json())
-        .then((json) => console.log(json))
+      if (!vm.appState.previewActive){
+        let postBody = {
+          authorid: vm.interview.authorId,
+          interviewPath: vm.interview.interviewPath,
+          guideTitle: vm.interview.title,
+          invalidAnswers: vm.invalidAnswers,
+          url: window.location.href,
+          uri: document.documentURI,
+          viewerversion: constants.A2JVersionNum
+        }
+
+        $.ajax({
+          url: 'https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php',
+          type: 'POST',
+          data: JSON.stringify(postBody),
+          dataType: 'json'
+        })
+          .then((response) => response.json())
+          .then((json) => console.log(json))
+      }
 
       vm.navigate(button, el, ev)
     },
