@@ -149,12 +149,11 @@ export default Component.extend({
       const button = new DefineMap({ next: constants.qIDSUCCESS })
 
       const vm = this.viewModel
-      
 
       /***
        *  !!! Change this in pproduction to prod server!!!
        */
-      if (!vm.appState.previewActive){
+      if (!vm.appState.previewActive) {
         let postBody = {
           authorid: vm.interview.authorId,
           interviewPath: vm.interview.interviewPath,
