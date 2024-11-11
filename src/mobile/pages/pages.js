@@ -164,14 +164,18 @@ export default Component.extend({
           viewerversion: constants.A2JVersionNum
         }
 
-        $.ajax({
-          url: 'https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php',
-          type: 'POST',
-          data: JSON.stringify(postBody),
-          dataType: 'json'
-        })
-          .then((response) => response.json())
-          .then((json) => console.log(json))
+        if (Array.isArray(postBody.invalidAnswers)){
+          if (postBody.invalidAnswers.length){
+            $.ajax({
+              url: 'https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php',
+              type: 'POST',
+              data: JSON.stringify(postBody),
+              dataType: 'json'
+            })
+              .then((response) => response.json())
+              .then((json) => console.log(json))
+          }
+        }
       }
 
       vm.navigate(button, el, ev)
