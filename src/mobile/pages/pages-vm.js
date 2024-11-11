@@ -228,13 +228,13 @@ export default DefineMap.extend('PagesVM', {
       }
 
       // slash delimited is not guaranteed supported everywhere
-      // so convert to
+      // so convert to ymd
       let dateval = new Date(
         dmy[2] + '-' +
-        dmy[1] + '-' +
-        dmy[0]
+        dmy[0] + '-' +
+        dmy[1]
       )
-      return (dateval.toString() !== 'Invalid Date')
+      return (!isNaN(dateval))
     }
 
     /*
