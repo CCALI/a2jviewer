@@ -8,6 +8,8 @@ import Preview from '~/src/models/preview'
 import { analytics } from '~/src/util/analytics'
 import stache from 'can-stache'
 import '~/src/mobile/util/helpers'
+import constants from '~/src/models/constants'
+import DefineMap from 'can-define/map/map'
 
 stache.registerPartial('assemble-form', assembleFormTpl)
 stache.registerPartial('save-answers-form', saveAnswersFormTpl)
@@ -84,6 +86,37 @@ export default Component.extend({
       }
     },
 
+    'a.learn-more click': function fireLearnMoreModal () {
+      // this is almost a line for line duplicate
+      // of src/desktop/steps.js
+      // should probably refactor
+      const vm = this.viewModel
+      const pages = this.viewModel.interview.pages
+      const pageName = this.viewModel.currentPage.name
+      // vm.appState.page
+
+      if (pages && pageName) {
+        const page = pages.find(pageName)
+
+        // piwik tracking of learn-more clicks
+        if (window._paq) {
+          analytics.trackCustomEvent('Learn-More', 'from: ' + pageName, page.learn)
+        }
+
+        vm.appState.modalContent = {
+          // name undefined prevents stache warnings
+          title: page.learn,
+          text: page.help,
+          imageURL: (page.helpImageURL || '').trim(),
+          altText: page.helpAltText,
+          mediaLabel: page.helpMediaLabel,
+          audioURL: (page.helpAudioURL || '').trim(),
+          videoURL: (page.helpVideoURL || '').trim(),
+          helpReader: page.helpReader
+        }
+      }
+    },
+
     'button.open-preview click': function (el, ev) {
       ev.preventDefault()
 
@@ -108,6 +141,44 @@ export default Component.extend({
           text: error.toString()
         }
       })
+    },
+
+    'button.save-answers click': function (el, ev) {
+      ev.preventDefault()
+
+      const button = new DefineMap({ next: constants.qIDSUCCESS })
+
+      const vm = this.viewModel
+
+      /***
+       *  !!! Change this in pproduction to prod server!!!
+       */
+      if (!vm.appState.previewActive) {
+        let postBody = {
+          authorid: vm.interview.authorId,
+          interviewPath: vm.interview.interviewPath,
+          guideTitle: vm.interview.title,
+          invalidAnswers: vm.invalidAnswers,
+          url: window.location.href,
+          uri: document.documentURI,
+          viewerversion: constants.A2JVersionNum
+        }
+
+        if (Array.isArray(postBody.invalidAnswers)) {
+          if (postBody.invalidAnswers.length) {
+            $.ajax({
+              url: 'https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php',
+              type: 'POST',
+              data: JSON.stringify(postBody),
+              dataType: 'json'
+            })
+              .then((response) => response.json())
+              .then((json) => console.log(json))
+          }
+        }
+      }
+
+      vm.navigate(button, el, ev)
     },
 
     // This event is fired when the Exit, Success, or AssembleSuccess button is clicked,
