@@ -1,6 +1,6 @@
 {
   "name": "@caliorg/a2jviewer",
-  "version": "8.1.6",
+  "version": "8.2.0",
   "description": "A2J Viewer standalone and preview app.",
   "main": "a2jviewer/app",
   "scripts": {
@@ -156,6 +156,6 @@
     "testee": "^0.9.1"
   },
   "volta": {
-    "node": "16.14.2"
+    "node": "20.18.0"
   }
 }
