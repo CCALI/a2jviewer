@@ -11,6 +11,59 @@ import route from 'can-route'
 
 import '~/src/util/object-assign-polyfill'
 
+const hasPDFTemplates =  (mState) => {
+
+
+  let needsPreviewBtn = false
+  $("#canPreview").hide()
+    
+  const templates = $.ajax({
+    url: mState.fileDataURL + '/templates.json',
+    type: 'GET',
+    dataType: 'json'
+  })
+  templates.then(templates => {
+    let t = []
+    for(let i =0; 
+        i < templates.templateIds.length && !needsPreviewBtn;
+        i++){
+      const template = $.ajax({
+        url: mState.fileDataURL + '/template' + templates.templateIds[i] + '.json',
+        type: 'GET',
+        dataType: 'json'
+      })
+      t.push(template.then(template => {
+        //if (template.rootNode.tag === "a2j-pdf"){
+        if (template.rootNode.tag === "a2j-template"){
+          needsPreviewBtn = true
+          sessionStorage.setItem("needsPreviewBtn", "true");
+          $("#canPreview").show()
+          //$("#canPreview").attr("hidden", "")
+          //$("#canPreview").removeAttr("hidden")
+        }
+
+      }))
+
+
+    }
+    console.log(t)
+    Promise.allSettled(t).then(() => {
+      if (sessionStorage.getItem("needsPreviewBtn")){
+        //$("#canPreview").attr("hidden", "")
+        $("#canPreview").removeAttr("hidden")
+        $("#canPreview").show()
+
+      }       
+      })
+  })
+
+  Promise.allSettled([templates])
+
+  return Boolean(sessionStorage.getItem("needsPreviewBtn"))
+
+  }
+
+
 export default function ({ interview, pState, mState, appState }) {
   route.start()
 
@@ -56,6 +109,15 @@ export default function ({ interview, pState, mState, appState }) {
   // piwik: set author id for filtering/tracking
   const authorId = interview.authorId || 0
   analytics.initialize(authorId)
+
+
+  mState.needsPreviewBtn = hasPDFTemplates(mState)
+  if (sessionStorage.getItem("needsPreviewBtn")){
+    $("#canPreview").removeAttr("hidden")
+    $("#canPreview").show()
+  }
+
+  console.log(mState)
 
   $('#viewer-app-container').append(template({
     appState, pState, mState, interview, logic, lang, isMobile

@@ -16,6 +16,14 @@ const Page = DefineMap.extend('Page Model', {
     default: () => []
   },
 
+  needsPreview: {
+    serialize: false,
+
+    get() {
+      return sessionStorage.getItem("needsPreviewBtn")
+    }
+  },
+
   // Whether the UI should show the preview button for the page.
   // The button should show if there are Assemble or Assemble & Save buttons.
   // In the future, this button will only be shown when particular requirements are met: https://github.com/CCALI/a2jviewer/issues/176
@@ -23,6 +31,7 @@ const Page = DefineMap.extend('Page Model', {
     serialize: false,
 
     get () {
+
       const buttons = this.buttons
 
       return buttons && buttons.length > 0 ? buttons.some(button => {

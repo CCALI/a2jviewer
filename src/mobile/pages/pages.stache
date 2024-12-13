@@ -97,13 +97,17 @@
     {{/for}}
 
     {{#if(currentPage.canPreview)}}
+      {{#if(currentPage.needsPreview)}}
+      <div id="canPreview">
       <p>You have documents that can be previewed.</p>
       <button
         class="btn btn-default btn-navigate open-preview"
         type="button"
       >
-        Open document preview 
+        Open document preview
       </button>
+      </div>
+      {{/if}}
     {{/if}}
   {{/if}}
 {{/if}}

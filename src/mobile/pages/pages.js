@@ -46,7 +46,8 @@ export default Component.extend({
     },
     trim (str) {
       return (str || '').trim()
-    }
+    },
+
   },
 
   events: {
@@ -151,7 +152,7 @@ export default Component.extend({
       const vm = this.viewModel
 
       /***
-       *  !!! Change this in pproduction to prod server!!!
+       *  !!! Change this in production to prod server!!!
        */
       if (!vm.appState.previewActive) {
         let postBody = {
@@ -173,7 +174,6 @@ export default Component.extend({
               dataType: 'json'
             })
               .then((response) => response.json())
-              .then((json) => console.log(json))
           }
         }
       }
