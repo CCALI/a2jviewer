@@ -19,8 +19,8 @@ const Page = DefineMap.extend('Page Model', {
   needsPreview: {
     serialize: false,
 
-    get() {
-      return sessionStorage.getItem("needsPreviewBtn")
+    get () {
+      return window.sessionStorage.getItem('needsPreviewBtn')
     }
   },
 
@@ -31,7 +31,6 @@ const Page = DefineMap.extend('Page Model', {
     serialize: false,
 
     get () {
-
       const buttons = this.buttons
 
       return buttons && buttons.length > 0 ? buttons.some(button => {

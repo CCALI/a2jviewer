@@ -46,7 +46,7 @@ export default Component.extend({
     },
     trim (str) {
       return (str || '').trim()
-    },
+    }
 
   },
 

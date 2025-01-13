@@ -513,6 +513,7 @@ describe('<a2j-pages>', () => {
         let appStateTeardown, componentTeardown
 
         beforeEach(() => {
+          window.sessionStorage.setItem('needsPreviewBtn', 'true')
           const frag = stache(`
             <a2j-pages
               appState:from="appState"
