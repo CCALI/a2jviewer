@@ -115,4 +115,6 @@ To find out more about A2J Viewer and A2J Author® please see our website, [www.
 
 Ever growing backend documentation including tutorials and examples can be found at [https://www.a2jauthor.org/content/a2j-selfhosting-and-backend](https://www.a2jauthor.org/content/a2j-selfhosting-and-backend)
 
+The A2J-Author project is run by the Center for Computer-Assisted Legal Instruction (www.cali.org), a consoritum of US law schools. 
+
 For questions, contact Tobias Nteireho at tobias@cali.org
