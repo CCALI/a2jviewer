@@ -173,6 +173,14 @@ export const FieldVM = DefineMap.extend('FieldVM', {
     get () {
       const min = this.field.min || 'any'
       const max = this.field.max || 'any'
+      const isDateMDY = this.field.type === 'datemdy'
+
+      if (isDateMDY) {
+        let minDate = moment(min, 'MMDDYYYY').format('MM/DD/YYYY')
+        let maxDate = moment(max, 'MMDDYYYY').format('MM/DD/YYYY')
+        return `(${minDate} ~~~ ${maxDate})`
+      }
+      
       return `(${min} ~~~ ${max})`
     }
   },
