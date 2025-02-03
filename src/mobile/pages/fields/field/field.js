@@ -180,7 +180,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
         let maxDate = moment(max, 'MMDDYYYY').format('MM/DD/YYYY')
         return `(${minDate} ~~~ ${maxDate})`
       }
-      
+
       return `(${min} ~~~ ${max})`
     }
   },
