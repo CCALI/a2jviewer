@@ -252,7 +252,6 @@ export default DefineMap.extend('PagesVM', {
       validator.set('Number', isValidNumber)
 
       if (validator.has(answer.type)) {
-        console.log(answer.name)
         for (let i = 1; i < answer.values.length; i++) {
           console.log(answer.values[i])
           if (answer.values[i]){
@@ -269,10 +268,6 @@ export default DefineMap.extend('PagesVM', {
       }
       return answer
     }
-
-    console.log(answers)
-
-    //console.log('answers: ' + JSON.stringify(answers))
 
     Object.keys(answers).forEach(function filter (name) {
       if (answers.hasOwnProperty(name)) {
