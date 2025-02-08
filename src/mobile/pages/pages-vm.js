@@ -252,23 +252,33 @@ export default DefineMap.extend('PagesVM', {
       validator.set('Number', isValidNumber)
 
       if (validator.has(answer.type)) {
+        console.log(answer.name)
         for (let i = 1; i < answer.values.length; i++) {
-          if (!validator.get(answer.type)(answer.values[i])) {
-            answer.values[i] = null
-            Object.defineProperty(answer, 'invalid',
-              {
-                value: true,
-                writable: true
-              })
+          console.log(answer.values[i])
+          if (answer.values[i]){
+            if (!validator.get(answer.type)(answer.values[i])) {
+              answer.values[i] = null
+              Object.defineProperty(answer, 'invalid',
+                {
+                  value: true,
+                  writable: true
+                })
+            }
           }
         }
       }
       return answer
     }
 
+    console.log(answers)
+
+    //console.log('answers: ' + JSON.stringify(answers))
+
     Object.keys(answers).forEach(function filter (name) {
-      let sanitizedAnswer = sanitizeAnswerValues(answers[name])
-      answers[name] = sanitizedAnswer
+      if (answers.hasOwnProperty(name)) {
+        let sanitizedAnswer = sanitizeAnswerValues(answers[name])
+        answers[name] = sanitizedAnswer
+      }
     })
 
     return answers

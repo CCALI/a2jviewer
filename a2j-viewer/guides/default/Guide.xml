@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GUIDE>
+  <INFO>
+    <AUTHORID>11</AUTHORID>
+    <TOOL>A2J</TOOL>
+    <TOOLVERSION>2012-04-19</TOOLVERSION>
+    <AVATAR>avatar1</AVATAR>
+    <GUIDEGENDER>Female</GUIDEGENDER>
+    <DESCRIPTION>This A2J Guided Interview was created as a demo for use with the A2J Viewer.</DESCRIPTION>
+    <JURISDICTION>Jurisdiction of my interview</JURISDICTION>
+    <LANGUAGE>en</LANGUAGE>
+    <NOTES>7/6/2017 interview created.</NOTES>
+    <SENDFEEDBACK>false</SENDFEEDBACK>
+    <SUBJECTAREA>Jurisdiction of my interview</SUBJECTAREA>
+    <TITLE>Demo A2J Guided Interview</TITLE>
+    <VERSION>7/6/2017</VERSION>
+    <VIEWER>A2J</VIEWER>
+    <FIRSTPAGE>1-Introduction</FIRSTPAGE>
+  </INFO>
+  <PAGES>
+    <PAGE NAME="1-Introduction" TYPE="A2J" MAPX="6" MAPY="208" STEP="0" NESTED="false">
+      <TEXT>
+        <P>
+          <FONT>This is the introduction.</FONT>
+        </P>
+      </TEXT>
+      <BUTTONS>
+        <BUTTON NEXT="1-Name">
+          <LABEL>Continue</LABEL>
+        </BUTTON>
+      </BUTTONS>
+    </PAGE>
+    <PAGE NAME="1-Name" TYPE="A2J" MAPX="11" MAPY="381" STEP="1" NESTED="false">
+      <TEXT>
+        <P>
+          <FONT>Enter your name.</FONT>
+        </P>
+      </TEXT>
+      <BUTTONS>
+        <BUTTON NEXT="2-Gender">
+          <LABEL>Continue</LABEL>
+        </BUTTON>
+      </BUTTONS>
+      <FIELDS>
+        <FIELD TYPE="text" ORDER="ASC" REQUIRED="true" CALCULATOR="false">
+          <LABEL>First:</LABEL>
+          <NAME>Client first name TE</NAME>
+          <INVALIDPROMPT>You must type a response in the highlighted space before you can continue.</INVALIDPROMPT>
+        </FIELD>
+        <FIELD TYPE="text" ORDER="ASC" REQUIRED="false" CALCULATOR="false">
+          <LABEL>Middle:</LABEL>
+          <NAME>Client middle name TE</NAME>
+          <INVALIDPROMPT>You must type a response in the highlighted space before you can continue.</INVALIDPROMPT>
+        </FIELD>
+        <FIELD TYPE="text" ORDER="ASC" REQUIRED="true" CALCULATOR="false">
+          <LABEL>Last:</LABEL>
+          <NAME>Client last name TE</NAME>
+          <INVALIDPROMPT>You must type a response in the highlighted space before you can continue.</INVALIDPROMPT>
+        </FIELD>
+      </FIELDS>
+    </PAGE>
+    <PAGE NAME="2-Gender" TYPE="A2J" MAPX="249" MAPY="113" STEP="1" NESTED="false">
+      <TEXT>Choose your gender.</TEXT>
+      <BUTTONS>
+        <BUTTON NEXT="3-Sample text screen">
+          <LABEL>Continue</LABEL>
+        </BUTTON>
+      </BUTTONS>
+      <FIELDS>
+        <FIELD TYPE="gender" REQUIRED="true" CALCULATOR="false">
+          <LABEL>Gender:</LABEL>
+          <NAME>User Gender</NAME>
+        </FIELD>
+      </FIELDS>
+    </PAGE>
+    <PAGE NAME="Final screen" TYPE="A2J" MAPX="249" MAPY="233" STEP="2" NESTED="false">
+      <TEXT>
+        <P>Click Get My Document to generate your forms or process your information. </P>
+      </TEXT>
+      <HELP>
+        <P>
+          <BR/>
+        </P>
+      </HELP>
+      <HELPREADER>
+        <P>
+          <BR/>
+        </P>
+      </HELPREADER>
+      <BUTTONS>
+        <BUTTON NEXT="SUCCESS">
+          <LABEL>Post Answers to Server</LABEL>
+        </BUTTON>
+        <BUTTON NEXT="ASSEMBLE">
+          <LABEL>Generate Doc from A2J DAT template</LABEL>
+        </BUTTON>
+        <BUTTON NEXT="EXIT">
+          <LABEL>Save Answers</LABEL>
+        </BUTTON>
+      </BUTTONS>
+      <NOTES>
+        <P>
+          <BR/>
+        </P>
+      </NOTES>
+    </PAGE>
+    <PAGE NAME="3-Sample text screen" TYPE="A2J" MAPX="255" MAPY="377" STEP="1" NESTED="false">
+      <TEXT>
+        <P>Text of my first question goes here, for example:</P>
+        <P>What is your favorite color?</P>
+      </TEXT>
+      <TEXTCITATION>
+        <P>
+          <BR/>
+        </P>
+      </TEXTCITATION>
+      <HELP>
+        <P>
+          <BR/>
+        </P>
+      </HELP>
+      <HELPCITATION>
+        <P>
+          <BR/>
+        </P>
+      </HELPCITATION>
+      <HELPREADER>
+        <P>
+          <BR/>
+        </P>
+      </HELPREADER>
+      <BUTTONS>
+        <BUTTON NEXT="Final screen">
+          <LABEL>Continue</LABEL>
+        </BUTTON>
+      </BUTTONS>
+      <FIELDS>
+        <FIELD TYPE="textpick" REQUIRED="false" CALCULATOR="false">
+          <LISTDATA>
+            <option>Red</option>
+            <option>Orange</option>
+            <option>Yellow</option>
+            <option>Green</option>
+            <option>Blue</option>
+            <option>Indigo</option>
+            <option>Violet</option>
+            <option>Pink</option>
+            <option>White</option>
+            <option>Black</option>
+          </LISTDATA>
+          <LABEL>
+            <P>
+              <BR/>
+            </P>
+          </LABEL>
+          <NAME>Text pick TE</NAME>
+          <INVALIDPROMPT>
+            <P>
+              <BR/>
+            </P>
+          </INVALIDPROMPT>
+        </FIELD>
+      </FIELDS>
+      <CODECITATION>
+        <P>
+          <BR/>
+        </P>
+      </CODECITATION>
+      <NOTES>
+        <P>
+          <BR/>
+        </P>
+      </NOTES>
+    </PAGE>
+  </PAGES>
+  <STEPS>
+    <STEP NUMBER="0">
+      <TEXT>ACCESS TO JUSTICE</TEXT>
+    </STEP>
+    <STEP NUMBER="1">
+      <TEXT>YOUR INFORMATION</TEXT>
+    </STEP>
+    <STEP NUMBER="2">
+      <TEXT>GET DOCUMENT</TEXT>
+    </STEP>
+  </STEPS>
+  <VARIABLES>
+    <VARIABLE NAME="User Gender" TYPE="MC" COMMENT="User's gender will be used to display appopriate avatar."/>
+    <VARIABLE NAME="User Avatar" TYPE="Text"/>
+    <VARIABLE NAME="Client first name TE" TYPE="Text"/>
+    <VARIABLE NAME="Client middle name TE" TYPE="Text"/>
+    <VARIABLE NAME="Client last name TE" TYPE="Text"/>
+    <VARIABLE NAME="A2J Version" TYPE="Text" COMMENT="A2J Author Version"/>
+    <VARIABLE NAME="A2J Interview ID" TYPE="Text" COMMENT="Guide ID"/>
+    <VARIABLE NAME="A2J Bookmark" TYPE="Text" COMMENT="Current Page"/>
+    <VARIABLE NAME="A2J History" TYPE="Text" COMMENT="Progress History List (XML)"/>
+    <VARIABLE NAME="A2J Navigation TF" TYPE="TF" COMMENT="Allow navigation?"/>
+    <VARIABLE NAME="A2J Interview Incomplete TF" TYPE="TF" COMMENT="Reached Successful Exit?"/>
+    <VARIABLE NAME="A2J Step 0" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 1" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 2" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 3" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 4" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 5" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 6" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 7" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 8" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 9" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 10" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 11" TYPE="Text"/>
+    <VARIABLE NAME="A2J Step 12" TYPE="Text"/>
+    <VARIABLE NAME="Text pick TE" TYPE="Text"/>
+  </VARIABLES>
+</GUIDE>
