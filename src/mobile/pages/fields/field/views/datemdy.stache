@@ -8,15 +8,13 @@
       {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
     </label>
     <div class="datepicker-field-field">
-      <input
-        type="text"
-        id:from="this.idFromLabelHTML(field.label)"
-        name="{{field.name}}"
-        value:bind="field._answerVm.textValue"
-        on:change="validateField(null, scope.element)"
-        {{#if(field.required)}}required{{/if}}
-        class="form-control datepicker-input" />
+      <input type="text" id:from="this.idFromLabelHTML(field.label)" name="{{field.name}}"
+        value:bind="field._answerVm.textValue" on:change="validateField(null, scope.element)"
+        {{#if(field.required)}}required{{/if}} class="form-control datepicker-input" />
     </div>
+    {{#if(showMinMaxPrompt)}}
+    {{minMaxPrompt}}
+    {{/if}}
   </div>
 
   {{> invalid-prompt-tpl }}
