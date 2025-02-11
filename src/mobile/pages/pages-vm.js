@@ -254,7 +254,7 @@ export default DefineMap.extend('PagesVM', {
       if (validator.has(answer.type)) {
         for (let i = 1; i < answer.values.length; i++) {
           console.log(answer.values[i])
-          if (answer.values[i]){
+          if (answer.values[i]) {
             if (!validator.get(answer.type)(answer.values[i])) {
               answer.values[i] = null
               Object.defineProperty(answer, 'invalid',
