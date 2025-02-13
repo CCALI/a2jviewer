@@ -7,26 +7,19 @@
       {{#if(field.required)}}<small class="text-danger">({{lang.Required}})</small>{{/if}}
     </label>
     <div class="number-field">
-      <input
-        type="text"
-        inputmode="decimal"
-        id="{{idFromLabelHTML(field.label)}}"
-        name="{{field.name}}"
-        {{#if(field.required)}}required{{/if}}
-        class="form-control"
-        on:input="preValidateNumber(null, scope.element)"
-        on:change="validateField(null, scope.element)"
-        value:bind="field._answerVm.textValue"/>
-        {{#if(field.calculator)}}
-          <button
-            aria-label="Expand Calculator"
-            class="btn btn-default expand-calc pull-right"
-            on:click="showCalculator(field)"
-            aui-action="open">
-            <span class="icon calc-icon glyphicon-calc" aria-hidden="true"></span>
-          </button>
-        {{/if}}
+      <input type="text" inputmode="decimal" id="{{idFromLabelHTML(field.label)}}" name="{{field.name}}"
+        {{#if(field.required)}}required{{/if}} class="form-control" on:input="preValidateNumber(null, scope.element)"
+        on:change="validateField(null, scope.element)" value:bind="field._answerVm.textValue" />
+      {{#if(field.calculator)}}
+      <button aria-label="Expand Calculator" class="btn btn-default expand-calc pull-right"
+        on:click="showCalculator(field)" aui-action="open">
+        <span class="icon calc-icon glyphicon-calc" aria-hidden="true"></span>
+      </button>
+      {{/if}}
     </div>
+    {{#if(showMinMaxPrompt)}}
+    {{minMaxPrompt}}
+    {{/if}}
   </div>
   {{> invalid-prompt-tpl }}
 </div>
