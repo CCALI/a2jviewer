@@ -167,7 +167,7 @@ export default Component.extend({
         if (Array.isArray(postBody.invalidAnswers)) {
           if (postBody.invalidAnswers.length) {
             $.ajax({
-              url: 'https://staging.a2jauthor.org/a2jauthor/bad-answer-alert.php',
+              url: 'https://www.a2jauthor.org/a2jauthor/bad-answer-alert.php',
               type: 'POST',
               data: JSON.stringify(postBody),
               dataType: 'json'
