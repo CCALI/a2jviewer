@@ -176,8 +176,8 @@ export const FieldVM = DefineMap.extend('FieldVM', {
       const isDateMDY = this.field.type === 'datemdy'
 
       if (isDateMDY) {
-        let minDate = moment(min, 'MMDDYYYY').format('MM/DD/YYYY')
-        let maxDate = moment(max, 'MMDDYYYY').format('MM/DD/YYYY')
+        let minDate = min === 'TODAY' ? moment().format('MM/DD/YYYY') : moment(min, 'MMDDYYYY').format('MM/DD/YYYY')
+        let maxDate = max === 'TODAY' ? moment().format('MM/DD/YYYY') : moment(max, 'MMDDYYYY').format('MM/DD/YYYY')
         return `(${minDate} ~~~ ${maxDate})`
       }
 
