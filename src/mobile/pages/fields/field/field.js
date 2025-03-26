@@ -363,7 +363,7 @@ export const FieldVM = DefineMap.extend('FieldVM', {
 
     _answerVm.values = value
 
-    console.log('answer value: ' + _answerVm.values)
+    //console.log('answer value: ' + _answerVm.values)
 
     let errors = _answerVm.errors
     field.hasError = errors
