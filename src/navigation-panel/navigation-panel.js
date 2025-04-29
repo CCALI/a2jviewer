@@ -72,7 +72,6 @@ export let NavigationPanelVM = DefineMap.extend('NavigationPanelVM', {
     const visitedPages = this.visitedPages
     const futureVisitedPages = visitedPages.futureVisitedPages.slice()
     const fvpi = futureVisitedPages.indexOf(futureVisitedPage)
-    // console.log("nav to future", fvpi, futureVisitedPages)
     if (fvpi > -1) {
       visitedPages.selected = visitedPages.activeLeaf
       let prevPage = visitedPages.activeLeaf.interviewPage

@@ -173,7 +173,6 @@ export default Component.extend({
               dataType: 'json'
             })
               .then((response) => response.json())
-              .then((json) => console.log(json))
           }
         }
       }
