@@ -16,7 +16,6 @@ import '~/src/mobile/util/helpers'
 import debug from 'can-debug'
 debug()
 // !steal-remove-end
-
 // State attrs not needing persistance, such as showing/hiding the table of contents.
 // Load configuration from desktop into mobile
 const qsParams = deparam(window.location.search.substring(1))

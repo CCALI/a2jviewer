@@ -35,7 +35,9 @@ export default Model.extend('PersistedStateModel', {
 
     // parse and send xml to server
     const anx = Parser.parseANX(this.serialize().answers)
-    const data = { AnswerKey: anx }
+    // parse xml to json
+    const json = Parser.parseJSON(anx, this.attr('vars'))
+    const data = { AnswerKey: anx, AnswerKeyJSON: json }
 
     return $.ajax({ url, type: 'POST', data })
       .then(res => {

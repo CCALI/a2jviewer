@@ -324,7 +324,6 @@ export default DefineMap.extend('PagesVM', {
    */
   answersANX: {
     get () {
-      // const parsed = Parser.parseANX(this.validatedAnswers(this.answers.serialize()))
       const parsed = Parser.parseANX(this.answersValidated)
       return parsed
     }

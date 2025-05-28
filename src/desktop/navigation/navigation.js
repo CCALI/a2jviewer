@@ -15,6 +15,8 @@ import isMobile from '~/src/util/is-mobile'
 export let ViewerNavigationVM = DefineMap.extend({
   // passed in via stache bindings
   appState: {},
+  pState: {},
+  mState: {},
   courthouseImage: {},
   interview: {},
   lang: {},
@@ -93,6 +95,30 @@ export let ViewerNavigationVM = DefineMap.extend({
 
   showDemoNotice: {
     type: 'boolean'
+  },
+
+  /**
+   * @property {Booelan} viewerNavigation.ViewModel.showSaveButton showSaveButton
+   * @parent conditional.ViewModel
+   *
+   * Whether the display the save button.
+   */
+  showSaveButton: {
+    get () {
+      return !!this.mState.attr('autoSetDataURL')
+    }
+  },
+
+  disableSaveButton: {
+    default: false
+  },
+
+  save () {
+    this.disableSaveButton = true
+
+    this.pState.save().always(() => {
+      this.disableSaveButton = false
+    })
   },
 
   /**

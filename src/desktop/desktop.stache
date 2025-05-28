@@ -1,50 +1,39 @@
-<can-import from="~/src/footer/"/>
-<can-import from="~/src/desktop/steps/"/>
-<can-import from="~/src/desktop/navigation/"/>
-<can-import from="~/src/desktop/desktop.less!"/>
+<can-import from="~/src/footer/" />
+<can-import from="~/src/desktop/steps/" />
+<can-import from="~/src/desktop/navigation/" />
+<can-import from="~/src/desktop/desktop.less!" />
 
-  <div class="desktop-container" role="main">
-    {{#if (pageNotFound)}}
-      <div class="alert alert-danger text-center" role="alert">
-        The page {{appState.page}} does not exist!
-      </div>
-    {{else}}
-      {{#not(isMobile)}}
-        <a id="skiplink" tabindex="0" class="skip-link" on:keydown="keydownFireClickHandler(scope.event, focusMainContent)">Skip to main content</a>
-      {{/not}}
-      <a2j-viewer-navigation
-        lang:from="lang"
-        logic:from="logic"
-        appState:from="appState"
-        resumeInterview:to="scope.resumeInterview"
-        interview:from="interview"
-        showDemoNotice:from="showDemoNotice"
-        {{#if(scope.vm.authorCourthouseImage)}}courthouseImage:raw="{{normalizePath(mState.fileDataURL, scope.vm.authorCourthouseImage)}}"{{/if}} />
+<div class="desktop-container" role="main">
+  {{#if (pageNotFound)}}
+  <div class="alert alert-danger text-center" role="alert">
+    The page {{appState.page}} does not exist!
+  </div>
+  {{else}}
+  {{#not(isMobile)}}
+  <a id="skiplink" tabindex="0" class="skip-link"
+    on:keydown="keydownFireClickHandler(scope.event, focusMainContent)">Skip to main content</a>
+  {{/not}}
+  <a2j-viewer-navigation lang:from="lang" logic:from="logic" appState:from="appState" mState:from="mState"
+    pState:from="pState" resumeInterview:to="scope.resumeInterview" interview:from="interview"
+    showDemoNotice:from="showDemoNotice"
+    {{#if(scope.vm.authorCourthouseImage)}}courthouseImage:raw="{{normalizePath(mState.fileDataURL, scope.vm.authorCourthouseImage)}}"
+    {{/if}} />
 
-      <div class="app-content">
-        <div id="sidewalk" class="sidewalk"></div>
+  <div class="app-content">
+    <div id="sidewalk" class="sidewalk"></div>
 
-        <a2j-viewer-steps
-          remainingSteps:to="remainingSteps"
-          maxDisplayedSteps:to="maxDisplayedSteps"
-          showDebugPanel:from="showDebugPanel"
-          resumeInterview:from="scope.resumeInterview"
-          lang:from="lang"
-          logic:from="logic"
-          appState:from="appState"
-          pState:from="pState"
-          mState:from="mState"
-          interview:from="interview"
-          traceMessage:to="traceMessage" />
-      </div><!-- app-content -->
+    <a2j-viewer-steps remainingSteps:to="remainingSteps" maxDisplayedSteps:to="maxDisplayedSteps"
+      showDebugPanel:from="showDebugPanel" resumeInterview:from="scope.resumeInterview" lang:from="lang"
+      logic:from="logic" appState:from="appState" pState:from="pState" mState:from="mState" interview:from="interview"
+      traceMessage:to="traceMessage" />
+  </div><!-- app-content -->
 
-      {{#if (authorBrandLogo)}}
-        <div class="author-brand-logo">
-          <img src="{{normalizePath(mState.fileDataURL, authorBrandLogo)}}" alt="Author Brand Logo">
-        </div>
-      {{/if}}
-    {{/if}}
+  {{#if (authorBrandLogo)}}
+  <div class="author-brand-logo">
+    <img src="{{normalizePath(mState.fileDataURL, authorBrandLogo)}}" alt="Author Brand Logo">
+  </div>
+  {{/if}}
+  {{/if}}
 
-    <app-footer appState:from="appState" />
-  </div><!-- desktop-container -->
-
+  <app-footer appState:from="appState" />
+</div><!-- desktop-container -->
