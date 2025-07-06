@@ -56,6 +56,9 @@ const buildViewerHtml = function () {
           // errRepURL accepts user's public submission of an error to which they can add an optional comment.
           // E.g., 'https://lawhelpinteractive.org/problem_reporting_form'
           errRepURL: ''
+
+          // (Optional) setting to use the legacy resume to the GI start-page
+          legacyResume: false,
         }));
       </script>
 

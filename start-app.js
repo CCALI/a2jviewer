@@ -52,6 +52,7 @@ export default function ({ interview, pState, mState, appState }) {
   // set initial page route
   appState.view = 'pages'
   appState.page = interview.attr('firstPage')
+  console.log('Starting app with page:', appState.page, mState.attr('legacyResume'))
 
   // piwik: set author id for filtering/tracking
   const authorId = interview.authorId || 0

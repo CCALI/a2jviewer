@@ -63,7 +63,10 @@ function template (version) {
 
           // errRepURL accepts user's public submission of an error to which they can add an optional comment.
           // E.g., 'https://lawhelpinteractive.org/problem_reporting_form'
-          errRepURL: ''
+          errRepURL: '',
+          
+          // (Optional) setting to use the legacy resume to the GI start-page
+          legacyResume: false,
         }));
       </script>
       <script src="node_modules/steal/steal.production.js?v=${version}" cache-key="v" cache-version="${version}" main="@caliorg/a2jviewer/app"></script>
