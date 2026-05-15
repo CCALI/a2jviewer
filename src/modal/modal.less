@@ -120,6 +120,26 @@ a2j-modal {
           }
         }
       }
+      .modal-title {
+        .back {
+          text-shadow: none;
+          color: #fff;
+          background: 0 0;
+          border: 0;
+          padding: 0;
+          opacity: 0.7;
+          &:focus, &:hover, &:active {
+            opacity: 1;
+            outline-color: #fff;
+
+            @supports (-webkit-hyphens:none) { /* safari only */
+              /* Safari doesn't allow you to change the focus outline color, we have to do this instead for a11y. */
+              outline: none;
+              box-shadow: 0 0 2px #fff,  0 0 2px #fff,  0 0 2px #fff,  0 0 2px #fff;
+            }
+          }
+        }
+      }
     }
 
     a.zoom-button {

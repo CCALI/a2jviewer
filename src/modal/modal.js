@@ -16,6 +16,22 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
   interview: {},
   appState: {},
 
+  modalHistory: {
+    default: () => []
+  },
+
+  get historyLength () {
+    return this.modalHistory.length
+  },
+
+  goBack () {
+    if (this.modalHistory.length > 0) {
+      // get latest modal content from history stack and set as current modal content
+      const previousContent = this.modalHistory.pop()
+      this.modalContent.assign(previousContent)
+    }
+  },
+
   // set in appState and cleared here on close
   modalContent: {
     Type: ModalContent
@@ -97,6 +113,8 @@ export let ModalVM = DefineMap.extend('ViewerModalVM', {
       this.triggeringElement.focus()
     }
 
+    // clear history when closing modal to prevent going back to stale content
+    this.modalHistory = []
     // clear for next modal use
     this.modalContent = null
   },
@@ -199,6 +217,19 @@ export default Component.extend({
           if (window._paq) {
             analytics.trackCustomEvent('Pop-Up', 'from: ' + sourcePageName, pageName)
           }
+
+          // push to the history
+          vm.modalHistory.push({
+            title: vm.modalContent.title,
+            text: vm.modalContent.text,
+            textAudioURL: vm.modalContent.textAudioURL,
+            imageURL: vm.modalContent.imageURL,
+            altText: vm.modalContent.altText,
+            mediaLabel: vm.modalContent.mediaLabel,
+            audioURL: vm.modalContent.audioURL,
+            videoURL: vm.modalContent.videoURL,
+            helpReader: vm.modalContent.helpReader
+          })
 
           // popups now have text, audio, video and their alt-text values
           // but title is internal descriptor so set to empty string

@@ -38,6 +38,18 @@
           </button>
 
           <h4 class="modal-title" id="pageModalLbl">
+            {{#if(modalHistory.length > 1)}}
+              <button
+                type="button"
+                class="back"
+                on:click="goBack()"
+                title="Go back to previous content"
+                aria-label="Go back to previous content"
+                tabindex="1"
+              >
+                <span class="glyphicon-left-open" aria-hidden="true"></span>
+              </button>
+            {{/if}}
             {{#if(modalContent.title)}}
               {{ parseText(cleanHTML(modalContent.title)) }}
             {{else}}
