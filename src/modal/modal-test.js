@@ -5,6 +5,7 @@ import AppState from '~/src/models/app-state'
 import Interview from '~/src/models/interview'
 import Logic from '~/src/mobile/util/logic'
 import MemoryState from '~/src/models/memory-state'
+import ModalContent from '~/src/models/modal-content'
 import F from 'funcunit'
 import { assert } from 'chai'
 import sinon from 'sinon'
@@ -179,6 +180,35 @@ describe('<a2j-modal> ', function () {
       $('#pageModal').modal('hide')
 
       assert.isTrue(pauseActivePlayersSpy.calledOnce, 'should fire pauseActivePlayers() on modal close to pause audio and video players')
+    })
+
+    it('historyLength returns the number of saved modal history entries', function () {
+      vm.modalHistory.push({ title: 'First' }, { title: 'Second' })
+      assert.equal(vm.historyLength, 2)
+    })
+
+    it('goBack() restores the previous modal content and removes it from history', function () {
+      vm.modalContent = new ModalContent({ title: 'Current', text: 'Current text' })
+      const assignSpy = sinon.spy(vm.modalContent, 'assign')
+      vm.modalHistory.push({ title: 'Previous', text: 'Previous text' })
+
+      vm.goBack()
+
+      assert.isTrue(assignSpy.calledOnce, 'should assign previous content when history exists')
+      assert.equal(vm.modalContent.title, 'Previous')
+      assert.equal(vm.modalContent.text, 'Previous text')
+      assert.equal(vm.historyLength, 0)
+    })
+
+    it('goBack() does nothing when modalHistory is empty', function () {
+      vm.modalContent = new ModalContent({ title: 'Current', text: 'Current text' })
+      const assignSpy = sinon.spy(vm.modalContent, 'assign')
+
+      vm.goBack()
+
+      assert.isFalse(assignSpy.called, 'should not assign anything when history is empty')
+      assert.equal(vm.modalContent.title, 'Current')
+      assert.equal(vm.historyLength, 0)
     })
   })
 })

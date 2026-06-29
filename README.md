@@ -78,6 +78,27 @@ run the command below in a terminal
 
 This will build a zip in the parent folder of the cloned repo with the naming patern a2j-viewer_{MAJVER}.{MINVER}.{PATCH}_{YYYY}-{MM}-{DD}.zip
 
+## Local Development & Testing
+
+If you need to modify the A2J Viewer source or test it within a local environment, follow the steps below.
+
+### 1. Configuration of Interview Files
+Before running the local development server, ensure your interview/guide files are placed in the following directory:
+`scripts/guides/default/`
+
+> **Note:** If this directory is empty, the viewer will fallback to the default sample guides located in the `demo` folder.
+
+### 2. Launching the Development Server
+To initiate the local build process and start the web server, execute the following command in your terminal:
+
+```bash
+npm run dev
+```
+
+### 3. Workflow Limitations (No HMR)
+Please be advised that Hot Module Replacement (HMR) is currently *not supported*.
+To reflect any changes made to the local source files (JS, LESS, or HTML), you must stop the current process and re-run the `npm run dev` command to rebuild the assets.
+
 ## Upgrading
 1.) backup your old viewer and Guided Interviews
 
