@@ -52,8 +52,6 @@
             {{/if}}
             {{#if(modalContent.title)}}
               {{ parseText(cleanHTML(modalContent.title)) }}
-            {{else}}
-              <span class="glyphicon-lifebuoy" aria-hidden="true"></span>
             {{/if}}
           </h4>
         </div>
