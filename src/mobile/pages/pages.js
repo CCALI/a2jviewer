@@ -117,6 +117,21 @@ export default Component.extend({
       }
     },
 
+    'button.btn-navigate click': function (el, ev) {
+      const $el = $(el)
+      const isContinueButton = !$el.hasClass('save-answers') &&
+        !$el.hasClass('open-preview') &&
+        !$el.closest('form.post-answers-form, form[action="/api/assemble"]').length
+
+      if (!isContinueButton) { return }
+
+      const vm = this.viewModel
+      if (vm && vm.appState && vm.appState.dispatch) {
+        vm.appState.dispatch('saveOnly')
+      }
+      vm && vm.saveAnswersToServerAsync()
+    },
+
     'button.open-preview click': function (el, ev) {
       ev.preventDefault()
 

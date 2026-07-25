@@ -5,6 +5,7 @@ const path = require('path')
 const buildViewerHtml = function (isLocal = false) {
   const version = Date.now()
   const templatePath = isLocal ? '.' : '..'
+  const setDataURL = isLocal ? './answers' : './answers.php'
   const html = template(version, templatePath)
 
   function template (version, templatePath) {
@@ -42,7 +43,7 @@ const buildViewerHtml = function (isLocal = false) {
           getDataURL: '',
 
           // endpoint to save the answer's file and leaves the viewer (its response replaces viewer's frame)
-          setDataURL: './answers.php',
+          setDataURL: '${setDataURL}',
 
           // (Optional) ajax endpoint to silently save the answer file periodically
           autoSetDataURL: '',

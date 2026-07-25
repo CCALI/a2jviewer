@@ -152,6 +152,34 @@ describe('<a2j-pages>', () => {
         assert.equal(postCount, 1, 'should not fire post for assemble only')
       })
 
+      it('saveAnswersToServerAsync coalesces overlapping saves', function (done) {
+        const clock = sinon.useFakeTimers()
+        const ajaxStub = sinon.stub($, 'ajax').callsFake(function () {
+          return {
+            always (callback) {
+              callback()
+              return this
+            }
+          }
+        })
+
+        vm.pState = new PersistedState({ setDataURL: 'https://example.org/save.php' })
+
+        vm.saveAnswersToServerAsync()
+        vm.saveAnswersToServerAsync()
+        vm.saveAnswersToServerAsync()
+
+        clock.tick(500)
+        assert.equal(ajaxStub.callCount, 1, 'should only POST once while first request is in flight')
+
+        clock.tick(500)
+        assert.equal(ajaxStub.callCount, 2, 'should POST again with latest answers after first completes')
+
+        ajaxStub.restore()
+        clock.restore()
+        done()
+      })
+
       it('getNextPage - check for normal nav or GOTO logic', () => {
         const button = new DefineMap({ next: 'foo' })
         const currentPage = vm.currentPage

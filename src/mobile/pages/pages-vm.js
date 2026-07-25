@@ -771,6 +771,58 @@ export default DefineMap.extend('PagesVM', {
     }
   },
 
+  /**
+   * POST current answers to `setDataURL` without redirecting the page.
+   * Used when the user clicks Continue to save progress in the background.
+   * Overlapping requests are coalesced so only one POST runs at a time and
+   * the latest answers are always sent after the in-flight request completes.
+   */
+  saveAnswersToServerAsync () {
+    if (this.previewActive) { return }
+
+    const setDataURL = this.pState && this.pState.setDataURL
+    if (!setDataURL) { return }
+
+    this._saveAnswersPending = true
+
+    if (this._saveAnswersInFlight) {
+      return
+    }
+
+    this._flushSaveAnswersToServer()
+  },
+
+  _flushSaveAnswersToServer () {
+    if (!this._saveAnswersPending) { return }
+
+    this._saveAnswersPending = false
+    this._saveAnswersInFlight = true
+
+    if (this._saveAnswersTimeout) {
+      clearTimeout(this._saveAnswersTimeout)
+    }
+
+    const vm = this
+    this._saveAnswersTimeout = setTimeout(function () {
+      const data = {
+        AnswerKey: vm.answersANX,
+        fileDataUrl: vm.mState.fileDataURL,
+        AnswerKeyJSON: vm.answersJSON
+      }
+
+      $.ajax({
+        url: vm.pState.setDataURL,
+        type: 'POST',
+        data: data
+      }).always(function () {
+        vm._saveAnswersInFlight = false
+        if (vm._saveAnswersPending) {
+          vm._flushSaveAnswersToServer()
+        }
+      })
+    }, 500)
+  },
+
   handleServerPost (button, vm, previewActive, ev) {
     // do nothing if in preview
     if (previewActive) { return }

@@ -118,6 +118,25 @@ export let ViewerNavigationVM = DefineMap.extend({
   },
 
   /**
+   * @property {Function} viewerNavigation.ViewModel.saveOnly saveOnly
+   * @parent viewerNavigation.ViewModel
+   *
+   * Saves interview and exits.
+   */
+  saveOnly () {
+    const answers = this.interview.attr('answers')
+    const pageName = this.appState.page
+
+    if (window._paq) {
+      analytics.trackCustomEvent('Save', 'from: ' + pageName)
+    }
+
+    if (answers) {
+      answers.varSet('a2j interview incomplete tf', true, 1)
+    }
+  },
+
+  /**
    * @property {Function} viewerNavigation.ViewModel.resumeInterview resumeInterview
    * @parent viewerNavigation.ViewModel
    *
@@ -167,6 +186,12 @@ export default Component.extend({
       let feedbackData = this.feedbackData
       let baseUrl = 'http://www.a2jauthor.org/A2JFeedbackForm.php?'
       return baseUrl + $.param(feedbackData)
+    }
+  },
+
+  events: {
+    '{appState} saveOnly': function () {
+      this.viewModel.saveOnly()
     }
   }
 })
