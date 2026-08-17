@@ -208,7 +208,7 @@ export default DefineMap.extend('PagesVM', {
    *
    * XML version of the `answers` entered by the user.
    *
-   * This is POSTed to `setDataURL` when user finishes the interview,
+   * This is POSTed to `autoSetDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
   validatedAnswers (answers) {
@@ -280,7 +280,7 @@ export default DefineMap.extend('PagesVM', {
    *
    * XML version of the `answers` entered by the user.
    *
-   * This is POSTed to `setDataURL` when user finishes the interview,
+   * This is POSTed to `autoSetDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
   answersValidated: {
@@ -296,7 +296,7 @@ export default DefineMap.extend('PagesVM', {
    *
    * XML version of the `answers` entered by the user.
    *
-   * This is POSTed to `setDataURL` when user finishes the interview,
+   * This is POSTed to `autoSetDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
   invalidAnswers: {
@@ -319,7 +319,7 @@ export default DefineMap.extend('PagesVM', {
    *
    * XML version of the `answers` entered by the user.
    *
-   * This is POSTed to `setDataURL` when user finishes the interview,
+   * This is POSTed to `autoSetDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
   answersANX: {
@@ -772,7 +772,7 @@ export default DefineMap.extend('PagesVM', {
   },
 
   /**
-   * POST current answers to `setDataURL` without redirecting the page.
+   * POST current answers to `autoSetDataURL` without redirecting the page.
    * Used when the user clicks Continue to save progress in the background.
    * Overlapping requests are coalesced so only one POST runs at a time and
    * the latest answers are always sent after the in-flight request completes.
@@ -780,8 +780,8 @@ export default DefineMap.extend('PagesVM', {
   saveAnswersToServerAsync () {
     if (this.previewActive) { return }
 
-    const setDataURL = this.pState && this.pState.setDataURL
-    if (!setDataURL) { return }
+    const autoSetDataURL = this.pState && this.pState.autoSetDataURL
+    if (!autoSetDataURL) { return }
 
     this._saveAnswersPending = true
 
@@ -811,7 +811,7 @@ export default DefineMap.extend('PagesVM', {
       }
 
       $.ajax({
-        url: vm.pState.setDataURL,
+        url: vm.pState.autoSetDataURL,
         type: 'POST',
         data: data
       }).always(function () {

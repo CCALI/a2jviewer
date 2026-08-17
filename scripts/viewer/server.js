@@ -102,5 +102,5 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
   console.log(`🚀 Pure Node.js Server is running on http://localhost:${PORT}`);
   console.log(`💻 Open your browser at: http://localhost:${PORT}`);
-  console.log(`📝 Set A2J Viewer's setDataURL to: "/answers"\n`);
+  console.log(`📝 Set A2J Viewer's autoSetDataURL to: "/answers"\n`);
 });

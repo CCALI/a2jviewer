@@ -5,7 +5,7 @@ const path = require('path')
 const buildViewerHtml = function (isLocal = false) {
   const version = Date.now()
   const templatePath = isLocal ? '.' : '..'
-  const setDataURL = isLocal ? './answers' : './answers.php'
+  const autoSetDataURL = isLocal ? './answers' : ''
   const html = template(version, templatePath)
 
   function template (version, templatePath) {
@@ -43,10 +43,10 @@ const buildViewerHtml = function (isLocal = false) {
           getDataURL: '',
 
           // endpoint to save the answer's file and leaves the viewer (its response replaces viewer's frame)
-          setDataURL: '${setDataURL}',
+          setDataURL: './answers.php',
 
           // (Optional) ajax endpoint to silently save the answer file periodically
-          autoSetDataURL: '',
+          autoSetDataURL: '${autoSetDataURL}',
 
           // use to replace the viewer's frame on EXIT (user 'fails' interview)
           exitURL: 'http://www.a2jauthor.org/',

@@ -136,3 +136,7 @@ dev-bundle.css
 dev-bundle.js
 
 *.komodoproject
+
+# demo debug files
+debug_AnswerKey.json
+debug_AnswerKey.xml
