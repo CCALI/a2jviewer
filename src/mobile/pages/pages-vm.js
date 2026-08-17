@@ -208,7 +208,7 @@ export default DefineMap.extend('PagesVM', {
    *
    * XML version of the `answers` entered by the user.
    *
-   * This is POSTed to `setDataURL` when user finishes the interview,
+   * This is POSTed to `autoSetDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
   validatedAnswers (answers) {
@@ -280,7 +280,7 @@ export default DefineMap.extend('PagesVM', {
    *
    * XML version of the `answers` entered by the user.
    *
-   * This is POSTed to `setDataURL` when user finishes the interview,
+   * This is POSTed to `autoSetDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
   answersValidated: {
@@ -296,7 +296,7 @@ export default DefineMap.extend('PagesVM', {
    *
    * XML version of the `answers` entered by the user.
    *
-   * This is POSTed to `setDataURL` when user finishes the interview,
+   * This is POSTed to `autoSetDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
   invalidAnswers: {
@@ -319,7 +319,7 @@ export default DefineMap.extend('PagesVM', {
    *
    * XML version of the `answers` entered by the user.
    *
-   * This is POSTed to `setDataURL` when user finishes the interview,
+   * This is POSTed to `autoSetDataURL` when user finishes the interview,
    * and populated when a user loads saved answers.
    */
   answersANX: {
@@ -769,6 +769,58 @@ export default DefineMap.extend('PagesVM', {
         analytics.trackCustomEvent('Special Branching', 'Assemble', 'Assemble+Success', 'from:' + page)
         break
     }
+  },
+
+  /**
+   * POST current answers to `autoSetDataURL` without redirecting the page.
+   * Used when the user clicks Continue to save progress in the background.
+   * Overlapping requests are coalesced so only one POST runs at a time and
+   * the latest answers are always sent after the in-flight request completes.
+   */
+  saveAnswersToServerAsync () {
+    if (this.previewActive) { return }
+
+    const autoSetDataURL = this.pState && this.pState.autoSetDataURL
+    if (!autoSetDataURL) { return }
+
+    this._saveAnswersPending = true
+
+    if (this._saveAnswersInFlight) {
+      return
+    }
+
+    this._flushSaveAnswersToServer()
+  },
+
+  _flushSaveAnswersToServer () {
+    if (!this._saveAnswersPending) { return }
+
+    this._saveAnswersPending = false
+    this._saveAnswersInFlight = true
+
+    if (this._saveAnswersTimeout) {
+      clearTimeout(this._saveAnswersTimeout)
+    }
+
+    const vm = this
+    this._saveAnswersTimeout = setTimeout(function () {
+      const data = {
+        AnswerKey: vm.answersANX,
+        fileDataUrl: vm.mState.fileDataURL,
+        AnswerKeyJSON: vm.answersJSON
+      }
+
+      $.ajax({
+        url: vm.pState.autoSetDataURL,
+        type: 'POST',
+        data: data
+      }).always(function () {
+        vm._saveAnswersInFlight = false
+        if (vm._saveAnswersPending) {
+          vm._flushSaveAnswersToServer()
+        }
+      })
+    }, 500)
   },
 
   handleServerPost (button, vm, previewActive, ev) {

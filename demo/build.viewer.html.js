@@ -2,11 +2,13 @@
 const fs = require('fs')
 const path = require('path')
 
-const buildViewerHtml = function () {
+const buildViewerHtml = function (isLocal = false) {
   const version = Date.now()
-  const html = template(version)
+  const templatePath = isLocal ? '.' : '..'
+  const autoSetDataURL = isLocal ? './answers' : ''
+  const html = template(version, templatePath)
 
-  function template (version) {
+  function template (version, templatePath) {
     return `<!--
     A2J Author 7 * Justice * justicia * 正义 * công lý * 사법 * правосудие
     All Contents Copyright The Center for Computer-Assisted Legal Instruction
@@ -31,11 +33,11 @@ const buildViewerHtml = function () {
       <script>
         localStorage.setItem('a2jConfig', JSON.stringify({
           // path (or url) to the interview XML file
-          templateURL: '../guides/default/Guide.xml',
+          templateURL: '${templatePath}/guides/default/Guide.xml',
 
           // folder containing images, templates and other assets related to the interview
           // path can be relative or fully qualified but requires a trailing slash
-          fileDataURL: '../guides/default/',
+          fileDataURL: '${templatePath}/guides/default/',
 
           // endpoint to load an answer file at start, used for RESUME
           getDataURL: '',
@@ -44,7 +46,7 @@ const buildViewerHtml = function () {
           setDataURL: './answers.php',
 
           // (Optional) ajax endpoint to silently save the answer file periodically
-          autoSetDataURL: '',
+          autoSetDataURL: '${autoSetDataURL}',
 
           // use to replace the viewer's frame on EXIT (user 'fails' interview)
           exitURL: 'http://www.a2jauthor.org/',
@@ -71,7 +73,18 @@ const buildViewerHtml = function () {
   </html>`
   }
 
-  fs.writeFileSync(path.join(__dirname, '/viewer/viewer.html'), html, 'utf-8')
+  if (isLocal) {
+    const outputPath = path.join(__dirname, '../scripts/viewer/index.html')
+    const dirPath = path.dirname(outputPath)
+
+    // check folder exists, if not create it
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true })
+    }
+    fs.writeFileSync(outputPath, html, 'utf-8')
+  } else {
+    fs.writeFileSync(path.join(__dirname, '/viewer/viewer.html'), html, 'utf-8')
+  }
 }
 
 module.exports = {

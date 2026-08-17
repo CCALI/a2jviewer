@@ -86,6 +86,9 @@ stylecop.*
 *.dbmdl
 Generated_Code #added for RIA/Silverlight projects
 dist/
+dist_local/
+/scripts/viewer/index.html
+/scripts/guides/default/
 userfiles
 
 # Backup & report files from converting an old project file to a newer
@@ -133,3 +136,7 @@ dev-bundle.css
 dev-bundle.js
 
 *.komodoproject
+
+# demo debug files
+debug_AnswerKey.json
+debug_AnswerKey.xml

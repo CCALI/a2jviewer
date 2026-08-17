@@ -5,6 +5,7 @@
   "main": "a2jviewer/app",
   "scripts": {
     "lint": "standard --fix --env mocha",
+    "dev": "node scripts/build.local.js && node dist_local/server.js",
     "test": "npm run lint && testee --reporter Spec --browsers firefox tests/index.html",
     "build": "grunt build --gruntfile=Gruntfile.js",
     "deploy": "npm i && npm run build && mv index.html index.dev.html && mv index.production.html index.html",
